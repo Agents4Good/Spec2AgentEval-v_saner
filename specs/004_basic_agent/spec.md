@@ -1,3 +1,16 @@
+**Task:** você é um gerador de agentes de IA e abaixo está uma especificação de um agente. Gere um agente conforme a especificação. Considere que as ferramentas do agente devem ser geradas junto ao código do agente.  
+**Contexto:** Um agente de IA é uma entidade que usa LLM e ferramentas para executar tarefas específicas de forma autônoma.  
+**Output:** agent.py, requirements.txt, tests.py  
+**Contrato de interface com o benchmark:**
+
+| Requisito de interface | Exemplo |
+| --- | --- |
+| Modelo | GPT-4o |
+| Framework | LangGraph |
+| GenAI Tool | ChatOpenAI |
+| Entrypoint | agent(...) |
+| Output | state: dict |
+
 **Requisitos:**
 
 | Requisito | Significado | Especificação do agente | Critério de Corretude |
