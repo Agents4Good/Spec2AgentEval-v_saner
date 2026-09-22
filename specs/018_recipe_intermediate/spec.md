@@ -1,14 +1,65 @@
-**Requisitos:**
+**Task:** você é um gerador de agentes de IA e abaixo está uma especificação de um agente. Gere um agente conforme a especificação. Considere que as ferramentas do agente devem ser geradas junto ao código do agente.  
+**Contexto:** Um agente de IA é uma entidade que usa LLM e ferramentas para executar tarefas específicas de forma autônoma.  
+**Output:** agent.py, requirements.txt, tests.py  
+**Contrato de interface com o benchmark:**
 
-| Requisito | Significado | Especificação do agente | Critério de Corretude |
-| :---- | :---- | :---- | :---- |
-| Goal | Objetivo e comportamento principal do agente na voz ativa | O agente atua como um gerador de receitas personalizadas, adaptadas para utilizar os ingredientes colocados na query do usuário ou na sua despensa e para respeitar preferências e restrições dietéticas do usuário. Retorna a receita completa com ingredientes, equipamentos, instruções, informações nutricionais e recomendações de armazenamento. | O comportamento principal está declarado definindo quem faz, o que faz e o resultado? |
-| Persona (Opcional) | A personalidade que o agente assume ao realizar as tarefas | O agente assume a persona de um **chefe de cozinha**, cuja função é criar receitas personalizadas. | A especificação define uma persona e sua área de atuação? A persona é adequada/coerente com o Goal? |
-| Inputs | Informação enviada para o agente | O agente recebe uma *query* do usuário, contendo preferências, restrições dietéticas e opcionalmente ingredientes específicos. | A especificação define qual é a entrada esperada? |
-| Tools | Lista com as ferramentas disponíveis e para que elas servem | • **retrieve_pantry()**: busca, em uma página do notion, a despensa do usuário (ingredientes disponíveis).<br>• **search_recipes(ingredients):** busca, no tavily, receitas correspondentes a query do usuário. | A especificação define a ferramenta, seus parâmetros, o retorno e o **propósito de uso** dela estão definidos? |
-| Expected Outcomes | Respostas do agente ou artefato produzido, sejam elas finais ou intermediárias, no formato X | Se a entrada for válida, o agente deve retornar uma receita no seguinte formato:<br><br>• **Título:** O título da receita<br>• **Ingredientes:** Lista de ingredientes com suas quantidades<br>• **Instruções:** Instruções de preparo passo a passo<br>• **Nutrição:** Calorias, macros e benefícios a saúde<br>• **Armazenamento:** Recomendações de armazenamento<br><br>**Regras de Exceção:**<br>• Se a query for vazia, ofensiva, ou não estiver relacionada a comida/culinária, o agente deve retornar uma string começando com `Error: [clear explanation]`.<br>• Em falhas de execução (timeout, missing API keys ou exceções durante tool calls), o agente deve retornar uma string começando com `Error: [clear explanation]`.<br>• Se o resultado da tool e a query não tiverem ingredientes identificáveis, o agente deve pular a geração da receita e retornar uma string começando com `Error: [clear explanation]`. | A especificação define o formato esperado? Para cada tipo de resposta, é possível validar se ela representa o objetivo alcançado? |
-| Environment Effect | Comportamentos que alteram o ambiente, exemplo: criação de arquivo ou entrada em banco de dados | Não se aplica. | A especificação define qual ambiente o agente vai alterar? A especificação define como será feita a alteração no ambiente? |
-| Constraints | Uma afirmação que restringe as ações que o agente (ou seus usuários/operadores) têm permissão de realizar. Descreve o que o agente **deve, não deve, ou não pode fazer, ou define que apenas determinados papéis/condições autorizam uma certa ação.** | • O agente não deve fornecer/inventar respostas quando a query não for relacionada a receitas ou ingredientes.<br>• Em casos de query válida, o agente sempre deve gerar a receita com base no resultado da ferramenta chamada.<br>• O agente nunca deve chamar ambas as ferramentas, respeitando as condições para chamar cada uma delas.<br>• O agente nunca deve gerar receitas que não respeitem as restrições dietéticas do usuário. | A especificação declara explicitamente uma ação que o agente deve, não deve, ou **só pode sob certas condições?** A restrição está expressa em termos de ação/comportamento permitido ou proibido — não em termos de tecnologia, ferramenta ou biblioteca usada para implementar o agente? Quando a restrição envolve papel/autorização ("só X pode fazer Y"), a especificação define quem ou o que está autorizado? A restrição é verificável: é possível observar, no comportamento do agente, se ela foi violada ou respeitada? |
-| Policies/Invariants | Afirmações que descrevem o que é verdadeiro sobre o domínio ou sobre o estado do agente em um dado momento, e que devem permanecer válidas durante toda a execução. Descrevem relações, propriedades ou condições do mundo/domínio que servem de base para o comportamento do agente. | O agente nunca deve utilizar linguagem ofensiva, mesmo que o usuário tente. | A especificação declara uma relação, propriedade ou condição do domínio que é (ou deve ser) sempre verdadeira, e não uma ação permitida/proibida? O invariante está conectado a uma entrada, saída, evento ou dado que o agente efetivamente manipula (não é conhecimento de domínio irrelevante ao escopo do agente)? É possível verificar, a qualquer momento durante a execução, se o invariante ainda é válido? |
-| Behavioral Requirements (functional requirements) | Lista de capacidades específicas e testáveis que o agente deve implementar para atingir o Goal declarado. Cada requisito é atômico, unicamente identificável, e cobre não só o caminho feliz, mas também como o agente deve se comportar diante de entradas inválidas, falhas de ferramentas, ambiguidade na solicitação, ou condições de erro previstas | • **[BR-01]** O agente deve primeiramente validar a query. Se for inválida (vazia, ofensiva, ou não estiver relacionada a comida/culinária), o agente deverá retornar uma mensagem de erro.<br>• **[BR-02]** Caso contrário, deve identificar se há ou não ingredientes e a partir disso decidir qual tool deverá ser chamada.<br>• **[BR-03]** Se a query mencionar ingredientes explicitamente, o agente deve chamar a tool `search_recipes` passando como parâmetro os ingredientes mencionados.<br>• **[BR-04]** Se a query não mencionar ingredientes, mas for relacionada a alimentos/culinária, deve chamar a tool `retrieve_pantry`.<br>• **[BR-05]** O agente deverá obrigatoriamente usar o retorno da tool para gerar a receita final.<br>• **[BR-06]** O agente pode adicionar ingredientes extras, apenas se for estritamente necessário; os ingredientes principais da query ou do resultado da tool devem ser a base da receita.<br>• **[BR-07]** Em falhas de execução (timeout, missing API keys ou exceções durante tool calls), o agente deve capturar a exceção e retornar uma string começando com `Error: [clear explanation]`. | Cada requisito funcional está listado individualmente, com identificador único, e não misturado em um único parágrafo com o Goal? Cada requisito é atômico o suficiente para ser testado isoladamente (dá pra escrever um caso de teste "dado X, o agente deve fazer Y")? A especificação cobre explicitamente o comportamento esperado diante de: entrada inválida, falha de ferramenta/tool call, ambiguidade, ausência de informação necessária? Os requisitos, somados, são suficientes para realizar o Goal declarado (nada essencial ficou implícito)? |
-| Quality attributes (non-functional requirements) | Características observáveis do comportamento do agente durante a execução, que não descrevem o que ele faz (isso é Goal/Behavior Requirements) nem o que ele nunca deve fazer (Constraints), mas quão bem ele faz — de forma consistente, segura, eficiente e confiável. Moldam diretamente a confiança e a experiência de quem depende do agente. | Não se aplica. | O atributo está descrito de forma observável/mensurável no comportamento (não é uma característica de implementação, ex: "usar cache" não é quality attribute, é constraint de implementação)? Existe um critério de aceitação verificável (limiar, taxa, ou condição de teste), e não apenas um adjetivo vago ("deve ser rápido" sem definir o quê é rápido)? Havendo trade-off entre atributos (ex: robustez vs. performance), a especificação deixa explícita a prioridade? |
+| Requisito de interface | Exemplo |
+| --- | --- |
+| Modelo | GPT-4o |
+| Framework | LangGraph |
+| GenAI Tool | ChatOpenAI |
+| Entrypoint | agent(...) |
+| Output | state: dict |
+
+**Requisitos gerais:**
+
+| Requisito | Significado | Especificação do agente |
+| --- | --- | --- |
+| Goal | Objetivo e comportamento principal do agente na voz ativa | O agente atua como um gerador de receitas personalizadas, adaptadas para utilizar os ingredientes colocados na query do usuário ou na sua despensa e para respeitar preferências e restrições dietéticas do usuário. Retorna a receita completa com ingredientes, equipamentos, instruções e recomendações de armazenamento. |
+| Persona (Opcional) | A personalidade que o agente assume ao realizar as tarefas | O agente assume a persona de um **chefe de cozinha**, cuja função é criar receitas personalizadas.  |
+| Inputs | Informação enviada para o agente | O agente recebe uma _query (em linguagem natural)_ do usuário, contendo preferências e opcionalmente ingredientes específicos e restrições dietéticas. |
+| Constraints | Uma afirmação que restringe as ações que o agente (ou seus usuários/operadores) têm permissão de realizar. | 
+*   O agente não deve fornecer/ inventar respostas quando a query não for relacionada a receitas ou ingredientes.
+*   O agente nunca deve chamar ambas as ferramentas na mesma execução.
+*   O agente nunca deve gerar receitas que não respeitem as restrições dietéticas do usuário.
+
+ |
+| Policies/Invariants | Afirmações que descrevem o que é verdadeiro sobre o domínio ou sobre o estado do agente em um dado momento | 
+
+*   As informações retornadas devem corresponder aos dados obtidos do GitHub. As issues retornadas pertencem • Uma restrição dietética implica todos os seus ingredientes derivados, mesmo os não citados pelo usuário. Exemplo: "vegano" exclui mel, gelatina, manteiga e whey; "celíaco" exclui cevada, malte e shoyu comum.
+*   Um ingrediente mencionado sob negação, ausência ou hipótese não é um ingrediente disponível. repositório solicitado e satisfazem os critérios de filtragem especificados pelo usuário.
+
+ |
+| Quality attributes (non-functional requirements) | Características observáveis do comportamento do agente durante a execução, que não descrevem o que ele faz nem o que ele nunca deve fazer, mas quão bem ele faz. | A execução deve produzir uma resposta estruturada e adequada para avaliação automatizada. |
+| Env | Chaves disponiveis através da configuração de ambiente | 
+
+O agente deve acessar as variáveis de ambiente quando necessário.
+
+Chaves disponíveis: NOTION\_PAGE\_ID, TAVILY\_API\_KEY, NOTION\_API\_KEY
+
+ |
+
+**Tools:**
+
+<table><tbody><tr><td><strong>Nome</strong></td><td><strong>Propósito</strong></td><td><strong>Entradas</strong></td><td><strong>Retorno</strong></td><td><strong>Falhas</strong></td></tr><tr><td>retrieve_pantry</td><td>Obter os ingredientes disponíveis na despensa do usuário, através de uma página do notion.</td><td>Nenhuma.</td><td>A lista completa de ingredientes da despensa. Despensa sem itens retorna lista vazia.</td><td>Credenciais ausentes, página inacessível ou timeout são sinalizados de forma distinguível da lista vazia.</td></tr><tr><td>search_recipes</td><td>Obter receitas da web como referência de preparo para os ingredientes-base identificados na query. As receitas encontradas não são fonte de ingredientes-base.</td><td>ingredientes-base identificados na query.</td><td>Até 5 resultados, cada um com título, URL e trecho do conteúdo. Ausência de resultados retorna lista vazia.</td><td>Credenciais ausentes, timeout ou erro do serviço de busca são sinalizados de forma distinguível da lista vazia.</td></tr></tbody></table>
+
+**Comportamentos:**
+
+| ID | Comportamento | Input | Tools | Saída | Efeito no Ambiente | Condição de Satisfação |
+| --- | --- | --- | --- | --- | --- | --- |
+| **B1 — Validar query**  | **O agente classifica a query como inválida (vazia, ofensiva ou não relacionada a comida/culinária), ou válida (qualquer query que não satisfaça nenhum critério de invalidez), interrompendo a geração quando é inválida.** | Query do usuário | Nenhuma | 
+Query inválida: string iniciada por `erro:`, seguida de explicação clara do motivo da rejeição. 
+
+Query válida: nenhuma saída própria, a execução prossegue conforme B2 ou B3.
+
+ | Nenhum | 
+
+Query inválida: o agente retorna uma resposta começando com `erro:`; seguida por uma explicação clara do motivo. Nenhuma receita é gerada.
+
+Query válida: A resposta não contém erro de query inválida e ao menos uma tool é chamada (`search_recipes` ou `retrieve_pantry`).
+
+ |
+| **B2 — Determinar se a query fornece ingredientes.**  |   | Query do usuário |   | Lista contendo as issues que correspondem aos critérios solicitados. | Nenhum. | As issues retornadas satisfazem os critérios de filtragem especificados na solicitação. |
+| **B3 — Nenhuma issue corresponde ao filtro** |   | Repositório válido; solicitação de filtragem sem correspondências. | GitHub MCP. | Lista vazia e `status = success`. | Apenas leitura das informações do repositório. | A saída contém uma lista vazia e `status = success`. |
+| **B4 — Repositório inválido ou inacessível** |   | Repositório inválido ou inacessível. | GitHub MCP. | `status = failure` e mensagem indicando a falha. | Nenhum. | A saída contém `status = failure` e uma mensagem indicando a impossibilidade de acesso ao repositório. |
+| **B5 — Retornar resposta estruturada** |   | Resultado da execução do agente. | — | Objeto contendo `action`, `repository`, `filtered_issues`, `status` e `message`. Cada issue contém `issue_number`, `title` e `state`. | Nenhum. | A saída contém os campos definidos no contrato e os valores possuem os tipos e formatos especificados. |
