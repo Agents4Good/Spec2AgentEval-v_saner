@@ -8,8 +8,13 @@
 | Modelo | GPT-4o |
 | Framework | LangGraph |
 | GenAI Tool | ChatOpenAI |
-| Entrypoint | agent(...) |
-| Output | state: dict |
+| Entrypoint | `agent(email_input: str)` |
+| Output | `state: dict` |
+
+**Detalhes de Implementação**
+| Variáveis de ambiente | Descrição |
+| --- | --- |
+| OPENAI_API_KEY | Chave de acesso à API da Openai |
 
 **Requisitos gerais:**
 
@@ -31,3 +36,12 @@
 | **B2 —  Fornecer uma breve justificativa lógica para a classificação escolhida no campo `message`** | Um texto contendo o corpo do email ou um texto bruto. | Nenhuma. | Um texto de justificativa no campo `message` da saída final. | Nenhum. | O agente trás uma explicação lógica para a classificação do email. |
 | **B3 — Gerar de forma autônoma um rascunho de resposta caso o e-mail seja classificado como `respond`.** | Um texto contendo o corpo do email ou um texto bruto. | Nenhuma. | Campo `respond` deve conter um texto de resposta ao email. | Nenhum. | O agente gera um esboço de resposta ao do email com base em seu contexto. |
 | **B4 —  Em caso de falha no processamento ou estouro de tempo, o agente deve capturar o erro e retornar o schema com status `failure`, classificação `unknown` e rascunho `null`.** | Um texto contendo o corpo do email ou um texto bruto. | Nenhuma. | Deve retornar a saída padrão com os campos `status = failure` , `classificação = unknown` e `rascunho = null` | Nenhum. | A saída está estruturada da forma correta. |
+
+| Campo | Critério de corretude |
+| --- | --- |
+| Comportamento | Cada comportamento está especificado como um requisito individual e identificável, separado do Goal? Cada requisito é atômico o suficiente para ser testado isoladamente (dá pra escrever um caso de teste "dado X, o agente deve fazer Y")? A especificação cobre explicitamente o comportamento esperado diante de: entrada inválida, falha de ferramenta/tool call, ambiguidade, ausência de informação necessária? Os requisitos, somados, são suficientes para realizar o Goal declarado (nada essencial ficou implícito)? |
+| Trigger | A condição ou evento que inicia o comportamento está explicitamente definido e é observável? |
+| Input | A especificação define qual é a entrada esperada? |
+| Tools | As ferramentas necessárias para o comportamento estão identificadas e seu propósito de uso está definido? |
+| Expected Outcome | A especificação define qual alteração deve ocorrer no ambiente? A alteração esperada é observável e verificável após a execução do comportamento? |
+| Environment Effect | A especificação define qual ambiente o agente vai alterar?  A especificação define como será feita a alteração no ambiente? |
