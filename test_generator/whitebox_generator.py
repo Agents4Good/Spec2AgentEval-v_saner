@@ -16,24 +16,40 @@ You MUST use the DeepEval skill when applicable.
 
 The specification is the ONLY source of requirements.
 
-The evaluation is TRACE-BASED:
+The evaluation MUST be based on the execution trace returned by the agent.
 
-- Evaluate the execution trace returned by the agent.
-- Do not inspect the agent implementation.
-- Do not inspect source code.
-- Do not inspect existing tests.
-- Do not infer implementation details.
-- Do not invent requirements.
+TRACE REQUIREMENT:
+- The agent entrypoint returns both an output and a trace:
+  `agent(...) -> output, trace`.
+- The generated tests MUST obtain the trace from the agent execution
+  and use it as the primary evidence for evaluating behavioral execution.
+- The tests MUST inspect the trace events to determine which specified
+  behaviors occurred and in what order.
+- The tests MUST NOT assume that behavioral execution can be determined
+  from the final output alone.
+- The tests MUST NOT reconstruct or infer the trace from the output.
+- If the trace does not provide sufficient evidence to evaluate a
+  trace-based requirement, the corresponding test MUST fail rather than
+  infer that the behavior occurred.
+
+Do not inspect the agent implementation.
+Do not inspect source code.
+Do not inspect existing tests.
+Do not infer implementation details.
+Do not invent requirements.
 
 Use the behavioral graph defined in the specification as the oracle
 for evaluating the agent trajectory.
 
 The trace evaluation may verify:
 
-1. Whether required tools specified by the specification were called.
+1. Whether required tools specified by the specification were called,
+   when such calls are observable in the trace.
 2. Whether the observed behavioral trajectory is compatible with the
    behavioral graph.
 3. Whether required behavioral transitions occurred in the expected order.
+4. Whether trace events provide sufficient evidence that the observed
+   behaviors actually occurred.
 
 The observed trajectory does not need to contain exactly the same
 events as the behavioral graph. Intermediate trace events are allowed,
