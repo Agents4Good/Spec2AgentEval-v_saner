@@ -46,6 +46,7 @@ class CopilotAdapter(BaseAdapter):
         (self.logs_dir / "credits.log").write_text(stderr or "", encoding="utf-8")
         log("[CopilotAdapter] Logs salvos em session.log e credits.log.")
 
-        self.usage = copilot_parse_stats(stderr, self.model)
+        full_log = stdout + "\n" + stderr
+        self.usage = copilot_parse_stats(full_log, self.model)
 
         return str(self.output_dir)

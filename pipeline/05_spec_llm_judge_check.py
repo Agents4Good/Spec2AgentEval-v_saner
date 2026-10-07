@@ -61,7 +61,7 @@ def main():
 
         agent_file_path = agent_folder / "agent.py"
         spec_path = BENCH_DIR / agent_folder.name / "spec.md"
-        eval_module_path = BENCH_DIR / agent_folder.name / "eval_1_static_spec_llm_judge.py"
+        eval_module_path = BENCH_DIR / agent_folder.name / "spec_adherence.py"
 
         if not agent_file_path.exists() or not spec_path.exists() or not eval_module_path.exists():
             continue

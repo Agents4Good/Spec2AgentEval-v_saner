@@ -35,9 +35,13 @@ MANIFEST
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
+skills-lock.json
 
 generated_agents/*
 experiments_results/*
+
+.agents/
+.deepeval/
 
 # Unit test / coverage reports
 htmlcov/

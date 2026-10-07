@@ -1,5 +1,6 @@
 import json
 import subprocess
+import time
 from pathlib import Path
 from .base_adapter import BaseAdapter
 from utils.utils import codex_parse_stats
@@ -35,6 +36,9 @@ class CodexAdapter(BaseAdapter):
         ]
 
         log(f"[CodexAdapter] Comando a ser executado: {cmd}")
+
+        start_time = time.perf_counter()
+
         try:
             process = subprocess.Popen(
                 cmd,
@@ -45,35 +49,59 @@ class CodexAdapter(BaseAdapter):
                 shell=False,
             )
             log("[CodexAdapter] Processo iniciado, aguardando saída...")
+
             stdout, stderr = process.communicate()
-            log("[CodexAdapter] Processo finalizado.")
+
         except Exception as e:
+            elapsed = time.perf_counter() - start_time
             log(f"[CodexAdapter] Erro ao executar subprocess: {e}")
+            log(f"[CodexAdapter] Tempo até o erro: {elapsed:.2f}s")
             raise
-            
+
+        elapsed = time.perf_counter() - start_time
+
+        log(f"[CodexAdapter] Processo finalizado em {elapsed:.2f}s.")
+
         try:
             data = json.loads(stdout)
 
-            response_text = data.get("result", stdout) 
-            (self.logs_dir / "session.log").write_text(response_text, encoding="utf-8")
-            
-            # 3. Salva o JSON completo com os dados financeiros no credits.log
-            credits_text = json.dumps(data, indent=2, ensure_ascii=False)
-            (self.logs_dir / "credits.log").write_text(credits_text, encoding="utf-8")
-            
-            # 4. Envia o dicionário JSON para o parser
+            response_text = data.get("result", stdout)
+            (self.logs_dir / "session.log").write_text(
+                response_text,
+                encoding="utf-8"
+            )
+
+            credits_text = json.dumps(
+                data,
+                indent=2,
+                ensure_ascii=False
+            )
+            (self.logs_dir / "credits.log").write_text(
+                credits_text,
+                encoding="utf-8"
+            )
+
             self.usage = codex_parse_stats(data, self.model)
 
         except json.JSONDecodeError:
             log("[CodexAdapter] Aviso: Saída não foi JSON. Fazendo fallback para texto.")
-            
-            # Fallback caso a CLI falhe e cuspa texto puro
-            (self.logs_dir / "session.log").write_text(stdout, encoding="utf-8")
-            (self.logs_dir / "credits.log").write_text(stderr, encoding="utf-8")
-            
-            # Envia a string gigante pro parser fazer Regex (mesmo esquema dos anteriores)
+
+            (self.logs_dir / "session.log").write_text(
+                stdout,
+                encoding="utf-8"
+            )
+            (self.logs_dir / "credits.log").write_text(
+                stderr,
+                encoding="utf-8"
+            )
+
             full_log = stdout + "\n" + stderr
+
             self.usage = codex_parse_stats(full_log, self.model)
+
+        # O tempo é medido externamente, independentemente do formato
+        # da saída da CLI.
+        self.usage["time_spent"] = f"{elapsed:.2f}s"
 
         log(f"[CodexAdapter] Stats capturados: {self.usage}")
 

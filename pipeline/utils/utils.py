@@ -23,42 +23,45 @@ def gemini_parse_stats(stdout: str, model_name: str) -> dict:
 
     try:
         data = json.loads(stdout)
-        stats = data.get("stats", {})
-        
-        files = stats.get("files", {})
-        result["changes_added"] = files.get("totalLinesAdded", 0)
-        result["changes_removed"] = files.get("totalLinesRemoved", 0)
-        
-        model_data = stats.get("models", {}).get(model_name, {})
-        
-        tokens_in = model_data.get("tokens", {}).get("input", 0)
-        tokens_out = model_data.get("tokens", {}).get("candidates", 0)
-        tokens_cached = model_data.get("tokens", {}).get("cached", 0)
-        
-        requests = model_data.get("api", {}).get("totalRequests", 0)
-        latency_ms = model_data.get("api", {}).get("totalLatencyMs", 0)
-        latency_s = latency_ms / 1000
-        
-        result["requests"] = requests
-        result["time_spent"] = f"{latency_s:.2f}s" if latency_s > 0 else ""
-
-        if requests > 0 or tokens_in > 0:
-            req_word = "request" if requests == 1 else "requests"
-            
-            str_in = format_number(tokens_in)
-            str_out = format_number(tokens_out)
-            str_cached = format_number(tokens_cached)
-            
-            cached_text = f", {str_cached} cached" if tokens_cached > 0 else ""
-            
-            result["models_breakdown"] = {
-                model_name: f"{str_in} in, {str_out} out{cached_text} (Est. {requests} {req_word})"
-            }
-
+    except (json.JSONDecodeError, TypeError):
         return result
-    except Exception:
-        return result
-    
+
+    usage = data.get("usage", {})
+
+    tokens_in = usage.get("input_tokens", 0)
+    tokens_out = usage.get("output_tokens", 0)
+    tokens_cached = usage.get("cache_read_tokens", 0)
+
+    requests = data.get("num_turns", 0)
+    duration = data.get("duration_seconds", 0)
+
+    result["requests"] = requests
+    result["time_spent"] = (
+        f"{duration:.2f}s"
+        if duration > 0
+        else ""
+    )
+
+    if requests > 0 or tokens_in > 0:
+        req_word = "request" if requests == 1 else "requests"
+
+        cached_text = (
+            f", {format_number(tokens_cached)} cached"
+            if tokens_cached > 0
+            else ""
+        )
+
+        result["models_breakdown"] = {
+            model_name: (
+                f"{format_number(tokens_in)} in, "
+                f"{format_number(tokens_out)} out"
+                f"{cached_text} "
+                f"(Est. {requests} {req_word})"
+            )
+        }
+
+    return result
+
 
 def copilot_parse_stats(log_text: str, model_name: str) -> dict:
     stats = {
@@ -67,44 +70,85 @@ def copilot_parse_stats(log_text: str, model_name: str) -> dict:
         "requests": 0,
         "time_spent": "",
     }
-    
+
     if not log_text:
         return stats
 
-    raw_in = "0"
-    raw_out = "0"
-    raw_cached = "0"
+    # ---------------------------------------------------------
+    # Changes
+    # Example:
+    # Changes    +13 -0
+    # ---------------------------------------------------------
+    changes_match = re.search(
+        r"Changes\s+\+(\d+)\s+-\s*(\d+)",
+        log_text,
+        re.IGNORECASE,
+    )
 
-    changes_match = re.search(r'Changes\s+\+([\d]+)\s+\-([\d]+)', log_text)
     if changes_match:
         stats["changes_added"] = int(changes_match.group(1))
         stats["changes_removed"] = int(changes_match.group(2))
 
-    req_match = re.search(r'Requests\s+(\d+).*?\(([^)]+)\)', log_text)
-    if req_match:
-        stats["requests"] = int(req_match.group(1))
-        stats["time_spent"] = req_match.group(2).strip()
-        
-    in_match = re.search(r'↑\s*([\d\.]+[kmKM]?)', log_text)
-    if in_match:
-        raw_in = in_match.group(1).lower()
-        
-    out_match = re.search(r'↓\s*([\d\.]+[kmKM]?)', log_text)
-    if out_match:
-        raw_out = out_match.group(1).lower()
-        
-    cache_match = re.search(r'([\d\.]+[kmKM]?)\s*\(cached\)', log_text)
-    if cache_match:
-        raw_cached = cache_match.group(1).lower()
+    # ---------------------------------------------------------
+    # Time spent
+    # Example:
+    # AI Credits 1.29
+    # Tokens ... 
+    # Resume copilot --resume=... 
+    #
+    # The duration appears in the agent message:
+    # "6s"
+    # "2m 8s"
+    # ---------------------------------------------------------
+    time_matches = re.findall(
+        r"\b(?:(\d+)m\s*)?(\d+(?:\.\d+)?)s\b",
+        log_text,
+    )
 
-    if stats["requests"] > 0 or raw_in != "0":
-        req_word = "request" if stats["requests"] == 1 else "requests"
-        
+    if time_matches:
+        minutes, seconds = time_matches[-1]
+
+        if minutes:
+            stats["time_spent"] = f"{minutes}m {seconds}s"
+        else:
+            stats["time_spent"] = f"{seconds}s"
+
+    # ---------------------------------------------------------
+    # Tokens
+    # Example:
+    # Tokens     ↑ 544.8k (512.3k cached, 32.5k written)
+    #            ↓ 7.5k (4.9k reasoning)
+    # ---------------------------------------------------------
+    token_match = re.search(
+        r"Tokens\s+"
+        r"↑\s*([\d.]+[kKmM]?)\s*"
+        r"\(([\d.]+[kKmM]?)\s+cached,\s*([\d.]+[kKmM]?)\s+written\)"
+        r"\s*•\s*"
+        r"↓\s*([\d.]+[kKmM]?)"
+        r"\s*\(([\d.]+[kKmM]?)\s+reasoning\)",
+        log_text,
+        re.IGNORECASE,
+    )
+
+    if token_match:
+        raw_in = token_match.group(1).lower()
+        raw_cached = token_match.group(2).lower()
+        raw_written = token_match.group(3).lower()
+        raw_out = token_match.group(4).lower()
+        raw_reasoning = token_match.group(5).lower()
+
         stats["models_breakdown"] = {
-            f"{model_name}": f"{raw_in} in, {raw_out} out, {raw_cached} cached (Est. {stats['requests']} Premium {req_word})"
+            model_name: (
+                f"{raw_in} in, "
+                f"{raw_out} out, "
+                f"{raw_cached} cached, "
+                f"{raw_written} written, "
+                f"{raw_reasoning} reasoning"
+            )
         }
-        
+
     return stats
+
 
 def claude_parse_stats(data, model_name: str) -> dict:
     result = {
@@ -177,6 +221,7 @@ def claude_parse_stats(data, model_name: str) -> dict:
             
     return result
 
+
 def opencode_parse_stats(stdout: str, model_name: str) -> dict:
     result = {
         "changes_added": 0,
@@ -189,44 +234,56 @@ def opencode_parse_stats(stdout: str, model_name: str) -> dict:
     if not stdout:
         return result
 
-    try:
-        data = json.loads(stdout)
-        
-        stats = data.get("stats", {})
-        
-        files = stats.get("files", {})
-        result["changes_added"] = files.get("totalLinesAdded", 0)
-        result["changes_removed"] = files.get("totalLinesRemoved", 0)
-        
-        model_data = stats.get("models", {}).get(model_name, {})
-        
-        tokens_in = model_data.get("tokens", {}).get("input", 0)
-        tokens_out = model_data.get("tokens", {}).get("candidates", 0)
-        tokens_cached = model_data.get("tokens", {}).get("cached", 0)
-        
-        requests = model_data.get("api", {}).get("totalRequests", 0)
-        latency_ms = model_data.get("api", {}).get("totalLatencyMs", 0)
-        latency_s = latency_ms / 1000
-        
-        result["requests"] = requests
-        result["time_spent"] = f"{latency_s:.2f}s" if latency_s > 0 else ""
+    total_input = 0
+    total_output = 0
+    total_cached = 0
+    requests = 0
 
-        if requests > 0 or tokens_in > 0:
-            req_word = "request" if requests == 1 else "requests"
-            
-            str_in = format_number(tokens_in)
-            str_out = format_number(tokens_out)
-            str_cached = format_number(tokens_cached)
-            
-            cached_text = f", {str_cached} cached" if tokens_cached > 0 else ""
-            
-            result["models_breakdown"] = {
-                model_name: f"{str_in} in, {str_out} out{cached_text} (Est. {requests} {req_word})"
-            }
+    for line in stdout.splitlines():
+        line = line.strip()
 
-        return result
-    except Exception:
-        return result
+        if not line:
+            continue
+
+        try:
+            event = json.loads(line)
+        except (json.JSONDecodeError, TypeError):
+            continue
+
+        if event.get("type") != "step_finish":
+            continue
+
+        part = event.get("part", {})
+        tokens = part.get("tokens", {})
+        cache = tokens.get("cache", {})
+
+        total_input += tokens.get("input", 0)
+        total_output += tokens.get("output", 0)
+        total_cached += cache.get("read", 0)
+
+        requests += 1
+
+    result["requests"] = requests
+
+    if requests > 0 or total_input > 0:
+        req_word = "request" if requests == 1 else "requests"
+
+        cached_text = (
+            f", {format_number(total_cached)} cached"
+            if total_cached > 0
+            else ""
+        )
+
+        result["models_breakdown"] = {
+            model_name: (
+                f"{format_number(total_input)} in, "
+                f"{format_number(total_output)} out"
+                f"{cached_text} "
+                f"(Est. {requests} {req_word})"
+            )
+        }
+
+    return result
 
 
 def codex_parse_stats(stdout: str, model_name: str) -> dict:
@@ -235,47 +292,57 @@ def codex_parse_stats(stdout: str, model_name: str) -> dict:
         "changes_removed": 0,
         "requests": 0,
         "time_spent": "",
-        "models_breakdown": {}
+        "models_breakdown": {},
     }
 
     if not stdout:
         return result
 
-    try:
-        data = json.loads(stdout)
-        
-        stats = data.get("stats", {})
-        
-        files = stats.get("files", {})
-        result["changes_added"] = files.get("totalLinesAdded", 0)
-        result["changes_removed"] = files.get("totalLinesRemoved", 0)
-        
-        model_data = stats.get("models", {}).get(model_name, {})
-        
-        tokens_in = model_data.get("tokens", {}).get("input", 0)
-        tokens_out = model_data.get("tokens", {}).get("candidates", 0)
-        tokens_cached = model_data.get("tokens", {}).get("cached", 0)
-        
-        requests = model_data.get("api", {}).get("totalRequests", 0)
-        latency_ms = model_data.get("api", {}).get("totalLatencyMs", 0)
-        latency_s = latency_ms / 1000
-        
-        result["requests"] = requests
-        result["time_spent"] = f"{latency_s:.2f}s" if latency_s > 0 else ""
+    total_input = 0
+    total_cached = 0
+    total_output = 0
+    requests = 0
 
-        if requests > 0 or tokens_in > 0:
-            req_word = "request" if requests == 1 else "requests"
-            
-            str_in = format_number(tokens_in)
-            str_out = format_number(tokens_out)
-            str_cached = format_number(tokens_cached)
-            
-            cached_text = f", {str_cached} cached" if tokens_cached > 0 else ""
-            
-            result["models_breakdown"] = {
-                model_name: f"{str_in} in, {str_out} out{cached_text} (Est. {requests} {req_word})"
-            }
+    for line in stdout.splitlines():
+        line = line.strip()
 
-        return result
-    except Exception:
-        return result
+        if not line:
+            continue
+
+        try:
+            event = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+
+        event_type = event.get("type")
+
+        if event_type == "turn.completed":
+            usage = event.get("usage", {})
+
+            total_input += usage.get("input_tokens", 0)
+            total_cached += usage.get("cached_input_tokens", 0)
+            total_output += usage.get("output_tokens", 0)
+
+            requests += 1
+
+    result["requests"] = requests
+
+    if requests > 0 or total_input > 0:
+        req_word = "request" if requests == 1 else "requests"
+
+        cached_text = (
+            f", {format_number(total_cached)} cached"
+            if total_cached > 0
+            else ""
+        )
+
+        result["models_breakdown"] = {
+            model_name: (
+                f"{format_number(total_input)} in, "
+                f"{format_number(total_output)} out"
+                f"{cached_text} "
+                f"(Est. {requests} {req_word})"
+            )
+        }
+
+    return result

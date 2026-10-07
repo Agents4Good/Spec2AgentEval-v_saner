@@ -27,6 +27,10 @@ def wait_for_sonarqube_boot(timeout=300):
         try:
             response = requests.get(status_url, timeout=5)
             if response.status_code == 200:
+                print("URL:", status_url)
+                print("Status:", response.status_code)
+                print("Headers:", response.headers)
+                print("Body:", response.text)
                 data = response.json()
                 if data.get("status") == "UP":
                     return

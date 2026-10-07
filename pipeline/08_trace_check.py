@@ -26,26 +26,19 @@ def save_report(report_path: Path, report: dict):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Runs behavioral evaluation for generated agents."
+        description="Runs trace-based evaluation for generated agents."
     )
     parser.add_argument(
         "--llm",
         required=True,
-        help="LLM used to generate the agents (e.g., claude, gemini, copilot)"
+        help="Filters execution by LLM (e.g., copilot, gemini, claude)"
     )
     parser.add_argument(
         "--agent",
         default=None,
-        help="Specific agent directory (e.g., 001_agent)"
+        help="Filters execution for a specific agent/directory"
     )
-    parser.add_argument(
-        "--test",
-        default="test_deepeval.py",
-        help="Test file to execute"
-    )
-
     args = parser.parse_args()
-    
 
     if not GENERATED_AGENTS_DIR.exists():
         raise FileNotFoundError(
@@ -78,7 +71,7 @@ def main():
             "model": args.llm,
             "agent_folder": agent_folder.name,
             "agent_file": "agent.py",
-            "test_file": args.test,
+            "test_file": "test_trace.py",
             "passed": None,
             "returncode": None,
             "stdout": None,
@@ -87,12 +80,8 @@ def main():
         }
 
         agent_file = agent_folder / "agent.py"
-
-        # specs/001_agent/test_deepeval.py
-        source_test_file = BENCH_DIR / agent_folder.name / args.test
-
-        # generated_agents/claude/001_agent/test_deepeval.py
-        target_test_file = agent_folder / args.test
+        source_test_file = BENCH_DIR / agent_folder.name / "test_trace.py"
+        target_test_file = agent_folder / "test_trace.py"
 
         if not agent_file.exists():
             entry["error"] = "agent.py not found"
@@ -100,18 +89,15 @@ def main():
             continue
 
         if not source_test_file.exists():
-            entry["error"] = f"{args.test} not found in specification directory"
+            entry["error"] = "test_trace.py not found"
             results.append(entry)
             continue
 
         try:
-            shutil.copy2(
-                source_test_file,
-                target_test_file
-            )
+            shutil.copy2(source_test_file, target_test_file)
 
             print(
-                f"Running {args.test} for {agent_folder.name}..."
+                f"Running trace evaluation for {agent_folder.name}..."
             )
 
             result = subprocess.run(
@@ -119,7 +105,7 @@ def main():
                     "python",
                     "-m",
                     "pytest",
-                    args.test,
+                    "test_trace.py",
                     "-q"
                 ],
                 cwd=agent_folder,
@@ -133,7 +119,7 @@ def main():
             entry["stderr"] = result.stderr
 
         except Exception as e:
-            entry["error"] = f"Error running tests: {e}"
+            entry["error"] = f"Error running trace eval: {e}"
 
         finally:
             if target_test_file.exists():
@@ -145,9 +131,8 @@ def main():
 
     final_report = {
         "run_id": run_id,
-        "stage": "evaluation",
+        "stage": "trace_evaluation",
         "model": args.llm,
-        "test": args.test,
         "agent_filter": args.agent,
         "bench_dir": str(BENCH_DIR),
         "generated_dir": str(GENERATED_AGENTS_DIR),
@@ -157,13 +142,13 @@ def main():
 
     report_path = (
         EXPERIMENTS_RESULTS
-        / f"07_{Path(args.test).stem}_{args.llm}_{run_id}.json"
+        / f"08_trace_eval_{args.llm}_{run_id}.json"
     )
 
     save_report(report_path, final_report)
 
     print(
-        f"Evaluation completed. "
+        f"Trace evaluation completed. "
         f"Report saved to {report_path}"
     )
 
