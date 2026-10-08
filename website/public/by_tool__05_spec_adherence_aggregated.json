@@ -1,0 +1,731 @@
+{
+  "stage": "spec_adherence",
+  "results": [
+    {
+      "model": "claude",
+      "agent_folder": "011_list_issues",
+      "score_percent": 72.33,
+      "total_score": 8.67,
+      "max_score": 12,
+      "passed": 0.0,
+      "summary": "The code lacks integration with a real MCP endpoint and does not dynamically load tools or bind LLM to tools. Other aspects like correct signature, return type, and handling of empty results are correctly implemented.",
+      "details": [
+        {
+          "key": "correct_signature",
+          "score": 1
+        },
+        {
+          "key": "correct_return_type",
+          "score": 1
+        },
+        {
+          "key": "real_mcp_endpoint",
+          "score": 0
+        },
+        {
+          "key": "dynamic_tool_loading",
+          "score": 0
+        },
+        {
+          "key": "langgraph_orchestration",
+          "score": 1
+        },
+        {
+          "key": "llm_bound_to_tools",
+          "score": 0
+        },
+        {
+          "key": "no_mocks_or_stubs",
+          "score": 1
+        },
+        {
+          "key": "output_schema_enforced",
+          "score": 1
+        },
+        {
+          "key": "filters_by_user_request",
+          "score": 1
+        },
+        {
+          "key": "returns_only_filtered",
+          "score": 1
+        },
+        {
+          "key": "handles_empty_results",
+          "score": 1
+        },
+        {
+          "key": "build_graph_funcion",
+          "score": 1
+        }
+      ],
+      "runs": [
+        {
+          "run": 1,
+          "model": "claude",
+          "agent_folder": "011_list_issues",
+          "score_percent": 75,
+          "total_score": 9,
+          "max_score": 12,
+          "passed": false,
+          "summary": "The code lacks integration with a real MCP endpoint and does not dynamically load tools or bind LLM to MCP tools. Other aspects like correct signature, return type, and handling of empty results are correctly implemented.",
+          "details": [
+            {
+              "key": "correct_signature",
+              "score": 1
+            },
+            {
+              "key": "correct_return_type",
+              "score": 1
+            },
+            {
+              "key": "real_mcp_endpoint",
+              "score": 0
+            },
+            {
+              "key": "dynamic_tool_loading",
+              "score": 0
+            },
+            {
+              "key": "langgraph_orchestration",
+              "score": 1
+            },
+            {
+              "key": "llm_bound_to_tools",
+              "score": 0
+            },
+            {
+              "key": "no_mocks_or_stubs",
+              "score": 1
+            },
+            {
+              "key": "output_schema_enforced",
+              "score": 1
+            },
+            {
+              "key": "filters_by_user_request",
+              "score": 1
+            },
+            {
+              "key": "returns_only_filtered",
+              "score": 1
+            },
+            {
+              "key": "handles_empty_results",
+              "score": 1
+            },
+            {
+              "key": "build_graph_funcion",
+              "score": 1
+            }
+          ]
+        },
+        {
+          "run": 2,
+          "model": "claude",
+          "agent_folder": "011_list_issues",
+          "score_percent": 67,
+          "total_score": 8,
+          "max_score": 12,
+          "passed": false,
+          "summary": "The code correctly implements the agent signature, return type, and uses LangGraph for orchestration. It filters issues based on user requests and handles empty results. However, it does not use the real MCP endpoint, lacks dynamic tool loading, does not bind LLM to tools, and does not define a build_graph() function.",
+          "details": [
+            {
+              "key": "correct_signature",
+              "score": 1
+            },
+            {
+              "key": "correct_return_type",
+              "score": 1
+            },
+            {
+              "key": "real_mcp_endpoint",
+              "score": 0
+            },
+            {
+              "key": "dynamic_tool_loading",
+              "score": 0
+            },
+            {
+              "key": "langgraph_orchestration",
+              "score": 1
+            },
+            {
+              "key": "llm_bound_to_tools",
+              "score": 0
+            },
+            {
+              "key": "no_mocks_or_stubs",
+              "score": 1
+            },
+            {
+              "key": "output_schema_enforced",
+              "score": 1
+            },
+            {
+              "key": "filters_by_user_request",
+              "score": 1
+            },
+            {
+              "key": "returns_only_filtered",
+              "score": 1
+            },
+            {
+              "key": "handles_empty_results",
+              "score": 1
+            },
+            {
+              "key": "build_graph_funcion",
+              "score": 0
+            }
+          ]
+        },
+        {
+          "run": 3,
+          "model": "claude",
+          "agent_folder": "011_list_issues",
+          "score_percent": 75,
+          "total_score": 9,
+          "max_score": 12,
+          "passed": false,
+          "summary": "The code lacks integration with a real MCP endpoint and does not dynamically load tools or bind LLM to tools. Other aspects like correct signature, return type, and handling of empty results are correctly implemented.",
+          "details": [
+            {
+              "key": "correct_signature",
+              "score": 1
+            },
+            {
+              "key": "correct_return_type",
+              "score": 1
+            },
+            {
+              "key": "real_mcp_endpoint",
+              "score": 0
+            },
+            {
+              "key": "dynamic_tool_loading",
+              "score": 0
+            },
+            {
+              "key": "langgraph_orchestration",
+              "score": 1
+            },
+            {
+              "key": "llm_bound_to_tools",
+              "score": 0
+            },
+            {
+              "key": "no_mocks_or_stubs",
+              "score": 1
+            },
+            {
+              "key": "output_schema_enforced",
+              "score": 1
+            },
+            {
+              "key": "filters_by_user_request",
+              "score": 1
+            },
+            {
+              "key": "returns_only_filtered",
+              "score": 1
+            },
+            {
+              "key": "handles_empty_results",
+              "score": 1
+            },
+            {
+              "key": "build_graph_funcion",
+              "score": 1
+            }
+          ]
+        }
+      ],
+      "runs_count": 3
+    },
+    {
+      "model": "codex",
+      "agent_folder": "011_list_issues",
+      "score_percent": 80.33,
+      "total_score": 9.67,
+      "max_score": 12,
+      "passed": 0.0,
+      "summary": "The implementation is mostly correct, but the agent function signature does not match the expected parameters, and the LLM is not explicitly bound to MCP tools. These issues prevent a perfect score.",
+      "details": [
+        {
+          "key": "correct_signature",
+          "score": 0
+        },
+        {
+          "key": "correct_return_type",
+          "score": 1
+        },
+        {
+          "key": "real_mcp_endpoint",
+          "score": 1
+        },
+        {
+          "key": "dynamic_tool_loading",
+          "score": 1
+        },
+        {
+          "key": "langgraph_orchestration",
+          "score": 1
+        },
+        {
+          "key": "llm_bound_to_tools",
+          "score": 0
+        },
+        {
+          "key": "no_mocks_or_stubs",
+          "score": 1
+        },
+        {
+          "key": "output_schema_enforced",
+          "score": 1
+        },
+        {
+          "key": "filters_by_user_request",
+          "score": 1
+        },
+        {
+          "key": "returns_only_filtered",
+          "score": 1
+        },
+        {
+          "key": "handles_empty_results",
+          "score": 1
+        },
+        {
+          "key": "build_graph_funcion",
+          "score": 1
+        }
+      ],
+      "runs": [
+        {
+          "run": 1,
+          "model": "codex",
+          "agent_folder": "011_list_issues",
+          "score_percent": 83,
+          "total_score": 10,
+          "max_score": 12,
+          "passed": false,
+          "summary": "The agent function does not have the correct signature, and the LLM is not bound to MCP tools. Other aspects, such as dynamic tool loading and handling of empty results, are correctly implemented.",
+          "details": [
+            {
+              "key": "correct_signature",
+              "score": 0
+            },
+            {
+              "key": "correct_return_type",
+              "score": 1
+            },
+            {
+              "key": "real_mcp_endpoint",
+              "score": 1
+            },
+            {
+              "key": "dynamic_tool_loading",
+              "score": 1
+            },
+            {
+              "key": "langgraph_orchestration",
+              "score": 1
+            },
+            {
+              "key": "llm_bound_to_tools",
+              "score": 0
+            },
+            {
+              "key": "no_mocks_or_stubs",
+              "score": 1
+            },
+            {
+              "key": "output_schema_enforced",
+              "score": 1
+            },
+            {
+              "key": "filters_by_user_request",
+              "score": 1
+            },
+            {
+              "key": "returns_only_filtered",
+              "score": 1
+            },
+            {
+              "key": "handles_empty_results",
+              "score": 1
+            },
+            {
+              "key": "build_graph_funcion",
+              "score": 1
+            }
+          ]
+        },
+        {
+          "run": 2,
+          "model": "codex",
+          "agent_folder": "011_list_issues",
+          "score_percent": 75,
+          "total_score": 9,
+          "max_score": 12,
+          "passed": false,
+          "summary": "The code correctly uses the MCP endpoint, dynamically loads tools, and applies filters based on user requests. However, it lacks a build_graph() function and does not bind LLM to tools. The function signature is also incorrect.",
+          "details": [
+            {
+              "key": "correct_signature",
+              "score": 0
+            },
+            {
+              "key": "correct_return_type",
+              "score": 1
+            },
+            {
+              "key": "real_mcp_endpoint",
+              "score": 1
+            },
+            {
+              "key": "dynamic_tool_loading",
+              "score": 1
+            },
+            {
+              "key": "langgraph_orchestration",
+              "score": 1
+            },
+            {
+              "key": "llm_bound_to_tools",
+              "score": 0
+            },
+            {
+              "key": "no_mocks_or_stubs",
+              "score": 1
+            },
+            {
+              "key": "output_schema_enforced",
+              "score": 1
+            },
+            {
+              "key": "filters_by_user_request",
+              "score": 1
+            },
+            {
+              "key": "returns_only_filtered",
+              "score": 1
+            },
+            {
+              "key": "handles_empty_results",
+              "score": 1
+            },
+            {
+              "key": "build_graph_funcion",
+              "score": 0
+            }
+          ]
+        },
+        {
+          "run": 3,
+          "model": "codex",
+          "agent_folder": "011_list_issues",
+          "score_percent": 83,
+          "total_score": 10,
+          "max_score": 12,
+          "passed": false,
+          "summary": "The implementation is mostly correct, but the agent function signature does not match the expected parameters, and the LLM is not explicitly bound to MCP tools. These issues prevent a perfect score.",
+          "details": [
+            {
+              "key": "correct_signature",
+              "score": 0
+            },
+            {
+              "key": "correct_return_type",
+              "score": 1
+            },
+            {
+              "key": "real_mcp_endpoint",
+              "score": 1
+            },
+            {
+              "key": "dynamic_tool_loading",
+              "score": 1
+            },
+            {
+              "key": "langgraph_orchestration",
+              "score": 1
+            },
+            {
+              "key": "llm_bound_to_tools",
+              "score": 0
+            },
+            {
+              "key": "no_mocks_or_stubs",
+              "score": 1
+            },
+            {
+              "key": "output_schema_enforced",
+              "score": 1
+            },
+            {
+              "key": "filters_by_user_request",
+              "score": 1
+            },
+            {
+              "key": "returns_only_filtered",
+              "score": 1
+            },
+            {
+              "key": "handles_empty_results",
+              "score": 1
+            },
+            {
+              "key": "build_graph_funcion",
+              "score": 1
+            }
+          ]
+        }
+      ],
+      "runs_count": 3
+    },
+    {
+      "model": "opencode",
+      "agent_folder": "011_list_issues",
+      "score_percent": 86.0,
+      "total_score": 10.33,
+      "max_score": 12,
+      "passed": 0.33,
+      "summary": "The implementation is mostly correct, but it lacks LLM binding to tools and does not define a build_graph() function.",
+      "details": [
+        {
+          "key": "correct_signature",
+          "score": 1
+        },
+        {
+          "key": "correct_return_type",
+          "score": 1
+        },
+        {
+          "key": "real_mcp_endpoint",
+          "score": 1
+        },
+        {
+          "key": "dynamic_tool_loading",
+          "score": 1
+        },
+        {
+          "key": "langgraph_orchestration",
+          "score": 1
+        },
+        {
+          "key": "llm_bound_to_tools",
+          "score": 0
+        },
+        {
+          "key": "no_mocks_or_stubs",
+          "score": 1
+        },
+        {
+          "key": "output_schema_enforced",
+          "score": 1
+        },
+        {
+          "key": "filters_by_user_request",
+          "score": 1
+        },
+        {
+          "key": "returns_only_filtered",
+          "score": 1
+        },
+        {
+          "key": "handles_empty_results",
+          "score": 1
+        },
+        {
+          "key": "build_graph_funcion",
+          "score": 0
+        }
+      ],
+      "runs": [
+        {
+          "run": 1,
+          "model": "opencode",
+          "agent_folder": "011_list_issues",
+          "score_percent": 92,
+          "total_score": 11,
+          "max_score": 12,
+          "passed": true,
+          "summary": "The implementation meets almost all criteria, but the LLM is not explicitly bound to MCP tools, which is a minor issue.",
+          "details": [
+            {
+              "key": "correct_signature",
+              "score": 1
+            },
+            {
+              "key": "correct_return_type",
+              "score": 1
+            },
+            {
+              "key": "real_mcp_endpoint",
+              "score": 1
+            },
+            {
+              "key": "dynamic_tool_loading",
+              "score": 1
+            },
+            {
+              "key": "langgraph_orchestration",
+              "score": 1
+            },
+            {
+              "key": "llm_bound_to_tools",
+              "score": 0
+            },
+            {
+              "key": "no_mocks_or_stubs",
+              "score": 1
+            },
+            {
+              "key": "output_schema_enforced",
+              "score": 1
+            },
+            {
+              "key": "filters_by_user_request",
+              "score": 1
+            },
+            {
+              "key": "returns_only_filtered",
+              "score": 1
+            },
+            {
+              "key": "handles_empty_results",
+              "score": 1
+            },
+            {
+              "key": "build_graph_funcion",
+              "score": 1
+            }
+          ]
+        },
+        {
+          "run": 2,
+          "model": "opencode",
+          "agent_folder": "011_list_issues",
+          "score_percent": 83,
+          "total_score": 10,
+          "max_score": 12,
+          "passed": false,
+          "summary": "The agent implementation is mostly correct, but it lacks the correct signature with the github_token parameter and does not bind the LLM to MCP tools. These issues prevent it from achieving a perfect score.",
+          "details": [
+            {
+              "key": "correct_signature",
+              "score": 0
+            },
+            {
+              "key": "correct_return_type",
+              "score": 1
+            },
+            {
+              "key": "real_mcp_endpoint",
+              "score": 1
+            },
+            {
+              "key": "dynamic_tool_loading",
+              "score": 1
+            },
+            {
+              "key": "langgraph_orchestration",
+              "score": 1
+            },
+            {
+              "key": "llm_bound_to_tools",
+              "score": 0
+            },
+            {
+              "key": "no_mocks_or_stubs",
+              "score": 1
+            },
+            {
+              "key": "output_schema_enforced",
+              "score": 1
+            },
+            {
+              "key": "filters_by_user_request",
+              "score": 1
+            },
+            {
+              "key": "returns_only_filtered",
+              "score": 1
+            },
+            {
+              "key": "handles_empty_results",
+              "score": 1
+            },
+            {
+              "key": "build_graph_funcion",
+              "score": 1
+            }
+          ]
+        },
+        {
+          "run": 3,
+          "model": "opencode",
+          "agent_folder": "011_list_issues",
+          "score_percent": 83,
+          "total_score": 10,
+          "max_score": 12,
+          "passed": false,
+          "summary": "The implementation is mostly correct, but it lacks LLM binding to tools and does not define a build_graph() function.",
+          "details": [
+            {
+              "key": "correct_signature",
+              "score": 1
+            },
+            {
+              "key": "correct_return_type",
+              "score": 1
+            },
+            {
+              "key": "real_mcp_endpoint",
+              "score": 1
+            },
+            {
+              "key": "dynamic_tool_loading",
+              "score": 1
+            },
+            {
+              "key": "langgraph_orchestration",
+              "score": 1
+            },
+            {
+              "key": "llm_bound_to_tools",
+              "score": 0
+            },
+            {
+              "key": "no_mocks_or_stubs",
+              "score": 1
+            },
+            {
+              "key": "output_schema_enforced",
+              "score": 1
+            },
+            {
+              "key": "filters_by_user_request",
+              "score": 1
+            },
+            {
+              "key": "returns_only_filtered",
+              "score": 1
+            },
+            {
+              "key": "handles_empty_results",
+              "score": 1
+            },
+            {
+              "key": "build_graph_funcion",
+              "score": 0
+            }
+          ]
+        }
+      ],
+      "runs_count": 3
+    }
+  ]
+}

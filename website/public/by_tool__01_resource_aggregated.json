@@ -1,0 +1,227 @@
+{
+  "stage": "generation",
+  "results": [
+    {
+      "model": "claude",
+      "agent_folder": "011_list_issues",
+      "status": "ok",
+      "execution_time": "356.74s",
+      "execution_seconds": 333.58,
+      "requests": 17.67,
+      "tokens": {
+        "total": 21744.67,
+        "cache_created": 30266.67,
+        "reasoning": 0.0,
+        "output": 21633.33,
+        "input": 111.33,
+        "cost_usd": 0.57,
+        "cache_read": 436266.67
+      },
+      "runs": [
+        {
+          "run": 1,
+          "model": "claude",
+          "agent_folder": "011_list_issues",
+          "status": "ok",
+          "execution_time": "165.19s",
+          "execution_seconds": 165.19,
+          "requests": 10,
+          "tokens": {
+            "input": 74.0,
+            "output": 11500.0,
+            "cache_read": 233400.0,
+            "cache_created": 21100.0,
+            "reasoning": 0,
+            "total": 11574.0,
+            "cost_usd": 0.32
+          }
+        },
+        {
+          "run": 2,
+          "model": "claude",
+          "agent_folder": "011_list_issues",
+          "status": "ok",
+          "execution_time": "478.82s",
+          "execution_seconds": 478.82,
+          "requests": 22,
+          "tokens": {
+            "input": 130.0,
+            "output": 30600.0,
+            "cache_read": 550400.0,
+            "cache_created": 44500.0,
+            "reasoning": 0,
+            "total": 30730.0,
+            "cost_usd": 0.79
+          }
+        },
+        {
+          "run": 3,
+          "model": "claude",
+          "agent_folder": "011_list_issues",
+          "status": "ok",
+          "execution_time": "356.74s",
+          "execution_seconds": 356.74,
+          "requests": 21,
+          "tokens": {
+            "input": 130.0,
+            "output": 22800.0,
+            "cache_read": 525000.0,
+            "cache_created": 25200.0,
+            "reasoning": 0,
+            "total": 22930.0,
+            "cost_usd": 0.6
+          }
+        }
+      ],
+      "runs_count": 3
+    },
+    {
+      "model": "codex",
+      "agent_folder": "011_list_issues",
+      "status": "ok",
+      "execution_time": "53.11s",
+      "execution_seconds": 54.58,
+      "requests": 1.0,
+      "tokens": {
+        "total": 164333.33,
+        "cache_created": 0.0,
+        "reasoning": 0.0,
+        "output": 5633.33,
+        "input": 158700.0,
+        "cost_usd": null,
+        "cache_read": 131600.0
+      },
+      "runs": [
+        {
+          "run": 1,
+          "model": "codex",
+          "agent_folder": "011_list_issues",
+          "status": "ok",
+          "execution_time": "54.90s",
+          "execution_seconds": 54.9,
+          "requests": 1,
+          "tokens": {
+            "input": 187800.0,
+            "output": 5500.0,
+            "cache_read": 139300.0,
+            "cache_created": 0,
+            "reasoning": 0,
+            "total": 193300.0,
+            "cost_usd": null
+          }
+        },
+        {
+          "run": 2,
+          "model": "codex",
+          "agent_folder": "011_list_issues",
+          "status": "ok",
+          "execution_time": "55.74s",
+          "execution_seconds": 55.74,
+          "requests": 1,
+          "tokens": {
+            "input": 142700.0,
+            "output": 6100.0,
+            "cache_read": 127200.0,
+            "cache_created": 0,
+            "reasoning": 0,
+            "total": 148800.0,
+            "cost_usd": null
+          }
+        },
+        {
+          "run": 3,
+          "model": "codex",
+          "agent_folder": "011_list_issues",
+          "status": "ok",
+          "execution_time": "53.11s",
+          "execution_seconds": 53.11,
+          "requests": 1,
+          "tokens": {
+            "input": 145600.0,
+            "output": 5300.0,
+            "cache_read": 128300.00000000001,
+            "cache_created": 0,
+            "reasoning": 0,
+            "total": 150900.0,
+            "cost_usd": null
+          }
+        }
+      ],
+      "runs_count": 3
+    },
+    {
+      "model": "opencode",
+      "agent_folder": "011_list_issues",
+      "status": "ok",
+      "execution_time": "147.77s",
+      "execution_seconds": 184.95,
+      "requests": 5.67,
+      "tokens": {
+        "total": 29033.33,
+        "cache_created": 0.0,
+        "reasoning": 0.0,
+        "output": 7500.0,
+        "input": 21533.33,
+        "cost_usd": null,
+        "cache_read": 58000.0
+      },
+      "runs": [
+        {
+          "run": 1,
+          "model": "opencode",
+          "agent_folder": "011_list_issues",
+          "status": "ok",
+          "execution_time": "202.74s",
+          "execution_seconds": 202.74,
+          "requests": 4,
+          "tokens": {
+            "input": 21700.0,
+            "output": 8800.0,
+            "cache_read": 33200.0,
+            "cache_created": 0,
+            "reasoning": 0,
+            "total": 30500.0,
+            "cost_usd": null
+          }
+        },
+        {
+          "run": 2,
+          "model": "opencode",
+          "agent_folder": "011_list_issues",
+          "status": "ok",
+          "execution_time": "204.33s",
+          "execution_seconds": 204.33,
+          "requests": 9,
+          "tokens": {
+            "input": 15300.0,
+            "output": 7100.0,
+            "cache_read": 118800.0,
+            "cache_created": 0,
+            "reasoning": 0,
+            "total": 22400.0,
+            "cost_usd": null
+          }
+        },
+        {
+          "run": 3,
+          "model": "opencode",
+          "agent_folder": "011_list_issues",
+          "status": "ok",
+          "execution_time": "147.77s",
+          "execution_seconds": 147.77,
+          "requests": 4,
+          "tokens": {
+            "input": 27600.0,
+            "output": 6600.0,
+            "cache_read": 22000.0,
+            "cache_created": 0,
+            "reasoning": 0,
+            "total": 34200.0,
+            "cost_usd": null
+          }
+        }
+      ],
+      "runs_count": 3
+    }
+  ]
+}

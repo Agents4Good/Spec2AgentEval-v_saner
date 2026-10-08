@@ -1,0 +1,731 @@
+{
+  "stage": "spec_adherence",
+  "results": [
+    {
+      "model": "claude-opus-4-6-low",
+      "agent_folder": "011_list_issues",
+      "score_percent": 69.33,
+      "total_score": 8.33,
+      "max_score": 12,
+      "passed": 0.0,
+      "summary": "The code lacks correct signature and real MCP endpoint usage, does not dynamically load tools, and does not bind LLM to tools. It correctly returns filtered issues and handles empty results but misses a build_graph function.",
+      "details": [
+        {
+          "key": "correct_signature",
+          "score": 0
+        },
+        {
+          "key": "correct_return_type",
+          "score": 1
+        },
+        {
+          "key": "real_mcp_endpoint",
+          "score": 0
+        },
+        {
+          "key": "dynamic_tool_loading",
+          "score": 0
+        },
+        {
+          "key": "langgraph_orchestration",
+          "score": 1
+        },
+        {
+          "key": "llm_bound_to_tools",
+          "score": 0
+        },
+        {
+          "key": "no_mocks_or_stubs",
+          "score": 1
+        },
+        {
+          "key": "output_schema_enforced",
+          "score": 1
+        },
+        {
+          "key": "filters_by_user_request",
+          "score": 1
+        },
+        {
+          "key": "returns_only_filtered",
+          "score": 1
+        },
+        {
+          "key": "handles_empty_results",
+          "score": 1
+        },
+        {
+          "key": "build_graph_funcion",
+          "score": 0
+        }
+      ],
+      "runs": [
+        {
+          "run": 1,
+          "model": "claude-opus-4-6-low",
+          "agent_folder": "011_list_issues",
+          "score_percent": 75,
+          "total_score": 9,
+          "max_score": 12,
+          "passed": false,
+          "summary": "The implementation lacks the use of a real MCP endpoint and dynamic tool loading. Additionally, the LLM is not bound to MCP tools. Other aspects such as correct signature, return type, and handling of empty results are correctly implemented.",
+          "details": [
+            {
+              "key": "correct_signature",
+              "score": 1
+            },
+            {
+              "key": "correct_return_type",
+              "score": 1
+            },
+            {
+              "key": "real_mcp_endpoint",
+              "score": 0
+            },
+            {
+              "key": "dynamic_tool_loading",
+              "score": 0
+            },
+            {
+              "key": "langgraph_orchestration",
+              "score": 1
+            },
+            {
+              "key": "llm_bound_to_tools",
+              "score": 0
+            },
+            {
+              "key": "no_mocks_or_stubs",
+              "score": 1
+            },
+            {
+              "key": "output_schema_enforced",
+              "score": 1
+            },
+            {
+              "key": "filters_by_user_request",
+              "score": 1
+            },
+            {
+              "key": "returns_only_filtered",
+              "score": 1
+            },
+            {
+              "key": "handles_empty_results",
+              "score": 1
+            },
+            {
+              "key": "build_graph_funcion",
+              "score": 1
+            }
+          ]
+        },
+        {
+          "run": 2,
+          "model": "claude-opus-4-6-low",
+          "agent_folder": "011_list_issues",
+          "score_percent": 75,
+          "total_score": 9,
+          "max_score": 12,
+          "passed": false,
+          "summary": "The code correctly implements the agent's signature, return type, and uses LangGraph for orchestration. It also enforces the output schema and handles filtering and empty results appropriately. However, it does not use the real MCP endpoint, lacks dynamic tool loading, and does not bind the LLM to MCP tools.",
+          "details": [
+            {
+              "key": "correct_signature",
+              "score": 1
+            },
+            {
+              "key": "correct_return_type",
+              "score": 1
+            },
+            {
+              "key": "real_mcp_endpoint",
+              "score": 0
+            },
+            {
+              "key": "dynamic_tool_loading",
+              "score": 0
+            },
+            {
+              "key": "langgraph_orchestration",
+              "score": 1
+            },
+            {
+              "key": "llm_bound_to_tools",
+              "score": 0
+            },
+            {
+              "key": "no_mocks_or_stubs",
+              "score": 1
+            },
+            {
+              "key": "output_schema_enforced",
+              "score": 1
+            },
+            {
+              "key": "filters_by_user_request",
+              "score": 1
+            },
+            {
+              "key": "returns_only_filtered",
+              "score": 1
+            },
+            {
+              "key": "handles_empty_results",
+              "score": 1
+            },
+            {
+              "key": "build_graph_funcion",
+              "score": 1
+            }
+          ]
+        },
+        {
+          "run": 3,
+          "model": "claude-opus-4-6-low",
+          "agent_folder": "011_list_issues",
+          "score_percent": 58,
+          "total_score": 7,
+          "max_score": 12,
+          "passed": false,
+          "summary": "The code lacks correct signature and real MCP endpoint usage, does not dynamically load tools, and does not bind LLM to tools. It correctly returns filtered issues and handles empty results but misses a build_graph function.",
+          "details": [
+            {
+              "key": "correct_signature",
+              "score": 0
+            },
+            {
+              "key": "correct_return_type",
+              "score": 1
+            },
+            {
+              "key": "real_mcp_endpoint",
+              "score": 0
+            },
+            {
+              "key": "dynamic_tool_loading",
+              "score": 0
+            },
+            {
+              "key": "langgraph_orchestration",
+              "score": 1
+            },
+            {
+              "key": "llm_bound_to_tools",
+              "score": 0
+            },
+            {
+              "key": "no_mocks_or_stubs",
+              "score": 1
+            },
+            {
+              "key": "output_schema_enforced",
+              "score": 1
+            },
+            {
+              "key": "filters_by_user_request",
+              "score": 1
+            },
+            {
+              "key": "returns_only_filtered",
+              "score": 1
+            },
+            {
+              "key": "handles_empty_results",
+              "score": 1
+            },
+            {
+              "key": "build_graph_funcion",
+              "score": 0
+            }
+          ]
+        }
+      ],
+      "runs_count": 3
+    },
+    {
+      "model": "claude-opus-4-8-low",
+      "agent_folder": "011_list_issues",
+      "score_percent": 100.0,
+      "total_score": 12.0,
+      "max_score": 12,
+      "passed": 1.0,
+      "summary": "No issues found",
+      "details": [
+        {
+          "key": "correct_signature",
+          "score": 1
+        },
+        {
+          "key": "correct_return_type",
+          "score": 1
+        },
+        {
+          "key": "real_mcp_endpoint",
+          "score": 1
+        },
+        {
+          "key": "dynamic_tool_loading",
+          "score": 1
+        },
+        {
+          "key": "langgraph_orchestration",
+          "score": 1
+        },
+        {
+          "key": "llm_bound_to_tools",
+          "score": 1
+        },
+        {
+          "key": "no_mocks_or_stubs",
+          "score": 1
+        },
+        {
+          "key": "output_schema_enforced",
+          "score": 1
+        },
+        {
+          "key": "filters_by_user_request",
+          "score": 1
+        },
+        {
+          "key": "returns_only_filtered",
+          "score": 1
+        },
+        {
+          "key": "handles_empty_results",
+          "score": 1
+        },
+        {
+          "key": "build_graph_funcion",
+          "score": 1
+        }
+      ],
+      "runs": [
+        {
+          "run": 1,
+          "model": "claude-opus-4-8-low",
+          "agent_folder": "011_list_issues",
+          "score_percent": 100,
+          "total_score": 12,
+          "max_score": 12,
+          "passed": true,
+          "summary": "No issues found",
+          "details": [
+            {
+              "key": "correct_signature",
+              "score": 1
+            },
+            {
+              "key": "correct_return_type",
+              "score": 1
+            },
+            {
+              "key": "real_mcp_endpoint",
+              "score": 1
+            },
+            {
+              "key": "dynamic_tool_loading",
+              "score": 1
+            },
+            {
+              "key": "langgraph_orchestration",
+              "score": 1
+            },
+            {
+              "key": "llm_bound_to_tools",
+              "score": 1
+            },
+            {
+              "key": "no_mocks_or_stubs",
+              "score": 1
+            },
+            {
+              "key": "output_schema_enforced",
+              "score": 1
+            },
+            {
+              "key": "filters_by_user_request",
+              "score": 1
+            },
+            {
+              "key": "returns_only_filtered",
+              "score": 1
+            },
+            {
+              "key": "handles_empty_results",
+              "score": 1
+            },
+            {
+              "key": "build_graph_funcion",
+              "score": 1
+            }
+          ]
+        },
+        {
+          "run": 2,
+          "model": "claude-opus-4-8-low",
+          "agent_folder": "011_list_issues",
+          "score_percent": 100,
+          "total_score": 12,
+          "max_score": 12,
+          "passed": true,
+          "summary": "No issues found",
+          "details": [
+            {
+              "key": "correct_signature",
+              "score": 1
+            },
+            {
+              "key": "correct_return_type",
+              "score": 1
+            },
+            {
+              "key": "real_mcp_endpoint",
+              "score": 1
+            },
+            {
+              "key": "dynamic_tool_loading",
+              "score": 1
+            },
+            {
+              "key": "langgraph_orchestration",
+              "score": 1
+            },
+            {
+              "key": "llm_bound_to_tools",
+              "score": 1
+            },
+            {
+              "key": "no_mocks_or_stubs",
+              "score": 1
+            },
+            {
+              "key": "output_schema_enforced",
+              "score": 1
+            },
+            {
+              "key": "filters_by_user_request",
+              "score": 1
+            },
+            {
+              "key": "returns_only_filtered",
+              "score": 1
+            },
+            {
+              "key": "handles_empty_results",
+              "score": 1
+            },
+            {
+              "key": "build_graph_funcion",
+              "score": 1
+            }
+          ]
+        },
+        {
+          "run": 3,
+          "model": "claude-opus-4-8-low",
+          "agent_folder": "011_list_issues",
+          "score_percent": 100,
+          "total_score": 12,
+          "max_score": 12,
+          "passed": true,
+          "summary": "No issues found",
+          "details": [
+            {
+              "key": "correct_signature",
+              "score": 1
+            },
+            {
+              "key": "correct_return_type",
+              "score": 1
+            },
+            {
+              "key": "real_mcp_endpoint",
+              "score": 1
+            },
+            {
+              "key": "dynamic_tool_loading",
+              "score": 1
+            },
+            {
+              "key": "langgraph_orchestration",
+              "score": 1
+            },
+            {
+              "key": "llm_bound_to_tools",
+              "score": 1
+            },
+            {
+              "key": "no_mocks_or_stubs",
+              "score": 1
+            },
+            {
+              "key": "output_schema_enforced",
+              "score": 1
+            },
+            {
+              "key": "filters_by_user_request",
+              "score": 1
+            },
+            {
+              "key": "returns_only_filtered",
+              "score": 1
+            },
+            {
+              "key": "handles_empty_results",
+              "score": 1
+            },
+            {
+              "key": "build_graph_funcion",
+              "score": 1
+            }
+          ]
+        }
+      ],
+      "runs_count": 3
+    },
+    {
+      "model": "claude-opus-5-5-low",
+      "agent_folder": "011_list_issues",
+      "score_percent": 92.0,
+      "total_score": 11.0,
+      "max_score": 12,
+      "passed": 1.0,
+      "summary": "The implementation meets almost all criteria, but the LLM is not explicitly bound to MCP tools, which is a minor issue. Overall, the code is well-structured and adheres to the specifications.",
+      "details": [
+        {
+          "key": "correct_signature",
+          "score": 1
+        },
+        {
+          "key": "correct_return_type",
+          "score": 1
+        },
+        {
+          "key": "real_mcp_endpoint",
+          "score": 1
+        },
+        {
+          "key": "dynamic_tool_loading",
+          "score": 1
+        },
+        {
+          "key": "langgraph_orchestration",
+          "score": 1
+        },
+        {
+          "key": "llm_bound_to_tools",
+          "score": 0
+        },
+        {
+          "key": "no_mocks_or_stubs",
+          "score": 1
+        },
+        {
+          "key": "output_schema_enforced",
+          "score": 1
+        },
+        {
+          "key": "filters_by_user_request",
+          "score": 1
+        },
+        {
+          "key": "returns_only_filtered",
+          "score": 1
+        },
+        {
+          "key": "handles_empty_results",
+          "score": 1
+        },
+        {
+          "key": "build_graph_funcion",
+          "score": 1
+        }
+      ],
+      "runs": [
+        {
+          "run": 1,
+          "model": "claude-opus-5-5-low",
+          "agent_folder": "011_list_issues",
+          "score_percent": 92,
+          "total_score": 11,
+          "max_score": 12,
+          "passed": true,
+          "summary": "The implementation meets almost all criteria, but the LLM is not explicitly bound to MCP tools, which is a minor issue.",
+          "details": [
+            {
+              "key": "correct_signature",
+              "score": 1
+            },
+            {
+              "key": "correct_return_type",
+              "score": 1
+            },
+            {
+              "key": "real_mcp_endpoint",
+              "score": 1
+            },
+            {
+              "key": "dynamic_tool_loading",
+              "score": 1
+            },
+            {
+              "key": "langgraph_orchestration",
+              "score": 1
+            },
+            {
+              "key": "llm_bound_to_tools",
+              "score": 0
+            },
+            {
+              "key": "no_mocks_or_stubs",
+              "score": 1
+            },
+            {
+              "key": "output_schema_enforced",
+              "score": 1
+            },
+            {
+              "key": "filters_by_user_request",
+              "score": 1
+            },
+            {
+              "key": "returns_only_filtered",
+              "score": 1
+            },
+            {
+              "key": "handles_empty_results",
+              "score": 1
+            },
+            {
+              "key": "build_graph_funcion",
+              "score": 1
+            }
+          ]
+        },
+        {
+          "run": 2,
+          "model": "claude-opus-5-5-low",
+          "agent_folder": "011_list_issues",
+          "score_percent": 92,
+          "total_score": 11,
+          "max_score": 12,
+          "passed": true,
+          "summary": "The implementation is mostly correct, but the LLM is not explicitly bound to MCP tools via bind_tools() or an equivalent method.",
+          "details": [
+            {
+              "key": "correct_signature",
+              "score": 1
+            },
+            {
+              "key": "correct_return_type",
+              "score": 1
+            },
+            {
+              "key": "real_mcp_endpoint",
+              "score": 1
+            },
+            {
+              "key": "dynamic_tool_loading",
+              "score": 1
+            },
+            {
+              "key": "langgraph_orchestration",
+              "score": 1
+            },
+            {
+              "key": "llm_bound_to_tools",
+              "score": 0
+            },
+            {
+              "key": "no_mocks_or_stubs",
+              "score": 1
+            },
+            {
+              "key": "output_schema_enforced",
+              "score": 1
+            },
+            {
+              "key": "filters_by_user_request",
+              "score": 1
+            },
+            {
+              "key": "returns_only_filtered",
+              "score": 1
+            },
+            {
+              "key": "handles_empty_results",
+              "score": 1
+            },
+            {
+              "key": "build_graph_funcion",
+              "score": 1
+            }
+          ]
+        },
+        {
+          "run": 3,
+          "model": "claude-opus-5-5-low",
+          "agent_folder": "011_list_issues",
+          "score_percent": 92,
+          "total_score": 11,
+          "max_score": 12,
+          "passed": true,
+          "summary": "The implementation meets almost all criteria, but the LLM is not explicitly bound to MCP tools, which is a minor issue. Overall, the code is well-structured and adheres to the specifications.",
+          "details": [
+            {
+              "key": "correct_signature",
+              "score": 1
+            },
+            {
+              "key": "correct_return_type",
+              "score": 1
+            },
+            {
+              "key": "real_mcp_endpoint",
+              "score": 1
+            },
+            {
+              "key": "dynamic_tool_loading",
+              "score": 1
+            },
+            {
+              "key": "langgraph_orchestration",
+              "score": 1
+            },
+            {
+              "key": "llm_bound_to_tools",
+              "score": 0
+            },
+            {
+              "key": "no_mocks_or_stubs",
+              "score": 1
+            },
+            {
+              "key": "output_schema_enforced",
+              "score": 1
+            },
+            {
+              "key": "filters_by_user_request",
+              "score": 1
+            },
+            {
+              "key": "returns_only_filtered",
+              "score": 1
+            },
+            {
+              "key": "handles_empty_results",
+              "score": 1
+            },
+            {
+              "key": "build_graph_funcion",
+              "score": 1
+            }
+          ]
+        }
+      ],
+      "runs_count": 3
+    }
+  ]
+}

@@ -1,0 +1,227 @@
+{
+  "stage": "generation",
+  "results": [
+    {
+      "model": "claude-opus-4-6-low",
+      "agent_folder": "011_list_issues",
+      "status": "ok",
+      "execution_time": "79.47s",
+      "execution_seconds": 73.44,
+      "requests": 6.0,
+      "tokens": {
+        "total": 4908.0,
+        "cache_created": 18766.67,
+        "reasoning": 0.0,
+        "output": 4900.0,
+        "input": 8.0,
+        "cost_usd": 0.3,
+        "cache_read": 121966.67
+      },
+      "runs": [
+        {
+          "run": 1,
+          "model": "claude-opus-4-6-low",
+          "agent_folder": "011_list_issues",
+          "status": "ok",
+          "execution_time": "77.13s",
+          "execution_seconds": 77.13,
+          "requests": 6,
+          "tokens": {
+            "input": 8.0,
+            "output": 4700.0,
+            "cache_read": 113700.0,
+            "cache_created": 26600.0,
+            "reasoning": 0,
+            "total": 4708.0,
+            "cost_usd": 0.34
+          }
+        },
+        {
+          "run": 2,
+          "model": "claude-opus-4-6-low",
+          "agent_folder": "011_list_issues",
+          "status": "ok",
+          "execution_time": "63.73s",
+          "execution_seconds": 63.73,
+          "requests": 6,
+          "tokens": {
+            "input": 8.0,
+            "output": 4200.0,
+            "cache_read": 125100.0,
+            "cache_created": 14000.0,
+            "reasoning": 0,
+            "total": 4208.0,
+            "cost_usd": 0.26
+          }
+        },
+        {
+          "run": 3,
+          "model": "claude-opus-4-6-low",
+          "agent_folder": "011_list_issues",
+          "status": "ok",
+          "execution_time": "79.47s",
+          "execution_seconds": 79.47,
+          "requests": 6,
+          "tokens": {
+            "input": 8.0,
+            "output": 5800.0,
+            "cache_read": 127100.0,
+            "cache_created": 15700.0,
+            "reasoning": 0,
+            "total": 5808.0,
+            "cost_usd": 0.31
+          }
+        }
+      ],
+      "runs_count": 3
+    },
+    {
+      "model": "claude-opus-4-8-low",
+      "agent_folder": "011_list_issues",
+      "status": "ok",
+      "execution_time": "140.77s",
+      "execution_seconds": 110.34,
+      "requests": 10.67,
+      "tokens": {
+        "total": 9354.67,
+        "cache_created": 41566.67,
+        "reasoning": 0.0,
+        "output": 9333.33,
+        "input": 21.33,
+        "cost_usd": 0.42,
+        "cache_read": 413733.33
+      },
+      "runs": [
+        {
+          "run": 1,
+          "model": "claude-opus-4-8-low",
+          "agent_folder": "011_list_issues",
+          "status": "ok",
+          "execution_time": "77.41s",
+          "execution_seconds": 77.41,
+          "requests": 10,
+          "tokens": {
+            "input": 20.0,
+            "output": 6400.0,
+            "cache_read": 374600.0,
+            "cache_created": 53000.0,
+            "reasoning": 0,
+            "total": 6420.0,
+            "cost_usd": 0.41
+          }
+        },
+        {
+          "run": 2,
+          "model": "claude-opus-4-8-low",
+          "agent_folder": "011_list_issues",
+          "status": "ok",
+          "execution_time": "112.83s",
+          "execution_seconds": 112.83,
+          "requests": 8,
+          "tokens": {
+            "input": 16.0,
+            "output": 10100.0,
+            "cache_read": 301500.0,
+            "cache_created": 36000.0,
+            "reasoning": 0,
+            "total": 10116.0,
+            "cost_usd": 0.38
+          }
+        },
+        {
+          "run": 3,
+          "model": "claude-opus-4-8-low",
+          "agent_folder": "011_list_issues",
+          "status": "ok",
+          "execution_time": "140.77s",
+          "execution_seconds": 140.77,
+          "requests": 14,
+          "tokens": {
+            "input": 28.0,
+            "output": 11500.0,
+            "cache_read": 565100.0,
+            "cache_created": 35700.0,
+            "reasoning": 0,
+            "total": 11528.0,
+            "cost_usd": 0.48
+          }
+        }
+      ],
+      "runs_count": 3
+    },
+    {
+      "model": "claude-opus-5-5-low",
+      "agent_folder": "011_list_issues",
+      "status": "ok",
+      "execution_time": "58.99s",
+      "execution_seconds": 66.61,
+      "requests": 5.33,
+      "tokens": {
+        "total": 8440.67,
+        "cache_created": 21833.33,
+        "reasoning": 0.0,
+        "output": 8433.33,
+        "input": 7.33,
+        "cost_usd": 0.36,
+        "cache_read": 80200.0
+      },
+      "runs": [
+        {
+          "run": 1,
+          "model": "claude-opus-5-5-low",
+          "agent_folder": "011_list_issues",
+          "status": "ok",
+          "execution_time": "64.62s",
+          "execution_seconds": 64.62,
+          "requests": 6,
+          "tokens": {
+            "input": 6.0,
+            "output": 8500.0,
+            "cache_read": 55500.0,
+            "cache_created": 23200.0,
+            "reasoning": 0,
+            "total": 8506.0,
+            "cost_usd": 0.37
+          }
+        },
+        {
+          "run": 2,
+          "model": "claude-opus-5-5-low",
+          "agent_folder": "011_list_issues",
+          "status": "ok",
+          "execution_time": "76.23s",
+          "execution_seconds": 76.23,
+          "requests": 7,
+          "tokens": {
+            "input": 10.0,
+            "output": 9600.0,
+            "cache_read": 121900.0,
+            "cache_created": 22600.0,
+            "reasoning": 0,
+            "total": 9610.0,
+            "cost_usd": 0.4
+          }
+        },
+        {
+          "run": 3,
+          "model": "claude-opus-5-5-low",
+          "agent_folder": "011_list_issues",
+          "status": "ok",
+          "execution_time": "58.99s",
+          "execution_seconds": 58.99,
+          "requests": 3,
+          "tokens": {
+            "input": 6.0,
+            "output": 7200.0,
+            "cache_read": 63200.0,
+            "cache_created": 19700.0,
+            "reasoning": 0,
+            "total": 7206.0,
+            "cost_usd": 0.32
+          }
+        }
+      ],
+      "runs_count": 3
+    }
+  ]
+}

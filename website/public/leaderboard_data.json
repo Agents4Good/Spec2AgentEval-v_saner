@@ -1,0 +1,62 @@
+[
+  {
+    "agent": "001_list_issues_agent",
+    "model": "claude",
+    "executability": 100.0,
+    "structure": 100.0,
+    "spec_graph": 75,
+    "spec_prompt": null,
+    "behavioral": 0.0,
+    "behavioral_passed": 0,
+    "behavioral_total": 29,
+    "lint": 0.0
+  },
+  {
+    "agent": "001_list_issues_agent",
+    "model": "codex",
+    "executability": 100.0,
+    "structure": 100.0,
+    "spec_graph": 83,
+    "spec_prompt": null,
+    "behavioral": 32.1,
+    "behavioral_passed": 9,
+    "behavioral_total": 28,
+    "lint": 0.0
+  },
+  {
+    "agent": "001_list_issues_agent",
+    "model": "copilot",
+    "executability": 100.0,
+    "structure": 100.0,
+    "spec_graph": 83,
+    "spec_prompt": null,
+    "behavioral": 60.7,
+    "behavioral_passed": 17,
+    "behavioral_total": 28,
+    "lint": 0.0
+  },
+  {
+    "agent": "001_list_issues_agent",
+    "model": "gemini",
+    "executability": 100.0,
+    "structure": 100.0,
+    "spec_graph": 67,
+    "spec_prompt": null,
+    "behavioral": 79.3,
+    "behavioral_passed": 23,
+    "behavioral_total": 29,
+    "lint": 0.0
+  },
+  {
+    "agent": "001_list_issues_agent",
+    "model": "opencode",
+    "executability": 100.0,
+    "structure": 100.0,
+    "spec_graph": 92,
+    "spec_prompt": null,
+    "behavioral": 96.4,
+    "behavioral_passed": 27,
+    "behavioral_total": 28,
+    "lint": 0.0
+  }
+]

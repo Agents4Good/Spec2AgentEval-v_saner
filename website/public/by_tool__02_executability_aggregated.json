@@ -1,0 +1,155 @@
+{
+  "stage": "validation",
+  "results": [
+    {
+      "model": "claude",
+      "agent_folder": "011_list_issues",
+      "file_exists": 1.0,
+      "syntax_valid": 1.0,
+      "dependency_error": 1.0,
+      "has_entrypoint": 1.0,
+      "entrypoint_callable": 1.0,
+      "final_status": "SUCCESS",
+      "_source_error": null,
+      "runs": [
+        {
+          "run": 1,
+          "model": "claude",
+          "agent_folder": "011_list_issues",
+          "file_exists": true,
+          "syntax_valid": true,
+          "dependency_error": true,
+          "has_entrypoint": true,
+          "entrypoint_callable": true,
+          "final_status": "SUCCESS",
+          "_source_error": null
+        },
+        {
+          "run": 2,
+          "model": "claude",
+          "agent_folder": "011_list_issues",
+          "file_exists": true,
+          "syntax_valid": true,
+          "dependency_error": true,
+          "has_entrypoint": true,
+          "entrypoint_callable": true,
+          "final_status": "SUCCESS",
+          "_source_error": null
+        },
+        {
+          "run": 3,
+          "model": "claude",
+          "agent_folder": "011_list_issues",
+          "file_exists": true,
+          "syntax_valid": true,
+          "dependency_error": true,
+          "has_entrypoint": true,
+          "entrypoint_callable": true,
+          "final_status": "SUCCESS",
+          "_source_error": null
+        }
+      ],
+      "runs_count": 3
+    },
+    {
+      "model": "codex",
+      "agent_folder": "011_list_issues",
+      "file_exists": 1.0,
+      "syntax_valid": 1.0,
+      "dependency_error": 0.67,
+      "has_entrypoint": 0.67,
+      "entrypoint_callable": 0.67,
+      "final_status": "SUCCESS",
+      "_source_error": null,
+      "runs": [
+        {
+          "run": 1,
+          "model": "codex",
+          "agent_folder": "011_list_issues",
+          "file_exists": true,
+          "syntax_valid": true,
+          "dependency_error": true,
+          "has_entrypoint": true,
+          "entrypoint_callable": true,
+          "final_status": "SUCCESS",
+          "_source_error": null
+        },
+        {
+          "run": 2,
+          "model": "codex",
+          "agent_folder": "011_list_issues",
+          "file_exists": true,
+          "syntax_valid": true,
+          "dependency_error": false,
+          "has_entrypoint": false,
+          "entrypoint_callable": false,
+          "final_status": "FAILED",
+          "_source_error": "dependency_error: import_runtime_error: name 'Any' is not defined\nhas_entrypoint: skipped_not_importable\nentrypoint_callable: skipped_no_entrypoint"
+        },
+        {
+          "run": 3,
+          "model": "codex",
+          "agent_folder": "011_list_issues",
+          "file_exists": true,
+          "syntax_valid": true,
+          "dependency_error": true,
+          "has_entrypoint": true,
+          "entrypoint_callable": true,
+          "final_status": "SUCCESS",
+          "_source_error": null
+        }
+      ],
+      "runs_count": 3
+    },
+    {
+      "model": "opencode",
+      "agent_folder": "011_list_issues",
+      "file_exists": 1.0,
+      "syntax_valid": 1.0,
+      "dependency_error": 0.67,
+      "has_entrypoint": 0.67,
+      "entrypoint_callable": 0.67,
+      "final_status": "FAILED",
+      "_source_error": "dependency_error: import_runtime_error: name 'ChatOpenai' is not defined\nhas_entrypoint: skipped_not_importable\nentrypoint_callable: skipped_no_entrypoint",
+      "runs": [
+        {
+          "run": 1,
+          "model": "opencode",
+          "agent_folder": "011_list_issues",
+          "file_exists": true,
+          "syntax_valid": true,
+          "dependency_error": true,
+          "has_entrypoint": true,
+          "entrypoint_callable": true,
+          "final_status": "SUCCESS",
+          "_source_error": null
+        },
+        {
+          "run": 2,
+          "model": "opencode",
+          "agent_folder": "011_list_issues",
+          "file_exists": true,
+          "syntax_valid": true,
+          "dependency_error": true,
+          "has_entrypoint": true,
+          "entrypoint_callable": true,
+          "final_status": "SUCCESS",
+          "_source_error": null
+        },
+        {
+          "run": 3,
+          "model": "opencode",
+          "agent_folder": "011_list_issues",
+          "file_exists": true,
+          "syntax_valid": true,
+          "dependency_error": false,
+          "has_entrypoint": false,
+          "entrypoint_callable": false,
+          "final_status": "FAILED",
+          "_source_error": "dependency_error: import_runtime_error: name 'ChatOpenai' is not defined\nhas_entrypoint: skipped_not_importable\nentrypoint_callable: skipped_no_entrypoint"
+        }
+      ],
+      "runs_count": 3
+    }
+  ]
+}

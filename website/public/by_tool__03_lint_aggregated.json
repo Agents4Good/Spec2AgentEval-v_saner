@@ -1,0 +1,3395 @@
+{
+  "stage": "lint",
+  "results": [
+    {
+      "model": "claude",
+      "agent": "011_list_issues",
+      "passed": 0.0,
+      "summary": {
+        "ruff": {
+          "total": 18,
+          "by_code": {
+            "E402": 6,
+            "F401": 10,
+            "F541": 2
+          },
+          "sample": [
+            {
+              "code": "E402",
+              "message": "Module level import not at top of file",
+              "row": 11
+            },
+            {
+              "code": "E402",
+              "message": "Module level import not at top of file",
+              "row": 12
+            },
+            {
+              "code": "E402",
+              "message": "Module level import not at top of file",
+              "row": 13
+            },
+            {
+              "code": "F401",
+              "message": "`typing.Annotated` imported but unused",
+              "row": 13
+            },
+            {
+              "code": "E402",
+              "message": "Module level import not at top of file",
+              "row": 14
+            },
+            {
+              "code": "E402",
+              "message": "Module level import not at top of file",
+              "row": 15
+            },
+            {
+              "code": "E402",
+              "message": "Module level import not at top of file",
+              "row": 16
+            },
+            {
+              "code": "F401",
+              "message": "`unittest.mock.MagicMock` imported but unused",
+              "row": 13
+            },
+            {
+              "code": "F401",
+              "message": "`dotenv` imported but unused; consider using `importlib.util.find_spec` to test for availability",
+              "row": 16
+            },
+            {
+              "code": "F401",
+              "message": "`requests` imported but unused; consider using `importlib.util.find_spec` to test for availability",
+              "row": 17
+            },
+            {
+              "code": "F401",
+              "message": "`langgraph` imported but unused; consider using `importlib.util.find_spec` to test for availability",
+              "row": 18
+            },
+            {
+              "code": "F401",
+              "message": "`langchain_openai` imported but unused; consider using `importlib.util.find_spec` to test for availability",
+              "row": 19
+            },
+            {
+              "code": "F401",
+              "message": "`langchain_core` imported but unused; consider using `importlib.util.find_spec` to test for availability",
+              "row": 20
+            },
+            {
+              "code": "F401",
+              "message": "`pytest` imported but unused; consider using `importlib.util.find_spec` to test for availability",
+              "row": 21
+            },
+            {
+              "code": "F541",
+              "message": "f-string without any placeholders",
+              "row": 37
+            },
+            {
+              "code": "F541",
+              "message": "f-string without any placeholders",
+              "row": 39
+            },
+            {
+              "code": "F401",
+              "message": "`agent.agent` imported but unused",
+              "row": 78
+            },
+            {
+              "code": "F401",
+              "message": "`agent.GitHubIssueTool` imported but unused",
+              "row": 78
+            }
+          ]
+        },
+        "pylint": {
+          "total": 72,
+          "by_type": {
+            "warning": 38,
+            "convention": 30,
+            "refactor": 4
+          },
+          "sample": [
+            {
+              "symbol": "broad-exception-caught",
+              "message": "Catching too general exception Exception",
+              "line": 147,
+              "type": "warning"
+            },
+            {
+              "symbol": "import-outside-toplevel",
+              "message": "Import outside toplevel (traceback)",
+              "line": 149,
+              "type": "convention"
+            },
+            {
+              "symbol": "wrong-import-order",
+              "message": "standard import \"json\" should be placed before third party import \"agent.agent\"",
+              "line": 9,
+              "type": "convention"
+            },
+            {
+              "symbol": "line-too-long",
+              "message": "Line too long (104/100)",
+              "line": 124,
+              "type": "convention"
+            },
+            {
+              "symbol": "line-too-long",
+              "message": "Line too long (156/100)",
+              "line": 155,
+              "type": "convention"
+            },
+            {
+              "symbol": "line-too-long",
+              "message": "Line too long (105/100)",
+              "line": 159,
+              "type": "convention"
+            },
+            {
+              "symbol": "line-too-long",
+              "message": "Line too long (129/100)",
+              "line": 214,
+              "type": "convention"
+            },
+            {
+              "symbol": "line-too-long",
+              "message": "Line too long (120/100)",
+              "line": 312,
+              "type": "convention"
+            },
+            {
+              "symbol": "line-too-long",
+              "message": "Line too long (106/100)",
+              "line": 323,
+              "type": "convention"
+            },
+            {
+              "symbol": "line-too-long",
+              "message": "Line too long (114/100)",
+              "line": 329,
+              "type": "convention"
+            },
+            {
+              "symbol": "wrong-import-position",
+              "message": "Import \"import os\" should be placed at the top of the module",
+              "line": 11,
+              "type": "convention"
+            },
+            {
+              "symbol": "wrong-import-position",
+              "message": "Import \"import requests\" should be placed at the top of the module",
+              "line": 12,
+              "type": "convention"
+            },
+            {
+              "symbol": "wrong-import-position",
+              "message": "Import \"from typing import TypedDict, Annotated, List, Dict, Any\" should be placed at the top of the module",
+              "line": 13,
+              "type": "convention"
+            },
+            {
+              "symbol": "wrong-import-position",
+              "message": "Import \"from langgraph.graph import StateGraph, END\" should be placed at the top of the module",
+              "line": 14,
+              "type": "convention"
+            },
+            {
+              "symbol": "wrong-import-position",
+              "message": "Import \"from langchain_openai import ChatOpenAI\" should be placed at the top of the module",
+              "line": 15,
+              "type": "convention"
+            },
+            {
+              "symbol": "wrong-import-position",
+              "message": "Import \"from langchain_core.messages import HumanMessage, SystemMessage\" should be placed at the top of the module",
+              "line": 16,
+              "type": "convention"
+            },
+            {
+              "symbol": "broad-exception-caught",
+              "message": "Catching too general exception Exception",
+              "line": 104,
+              "type": "warning"
+            },
+            {
+              "symbol": "no-else-return",
+              "message": "Unnecessary \"elif\" after \"return\", remove the leading \"el\" from \"elif\"",
+              "line": 61,
+              "type": "refactor"
+            },
+            {
+              "symbol": "too-few-public-methods",
+              "message": "Too few public methods (1/2)",
+              "line": 32,
+              "type": "refactor"
+            },
+            {
+              "symbol": "redefined-outer-name",
+              "message": "Redefining name 'result' from outer scope (line 369)",
+              "line": 117,
+              "type": "warning"
+            }
+          ]
+        },
+        "radon_cc": {
+          "total": 52,
+          "top": [
+            {
+              "file": "generated_agents/by_tool/run_3/claude/011_list_issues/tests.py",
+              "name": "test_output_contract_structure",
+              "rank": "C",
+              "complexity": 17
+            },
+            {
+              "file": "generated_agents/by_tool/run_3/claude/011_list_issues/tests.py",
+              "name": "test_agent_successful_flow_with_matches",
+              "rank": "C",
+              "complexity": 11
+            },
+            {
+              "file": "generated_agents/by_tool/run_3/claude/011_list_issues/agent.py",
+              "name": "apply_filter_node",
+              "rank": "B",
+              "complexity": 9
+            },
+            {
+              "file": "generated_agents/by_tool/run_3/claude/011_list_issues/agent.py",
+              "name": "list_issues",
+              "rank": "B",
+              "complexity": 9
+            },
+            {
+              "file": "generated_agents/by_tool/run_3/claude/011_list_issues/tests.py",
+              "name": "TestAgentEndToEnd",
+              "rank": "B",
+              "complexity": 9
+            },
+            {
+              "file": "generated_agents/by_tool/run_3/claude/011_list_issues/tests.py",
+              "name": "test_trace_contract_structure",
+              "rank": "B",
+              "complexity": 8
+            },
+            {
+              "file": "generated_agents/by_tool/run_3/claude/011_list_issues/tests.py",
+              "name": "test_agent_repository_error_flow",
+              "rank": "B",
+              "complexity": 7
+            },
+            {
+              "file": "generated_agents/by_tool/run_3/claude/011_list_issues/agent.py",
+              "name": "GitHubIssueTool",
+              "rank": "B",
+              "complexity": 6
+            },
+            {
+              "file": "generated_agents/by_tool/run_3/claude/011_list_issues/verify.py",
+              "name": "check_env_vars",
+              "rank": "B",
+              "complexity": 6
+            },
+            {
+              "file": "generated_agents/by_tool/run_3/claude/011_list_issues/tests.py",
+              "name": "test_list_issues_node_success",
+              "rank": "B",
+              "complexity": 6
+            }
+          ]
+        },
+        "radon_mi": {
+          "files": [
+            {
+              "file": "generated_agents/by_tool/run_3/claude/011_list_issues/example.py",
+              "mi": 58.515664565394125,
+              "rank": "A"
+            },
+            {
+              "file": "generated_agents/by_tool/run_3/claude/011_list_issues/agent.py",
+              "mi": 57.23010360940169,
+              "rank": "A"
+            },
+            {
+              "file": "generated_agents/by_tool/run_3/claude/011_list_issues/verify.py",
+              "mi": 47.455160667713066,
+              "rank": "A"
+            },
+            {
+              "file": "generated_agents/by_tool/run_3/claude/011_list_issues/tests.py",
+              "mi": 29.306505942282392,
+              "rank": "A"
+            }
+          ]
+        }
+      },
+      "runs": [
+        {
+          "run": 1,
+          "model": "claude",
+          "agent": "011_list_issues",
+          "passed": false,
+          "summary": {
+            "ruff": {
+              "total": 8,
+              "by_code": {
+                "E402": 6,
+                "F401": 2
+              },
+              "sample": [
+                {
+                  "code": "E402",
+                  "message": "Module level import not at top of file",
+                  "row": 11
+                },
+                {
+                  "code": "E402",
+                  "message": "Module level import not at top of file",
+                  "row": 12
+                },
+                {
+                  "code": "E402",
+                  "message": "Module level import not at top of file",
+                  "row": 13
+                },
+                {
+                  "code": "E402",
+                  "message": "Module level import not at top of file",
+                  "row": 14
+                },
+                {
+                  "code": "E402",
+                  "message": "Module level import not at top of file",
+                  "row": 15
+                },
+                {
+                  "code": "E402",
+                  "message": "Module level import not at top of file",
+                  "row": 16
+                },
+                {
+                  "code": "F401",
+                  "message": "`json` imported but unused",
+                  "row": 13
+                },
+                {
+                  "code": "F401",
+                  "message": "`agent.generate_response` imported but unused",
+                  "row": 15
+                }
+              ]
+            },
+            "pylint": {
+              "total": 23,
+              "by_type": {
+                "convention": 15,
+                "warning": 6,
+                "refactor": 2
+              },
+              "sample": [
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (114/100)",
+                  "line": 5,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (127/100)",
+                  "line": 166,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (113/100)",
+                  "line": 272,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "wrong-import-position",
+                  "message": "Import \"import os\" should be placed at the top of the module",
+                  "line": 11,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "wrong-import-position",
+                  "message": "Import \"import json\" should be placed at the top of the module",
+                  "line": 12,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "wrong-import-position",
+                  "message": "Import \"from typing import TypedDict, List, Dict, Any, Literal\" should be placed at the top of the module",
+                  "line": 13,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "wrong-import-position",
+                  "message": "Import \"from langchain_openai import ChatOpenAI\" should be placed at the top of the module",
+                  "line": 14,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "wrong-import-position",
+                  "message": "Import \"from langgraph.graph import StateGraph, END\" should be placed at the top of the module",
+                  "line": 15,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "wrong-import-position",
+                  "message": "Import \"import requests\" should be placed at the top of the module",
+                  "line": 16,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "broad-exception-caught",
+                  "message": "Catching too general exception Exception",
+                  "line": 121,
+                  "type": "warning"
+                },
+                {
+                  "symbol": "broad-exception-caught",
+                  "message": "Catching too general exception Exception",
+                  "line": 216,
+                  "type": "warning"
+                },
+                {
+                  "symbol": "redefined-outer-name",
+                  "message": "Redefining name 'output' from outer scope (line 330)",
+                  "line": 308,
+                  "type": "warning"
+                },
+                {
+                  "symbol": "redefined-outer-name",
+                  "message": "Redefining name 'trace' from outer scope (line 330)",
+                  "line": 321,
+                  "type": "warning"
+                },
+                {
+                  "symbol": "wrong-import-order",
+                  "message": "standard import \"os\" should be placed before third party import \"dotenv.load_dotenv\"",
+                  "line": 11,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "wrong-import-order",
+                  "message": "standard import \"json\" should be placed before third party import \"dotenv.load_dotenv\"",
+                  "line": 12,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "wrong-import-order",
+                  "message": "standard import \"typing.TypedDict\" should be placed before third party import \"dotenv.load_dotenv\"",
+                  "line": 13,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (108/100)",
+                  "line": 128,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "wrong-import-order",
+                  "message": "standard import \"json\" should be placed before third party import \"pytest\"",
+                  "line": 13,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "wrong-import-order",
+                  "message": "standard import \"unittest.mock.patch\" should be placed before third party import \"pytest\"",
+                  "line": 14,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "unused-import",
+                  "message": "Unused import json",
+                  "line": 13,
+                  "type": "warning"
+                }
+              ]
+            },
+            "radon_cc": {
+              "total": 18,
+              "top": [
+                {
+                  "file": "generated_agents/by_tool/run_1/claude/011_list_issues/tests.py",
+                  "name": "test_b5_response_structure",
+                  "rank": "D",
+                  "complexity": 23
+                },
+                {
+                  "file": "generated_agents/by_tool/run_1/claude/011_list_issues/agent.py",
+                  "name": "apply_filter",
+                  "rank": "C",
+                  "complexity": 14
+                },
+                {
+                  "file": "generated_agents/by_tool/run_1/claude/011_list_issues/tests.py",
+                  "name": "test_integration_full_flow_success",
+                  "rank": "C",
+                  "complexity": 11
+                },
+                {
+                  "file": "generated_agents/by_tool/run_1/claude/011_list_issues/agent.py",
+                  "name": "retrieve_issues",
+                  "rank": "B",
+                  "complexity": 10
+                },
+                {
+                  "file": "generated_agents/by_tool/run_1/claude/011_list_issues/tests.py",
+                  "name": "TestAgentBehaviors",
+                  "rank": "B",
+                  "complexity": 9
+                },
+                {
+                  "file": "generated_agents/by_tool/run_1/claude/011_list_issues/tests.py",
+                  "name": "test_integration_full_flow_failure",
+                  "rank": "B",
+                  "complexity": 7
+                },
+                {
+                  "file": "generated_agents/by_tool/run_1/claude/011_list_issues/tests.py",
+                  "name": "test_b4_invalid_repository_format",
+                  "rank": "B",
+                  "complexity": 6
+                },
+                {
+                  "file": "generated_agents/by_tool/run_1/claude/011_list_issues/tests.py",
+                  "name": "test_b4_repository_not_found",
+                  "rank": "B",
+                  "complexity": 6
+                },
+                {
+                  "file": "generated_agents/by_tool/run_1/claude/011_list_issues/tests.py",
+                  "name": "test_b1_retrieve_issues_success",
+                  "rank": "B",
+                  "complexity": 6
+                },
+                {
+                  "file": "generated_agents/by_tool/run_1/claude/011_list_issues/tests.py",
+                  "name": "test_b2_filter_applied",
+                  "rank": "B",
+                  "complexity": 6
+                }
+              ]
+            },
+            "radon_mi": {
+              "files": [
+                {
+                  "file": "generated_agents/by_tool/run_1/claude/011_list_issues/agent.py",
+                  "mi": 55.319866662093084,
+                  "rank": "A"
+                },
+                {
+                  "file": "generated_agents/by_tool/run_1/claude/011_list_issues/tests.py",
+                  "mi": 43.805041540368656,
+                  "rank": "A"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "run": 2,
+          "model": "claude",
+          "agent": "011_list_issues",
+          "passed": false,
+          "summary": {
+            "ruff": {
+              "total": 9,
+              "by_code": {
+                "E402": 7,
+                "F401": 2
+              },
+              "sample": [
+                {
+                  "code": "E402",
+                  "message": "Module level import not at top of file",
+                  "row": 11
+                },
+                {
+                  "code": "E402",
+                  "message": "Module level import not at top of file",
+                  "row": 12
+                },
+                {
+                  "code": "E402",
+                  "message": "Module level import not at top of file",
+                  "row": 13
+                },
+                {
+                  "code": "F401",
+                  "message": "`typing.Annotated` imported but unused",
+                  "row": 13
+                },
+                {
+                  "code": "E402",
+                  "message": "Module level import not at top of file",
+                  "row": 14
+                },
+                {
+                  "code": "E402",
+                  "message": "Module level import not at top of file",
+                  "row": 15
+                },
+                {
+                  "code": "E402",
+                  "message": "Module level import not at top of file",
+                  "row": 16
+                },
+                {
+                  "code": "E402",
+                  "message": "Module level import not at top of file",
+                  "row": 17
+                },
+                {
+                  "code": "F401",
+                  "message": "`json` imported but unused",
+                  "row": 7
+                }
+              ]
+            },
+            "pylint": {
+              "total": 41,
+              "by_type": {
+                "convention": 26,
+                "warning": 11,
+                "refactor": 4
+              },
+              "sample": [
+                {
+                  "symbol": "missing-function-docstring",
+                  "message": "Missing function or method docstring",
+                  "line": 10,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "missing-function-docstring",
+                  "message": "Missing function or method docstring",
+                  "line": 14,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "broad-exception-caught",
+                  "message": "Catching too general exception Exception",
+                  "line": 49,
+                  "type": "warning"
+                },
+                {
+                  "symbol": "broad-exception-caught",
+                  "message": "Catching too general exception Exception",
+                  "line": 75,
+                  "type": "warning"
+                },
+                {
+                  "symbol": "broad-exception-caught",
+                  "message": "Catching too general exception Exception",
+                  "line": 99,
+                  "type": "warning"
+                },
+                {
+                  "symbol": "too-many-statements",
+                  "message": "Too many statements (53/50)",
+                  "line": 14,
+                  "type": "refactor"
+                },
+                {
+                  "symbol": "wrong-import-order",
+                  "message": "standard import \"json\" should be placed before third party import \"agent.agent\"",
+                  "line": 6,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "wrong-import-order",
+                  "message": "standard import \"os\" should be placed before third party import \"agent.agent\"",
+                  "line": 7,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "wrong-import-position",
+                  "message": "Import \"import os\" should be placed at the top of the module",
+                  "line": 11,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "wrong-import-position",
+                  "message": "Import \"import json\" should be placed at the top of the module",
+                  "line": 12,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "wrong-import-position",
+                  "message": "Import \"from typing import TypedDict, Annotated, Literal, List, Dict, Any\" should be placed at the top of the module",
+                  "line": 13,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "wrong-import-position",
+                  "message": "Import \"from langchain_openai import ChatOpenAI\" should be placed at the top of the module",
+                  "line": 14,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "wrong-import-position",
+                  "message": "Import \"from langgraph.graph import StateGraph, END\" should be placed at the top of the module",
+                  "line": 15,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "wrong-import-position",
+                  "message": "Import \"from langchain_core.messages import HumanMessage, SystemMessage\" should be placed at the top of the module",
+                  "line": 16,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "wrong-import-position",
+                  "message": "Import \"import requests\" should be placed at the top of the module",
+                  "line": 17,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "broad-exception-caught",
+                  "message": "Catching too general exception Exception",
+                  "line": 113,
+                  "type": "warning"
+                },
+                {
+                  "symbol": "no-else-return",
+                  "message": "Unnecessary \"elif\" after \"return\", remove the leading \"el\" from \"elif\"",
+                  "line": 65,
+                  "type": "refactor"
+                },
+                {
+                  "symbol": "too-many-return-statements",
+                  "message": "Too many return statements (7/6)",
+                  "line": 45,
+                  "type": "refactor"
+                },
+                {
+                  "symbol": "too-few-public-methods",
+                  "message": "Too few public methods (1/2)",
+                  "line": 33,
+                  "type": "refactor"
+                },
+                {
+                  "symbol": "redefined-outer-name",
+                  "message": "Redefining name 'result' from outer scope (line 393)",
+                  "line": 139,
+                  "type": "warning"
+                }
+              ]
+            },
+            "radon_cc": {
+              "total": 32,
+              "top": [
+                {
+                  "file": "generated_agents/by_tool/run_2/claude/011_list_issues/tests.py",
+                  "name": "test_output_structure",
+                  "rank": "C",
+                  "complexity": 16
+                },
+                {
+                  "file": "generated_agents/by_tool/run_2/claude/011_list_issues/tests.py",
+                  "name": "TestOutputContract",
+                  "rank": "C",
+                  "complexity": 13
+                },
+                {
+                  "file": "generated_agents/by_tool/run_2/claude/011_list_issues/tests.py",
+                  "name": "test_agent_success_with_matches",
+                  "rank": "C",
+                  "complexity": 11
+                },
+                {
+                  "file": "generated_agents/by_tool/run_2/claude/011_list_issues/agent.py",
+                  "name": "list_issues",
+                  "rank": "B",
+                  "complexity": 10
+                },
+                {
+                  "file": "generated_agents/by_tool/run_2/claude/011_list_issues/example.py",
+                  "name": "main",
+                  "rank": "B",
+                  "complexity": 9
+                },
+                {
+                  "file": "generated_agents/by_tool/run_2/claude/011_list_issues/agent.py",
+                  "name": "filter_issues_node",
+                  "rank": "B",
+                  "complexity": 9
+                },
+                {
+                  "file": "generated_agents/by_tool/run_2/claude/011_list_issues/agent.py",
+                  "name": "GitHubIssuesTool",
+                  "rank": "B",
+                  "complexity": 7
+                },
+                {
+                  "file": "generated_agents/by_tool/run_2/claude/011_list_issues/tests.py",
+                  "name": "TestAgentIntegration",
+                  "rank": "B",
+                  "complexity": 7
+                },
+                {
+                  "file": "generated_agents/by_tool/run_2/claude/011_list_issues/tests.py",
+                  "name": "test_trace_structure",
+                  "rank": "B",
+                  "complexity": 7
+                },
+                {
+                  "file": "generated_agents/by_tool/run_2/claude/011_list_issues/tests.py",
+                  "name": "test_agent_repository_not_found",
+                  "rank": "B",
+                  "complexity": 6
+                }
+              ]
+            },
+            "radon_mi": {
+              "files": [
+                {
+                  "file": "generated_agents/by_tool/run_2/claude/011_list_issues/example.py",
+                  "mi": 64.19834027022434,
+                  "rank": "A"
+                },
+                {
+                  "file": "generated_agents/by_tool/run_2/claude/011_list_issues/agent.py",
+                  "mi": 56.05226502853612,
+                  "rank": "A"
+                },
+                {
+                  "file": "generated_agents/by_tool/run_2/claude/011_list_issues/tests.py",
+                  "mi": 33.20494799584094,
+                  "rank": "A"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "run": 3,
+          "model": "claude",
+          "agent": "011_list_issues",
+          "passed": false,
+          "summary": {
+            "ruff": {
+              "total": 18,
+              "by_code": {
+                "E402": 6,
+                "F401": 10,
+                "F541": 2
+              },
+              "sample": [
+                {
+                  "code": "E402",
+                  "message": "Module level import not at top of file",
+                  "row": 11
+                },
+                {
+                  "code": "E402",
+                  "message": "Module level import not at top of file",
+                  "row": 12
+                },
+                {
+                  "code": "E402",
+                  "message": "Module level import not at top of file",
+                  "row": 13
+                },
+                {
+                  "code": "F401",
+                  "message": "`typing.Annotated` imported but unused",
+                  "row": 13
+                },
+                {
+                  "code": "E402",
+                  "message": "Module level import not at top of file",
+                  "row": 14
+                },
+                {
+                  "code": "E402",
+                  "message": "Module level import not at top of file",
+                  "row": 15
+                },
+                {
+                  "code": "E402",
+                  "message": "Module level import not at top of file",
+                  "row": 16
+                },
+                {
+                  "code": "F401",
+                  "message": "`unittest.mock.MagicMock` imported but unused",
+                  "row": 13
+                },
+                {
+                  "code": "F401",
+                  "message": "`dotenv` imported but unused; consider using `importlib.util.find_spec` to test for availability",
+                  "row": 16
+                },
+                {
+                  "code": "F401",
+                  "message": "`requests` imported but unused; consider using `importlib.util.find_spec` to test for availability",
+                  "row": 17
+                },
+                {
+                  "code": "F401",
+                  "message": "`langgraph` imported but unused; consider using `importlib.util.find_spec` to test for availability",
+                  "row": 18
+                },
+                {
+                  "code": "F401",
+                  "message": "`langchain_openai` imported but unused; consider using `importlib.util.find_spec` to test for availability",
+                  "row": 19
+                },
+                {
+                  "code": "F401",
+                  "message": "`langchain_core` imported but unused; consider using `importlib.util.find_spec` to test for availability",
+                  "row": 20
+                },
+                {
+                  "code": "F401",
+                  "message": "`pytest` imported but unused; consider using `importlib.util.find_spec` to test for availability",
+                  "row": 21
+                },
+                {
+                  "code": "F541",
+                  "message": "f-string without any placeholders",
+                  "row": 37
+                },
+                {
+                  "code": "F541",
+                  "message": "f-string without any placeholders",
+                  "row": 39
+                },
+                {
+                  "code": "F401",
+                  "message": "`agent.agent` imported but unused",
+                  "row": 78
+                },
+                {
+                  "code": "F401",
+                  "message": "`agent.GitHubIssueTool` imported but unused",
+                  "row": 78
+                }
+              ]
+            },
+            "pylint": {
+              "total": 72,
+              "by_type": {
+                "warning": 38,
+                "convention": 30,
+                "refactor": 4
+              },
+              "sample": [
+                {
+                  "symbol": "broad-exception-caught",
+                  "message": "Catching too general exception Exception",
+                  "line": 147,
+                  "type": "warning"
+                },
+                {
+                  "symbol": "import-outside-toplevel",
+                  "message": "Import outside toplevel (traceback)",
+                  "line": 149,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "wrong-import-order",
+                  "message": "standard import \"json\" should be placed before third party import \"agent.agent\"",
+                  "line": 9,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (104/100)",
+                  "line": 124,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (156/100)",
+                  "line": 155,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (105/100)",
+                  "line": 159,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (129/100)",
+                  "line": 214,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (120/100)",
+                  "line": 312,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (106/100)",
+                  "line": 323,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (114/100)",
+                  "line": 329,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "wrong-import-position",
+                  "message": "Import \"import os\" should be placed at the top of the module",
+                  "line": 11,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "wrong-import-position",
+                  "message": "Import \"import requests\" should be placed at the top of the module",
+                  "line": 12,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "wrong-import-position",
+                  "message": "Import \"from typing import TypedDict, Annotated, List, Dict, Any\" should be placed at the top of the module",
+                  "line": 13,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "wrong-import-position",
+                  "message": "Import \"from langgraph.graph import StateGraph, END\" should be placed at the top of the module",
+                  "line": 14,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "wrong-import-position",
+                  "message": "Import \"from langchain_openai import ChatOpenAI\" should be placed at the top of the module",
+                  "line": 15,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "wrong-import-position",
+                  "message": "Import \"from langchain_core.messages import HumanMessage, SystemMessage\" should be placed at the top of the module",
+                  "line": 16,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "broad-exception-caught",
+                  "message": "Catching too general exception Exception",
+                  "line": 104,
+                  "type": "warning"
+                },
+                {
+                  "symbol": "no-else-return",
+                  "message": "Unnecessary \"elif\" after \"return\", remove the leading \"el\" from \"elif\"",
+                  "line": 61,
+                  "type": "refactor"
+                },
+                {
+                  "symbol": "too-few-public-methods",
+                  "message": "Too few public methods (1/2)",
+                  "line": 32,
+                  "type": "refactor"
+                },
+                {
+                  "symbol": "redefined-outer-name",
+                  "message": "Redefining name 'result' from outer scope (line 369)",
+                  "line": 117,
+                  "type": "warning"
+                }
+              ]
+            },
+            "radon_cc": {
+              "total": 52,
+              "top": [
+                {
+                  "file": "generated_agents/by_tool/run_3/claude/011_list_issues/tests.py",
+                  "name": "test_output_contract_structure",
+                  "rank": "C",
+                  "complexity": 17
+                },
+                {
+                  "file": "generated_agents/by_tool/run_3/claude/011_list_issues/tests.py",
+                  "name": "test_agent_successful_flow_with_matches",
+                  "rank": "C",
+                  "complexity": 11
+                },
+                {
+                  "file": "generated_agents/by_tool/run_3/claude/011_list_issues/agent.py",
+                  "name": "apply_filter_node",
+                  "rank": "B",
+                  "complexity": 9
+                },
+                {
+                  "file": "generated_agents/by_tool/run_3/claude/011_list_issues/agent.py",
+                  "name": "list_issues",
+                  "rank": "B",
+                  "complexity": 9
+                },
+                {
+                  "file": "generated_agents/by_tool/run_3/claude/011_list_issues/tests.py",
+                  "name": "TestAgentEndToEnd",
+                  "rank": "B",
+                  "complexity": 9
+                },
+                {
+                  "file": "generated_agents/by_tool/run_3/claude/011_list_issues/tests.py",
+                  "name": "test_trace_contract_structure",
+                  "rank": "B",
+                  "complexity": 8
+                },
+                {
+                  "file": "generated_agents/by_tool/run_3/claude/011_list_issues/tests.py",
+                  "name": "test_agent_repository_error_flow",
+                  "rank": "B",
+                  "complexity": 7
+                },
+                {
+                  "file": "generated_agents/by_tool/run_3/claude/011_list_issues/agent.py",
+                  "name": "GitHubIssueTool",
+                  "rank": "B",
+                  "complexity": 6
+                },
+                {
+                  "file": "generated_agents/by_tool/run_3/claude/011_list_issues/verify.py",
+                  "name": "check_env_vars",
+                  "rank": "B",
+                  "complexity": 6
+                },
+                {
+                  "file": "generated_agents/by_tool/run_3/claude/011_list_issues/tests.py",
+                  "name": "test_list_issues_node_success",
+                  "rank": "B",
+                  "complexity": 6
+                }
+              ]
+            },
+            "radon_mi": {
+              "files": [
+                {
+                  "file": "generated_agents/by_tool/run_3/claude/011_list_issues/example.py",
+                  "mi": 58.515664565394125,
+                  "rank": "A"
+                },
+                {
+                  "file": "generated_agents/by_tool/run_3/claude/011_list_issues/agent.py",
+                  "mi": 57.23010360940169,
+                  "rank": "A"
+                },
+                {
+                  "file": "generated_agents/by_tool/run_3/claude/011_list_issues/verify.py",
+                  "mi": 47.455160667713066,
+                  "rank": "A"
+                },
+                {
+                  "file": "generated_agents/by_tool/run_3/claude/011_list_issues/tests.py",
+                  "mi": 29.306505942282392,
+                  "rank": "A"
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "runs_count": 3
+    },
+    {
+      "model": "codex",
+      "agent": "011_list_issues",
+      "passed": 0.0,
+      "summary": {
+        "ruff": {
+          "total": 18,
+          "by_code": {
+            "F401": 1,
+            "F841": 1,
+            "E701": 13,
+            "E702": 3
+          },
+          "sample": [
+            {
+              "code": "F401",
+              "message": "`langchain_openai.ChatOpenAI` imported but unused",
+              "row": 12
+            },
+            {
+              "code": "F841",
+              "message": "Local variable `init` is assigned to but never used",
+              "row": 49
+            },
+            {
+              "code": "E701",
+              "message": "Multiple statements on one line (colon)",
+              "row": 64
+            },
+            {
+              "code": "E701",
+              "message": "Multiple statements on one line (colon)",
+              "row": 65
+            },
+            {
+              "code": "E701",
+              "message": "Multiple statements on one line (colon)",
+              "row": 66
+            },
+            {
+              "code": "E701",
+              "message": "Multiple statements on one line (colon)",
+              "row": 67
+            },
+            {
+              "code": "E701",
+              "message": "Multiple statements on one line (colon)",
+              "row": 68
+            },
+            {
+              "code": "E701",
+              "message": "Multiple statements on one line (colon)",
+              "row": 108
+            },
+            {
+              "code": "E701",
+              "message": "Multiple statements on one line (colon)",
+              "row": 109
+            },
+            {
+              "code": "E701",
+              "message": "Multiple statements on one line (colon)",
+              "row": 113
+            },
+            {
+              "code": "E701",
+              "message": "Multiple statements on one line (colon)",
+              "row": 117
+            },
+            {
+              "code": "E701",
+              "message": "Multiple statements on one line (colon)",
+              "row": 119
+            },
+            {
+              "code": "E701",
+              "message": "Multiple statements on one line (colon)",
+              "row": 121
+            },
+            {
+              "code": "E701",
+              "message": "Multiple statements on one line (colon)",
+              "row": 123
+            },
+            {
+              "code": "E701",
+              "message": "Multiple statements on one line (colon)",
+              "row": 138
+            },
+            {
+              "code": "E702",
+              "message": "Multiple statements on one line (semicolon)",
+              "row": 147
+            },
+            {
+              "code": "E702",
+              "message": "Multiple statements on one line (semicolon)",
+              "row": 147
+            },
+            {
+              "code": "E702",
+              "message": "Multiple statements on one line (semicolon)",
+              "row": 150
+            }
+          ]
+        },
+        "pylint": {
+          "total": 47,
+          "by_type": {
+            "convention": 39,
+            "refactor": 3,
+            "warning": 5
+          },
+          "sample": [
+            {
+              "symbol": "line-too-long",
+              "message": "Line too long (103/100)",
+              "line": 26,
+              "type": "convention"
+            },
+            {
+              "symbol": "line-too-long",
+              "message": "Line too long (104/100)",
+              "line": 28,
+              "type": "convention"
+            },
+            {
+              "symbol": "line-too-long",
+              "message": "Line too long (101/100)",
+              "line": 50,
+              "type": "convention"
+            },
+            {
+              "symbol": "line-too-long",
+              "message": "Line too long (110/100)",
+              "line": 52,
+              "type": "convention"
+            },
+            {
+              "symbol": "line-too-long",
+              "message": "Line too long (178/100)",
+              "line": 112,
+              "type": "convention"
+            },
+            {
+              "symbol": "line-too-long",
+              "message": "Line too long (187/100)",
+              "line": 132,
+              "type": "convention"
+            },
+            {
+              "symbol": "line-too-long",
+              "message": "Line too long (147/100)",
+              "line": 134,
+              "type": "convention"
+            },
+            {
+              "symbol": "line-too-long",
+              "message": "Line too long (147/100)",
+              "line": 137,
+              "type": "convention"
+            },
+            {
+              "symbol": "line-too-long",
+              "message": "Line too long (152/100)",
+              "line": 138,
+              "type": "convention"
+            },
+            {
+              "symbol": "line-too-long",
+              "message": "Line too long (165/100)",
+              "line": 143,
+              "type": "convention"
+            },
+            {
+              "symbol": "line-too-long",
+              "message": "Line too long (123/100)",
+              "line": 144,
+              "type": "convention"
+            },
+            {
+              "symbol": "line-too-long",
+              "message": "Line too long (158/100)",
+              "line": 145,
+              "type": "convention"
+            },
+            {
+              "symbol": "line-too-long",
+              "message": "Line too long (109/100)",
+              "line": 147,
+              "type": "convention"
+            },
+            {
+              "symbol": "line-too-long",
+              "message": "Line too long (135/100)",
+              "line": 149,
+              "type": "convention"
+            },
+            {
+              "symbol": "line-too-long",
+              "message": "Line too long (200/100)",
+              "line": 160,
+              "type": "convention"
+            },
+            {
+              "symbol": "line-too-long",
+              "message": "Line too long (104/100)",
+              "line": 163,
+              "type": "convention"
+            },
+            {
+              "symbol": "missing-function-docstring",
+              "message": "Missing function or method docstring",
+              "line": 42,
+              "type": "convention"
+            },
+            {
+              "symbol": "too-many-locals",
+              "message": "Too many local variables (20/15)",
+              "line": 42,
+              "type": "refactor"
+            },
+            {
+              "symbol": "multiple-statements",
+              "message": "More than one statement on a single line",
+              "line": 64,
+              "type": "convention"
+            },
+            {
+              "symbol": "multiple-statements",
+              "message": "More than one statement on a single line",
+              "line": 65,
+              "type": "convention"
+            }
+          ]
+        },
+        "radon_cc": {
+          "total": 14,
+          "top": [
+            {
+              "file": "generated_agents/by_tool/run_3/codex/011_list_issues/agent.py",
+              "name": "list_issues",
+              "rank": "D",
+              "complexity": 27
+            },
+            {
+              "file": "generated_agents/by_tool/run_3/codex/011_list_issues/agent.py",
+              "name": "_filter_issues",
+              "rank": "C",
+              "complexity": 13
+            },
+            {
+              "file": "generated_agents/by_tool/run_3/codex/011_list_issues/agent.py",
+              "name": "GitHubMCPClient",
+              "rank": "C",
+              "complexity": 13
+            },
+            {
+              "file": "generated_agents/by_tool/run_3/codex/011_list_issues/agent.py",
+              "name": "_rpc",
+              "rank": "B",
+              "complexity": 8
+            },
+            {
+              "file": "generated_agents/by_tool/run_3/codex/011_list_issues/agent.py",
+              "name": "agent",
+              "rank": "A",
+              "complexity": 4
+            },
+            {
+              "file": "generated_agents/by_tool/run_3/codex/011_list_issues/tests.py",
+              "name": "FilterIssuesTests",
+              "rank": "A",
+              "complexity": 3
+            },
+            {
+              "file": "generated_agents/by_tool/run_3/codex/011_list_issues/agent.py",
+              "name": "_build_graph",
+              "rank": "A",
+              "complexity": 2
+            },
+            {
+              "file": "generated_agents/by_tool/run_3/codex/011_list_issues/tests.py",
+              "name": "test_filters_open_issues",
+              "rank": "A",
+              "complexity": 2
+            },
+            {
+              "file": "generated_agents/by_tool/run_3/codex/011_list_issues/tests.py",
+              "name": "test_filters_title_and_state",
+              "rank": "A",
+              "complexity": 2
+            },
+            {
+              "file": "generated_agents/by_tool/run_3/codex/011_list_issues/tests.py",
+              "name": "test_empty_result_is_valid_success",
+              "rank": "A",
+              "complexity": 2
+            }
+          ]
+        },
+        "radon_mi": {
+          "files": [
+            {
+              "file": "generated_agents/by_tool/run_3/codex/011_list_issues/agent.py",
+              "mi": 34.787126055549905,
+              "rank": "A"
+            },
+            {
+              "file": "generated_agents/by_tool/run_3/codex/011_list_issues/tests.py",
+              "mi": 62.210869674535694,
+              "rank": "A"
+            }
+          ]
+        }
+      },
+      "runs": [
+        {
+          "run": 1,
+          "model": "codex",
+          "agent": "011_list_issues",
+          "passed": false,
+          "summary": {
+            "ruff": {
+              "total": 0,
+              "by_code": {},
+              "sample": []
+            },
+            "pylint": {
+              "total": 38,
+              "by_type": {
+                "convention": 33,
+                "refactor": 2,
+                "warning": 3
+              },
+              "sample": [
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (119/100)",
+                  "line": 82,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (104/100)",
+                  "line": 136,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (104/100)",
+                  "line": 154,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (129/100)",
+                  "line": 155,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (115/100)",
+                  "line": 156,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (112/100)",
+                  "line": 157,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (125/100)",
+                  "line": 159,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (146/100)",
+                  "line": 164,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (112/100)",
+                  "line": 167,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (101/100)",
+                  "line": 189,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (109/100)",
+                  "line": 190,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (109/100)",
+                  "line": 202,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (106/100)",
+                  "line": 208,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (114/100)",
+                  "line": 209,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (127/100)",
+                  "line": 211,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (107/100)",
+                  "line": 212,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (103/100)",
+                  "line": 216,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (113/100)",
+                  "line": 218,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (107/100)",
+                  "line": 219,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (103/100)",
+                  "line": 223,
+                  "type": "convention"
+                }
+              ]
+            },
+            "radon_cc": {
+              "total": 16,
+              "top": [
+                {
+                  "file": "generated_agents/by_tool/run_1/codex/011_list_issues/agent.py",
+                  "name": "agent",
+                  "rank": "C",
+                  "complexity": 14
+                },
+                {
+                  "file": "generated_agents/by_tool/run_1/codex/011_list_issues/agent.py",
+                  "name": "_call_github_mcp",
+                  "rank": "C",
+                  "complexity": 13
+                },
+                {
+                  "file": "generated_agents/by_tool/run_1/codex/011_list_issues/agent.py",
+                  "name": "_normalize_issues",
+                  "rank": "C",
+                  "complexity": 13
+                },
+                {
+                  "file": "generated_agents/by_tool/run_1/codex/011_list_issues/agent.py",
+                  "name": "_fetch_issues",
+                  "rank": "A",
+                  "complexity": 4
+                },
+                {
+                  "file": "generated_agents/by_tool/run_1/codex/011_list_issues/agent.py",
+                  "name": "build_graph",
+                  "rank": "A",
+                  "complexity": 4
+                },
+                {
+                  "file": "generated_agents/by_tool/run_1/codex/011_list_issues/agent.py",
+                  "name": "_mcp_text",
+                  "rank": "A",
+                  "complexity": 3
+                },
+                {
+                  "file": "generated_agents/by_tool/run_1/codex/011_list_issues/tests.py",
+                  "name": "AgentContractTests",
+                  "rank": "A",
+                  "complexity": 3
+                },
+                {
+                  "file": "generated_agents/by_tool/run_1/codex/011_list_issues/tests.py",
+                  "name": "test_access_failure_has_structured_failure",
+                  "rank": "A",
+                  "complexity": 3
+                },
+                {
+                  "file": "generated_agents/by_tool/run_1/codex/011_list_issues/tests.py",
+                  "name": "FixedModel",
+                  "rank": "A",
+                  "complexity": 2
+                },
+                {
+                  "file": "generated_agents/by_tool/run_1/codex/011_list_issues/tests.py",
+                  "name": "test_filters_retrieved_issues_and_emits_behavior_trace",
+                  "rank": "A",
+                  "complexity": 2
+                }
+              ]
+            },
+            "radon_mi": {
+              "files": [
+                {
+                  "file": "generated_agents/by_tool/run_1/codex/011_list_issues/agent.py",
+                  "mi": 32.421692929672425,
+                  "rank": "A"
+                },
+                {
+                  "file": "generated_agents/by_tool/run_1/codex/011_list_issues/tests.py",
+                  "mi": 61.08033835259576,
+                  "rank": "A"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "run": 2,
+          "model": "codex",
+          "agent": "011_list_issues",
+          "passed": false,
+          "summary": {
+            "ruff": {
+              "total": 1,
+              "by_code": {
+                "F401": 1
+              },
+              "sample": [
+                {
+                  "code": "F401",
+                  "message": "`uuid` imported but unused",
+                  "row": 7
+                }
+              ]
+            },
+            "pylint": {
+              "total": 38,
+              "by_type": {
+                "convention": 32,
+                "warning": 6
+              },
+              "sample": [
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (101/100)",
+                  "line": 62,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (105/100)",
+                  "line": 70,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (117/100)",
+                  "line": 102,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (169/100)",
+                  "line": 108,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (108/100)",
+                  "line": 123,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (105/100)",
+                  "line": 148,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (175/100)",
+                  "line": 158,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (138/100)",
+                  "line": 160,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (125/100)",
+                  "line": 163,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (189/100)",
+                  "line": 164,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (185/100)",
+                  "line": 167,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (109/100)",
+                  "line": 173,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (154/100)",
+                  "line": 176,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (140/100)",
+                  "line": 184,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (145/100)",
+                  "line": 194,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (113/100)",
+                  "line": 201,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (107/100)",
+                  "line": 202,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (111/100)",
+                  "line": 205,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (192/100)",
+                  "line": 206,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (169/100)",
+                  "line": 208,
+                  "type": "convention"
+                }
+              ]
+            },
+            "radon_cc": {
+              "total": 18,
+              "top": [
+                {
+                  "file": "generated_agents/by_tool/run_2/codex/011_list_issues/agent.py",
+                  "name": "retrieve_issues",
+                  "rank": "C",
+                  "complexity": 19
+                },
+                {
+                  "file": "generated_agents/by_tool/run_2/codex/011_list_issues/agent.py",
+                  "name": "agent",
+                  "rank": "C",
+                  "complexity": 11
+                },
+                {
+                  "file": "generated_agents/by_tool/run_2/codex/011_list_issues/agent.py",
+                  "name": "_matches",
+                  "rank": "B",
+                  "complexity": 10
+                },
+                {
+                  "file": "generated_agents/by_tool/run_2/codex/011_list_issues/agent.py",
+                  "name": "_post",
+                  "rank": "B",
+                  "complexity": 8
+                },
+                {
+                  "file": "generated_agents/by_tool/run_2/codex/011_list_issues/agent.py",
+                  "name": "GitHubMCP",
+                  "rank": "B",
+                  "complexity": 7
+                },
+                {
+                  "file": "generated_agents/by_tool/run_2/codex/011_list_issues/agent.py",
+                  "name": "call_tool",
+                  "rank": "B",
+                  "complexity": 7
+                },
+                {
+                  "file": "generated_agents/by_tool/run_2/codex/011_list_issues/agent.py",
+                  "name": "_normalize_issue",
+                  "rank": "A",
+                  "complexity": 4
+                },
+                {
+                  "file": "generated_agents/by_tool/run_2/codex/011_list_issues/agent.py",
+                  "name": "_request",
+                  "rank": "A",
+                  "complexity": 3
+                },
+                {
+                  "file": "generated_agents/by_tool/run_2/codex/011_list_issues/agent.py",
+                  "name": "_graph",
+                  "rank": "A",
+                  "complexity": 2
+                },
+                {
+                  "file": "generated_agents/by_tool/run_2/codex/011_list_issues/tests.py",
+                  "name": "AgentContractTests",
+                  "rank": "A",
+                  "complexity": 2
+                }
+              ]
+            },
+            "radon_mi": {
+              "files": [
+                {
+                  "file": "generated_agents/by_tool/run_2/codex/011_list_issues/agent.py",
+                  "mi": 30.59320974231855,
+                  "rank": "A"
+                },
+                {
+                  "file": "generated_agents/by_tool/run_2/codex/011_list_issues/tests.py",
+                  "mi": 58.953834475426646,
+                  "rank": "A"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "run": 3,
+          "model": "codex",
+          "agent": "011_list_issues",
+          "passed": false,
+          "summary": {
+            "ruff": {
+              "total": 18,
+              "by_code": {
+                "F401": 1,
+                "F841": 1,
+                "E701": 13,
+                "E702": 3
+              },
+              "sample": [
+                {
+                  "code": "F401",
+                  "message": "`langchain_openai.ChatOpenAI` imported but unused",
+                  "row": 12
+                },
+                {
+                  "code": "F841",
+                  "message": "Local variable `init` is assigned to but never used",
+                  "row": 49
+                },
+                {
+                  "code": "E701",
+                  "message": "Multiple statements on one line (colon)",
+                  "row": 64
+                },
+                {
+                  "code": "E701",
+                  "message": "Multiple statements on one line (colon)",
+                  "row": 65
+                },
+                {
+                  "code": "E701",
+                  "message": "Multiple statements on one line (colon)",
+                  "row": 66
+                },
+                {
+                  "code": "E701",
+                  "message": "Multiple statements on one line (colon)",
+                  "row": 67
+                },
+                {
+                  "code": "E701",
+                  "message": "Multiple statements on one line (colon)",
+                  "row": 68
+                },
+                {
+                  "code": "E701",
+                  "message": "Multiple statements on one line (colon)",
+                  "row": 108
+                },
+                {
+                  "code": "E701",
+                  "message": "Multiple statements on one line (colon)",
+                  "row": 109
+                },
+                {
+                  "code": "E701",
+                  "message": "Multiple statements on one line (colon)",
+                  "row": 113
+                },
+                {
+                  "code": "E701",
+                  "message": "Multiple statements on one line (colon)",
+                  "row": 117
+                },
+                {
+                  "code": "E701",
+                  "message": "Multiple statements on one line (colon)",
+                  "row": 119
+                },
+                {
+                  "code": "E701",
+                  "message": "Multiple statements on one line (colon)",
+                  "row": 121
+                },
+                {
+                  "code": "E701",
+                  "message": "Multiple statements on one line (colon)",
+                  "row": 123
+                },
+                {
+                  "code": "E701",
+                  "message": "Multiple statements on one line (colon)",
+                  "row": 138
+                },
+                {
+                  "code": "E702",
+                  "message": "Multiple statements on one line (semicolon)",
+                  "row": 147
+                },
+                {
+                  "code": "E702",
+                  "message": "Multiple statements on one line (semicolon)",
+                  "row": 147
+                },
+                {
+                  "code": "E702",
+                  "message": "Multiple statements on one line (semicolon)",
+                  "row": 150
+                }
+              ]
+            },
+            "pylint": {
+              "total": 47,
+              "by_type": {
+                "convention": 39,
+                "refactor": 3,
+                "warning": 5
+              },
+              "sample": [
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (103/100)",
+                  "line": 26,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (104/100)",
+                  "line": 28,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (101/100)",
+                  "line": 50,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (110/100)",
+                  "line": 52,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (178/100)",
+                  "line": 112,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (187/100)",
+                  "line": 132,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (147/100)",
+                  "line": 134,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (147/100)",
+                  "line": 137,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (152/100)",
+                  "line": 138,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (165/100)",
+                  "line": 143,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (123/100)",
+                  "line": 144,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (158/100)",
+                  "line": 145,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (109/100)",
+                  "line": 147,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (135/100)",
+                  "line": 149,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (200/100)",
+                  "line": 160,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (104/100)",
+                  "line": 163,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "missing-function-docstring",
+                  "message": "Missing function or method docstring",
+                  "line": 42,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "too-many-locals",
+                  "message": "Too many local variables (20/15)",
+                  "line": 42,
+                  "type": "refactor"
+                },
+                {
+                  "symbol": "multiple-statements",
+                  "message": "More than one statement on a single line",
+                  "line": 64,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "multiple-statements",
+                  "message": "More than one statement on a single line",
+                  "line": 65,
+                  "type": "convention"
+                }
+              ]
+            },
+            "radon_cc": {
+              "total": 14,
+              "top": [
+                {
+                  "file": "generated_agents/by_tool/run_3/codex/011_list_issues/agent.py",
+                  "name": "list_issues",
+                  "rank": "D",
+                  "complexity": 27
+                },
+                {
+                  "file": "generated_agents/by_tool/run_3/codex/011_list_issues/agent.py",
+                  "name": "_filter_issues",
+                  "rank": "C",
+                  "complexity": 13
+                },
+                {
+                  "file": "generated_agents/by_tool/run_3/codex/011_list_issues/agent.py",
+                  "name": "GitHubMCPClient",
+                  "rank": "C",
+                  "complexity": 13
+                },
+                {
+                  "file": "generated_agents/by_tool/run_3/codex/011_list_issues/agent.py",
+                  "name": "_rpc",
+                  "rank": "B",
+                  "complexity": 8
+                },
+                {
+                  "file": "generated_agents/by_tool/run_3/codex/011_list_issues/agent.py",
+                  "name": "agent",
+                  "rank": "A",
+                  "complexity": 4
+                },
+                {
+                  "file": "generated_agents/by_tool/run_3/codex/011_list_issues/tests.py",
+                  "name": "FilterIssuesTests",
+                  "rank": "A",
+                  "complexity": 3
+                },
+                {
+                  "file": "generated_agents/by_tool/run_3/codex/011_list_issues/agent.py",
+                  "name": "_build_graph",
+                  "rank": "A",
+                  "complexity": 2
+                },
+                {
+                  "file": "generated_agents/by_tool/run_3/codex/011_list_issues/tests.py",
+                  "name": "test_filters_open_issues",
+                  "rank": "A",
+                  "complexity": 2
+                },
+                {
+                  "file": "generated_agents/by_tool/run_3/codex/011_list_issues/tests.py",
+                  "name": "test_filters_title_and_state",
+                  "rank": "A",
+                  "complexity": 2
+                },
+                {
+                  "file": "generated_agents/by_tool/run_3/codex/011_list_issues/tests.py",
+                  "name": "test_empty_result_is_valid_success",
+                  "rank": "A",
+                  "complexity": 2
+                }
+              ]
+            },
+            "radon_mi": {
+              "files": [
+                {
+                  "file": "generated_agents/by_tool/run_3/codex/011_list_issues/agent.py",
+                  "mi": 34.787126055549905,
+                  "rank": "A"
+                },
+                {
+                  "file": "generated_agents/by_tool/run_3/codex/011_list_issues/tests.py",
+                  "mi": 62.210869674535694,
+                  "rank": "A"
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "runs_count": 3
+    },
+    {
+      "model": "opencode",
+      "agent": "011_list_issues",
+      "passed": 0.0,
+      "summary": {
+        "ruff": {
+          "total": 12,
+          "by_code": {
+            "E402": 5,
+            "F841": 1,
+            "F821": 1,
+            "F401": 5
+          },
+          "sample": [
+            {
+              "code": "E402",
+              "message": "Module level import not at top of file",
+              "row": 16
+            },
+            {
+              "code": "E402",
+              "message": "Module level import not at top of file",
+              "row": 17
+            },
+            {
+              "code": "E402",
+              "message": "Module level import not at top of file",
+              "row": 18
+            },
+            {
+              "code": "E402",
+              "message": "Module level import not at top of file",
+              "row": 19
+            },
+            {
+              "code": "F841",
+              "message": "Local variable `message` is assigned to but never used",
+              "row": 187
+            },
+            {
+              "code": "F821",
+              "message": "Undefined name `ChatOpenai`",
+              "row": 312
+            },
+            {
+              "code": "F401",
+              "message": "`json` imported but unused",
+              "row": 7
+            },
+            {
+              "code": "F401",
+              "message": "`os` imported but unused",
+              "row": 8
+            },
+            {
+              "code": "F401",
+              "message": "`unittest.mock.MagicMock` imported but unused",
+              "row": 10
+            },
+            {
+              "code": "F401",
+              "message": "`unittest.mock.AsyncMock` imported but unused",
+              "row": 10
+            },
+            {
+              "code": "E402",
+              "message": "Module level import not at top of file",
+              "row": 15
+            },
+            {
+              "code": "F401",
+              "message": "`agent._build_output` imported but unused",
+              "row": 15
+            }
+          ]
+        },
+        "pylint": {
+          "total": 36,
+          "by_type": {
+            "convention": 10,
+            "warning": 22,
+            "error": 3,
+            "refactor": 1
+          },
+          "sample": [
+            {
+              "symbol": "wrong-import-position",
+              "message": "Import \"from langgraph.graph import StateGraph, END\" should be placed at the top of the module",
+              "line": 16,
+              "type": "convention"
+            },
+            {
+              "symbol": "wrong-import-position",
+              "message": "Import \"from langchain_openai import ChatOpenAI\" should be placed at the top of the module",
+              "line": 17,
+              "type": "convention"
+            },
+            {
+              "symbol": "wrong-import-position",
+              "message": "Import \"from langchain_core.messages import HumanMessage, SystemMessage\" should be placed at the top of the module",
+              "line": 18,
+              "type": "convention"
+            },
+            {
+              "symbol": "wrong-import-position",
+              "message": "Import \"from langchain_mcp_adapters.client import MultiServerMCPClient\" should be placed at the top of the module",
+              "line": 19,
+              "type": "convention"
+            },
+            {
+              "symbol": "missing-class-docstring",
+              "message": "Missing class docstring",
+              "line": 26,
+              "type": "convention"
+            },
+            {
+              "symbol": "redefined-outer-name",
+              "message": "Redefining name 'output' from outer scope (line 427)",
+              "line": 75,
+              "type": "warning"
+            },
+            {
+              "symbol": "broad-exception-caught",
+              "message": "Catching too general exception Exception",
+              "line": 94,
+              "type": "warning"
+            },
+            {
+              "symbol": "broad-exception-caught",
+              "message": "Catching too general exception Exception",
+              "line": 135,
+              "type": "warning"
+            },
+            {
+              "symbol": "broad-exception-caught",
+              "message": "Catching too general exception Exception",
+              "line": 175,
+              "type": "warning"
+            },
+            {
+              "symbol": "unused-variable",
+              "message": "Unused variable 'message'",
+              "line": 187,
+              "type": "warning"
+            },
+            {
+              "symbol": "import-outside-toplevel",
+              "message": "Import outside toplevel (asyncio)",
+              "line": 220,
+              "type": "convention"
+            },
+            {
+              "symbol": "no-member",
+              "message": "Instance of 'MultiServerMCPClient' has no 'list_tools' member",
+              "line": 239,
+              "type": "error"
+            },
+            {
+              "symbol": "no-member",
+              "message": "Instance of 'MultiServerMCPClient' has no 'call_tool' member",
+              "line": 257,
+              "type": "error"
+            },
+            {
+              "symbol": "redefined-outer-name",
+              "message": "Redefining name 'json' from outer scope (line 429)",
+              "line": 285,
+              "type": "warning"
+            },
+            {
+              "symbol": "import-outside-toplevel",
+              "message": "Import outside toplevel (json)",
+              "line": 285,
+              "type": "convention"
+            },
+            {
+              "symbol": "undefined-variable",
+              "message": "Undefined variable 'ChatOpenai'",
+              "line": 312,
+              "type": "error"
+            },
+            {
+              "symbol": "redefined-outer-name",
+              "message": "Redefining name 'json' from outer scope (line 429)",
+              "line": 371,
+              "type": "warning"
+            },
+            {
+              "symbol": "import-outside-toplevel",
+              "message": "Import outside toplevel (json)",
+              "line": 371,
+              "type": "convention"
+            },
+            {
+              "symbol": "wrong-import-position",
+              "message": "Import \"from agent import agent, _build_output, _parse_filter_response\" should be placed at the top of the module",
+              "line": 15,
+              "type": "convention"
+            },
+            {
+              "symbol": "unused-variable",
+              "message": "Unused variable 'trace'",
+              "line": 59,
+              "type": "warning"
+            }
+          ]
+        },
+        "radon_cc": {
+          "total": 37,
+          "top": [
+            {
+              "file": "generated_agents/by_tool/run_3/opencode/011_list_issues/tests.py",
+              "name": "test_b5_output_contains_all_required_fields",
+              "rank": "C",
+              "complexity": 12
+            },
+            {
+              "file": "generated_agents/by_tool/run_3/opencode/011_list_issues/tests.py",
+              "name": "TestB5StructuredResponse",
+              "rank": "C",
+              "complexity": 11
+            },
+            {
+              "file": "generated_agents/by_tool/run_3/opencode/011_list_issues/tests.py",
+              "name": "test_b5_trace_structure",
+              "rank": "C",
+              "complexity": 11
+            },
+            {
+              "file": "generated_agents/by_tool/run_3/opencode/011_list_issues/tests.py",
+              "name": "TestB1ListIssues",
+              "rank": "B",
+              "complexity": 9
+            },
+            {
+              "file": "generated_agents/by_tool/run_3/opencode/011_list_issues/agent.py",
+              "name": "_apply_filter",
+              "rank": "B",
+              "complexity": 8
+            },
+            {
+              "file": "generated_agents/by_tool/run_3/opencode/011_list_issues/tests.py",
+              "name": "test_b1_issues_retrieved_successfully",
+              "rank": "B",
+              "complexity": 8
+            },
+            {
+              "file": "generated_agents/by_tool/run_3/opencode/011_list_issues/tests.py",
+              "name": "test_b1_issues_contain_required_fields",
+              "rank": "B",
+              "complexity": 8
+            },
+            {
+              "file": "generated_agents/by_tool/run_3/opencode/011_list_issues/tests.py",
+              "name": "test_b2_filter_narrows_results",
+              "rank": "B",
+              "complexity": 8
+            },
+            {
+              "file": "generated_agents/by_tool/run_3/opencode/011_list_issues/tests.py",
+              "name": "TestB3NoMatches",
+              "rank": "B",
+              "complexity": 8
+            },
+            {
+              "file": "generated_agents/by_tool/run_3/opencode/011_list_issues/tests.py",
+              "name": "test_no_match_path_b1_b2_b3_b5",
+              "rank": "B",
+              "complexity": 8
+            }
+          ]
+        },
+        "radon_mi": {
+          "files": [
+            {
+              "file": "generated_agents/by_tool/run_3/opencode/011_list_issues/agent.py",
+              "mi": 52.95121154096572,
+              "rank": "A"
+            },
+            {
+              "file": "generated_agents/by_tool/run_3/opencode/011_list_issues/tests.py",
+              "mi": 35.64076625248439,
+              "rank": "A"
+            }
+          ]
+        }
+      },
+      "runs": [
+        {
+          "run": 1,
+          "model": "opencode",
+          "agent": "011_list_issues",
+          "passed": false,
+          "summary": {
+            "ruff": {
+              "total": 7,
+              "by_code": {
+                "E402": 4,
+                "F841": 1,
+                "F401": 2
+              },
+              "sample": [
+                {
+                  "code": "E402",
+                  "message": "Module level import not at top of file",
+                  "row": 16
+                },
+                {
+                  "code": "E402",
+                  "message": "Module level import not at top of file",
+                  "row": 17
+                },
+                {
+                  "code": "E402",
+                  "message": "Module level import not at top of file",
+                  "row": 18
+                },
+                {
+                  "code": "E402",
+                  "message": "Module level import not at top of file",
+                  "row": 19
+                },
+                {
+                  "code": "F841",
+                  "message": "Local variable `title` is assigned to but never used",
+                  "row": 318
+                },
+                {
+                  "code": "F401",
+                  "message": "`agent.run_agent` imported but unused",
+                  "row": 13
+                },
+                {
+                  "code": "F401",
+                  "message": "`agent.AgentState` imported but unused",
+                  "row": 13
+                }
+              ]
+            },
+            "pylint": {
+              "total": 197,
+              "by_type": {
+                "convention": 146,
+                "refactor": 3,
+                "warning": 48
+              },
+              "sample": [
+                {
+                  "symbol": "trailing-whitespace",
+                  "message": "Trailing whitespace",
+                  "line": 96,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "trailing-whitespace",
+                  "message": "Trailing whitespace",
+                  "line": 107,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "trailing-whitespace",
+                  "message": "Trailing whitespace",
+                  "line": 114,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "trailing-whitespace",
+                  "message": "Trailing whitespace",
+                  "line": 117,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "trailing-whitespace",
+                  "message": "Trailing whitespace",
+                  "line": 122,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "trailing-whitespace",
+                  "message": "Trailing whitespace",
+                  "line": 124,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "trailing-whitespace",
+                  "message": "Trailing whitespace",
+                  "line": 143,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "trailing-whitespace",
+                  "message": "Trailing whitespace",
+                  "line": 175,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "trailing-whitespace",
+                  "message": "Trailing whitespace",
+                  "line": 191,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "trailing-whitespace",
+                  "message": "Trailing whitespace",
+                  "line": 197,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "trailing-whitespace",
+                  "message": "Trailing whitespace",
+                  "line": 201,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "trailing-whitespace",
+                  "message": "Trailing whitespace",
+                  "line": 207,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "trailing-whitespace",
+                  "message": "Trailing whitespace",
+                  "line": 212,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "trailing-whitespace",
+                  "message": "Trailing whitespace",
+                  "line": 218,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "trailing-whitespace",
+                  "message": "Trailing whitespace",
+                  "line": 223,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "trailing-whitespace",
+                  "message": "Trailing whitespace",
+                  "line": 229,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "trailing-whitespace",
+                  "message": "Trailing whitespace",
+                  "line": 242,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "trailing-whitespace",
+                  "message": "Trailing whitespace",
+                  "line": 245,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "trailing-whitespace",
+                  "message": "Trailing whitespace",
+                  "line": 251,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "trailing-whitespace",
+                  "message": "Trailing whitespace",
+                  "line": 256,
+                  "type": "convention"
+                }
+              ]
+            },
+            "radon_cc": {
+              "total": 43,
+              "top": [
+                {
+                  "file": "generated_agents/by_tool/run_1/opencode/011_list_issues/agent.py",
+                  "name": "list_issues_from_github",
+                  "rank": "D",
+                  "complexity": 23
+                },
+                {
+                  "file": "generated_agents/by_tool/run_1/opencode/011_list_issues/tests.py",
+                  "name": "test_b5_output_schema",
+                  "rank": "C",
+                  "complexity": 19
+                },
+                {
+                  "file": "generated_agents/by_tool/run_1/opencode/011_list_issues/agent.py",
+                  "name": "node_apply_filter",
+                  "rank": "C",
+                  "complexity": 13
+                },
+                {
+                  "file": "generated_agents/by_tool/run_1/opencode/011_list_issues/tests.py",
+                  "name": "TestB5StructuredResponse",
+                  "rank": "B",
+                  "complexity": 9
+                },
+                {
+                  "file": "generated_agents/by_tool/run_1/opencode/011_list_issues/tests.py",
+                  "name": "TestB1ListIssues",
+                  "rank": "B",
+                  "complexity": 8
+                },
+                {
+                  "file": "generated_agents/by_tool/run_1/opencode/011_list_issues/tests.py",
+                  "name": "test_b1_retrieves_issues_successfully",
+                  "rank": "B",
+                  "complexity": 8
+                },
+                {
+                  "file": "generated_agents/by_tool/run_1/opencode/011_list_issues/tests.py",
+                  "name": "test_b2_filters_by_keyword",
+                  "rank": "B",
+                  "complexity": 8
+                },
+                {
+                  "file": "generated_agents/by_tool/run_1/opencode/011_list_issues/tests.py",
+                  "name": "test_b5_trace_structure",
+                  "rank": "B",
+                  "complexity": 8
+                },
+                {
+                  "file": "generated_agents/by_tool/run_1/opencode/011_list_issues/tests.py",
+                  "name": "TestIntegration",
+                  "rank": "B",
+                  "complexity": 8
+                },
+                {
+                  "file": "generated_agents/by_tool/run_1/opencode/011_list_issues/tests.py",
+                  "name": "test_full_flow_no_matches",
+                  "rank": "B",
+                  "complexity": 8
+                }
+              ]
+            },
+            "radon_mi": {
+              "files": [
+                {
+                  "file": "generated_agents/by_tool/run_1/opencode/011_list_issues/agent.py",
+                  "mi": 44.422430647301,
+                  "rank": "A"
+                },
+                {
+                  "file": "generated_agents/by_tool/run_1/opencode/011_list_issues/tests.py",
+                  "mi": 25.473218716545457,
+                  "rank": "A"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "run": 2,
+          "model": "opencode",
+          "agent": "011_list_issues",
+          "passed": false,
+          "summary": {
+            "ruff": {
+              "total": 7,
+              "by_code": {
+                "E402": 4,
+                "F401": 3
+              },
+              "sample": [
+                {
+                  "code": "E402",
+                  "message": "Module level import not at top of file",
+                  "row": 30
+                },
+                {
+                  "code": "E402",
+                  "message": "Module level import not at top of file",
+                  "row": 31
+                },
+                {
+                  "code": "E402",
+                  "message": "Module level import not at top of file",
+                  "row": 32
+                },
+                {
+                  "code": "F401",
+                  "message": "`langchain_core.messages.AIMessage` imported but unused",
+                  "row": 32
+                },
+                {
+                  "code": "E402",
+                  "message": "Module level import not at top of file",
+                  "row": 33
+                },
+                {
+                  "code": "F401",
+                  "message": "`asyncio` imported but unused",
+                  "row": 8
+                },
+                {
+                  "code": "F401",
+                  "message": "`agent.AgentState` imported but unused",
+                  "row": 11
+                }
+              ]
+            },
+            "pylint": {
+              "total": 41,
+              "by_type": {
+                "convention": 10,
+                "warning": 25,
+                "refactor": 6
+              },
+              "sample": [
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (105/100)",
+                  "line": 103,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (114/100)",
+                  "line": 195,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "trailing-whitespace",
+                  "message": "Trailing whitespace",
+                  "line": 232,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "wrong-import-position",
+                  "message": "Import \"from langgraph.graph import StateGraph, END\" should be placed at the top of the module",
+                  "line": 30,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "wrong-import-position",
+                  "message": "Import \"from langchain_openai import ChatOpenAI\" should be placed at the top of the module",
+                  "line": 31,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "wrong-import-position",
+                  "message": "Import \"from langchain_core.messages import HumanMessage, SystemMessage, AIMessage\" should be placed at the top of the module",
+                  "line": 32,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "wrong-import-position",
+                  "message": "Import \"from langchain_mcp_adapters.client import MultiServerMCPClient\" should be placed at the top of the module",
+                  "line": 33,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "broad-exception-raised",
+                  "message": "Raising too general exception: Exception",
+                  "line": 149,
+                  "type": "warning"
+                },
+                {
+                  "symbol": "raise-missing-from",
+                  "message": "Consider explicitly re-raising using 'raise Exception(f'Falha ao acessar reposit\u00f3rio: {str(e)}') from e'",
+                  "line": 162,
+                  "type": "warning"
+                },
+                {
+                  "symbol": "broad-exception-raised",
+                  "message": "Raising too general exception: Exception",
+                  "line": 162,
+                  "type": "warning"
+                },
+                {
+                  "symbol": "too-many-branches",
+                  "message": "Too many branches (13/12)",
+                  "line": 117,
+                  "type": "refactor"
+                },
+                {
+                  "symbol": "broad-exception-caught",
+                  "message": "Catching too general exception Exception",
+                  "line": 209,
+                  "type": "warning"
+                },
+                {
+                  "symbol": "broad-exception-caught",
+                  "message": "Catching too general exception Exception",
+                  "line": 287,
+                  "type": "warning"
+                },
+                {
+                  "symbol": "missing-function-docstring",
+                  "message": "Missing function or method docstring",
+                  "line": 399,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "unused-import",
+                  "message": "Unused AIMessage imported from langchain_core.messages",
+                  "line": 32,
+                  "type": "warning"
+                },
+                {
+                  "symbol": "line-too-long",
+                  "message": "Line too long (115/100)",
+                  "line": 241,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "protected-access",
+                  "message": "Access to a protected member _validate_repository of a client class",
+                  "line": 58,
+                  "type": "warning"
+                },
+                {
+                  "symbol": "protected-access",
+                  "message": "Access to a protected member _validate_repository of a client class",
+                  "line": 59,
+                  "type": "warning"
+                },
+                {
+                  "symbol": "protected-access",
+                  "message": "Access to a protected member _validate_repository of a client class",
+                  "line": 60,
+                  "type": "warning"
+                },
+                {
+                  "symbol": "protected-access",
+                  "message": "Access to a protected member _validate_repository of a client class",
+                  "line": 65,
+                  "type": "warning"
+                }
+              ]
+            },
+            "radon_cc": {
+              "total": 38,
+              "top": [
+                {
+                  "file": "generated_agents/by_tool/run_2/opencode/011_list_issues/agent.py",
+                  "name": "_fetch_issues_from_mcp",
+                  "rank": "C",
+                  "complexity": 18
+                },
+                {
+                  "file": "generated_agents/by_tool/run_2/opencode/011_list_issues/tests.py",
+                  "name": "test_output_structure",
+                  "rank": "C",
+                  "complexity": 17
+                },
+                {
+                  "file": "generated_agents/by_tool/run_2/opencode/011_list_issues/tests.py",
+                  "name": "TestInterfaceContract",
+                  "rank": "C",
+                  "complexity": 15
+                },
+                {
+                  "file": "generated_agents/by_tool/run_2/opencode/011_list_issues/tests.py",
+                  "name": "test_trace_structure",
+                  "rank": "B",
+                  "complexity": 10
+                },
+                {
+                  "file": "generated_agents/by_tool/run_2/opencode/011_list_issues/tests.py",
+                  "name": "test_b1_success",
+                  "rank": "B",
+                  "complexity": 9
+                },
+                {
+                  "file": "generated_agents/by_tool/run_2/opencode/011_list_issues/tests.py",
+                  "name": "test_full_flow_success",
+                  "rank": "B",
+                  "complexity": 9
+                },
+                {
+                  "file": "generated_agents/by_tool/run_2/opencode/011_list_issues/agent.py",
+                  "name": "node_apply_filter",
+                  "rank": "B",
+                  "complexity": 8
+                },
+                {
+                  "file": "generated_agents/by_tool/run_2/opencode/011_list_issues/tests.py",
+                  "name": "TestB1ListIssues",
+                  "rank": "B",
+                  "complexity": 8
+                },
+                {
+                  "file": "generated_agents/by_tool/run_2/opencode/011_list_issues/tests.py",
+                  "name": "TestB2ApplyFilter",
+                  "rank": "B",
+                  "complexity": 8
+                },
+                {
+                  "file": "generated_agents/by_tool/run_2/opencode/011_list_issues/tests.py",
+                  "name": "TestIntegration",
+                  "rank": "B",
+                  "complexity": 8
+                }
+              ]
+            },
+            "radon_mi": {
+              "files": [
+                {
+                  "file": "generated_agents/by_tool/run_2/opencode/011_list_issues/agent.py",
+                  "mi": 56.995766102246805,
+                  "rank": "A"
+                },
+                {
+                  "file": "generated_agents/by_tool/run_2/opencode/011_list_issues/tests.py",
+                  "mi": 33.821005391536666,
+                  "rank": "A"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "run": 3,
+          "model": "opencode",
+          "agent": "011_list_issues",
+          "passed": false,
+          "summary": {
+            "ruff": {
+              "total": 12,
+              "by_code": {
+                "E402": 5,
+                "F841": 1,
+                "F821": 1,
+                "F401": 5
+              },
+              "sample": [
+                {
+                  "code": "E402",
+                  "message": "Module level import not at top of file",
+                  "row": 16
+                },
+                {
+                  "code": "E402",
+                  "message": "Module level import not at top of file",
+                  "row": 17
+                },
+                {
+                  "code": "E402",
+                  "message": "Module level import not at top of file",
+                  "row": 18
+                },
+                {
+                  "code": "E402",
+                  "message": "Module level import not at top of file",
+                  "row": 19
+                },
+                {
+                  "code": "F841",
+                  "message": "Local variable `message` is assigned to but never used",
+                  "row": 187
+                },
+                {
+                  "code": "F821",
+                  "message": "Undefined name `ChatOpenai`",
+                  "row": 312
+                },
+                {
+                  "code": "F401",
+                  "message": "`json` imported but unused",
+                  "row": 7
+                },
+                {
+                  "code": "F401",
+                  "message": "`os` imported but unused",
+                  "row": 8
+                },
+                {
+                  "code": "F401",
+                  "message": "`unittest.mock.MagicMock` imported but unused",
+                  "row": 10
+                },
+                {
+                  "code": "F401",
+                  "message": "`unittest.mock.AsyncMock` imported but unused",
+                  "row": 10
+                },
+                {
+                  "code": "E402",
+                  "message": "Module level import not at top of file",
+                  "row": 15
+                },
+                {
+                  "code": "F401",
+                  "message": "`agent._build_output` imported but unused",
+                  "row": 15
+                }
+              ]
+            },
+            "pylint": {
+              "total": 36,
+              "by_type": {
+                "convention": 10,
+                "warning": 22,
+                "error": 3,
+                "refactor": 1
+              },
+              "sample": [
+                {
+                  "symbol": "wrong-import-position",
+                  "message": "Import \"from langgraph.graph import StateGraph, END\" should be placed at the top of the module",
+                  "line": 16,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "wrong-import-position",
+                  "message": "Import \"from langchain_openai import ChatOpenAI\" should be placed at the top of the module",
+                  "line": 17,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "wrong-import-position",
+                  "message": "Import \"from langchain_core.messages import HumanMessage, SystemMessage\" should be placed at the top of the module",
+                  "line": 18,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "wrong-import-position",
+                  "message": "Import \"from langchain_mcp_adapters.client import MultiServerMCPClient\" should be placed at the top of the module",
+                  "line": 19,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "missing-class-docstring",
+                  "message": "Missing class docstring",
+                  "line": 26,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "redefined-outer-name",
+                  "message": "Redefining name 'output' from outer scope (line 427)",
+                  "line": 75,
+                  "type": "warning"
+                },
+                {
+                  "symbol": "broad-exception-caught",
+                  "message": "Catching too general exception Exception",
+                  "line": 94,
+                  "type": "warning"
+                },
+                {
+                  "symbol": "broad-exception-caught",
+                  "message": "Catching too general exception Exception",
+                  "line": 135,
+                  "type": "warning"
+                },
+                {
+                  "symbol": "broad-exception-caught",
+                  "message": "Catching too general exception Exception",
+                  "line": 175,
+                  "type": "warning"
+                },
+                {
+                  "symbol": "unused-variable",
+                  "message": "Unused variable 'message'",
+                  "line": 187,
+                  "type": "warning"
+                },
+                {
+                  "symbol": "import-outside-toplevel",
+                  "message": "Import outside toplevel (asyncio)",
+                  "line": 220,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "no-member",
+                  "message": "Instance of 'MultiServerMCPClient' has no 'list_tools' member",
+                  "line": 239,
+                  "type": "error"
+                },
+                {
+                  "symbol": "no-member",
+                  "message": "Instance of 'MultiServerMCPClient' has no 'call_tool' member",
+                  "line": 257,
+                  "type": "error"
+                },
+                {
+                  "symbol": "redefined-outer-name",
+                  "message": "Redefining name 'json' from outer scope (line 429)",
+                  "line": 285,
+                  "type": "warning"
+                },
+                {
+                  "symbol": "import-outside-toplevel",
+                  "message": "Import outside toplevel (json)",
+                  "line": 285,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "undefined-variable",
+                  "message": "Undefined variable 'ChatOpenai'",
+                  "line": 312,
+                  "type": "error"
+                },
+                {
+                  "symbol": "redefined-outer-name",
+                  "message": "Redefining name 'json' from outer scope (line 429)",
+                  "line": 371,
+                  "type": "warning"
+                },
+                {
+                  "symbol": "import-outside-toplevel",
+                  "message": "Import outside toplevel (json)",
+                  "line": 371,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "wrong-import-position",
+                  "message": "Import \"from agent import agent, _build_output, _parse_filter_response\" should be placed at the top of the module",
+                  "line": 15,
+                  "type": "convention"
+                },
+                {
+                  "symbol": "unused-variable",
+                  "message": "Unused variable 'trace'",
+                  "line": 59,
+                  "type": "warning"
+                }
+              ]
+            },
+            "radon_cc": {
+              "total": 37,
+              "top": [
+                {
+                  "file": "generated_agents/by_tool/run_3/opencode/011_list_issues/tests.py",
+                  "name": "test_b5_output_contains_all_required_fields",
+                  "rank": "C",
+                  "complexity": 12
+                },
+                {
+                  "file": "generated_agents/by_tool/run_3/opencode/011_list_issues/tests.py",
+                  "name": "TestB5StructuredResponse",
+                  "rank": "C",
+                  "complexity": 11
+                },
+                {
+                  "file": "generated_agents/by_tool/run_3/opencode/011_list_issues/tests.py",
+                  "name": "test_b5_trace_structure",
+                  "rank": "C",
+                  "complexity": 11
+                },
+                {
+                  "file": "generated_agents/by_tool/run_3/opencode/011_list_issues/tests.py",
+                  "name": "TestB1ListIssues",
+                  "rank": "B",
+                  "complexity": 9
+                },
+                {
+                  "file": "generated_agents/by_tool/run_3/opencode/011_list_issues/agent.py",
+                  "name": "_apply_filter",
+                  "rank": "B",
+                  "complexity": 8
+                },
+                {
+                  "file": "generated_agents/by_tool/run_3/opencode/011_list_issues/tests.py",
+                  "name": "test_b1_issues_retrieved_successfully",
+                  "rank": "B",
+                  "complexity": 8
+                },
+                {
+                  "file": "generated_agents/by_tool/run_3/opencode/011_list_issues/tests.py",
+                  "name": "test_b1_issues_contain_required_fields",
+                  "rank": "B",
+                  "complexity": 8
+                },
+                {
+                  "file": "generated_agents/by_tool/run_3/opencode/011_list_issues/tests.py",
+                  "name": "test_b2_filter_narrows_results",
+                  "rank": "B",
+                  "complexity": 8
+                },
+                {
+                  "file": "generated_agents/by_tool/run_3/opencode/011_list_issues/tests.py",
+                  "name": "TestB3NoMatches",
+                  "rank": "B",
+                  "complexity": 8
+                },
+                {
+                  "file": "generated_agents/by_tool/run_3/opencode/011_list_issues/tests.py",
+                  "name": "test_no_match_path_b1_b2_b3_b5",
+                  "rank": "B",
+                  "complexity": 8
+                }
+              ]
+            },
+            "radon_mi": {
+              "files": [
+                {
+                  "file": "generated_agents/by_tool/run_3/opencode/011_list_issues/agent.py",
+                  "mi": 52.95121154096572,
+                  "rank": "A"
+                },
+                {
+                  "file": "generated_agents/by_tool/run_3/opencode/011_list_issues/tests.py",
+                  "mi": 35.64076625248439,
+                  "rank": "A"
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "runs_count": 3
+    }
+  ]
+}

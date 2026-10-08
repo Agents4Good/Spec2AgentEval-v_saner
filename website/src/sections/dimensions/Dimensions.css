@@ -1,0 +1,209 @@
+.dimensions-page {
+  width: 100%;
+  min-height: calc(100vh - 60px);
+  padding: 32px 24px 64px;
+  box-sizing: border-box;
+  background: var(--color-background-primary);
+}
+
+.dimensions-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.dimensions-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dimensions-title {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0;
+  color: var(--color-text-primary);
+}
+
+.dimensions-subtitle {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  margin: 0;
+  max-width: 760px;
+  line-height: 1.5;
+}
+
+/* --- Tabs row -------------------------------------------------- */
+
+.dimensions-tabs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 4px;
+  background: var(--color-background-secondary);
+  border: 1px solid var(--color-border-tertiary);
+  border-radius: 14px;
+  scrollbar-width: thin;
+}
+
+.dimensions-tab {
+  flex: 1 1 0;
+  min-width: 180px;
+  padding: 12px 14px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+  color: var(--color-text-secondary);
+}
+
+.dimensions-tab:hover:not(.is-active) {
+  background: rgba(255, 255, 255, 0.6);
+  color: var(--color-text-primary);
+}
+
+.dimensions-tab.is-active {
+  background: var(--color-background-primary);
+  border-color: var(--color-border-tertiary);
+  color: var(--color-text-primary);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 10px rgba(0, 0, 0, 0.04);
+}
+
+.dimensions-tab-label {
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.dimensions-tab-hint {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-text-tertiary);
+  line-height: 1.3;
+}
+
+.dimensions-tab.is-active .dimensions-tab-hint {
+  color: var(--color-text-secondary);
+}
+
+/* --- Content card ---------------------------------------------- */
+
+.dimensions-content {
+  background: var(--color-background-primary);
+  border: 1px solid var(--color-border-tertiary);
+  border-radius: 16px;
+  padding: 28px 32px 32px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.dimensions-content-header {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--color-border-tertiary);
+}
+
+.dimensions-breadcrumb {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-tertiary);
+  font-weight: 700;
+}
+
+.dimensions-active-title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.dimensions-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- Panel-wide helpers (used by individual dimension panels) --- */
+
+.panel-description {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.card {
+  background: var(--color-background-primary);
+  border: 1px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-lg);
+  padding: 1rem 1.25rem;
+}
+
+.card-label {
+  font-size: 12px;
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+  margin: 0 0 4px;
+}
+
+.card-value {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0 0 2px;
+  color: var(--color-text-primary);
+}
+
+.card-sub {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.section-label {
+  font-size: 12px;
+  color: var(--color-text-tertiary);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin: 0 0 8px;
+}
+
+/* --- Responsive ------------------------------------------------- */
+
+@media (max-width: 900px) {
+  .dimensions-page {
+    padding: 20px 16px 40px;
+  }
+  .dimensions-tabs {
+    flex-wrap: wrap;
+  }
+  .dimensions-tab {
+    min-width: calc(50% - 8px);
+  }
+  .dimensions-content {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 560px) {
+  .dimensions-tab {
+    min-width: 100%;
+  }
+  .dimensions-title {
+    font-size: 24px;
+  }
+}

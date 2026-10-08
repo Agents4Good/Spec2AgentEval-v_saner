@@ -1,0 +1,146 @@
+[
+  {
+    "agent": "011_list_issues",
+    "model": "claude-opus-4-6-low",
+    "executability": 100.0,
+    "structure": 100.0,
+    "spec_graph": 69.3,
+    "spec_prompt": null,
+    "behavioral": 51.7,
+    "lint": 0.0,
+    "behavioral_passed": 15.0,
+    "behavioral_total": 29.0,
+    "runs": [
+      {
+        "run": 1,
+        "executability": 100.0,
+        "structure": 100.0,
+        "spec_graph": 75,
+        "spec_prompt": null,
+        "behavioral": 75.9,
+        "behavioral_passed": 22,
+        "behavioral_total": 29,
+        "lint": 0.0
+      },
+      {
+        "run": 2,
+        "executability": 100.0,
+        "structure": 100.0,
+        "spec_graph": 75,
+        "spec_prompt": null,
+        "behavioral": 79.3,
+        "behavioral_passed": 23,
+        "behavioral_total": 29,
+        "lint": 0.0
+      },
+      {
+        "run": 3,
+        "executability": 100.0,
+        "structure": 100.0,
+        "spec_graph": 58,
+        "spec_prompt": null,
+        "behavioral": 0.0,
+        "behavioral_passed": 0,
+        "behavioral_total": 29,
+        "lint": 0.0
+      }
+    ],
+    "runs_count": 3
+  },
+  {
+    "agent": "011_list_issues",
+    "model": "claude-opus-4-8-low",
+    "executability": 100.0,
+    "structure": 100.0,
+    "spec_graph": 100.0,
+    "spec_prompt": null,
+    "behavioral": 88.5,
+    "lint": 0.0,
+    "behavioral_passed": 25.7,
+    "behavioral_total": 29.0,
+    "runs": [
+      {
+        "run": 1,
+        "executability": 100.0,
+        "structure": 100.0,
+        "spec_graph": 100,
+        "spec_prompt": null,
+        "behavioral": 93.1,
+        "behavioral_passed": 27,
+        "behavioral_total": 29,
+        "lint": 0.0
+      },
+      {
+        "run": 2,
+        "executability": 100.0,
+        "structure": 100.0,
+        "spec_graph": 100,
+        "spec_prompt": null,
+        "behavioral": 79.3,
+        "behavioral_passed": 23,
+        "behavioral_total": 29,
+        "lint": 0.0
+      },
+      {
+        "run": 3,
+        "executability": 100.0,
+        "structure": 100.0,
+        "spec_graph": 100,
+        "spec_prompt": null,
+        "behavioral": 93.1,
+        "behavioral_passed": 27,
+        "behavioral_total": 29,
+        "lint": 0.0
+      }
+    ],
+    "runs_count": 3
+  },
+  {
+    "agent": "011_list_issues",
+    "model": "claude-opus-5-5-low",
+    "executability": 100.0,
+    "structure": 100.0,
+    "spec_graph": 92.0,
+    "spec_prompt": null,
+    "behavioral": 93.1,
+    "lint": 0.0,
+    "behavioral_passed": 27.0,
+    "behavioral_total": 29.0,
+    "runs": [
+      {
+        "run": 1,
+        "executability": 100.0,
+        "structure": 100.0,
+        "spec_graph": 92,
+        "spec_prompt": null,
+        "behavioral": 93.1,
+        "behavioral_passed": 27,
+        "behavioral_total": 29,
+        "lint": 0.0
+      },
+      {
+        "run": 2,
+        "executability": 100.0,
+        "structure": 100.0,
+        "spec_graph": 92,
+        "spec_prompt": null,
+        "behavioral": 93.1,
+        "behavioral_passed": 27,
+        "behavioral_total": 29,
+        "lint": 0.0
+      },
+      {
+        "run": 3,
+        "executability": 100.0,
+        "structure": 100.0,
+        "spec_graph": 92,
+        "spec_prompt": null,
+        "behavioral": 93.1,
+        "behavioral_passed": 27,
+        "behavioral_total": 29,
+        "lint": 0.0
+      }
+    ],
+    "runs_count": 3
+  }
+]

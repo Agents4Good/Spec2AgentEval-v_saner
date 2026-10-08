@@ -1,0 +1,10 @@
+{
+  "experiments": [
+    {
+      "slug": "by_claude_version"
+    },
+    {
+      "slug": "by_tool"
+    }
+  ]
+}
