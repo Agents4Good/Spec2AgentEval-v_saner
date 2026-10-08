@@ -66,7 +66,7 @@ const Leaderboard = () => {
   const deferredModels = useDeferredValue(selectedModels);
 
   useEffect(() => {
-    fetch('/leaderboard_data.json')
+    fetch(`${import.meta.env.BASE_URL}leaderboard_data.json`)
       .then(res => res.json())
       .then((json: AgentData[]) => setData(json));
   }, []);

@@ -90,7 +90,7 @@ const BehavioralPanel = ({ experiment }: Props) => {
   const [activeModels, setActiveModels] = useState<string[]>([]);
 
   useEffect(() => {
-    fetch(`/${experiment}__behavioral_aggregated.json`).then(r => r.json()).then(setData);
+    fetch(`${import.meta.env.BASE_URL}${experiment}__behavioral_aggregated.json`).then(r => r.json()).then(setData);
   }, [experiment]);
 
   const stageRuns: AgentRun[] = useMemo(() => (data ? data.stages[activeStage] || [] : []), [data, activeStage]);

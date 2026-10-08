@@ -54,7 +54,7 @@ const TokenCost = ({ experiment }: Props) => {
   const [activeModels, setActiveModels] = useState<string[]>([]);
 
   useEffect(() => {
-    fetch(`/${experiment}__01_resource_aggregated.json`).then(r => r.json()).then(setData);
+    fetch(`${import.meta.env.BASE_URL}${experiment}__01_resource_aggregated.json`).then(r => r.json()).then(setData);
   }, [experiment]);
 
   const index = useMemo(() => {

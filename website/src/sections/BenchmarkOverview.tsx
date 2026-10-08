@@ -25,7 +25,7 @@ const BenchmarkOverview = () => {
   const [stats, setStats] = useState<Stats | null>(null);
 
   useEffect(() => {
-    fetch('/overviewStats.json')
+    fetch(`${import.meta.env.BASE_URL}overviewStats.json`)
       .then(res => res.json())
       .then(setStats)
       .catch(err => console.error('Failed to load stats:', err));
