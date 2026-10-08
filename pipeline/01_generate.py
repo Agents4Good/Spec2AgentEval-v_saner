@@ -12,12 +12,17 @@ from adapters.claude import ClaudeCodeAdapter
 from adapters.codex import CodexAdapter
 from adapters.open_code import OpenCodeAdapter
 
-ADAPTERS = {
-    "copilot": CopilotAdapter,
-    "gemini": GeminiAdapter,
-    "claude": ClaudeCodeAdapter,
-    "codex": CodexAdapter,
-    "opencode": OpenCodeAdapter,
+ADAPTERS: dict[str, tuple[type, dict]] = {
+    "copilot":   (CopilotAdapter,     {}),
+    "gemini":    (GeminiAdapter,      {}),
+    "claude":    (ClaudeCodeAdapter,  {}),
+    "codex":     (CodexAdapter,       {}),
+    "opencode":  (OpenCodeAdapter,    {}),
+
+    # Claude version comparison experiment — all at effort "low"
+    "claude-opus-4-6-low": (ClaudeCodeAdapter, {"model": "claude-opus-4-6", "effort": "low"}),
+    "claude-opus-4-8-low": (ClaudeCodeAdapter, {"model": "claude-opus-4-8", "effort": "low"}),
+    "claude-opus-5-5-low": (ClaudeCodeAdapter, {"model": "claude-opus-5-5", "effort": "low"}),
 }
 
 load_dotenv(override=True)
@@ -29,12 +34,13 @@ def get_all_specs() -> list[Path]:
     return sorted([p for p in BENCH_DIR.iterdir() if p.is_dir() and (p / "spec.md").exists()])
 
 
-def generate(llm: str, spec_folder: Path) -> dict:
+def generate(llm: str, spec_folder: Path, generated_root: Path) -> dict:
     spec_file = spec_folder / "spec.md"
-    output_dir = GENERATED_DIR / llm / spec_folder.name
+    output_dir = generated_root / llm / spec_folder.name
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    adapter = ADAPTERS[llm](spec_file, output_dir)
+    adapter_class, adapter_kwargs = ADAPTERS[llm]
+    adapter = adapter_class(spec_file, output_dir, **adapter_kwargs)
     generated_file_path = adapter.run()
 
     return {
@@ -52,10 +58,15 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--llm", required=True, choices=list(ADAPTERS.keys()))
     parser.add_argument("--agent", default=None, help="Filter a specific agent (folder name in bench/)")
+    parser.add_argument("--run", type=int, default=1, help="Run index (1..N). Writes under run_<N>/ subpath.")
+    parser.add_argument("--experiment", default="by_tool", help="Experiment slug (e.g., by_tool, by_claude_version).")
     args = parser.parse_args()
 
     if not BENCH_DIR or not GENERATED_DIR or not EXPERIMENTS_RESULTS:
         raise ValueError("Required environment variables not configured.")
+
+    generated_root = Path(GENERATED_DIR) / args.experiment / f"run_{args.run}"
+    experiments_root = Path(EXPERIMENTS_RESULTS) / args.experiment / f"run_{args.run}"
 
     specs = get_all_specs()
 
@@ -67,10 +78,10 @@ def main():
     results = []
 
     for spec_folder in specs:
-        print(f"[generate] {args.llm} ← {spec_folder.name}")
+        print(f"[generate] experiment={args.experiment} run={args.run} {args.llm} ← {spec_folder.name}")
 
         try:
-            result = generate(args.llm, spec_folder)
+            result = generate(args.llm, spec_folder, generated_root)
         except Exception as e:
             result = {
                 "model": args.llm,
@@ -85,18 +96,19 @@ def main():
 
     final_report = {
         "run_id": run_id,
+        "run": args.run,
+        "experiment": args.experiment,
         "stage": "generation",
         "model": args.llm,
         "bench_dir": str(Path(BENCH_DIR).resolve()),
-        "generated_dir": str(Path(GENERATED_DIR).resolve()),
+        "generated_dir": str(generated_root.resolve()),
         "total_agents": len(results),
         "results": results,
     }
 
-    experiments_dir = Path(EXPERIMENTS_RESULTS)
-    experiments_dir.mkdir(parents=True, exist_ok=True)
+    experiments_root.mkdir(parents=True, exist_ok=True)
 
-    report_path = experiments_dir / f"01_generation_{args.llm}_{run_id}.json"
+    report_path = experiments_root / f"01_generation_{args.llm}_{run_id}.json"
 
     report_path.write_text(
         json.dumps(final_report, indent=2, ensure_ascii=False),

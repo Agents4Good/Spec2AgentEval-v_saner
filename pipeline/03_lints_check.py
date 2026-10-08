@@ -31,12 +31,17 @@ def main():
     parser = argparse.ArgumentParser(description="Executes lints and SonarQube analysis in batch.")
     parser.add_argument("--llm", required=True, help="Filters execution by LLM (e.g., copilot, gemini)")
     parser.add_argument("--agent", default=None, help="Filters execution for a specific agent/directory")
+    parser.add_argument("--run", type=int, default=1, help="Run index (1..N). Reads/writes under run_<N>/ subpath.")
+    parser.add_argument("--experiment", default="by_tool", help="Experiment slug (e.g., by_tool, by_claude_version).")
     args = parser.parse_args()
 
     if not GENERATED_AGENTS_DIR or not EXPERIMENTS_RESULTS:
         raise ValueError("Required environment variables not configured.")
 
-    llm_dir = GENERATED_AGENTS_DIR / args.llm
+    generated_root = GENERATED_AGENTS_DIR / args.experiment / f"run_{args.run}"
+    experiments_root = EXPERIMENTS_RESULTS / args.experiment / f"run_{args.run}"
+
+    llm_dir = generated_root / args.llm
     if not llm_dir.exists():
         print(f"Base directory not found: {llm_dir}")
         sys.exit(1)
@@ -133,6 +138,8 @@ def main():
         run_id = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
         final_report = {
             "run_id": run_id,
+            "run": args.run,
+            "experiment": args.experiment,
             "stage": "static_analysis",
             "model": args.llm,
             "timestamp": datetime.utcnow().isoformat(),
@@ -140,8 +147,8 @@ def main():
             "results": all_results
         }
 
-        EXPERIMENTS_RESULTS.mkdir(parents=True, exist_ok=True)
-        report_path = EXPERIMENTS_RESULTS / f"03_lint_{args.llm}_{run_id}.json"
+        experiments_root.mkdir(parents=True, exist_ok=True)
+        report_path = experiments_root / f"03_lint_{args.llm}_{run_id}.json"
 
         with open(report_path, "w", encoding="utf-8") as f:
             json.dump(final_report, f, indent=2, ensure_ascii=False)

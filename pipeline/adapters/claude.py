@@ -6,9 +6,10 @@ from utils.utils import claude_parse_stats
 
 
 class ClaudeCodeAdapter(BaseAdapter):
-    def __init__(self, spec_path: Path, output_dir: Path, model: str = "claude-sonnet-4-5"):
+    def __init__(self, spec_path: Path, output_dir: Path, model: str = "claude-sonnet-4-5", effort: str | None = None):
         super().__init__(spec_path, output_dir)
         self.model = model
+        self.effort = effort
         self.usage = {}
 
     def run(self):
@@ -18,7 +19,7 @@ class ClaudeCodeAdapter(BaseAdapter):
             with step_log.open("a", encoding="utf-8") as f:
                 f.write(msg + "\n")
 
-        log(f"[ClaudeCodeAdapter] Iniciando runner com model={self.model} spec={self.spec_file}")
+        log(f"[ClaudeCodeAdapter] Iniciando runner com model={self.model} effort={self.effort} spec={self.spec_file}")
 
         self.check_spec()
         spec_content = self.spec_file.read_text(encoding="utf-8")
@@ -32,6 +33,8 @@ class ClaudeCodeAdapter(BaseAdapter):
             "-p", content,
             "--output-format", "json",
         ]
+        if self.effort:
+            cmd.extend(["--effort", self.effort])
 
         log(f"[ClaudeCodeAdapter] Comando a ser executado: {cmd}")
         try:
@@ -62,17 +65,21 @@ class ClaudeCodeAdapter(BaseAdapter):
             
             # 4. Envia o dicionário JSON para o parser
             self.usage = claude_parse_stats(data, self.model)
+            if self.effort:
+                self.usage["effort"] = self.effort
 
         except json.JSONDecodeError:
             log("[ClaudeCodeAdapter] Aviso: Saída não foi JSON. Fazendo fallback para texto.")
-            
+
             # Fallback caso a CLI falhe e cuspa texto puro
             (self.logs_dir / "session.log").write_text(stdout, encoding="utf-8")
             (self.logs_dir / "credits.log").write_text(stderr, encoding="utf-8")
-            
+
             # Envia a string gigante pro parser fazer Regex (mesmo esquema dos anteriores)
             full_log = stdout + "\n" + stderr
             self.usage = claude_parse_stats(full_log, self.model)
+            if self.effort:
+                self.usage["effort"] = self.effort
 
         log(f"[ClaudeCodeAdapter] Stats capturados: {self.usage}")
 

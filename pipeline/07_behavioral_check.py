@@ -41,6 +41,17 @@ def main() -> None:
         default="test_deepeval.py",
         help="Test file to execute (defaults to test_deepeval.py)",
     )
+    parser.add_argument(
+        "--run",
+        type=int,
+        default=1,
+        help="Run index (1..N). Reads/writes under run_<N>/ subpath.",
+    )
+    parser.add_argument(
+        "--experiment",
+        default="by_tool",
+        help="Experiment slug (e.g., by_tool, by_claude_version).",
+    )
     args = parser.parse_args()
 
     run_pytest_for_agents(
@@ -53,6 +64,8 @@ def main() -> None:
         stage_prefix="07",
         report_name_stem=Path(args.test).stem,
         experiments_results=EXPERIMENTS_RESULTS,
+        run=args.run,
+        experiment=args.experiment,
     )
 
 

@@ -23,10 +23,12 @@ def main():
     parser = argparse.ArgumentParser(description="Checks existence of test files for generated agents.")
     parser.add_argument("--llm", required=True, help="Filters execution by LLM (e.g., copilot, gemini, claude)")
     parser.add_argument("--agent", default=None, help="Filters execution for a specific agent/directory")
+    parser.add_argument("--run", type=int, default=1, help="Run index (1..N). Reads/writes under run_<N>/ subpath.")
+    parser.add_argument("--experiment", default="by_tool", help="Experiment slug (e.g., by_tool, by_claude_version).")
     args = parser.parse_args()
 
-    generated_agents = Path(GENERATED_AGENTS_DIR)
-    experiment_dir = Path(EXPERIMENTS_RESULTS)
+    generated_agents = Path(GENERATED_AGENTS_DIR) / args.experiment / f"run_{args.run}"
+    experiment_dir = Path(EXPERIMENTS_RESULTS) / args.experiment / f"run_{args.run}"
 
     if not generated_agents.exists():
         raise FileNotFoundError(f"Agents directory not found: {generated_agents}")
@@ -70,6 +72,8 @@ def main():
 
     final_report = {
         "run_id": run_id,
+        "run": args.run,
+        "experiment": args.experiment,
         "model": args.llm,
         "agent_filter": args.agent,
         "generated_dir": str(generated_agents),

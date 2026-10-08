@@ -30,15 +30,20 @@ def main():
     parser = argparse.ArgumentParser(description="Runs graph architecture evaluation for generated agents.")
     parser.add_argument("--llm", required=True, help="Filters execution by LLM (e.g., copilot, gemini, claude)")
     parser.add_argument("--agent", default=None, help="Filters execution for a specific agent/directory")
+    parser.add_argument("--run", type=int, default=1, help="Run index (1..N). Reads/writes under run_<N>/ subpath.")
+    parser.add_argument("--experiment", default="by_tool", help="Experiment slug (e.g., by_tool, by_claude_version).")
     args = parser.parse_args()
 
-    if not GENERATED_AGENTS_DIR.exists():
-        raise FileNotFoundError(f"Generated dir not found: {GENERATED_AGENTS_DIR}")
+    generated_root = GENERATED_AGENTS_DIR / args.experiment / f"run_{args.run}"
+    experiments_root = EXPERIMENTS_RESULTS / args.experiment / f"run_{args.run}"
+
+    if not generated_root.exists():
+        raise FileNotFoundError(f"Generated dir not found: {generated_root}")
 
     if not BENCH_DIR.exists():
         raise FileNotFoundError(f"Bench dir not found: {BENCH_DIR}")
 
-    model_folder = GENERATED_AGENTS_DIR / args.llm
+    model_folder = generated_root / args.llm
     if not model_folder.exists():
         raise FileNotFoundError(f"LLM directory not found: {model_folder}")
 
@@ -108,14 +113,17 @@ def main():
     run_id = datetime.now().strftime("%Y%m%d_%H%M%S")
     final_report = {
         "run_id": run_id,
+        "run": args.run,
+        "experiment": args.experiment,
         "model": args.llm,
         "agent_filter": args.agent,
-        "generated_dir": str(GENERATED_AGENTS_DIR),
+        "generated_dir": str(generated_root),
         "total_agents": len(results),
         "results": results
     }
 
-    report_path = EXPERIMENTS_RESULTS / f"06_graph_eval_{args.llm}_{run_id}.json"
+    experiments_root.mkdir(parents=True, exist_ok=True)
+    report_path = experiments_root / f"06_graph_eval_{args.llm}_{run_id}.json"
     save_report(report_path, final_report)
 
     print(f"Graph evaluation completed. Report saved to {report_path}")

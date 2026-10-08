@@ -36,6 +36,17 @@ def main() -> None:
         default=None,
         help="Filters execution for a specific agent/directory",
     )
+    parser.add_argument(
+        "--run",
+        type=int,
+        default=1,
+        help="Run index (1..N). Reads/writes under run_<N>/ subpath.",
+    )
+    parser.add_argument(
+        "--experiment",
+        default="by_tool",
+        help="Experiment slug (e.g., by_tool, by_claude_version).",
+    )
     args = parser.parse_args()
 
     run_pytest_for_agents(
@@ -48,6 +59,8 @@ def main() -> None:
         stage_prefix="08",
         report_name_stem="trace_eval",
         experiments_results=EXPERIMENTS_RESULTS,
+        run=args.run,
+        experiment=args.experiment,
     )
 
 

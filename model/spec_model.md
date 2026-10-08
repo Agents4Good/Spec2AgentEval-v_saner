@@ -1,21 +1,25 @@
-Contrato de interface
+**Task:** você é um gerador de agentes de IA e abaixo está uma especificação de um agente. Gere um agente conforme a especificação. Considere que as ferramentas do agente devem ser geradas junto ao código do agente.  
+**Contexto:** Um agente de IA é uma entidade que usa LLM e ferramentas para executar tarefas específicas de forma autônoma.  
+**Output:** agent.py, requirements.txt, tests.py  
+**Contrato de interface com o benchmark:**
 
 | Requisito de interface | Exemplo       |
 | ---------------------- | ------------- |
 | Modelo                 | GPT-4o        |
 | Framework              | LangGraph     |
 | GenAI Tool             | ChatOpenAI    |
-| Entrypoint             | `agent(...)`  |
-| Output                 | `state: dict` |
+| Entrypoint             | `agent(...) - > output, trace`  |
+| Output                 | `output: dict` |
+| Trace                  | `trace: dict` |
 
-Detalhes de implementação
+**Detalhes de implementação**
 
 | Variáveis de ambiente | **…** |
 | --------------------- | ----- |
 |                       |       |
 
 
-Requisitos
+**Requisitos**
 
 | Requisito                                        | Significado                                                                                                                                                                                                                                                                                                                                        | Critério de Corretude                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | ------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -41,3 +45,30 @@ Comportamentos
 | Tools              | As ferramentas necessárias para o comportamento estão identificadas e seu propósito de uso está definido?                                             |
 | Expected Outcome   | A especificação define qual alteração deve ocorrer no ambiente? A alteração esperada é observável e verificável após a execução do comportamento? |
 | Environment Effect | A especificação define qual ambiente o agente vai alterar?  A especificação define como será feita a alteração no ambiente?                                 |
+
+**Grafo comportamental esperado:**
+
+> O grafo representa as transições comportamentais esperadas durante a execução. A trajetória observada pode conter eventos intermediários, desde que preserve as transições e condições definidas no grafo.
+
+
+```mermaid
+flowchart TD
+
+    B1["B1 — Comportamento inicial"]
+
+    B2["B2 — Próximo comportamento"]
+
+    BF["BF — Comportamento de falha"]
+
+    BN["BN — Comportamento alternativo"]
+
+    BO["BO — Comportamento final"]
+
+    B1 -->|condição de sucesso| B2
+    B1 -->|condição de falha| BF
+
+    B2 -->|condição A| BO
+    B2 -->|condição B| BN
+
+    BN --> BO
+    BF --> BO
