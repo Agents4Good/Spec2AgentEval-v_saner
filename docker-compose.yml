@@ -1,8 +1,93 @@
+# docker-compose.yml — T1: containers de geração isolados (claude, codex, opencode).
+#
+# Sem container_name (permite execuções one-off), sem env_file, sem segredos,
+# sem sockets/config/credenciais do host. Uso: ver docs/isolation/docker.md.
+#
+# Contrato final de caminhos (confirmado pelo usuário):
+#   spec  : specs/<agente>/spec.md              -> /workspace/spec.md  (ro)
+#   saída : generated_agents/<gerador>/<agente>/run_X/  -> /workspace/out (rw)
+# Variáveis obrigatórias:
+#   SPEC_FILE   absoluto do arquivo specs/<agente>/spec.md (dentro do repo)
+#   OUTPUT_ROOT absoluto de generated_agents/ (dentro do repo)
+#   AGENT       nome do agente (ex.: 001_list_issues_agent)
+#   RUN_ID      identificador da execução (ex.: run_1)
+# Cada serviço monta exatamente o diretório da sua execução:
+#   ${OUTPUT_ROOT}/<ferramenta>/${AGENT}/${RUN_ID} -> /workspace/out
+# BLOQUEIO SELinux (reportado, nao resolvido por conta propria): o mount da
+# spec e `:ro` SEM `z` — o compose NUNCA relabela o arquivo rastreado
+# specs/<agente>/spec.md. Em host SELinux enforcing a leitura da spec falha
+# (fail-closed, Permission denied) ate que o USUARIO decida explicitamente
+# entre as opcoes de docs/isolation/docker.md §5 (relabel manual, snapshot ou
+# label=disable). Nao ha forma de satisfazer caminho direto + leitura em
+# SELinux sem um destes trade-offs.
+
+x-hardening: &hardening
+  read_only: true
+  cap_drop: ["ALL"]
+  security_opt: ["no-new-privileges:true"]
+  tmpfs:
+    - /tmp:rw,nosuid,nodev,size=256m,mode=1777
+  init: true
+  mem_limit: 2g
+  pids_limit: 256
+
+x-runtime-env: &runtime-env
+  HOME: /tmp
+  XDG_CONFIG_HOME: /tmp/config
+  XDG_CACHE_HOME: /tmp/cache
+  XDG_DATA_HOME: /tmp/data
+
+# Volumes em sintaxe CURTA. Evidência T1: a sintaxe longa (`type: bind` +
+# `bind.selinux`) era IGNORADA pelo Docker Compose 5.5.1 — `docker inspect`
+# mostrava `HostConfig.Binds=None` e `Mounts.BindOptions={}` (sem relabel),
+# enquanto `docker run -v ...` aplicava as flags corretamente. A sintaxe curta
+# reproduz o comportamento validado do `docker run -v`.
+# - spec : `:ro` SEM `z` — o arquivo rastreado NUNCA tem o label alterado
+#   (bloqueio SELinux reportado; ver header e docs §5);
+# - out  : `:rw,Z` — o `Z` relabela SOMENTE o run dir dedicado
+#   (generated_agents/.../run_X, gitignorado e nao rastreado; relabel padrao
+#   e necessario para escrita em SELinux).
+# ATENCAO (honestidade): na sintaxe curta o engine cria o source inexistente
+# (comportamento padrão de bind). Nao ha fail-closed aqui; a validacao de
+# pre-existencia e responsabilidade do script de preparacao (docs §1).
+
 services:
-  spec2agenteval:
-    build: .
-    container_name: spec2agenteval-pipeline
-    env_file:
-      - .env
-    working_dir: /app
-    tty: true
+  claude:
+    build: ./containers/claude
+    image: spec2agent-claude:2.1.295
+    user: "${LOCAL_UID:-1000}:${LOCAL_GID:-1000}"
+    working_dir: /workspace/out
+    environment: *runtime-env
+    <<: *hardening
+    networks: [default]
+    volumes:
+      - ${SPEC_FILE:?defina SPEC_FILE absoluto de specs/<agente>/spec.md dentro do repositorio}:/workspace/spec.md:ro
+      - ${OUTPUT_ROOT:?defina OUTPUT_ROOT absoluto de generated_agents dentro do repositorio}/claude/${AGENT:?defina AGENT ex. 001_list_issues_agent}/${RUN_ID:?defina RUN_ID ex. run_1}:/workspace/out:rw,Z
+
+  codex:
+    build: ./containers/codex
+    image: spec2agent-codex:0.162.0
+    user: "${LOCAL_UID:-1000}:${LOCAL_GID:-1000}"
+    working_dir: /workspace/out
+    environment: *runtime-env
+    <<: *hardening
+    networks: [default]
+    volumes:
+      - ${SPEC_FILE:?defina SPEC_FILE absoluto de specs/<agente>/spec.md dentro do repositorio}:/workspace/spec.md:ro
+      - ${OUTPUT_ROOT:?defina OUTPUT_ROOT absoluto de generated_agents dentro do repositorio}/codex/${AGENT:?defina AGENT ex. 001_list_issues_agent}/${RUN_ID:?defina RUN_ID ex. run_1}:/workspace/out:rw,Z
+
+  opencode:
+    build: ./containers/opencode
+    image: spec2agent-opencode:1.18.35
+    user: "${LOCAL_UID:-1000}:${LOCAL_GID:-1000}"
+    working_dir: /workspace/out
+    environment: *runtime-env
+    <<: *hardening
+    networks: [default]
+    volumes:
+      - ${SPEC_FILE:?defina SPEC_FILE absoluto de specs/<agente>/spec.md dentro do repositorio}:/workspace/spec.md:ro
+      - ${OUTPUT_ROOT:?defina OUTPUT_ROOT absoluto de generated_agents dentro do repositorio}/opencode/${AGENT:?defina AGENT ex. 001_list_issues_agent}/${RUN_ID:?defina RUN_ID ex. run_1}:/workspace/out:rw,Z
+
+networks:
+  default:
+    driver: bridge

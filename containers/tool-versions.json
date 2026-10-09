@@ -1,0 +1,29 @@
+{
+  "base": {
+    "image": "node:22-bookworm-slim",
+    "digest": "sha256:c3de60bf2f9dd0ac6370e6117950ff62d6e339527e7472301c9c78a017978392",
+    "verified_on": "2026-10-09",
+    "source": "docker buildx imagetools inspect node:22-bookworm-slim"
+  },
+  "claude": {
+    "package": "@anthropic-ai/claude-code",
+    "version": "2.1.295",
+    "engines": "node>=22",
+    "verified_on": "2026-10-09",
+    "source": "https://registry.npmjs.org/@anthropic-ai/claude-code/2.1.295"
+  },
+  "codex": {
+    "package": "@openai/codex",
+    "version": "0.162.0",
+    "verified_on": "2026-10-09",
+    "source": "https://registry.npmjs.org/@openai/codex/0.162.0"
+  },
+  "opencode": {
+    "package": "opencode-ai",
+    "version": "1.18.35",
+    "major": 1,
+    "verified_on": "2026-10-09",
+    "source": "https://registry.npmjs.org/opencode-ai/1.18.35",
+    "integrity": "sha512-tDQKThIZ3amp8NSn3XDP2Dj5BlhRbZC0VkIxgYuf6gvRSXkseqD31j/U4KfpPwha593i8M59hdsDfz32yJx4Og=="
+  }
+}
