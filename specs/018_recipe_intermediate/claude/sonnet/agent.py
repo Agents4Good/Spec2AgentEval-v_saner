@@ -671,7 +671,7 @@ def agent(query: str) -> dict:
 if __name__ == "__main__":
     import sys
 
-    user_query = " ".join(sys.argv[1:]) or "Quero um jantar vegano com grão-de-bico e espinafre"
+    user_query = "Sou vegano. Tenho mel, gelatina e manteiga. Quero uma sobremesa."
     result = agent(user_query)
     if result.get("error"):
         print(result["error"])

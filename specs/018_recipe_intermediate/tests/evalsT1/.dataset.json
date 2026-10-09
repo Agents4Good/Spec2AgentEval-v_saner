@@ -1,0 +1,578 @@
+[
+  {
+    "name": "JG-B1-1",
+    "input": "Bora fazer algo gostoso com abobrinha hoje? Tô sem ideia pro jantar.",
+    "expected_output": "A query é classificada como válida (é informal, mas tem relação com culinária). O agente não emite mensagem 'Error:' de validação e segue para a identificação de ingredientes: search_recipes chamada uma vez com abobrinha, retrieve_pantry não chamada, e uma receita de jantar completa com abobrinha é gerada.",
+    "expected_tools": [
+      {
+        "name": "search_recipes"
+      }
+    ],
+    "additional_metadata": {
+      "flow": "B1-1",
+      "scenario": "Query válida informal com relação a comida",
+      "spec_refs": [
+        "B1",
+        "Inputs"
+      ],
+      "mocks": {
+        "search_recipes": [
+          {
+            "title": "Abobrinha recheada assada",
+            "url": "https://exemplo.com/abobrinha-recheada",
+            "content": "Corte a abobrinha ao meio, retire o miolo, refogue com alho e cebola e leve ao forno a 200 °C por 25 minutos."
+          },
+          {
+            "title": "Abobrinha grelhada com ervas",
+            "url": "https://exemplo.com/abobrinha-grelhada",
+            "content": "Fatie a abobrinha em lâminas, tempere com sal, azeite e ervas e grelhe por 3 minutos de cada lado."
+          }
+        ],
+        "retrieve_pantry": [
+          "arroz",
+          "feijão",
+          "tomate",
+          "cebola",
+          "alho"
+        ]
+      }
+    }
+  },
+  {
+    "name": "JG-B1-2",
+    "input": "Me ajuda a escrever um e-mail pedindo aumento de salário para o meu chefe?",
+    "expected_output": "Mensagem iniciada por 'Error:' explicando que a query não tem relação com comida, culinária, receitas ou ingredientes. O agente não escreve o e-mail, não chama nenhuma tool e não gera receita.",
+    "expected_tools": [],
+    "additional_metadata": {
+      "flow": "B1-2",
+      "scenario": "Query sem relação com culinária",
+      "spec_refs": [
+        "B1",
+        "Constraint: não fornecer/inventar respostas quando a query não for relacionada a receitas ou ingredientes"
+      ],
+      "mocks": {
+        "search_recipes": [
+          {
+            "title": "Receita de referência 1",
+            "url": "https://exemplo.com/receita-1",
+            "content": "Trecho de preparo genérico."
+          }
+        ],
+        "retrieve_pantry": [
+          "arroz",
+          "feijão",
+          "ovos"
+        ]
+      }
+    }
+  },
+  {
+    "name": "JG-B2-1",
+    "input": "Tenho macaxeira, dois tomates bem maduros e um resto de frango. Quero um almoço caseiro.",
+    "expected_output": "Ingredientes identificados e normalizados como mandioca, tomate e frango. search_recipes chamada uma vez com essa lista (sem quantidades nem adjetivos como 'dois', 'bem maduros' ou 'resto de'); retrieve_pantry não chamada. Receita de almoço completa contendo mandioca, tomate e frango.",
+    "expected_tools": [
+      {
+        "name": "search_recipes"
+      }
+    ],
+    "additional_metadata": {
+      "flow": "B2-1",
+      "scenario": "Ingredientes com variantes regionais e formas flexionadas",
+      "spec_refs": [
+        "B2"
+      ],
+      "mocks": {
+        "search_recipes": [
+          {
+            "title": "Escondidinho de mandioca com frango",
+            "url": "https://exemplo.com/escondidinho-frango",
+            "content": "Cozinhe a mandioca até amolecer, amasse e cubra o frango desfiado refogado com tomate. Gratine no forno."
+          },
+          {
+            "title": "Frango ensopado com mandioca",
+            "url": "https://exemplo.com/frango-ensopado-mandioca",
+            "content": "Refogue o frango, junte tomate picado e mandioca em cubos, cubra com água e cozinhe por 30 minutos."
+          }
+        ],
+        "retrieve_pantry": [
+          "arroz",
+          "feijão",
+          "tomate",
+          "cebola",
+          "alho"
+        ]
+      }
+    }
+  },
+  {
+    "name": "JG-B2-2",
+    "input": "Quero um café da manhã reforçado e rápido de preparar.",
+    "expected_output": "Nenhum ingrediente identificado na query (lista vazia), o que leva à consulta da despensa: retrieve_pantry chamada uma vez e search_recipes não chamada. Receita de café da manhã rápida e completa usando ingredientes da despensa (pão de forma, ovos, queijo minas, tomate, café).",
+    "expected_tools": [
+      {
+        "name": "retrieve_pantry"
+      }
+    ],
+    "additional_metadata": {
+      "flow": "B2-2",
+      "scenario": "Query válida sem ingredientes leva à despensa",
+      "spec_refs": [
+        "B2",
+        "B4"
+      ],
+      "mocks": {
+        "search_recipes": [
+          {
+            "title": "Receita de referência genérica",
+            "url": "https://exemplo.com/receita-generica",
+            "content": "Trecho de preparo genérico."
+          }
+        ],
+        "retrieve_pantry": [
+          "pão de forma",
+          "ovos",
+          "queijo minas",
+          "tomate",
+          "café"
+        ]
+      }
+    }
+  },
+  {
+    "name": "JG-B2-3",
+    "input": "Não tenho ovo e, se eu tivesse leite, faria um pudim. Me sugere uma sobremesa.",
+    "expected_output": "Ovo (negação) e leite (hipótese) ficam fora da lista de ingredientes, que fica vazia. retrieve_pantry chamada uma vez; search_recipes não chamada. Sobremesa completa feita com ingredientes da despensa (banana, aveia, canela, açúcar mascavo, uva-passa), sem ovo e sem leite.",
+    "expected_tools": [
+      {
+        "name": "retrieve_pantry"
+      }
+    ],
+    "additional_metadata": {
+      "flow": "B2-3",
+      "scenario": "Ingredientes apenas sob negação e hipótese",
+      "spec_refs": [
+        "B2",
+        "Policy: ingrediente sob negação, ausência ou hipótese não é disponível"
+      ],
+      "mocks": {
+        "search_recipes": [
+          {
+            "title": "Receita de referência genérica",
+            "url": "https://exemplo.com/receita-generica",
+            "content": "Trecho de preparo genérico."
+          }
+        ],
+        "retrieve_pantry": [
+          "banana",
+          "aveia",
+          "canela",
+          "açúcar mascavo",
+          "uva-passa"
+        ]
+      }
+    }
+  },
+  {
+    "name": "JG-B3-1",
+    "input": "Tenho lentilha, cenoura e cebola. Quero uma sopa para o inverno.",
+    "expected_output": "search_recipes chamada exatamente uma vez com lentilha, cenoura e cebola; retrieve_pantry não chamada. Os até 5 resultados (título, URL, trecho) são usados apenas como referência de preparo. Sopa completa contendo lentilha, cenoura e cebola.",
+    "expected_tools": [
+      {
+        "name": "search_recipes"
+      }
+    ],
+    "additional_metadata": {
+      "flow": "B3-1",
+      "scenario": "Busca de referências com lista de ingredientes não vazia",
+      "spec_refs": [
+        "B3",
+        "Tools/search_recipes"
+      ],
+      "mocks": {
+        "search_recipes": [
+          {
+            "title": "Sopa de lentilha com legumes",
+            "url": "https://exemplo.com/sopa-lentilha-legumes",
+            "content": "Refogue cebola, junte cenoura em cubos e lentilha lavada, cubra com caldo e cozinhe por 25 minutos."
+          },
+          {
+            "title": "Creme de lentilha e cenoura",
+            "url": "https://exemplo.com/creme-lentilha-cenoura",
+            "content": "Cozinhe lentilha e cenoura, bata no liquidificador e acerte o sal. Sirva com fio de azeite."
+          },
+          {
+            "title": "Sopa marroquina de lentilha",
+            "url": "https://exemplo.com/sopa-marroquina",
+            "content": "Use cominho e páprica no refogado de cebola antes de adicionar a lentilha."
+          },
+          {
+            "title": "Lentilha ensopada",
+            "url": "https://exemplo.com/lentilha-ensopada",
+            "content": "Deixe a lentilha de molho por 1 hora para reduzir o tempo de cozimento."
+          },
+          {
+            "title": "Caldo de legumes caseiro",
+            "url": "https://exemplo.com/caldo-legumes",
+            "content": "Ferva cenoura, cebola e talos por 40 minutos e coe."
+          }
+        ],
+        "retrieve_pantry": [
+          "arroz",
+          "feijão",
+          "tomate",
+          "cebola",
+          "alho"
+        ]
+      }
+    }
+  },
+  {
+    "name": "JG-B3-2",
+    "input": "Tenho quiabo e camarão. Quero um prato para o almoço de domingo.",
+    "expected_output": "search_recipes chamada uma vez com quiabo e camarão e retorna lista vazia; retrieve_pantry não chamada. O agente não emite erro: gera uma receita completa só com os ingredientes-base e conhecimento culinário, contendo quiabo e camarão.",
+    "expected_tools": [
+      {
+        "name": "search_recipes"
+      }
+    ],
+    "additional_metadata": {
+      "flow": "B3-2",
+      "scenario": "search_recipes sem resultados",
+      "spec_refs": [
+        "B3",
+        "B8: resultados de B3, quando houver"
+      ],
+      "mocks": {
+        "search_recipes": [],
+        "retrieve_pantry": [
+          "arroz",
+          "feijão",
+          "tomate",
+          "cebola",
+          "alho"
+        ]
+      }
+    }
+  },
+  {
+    "name": "JG-B3-3",
+    "input": "Tenho batata-doce e frango. Se precisar, pode usar também o que tiver na minha despensa. Quero um jantar.",
+    "expected_output": "Como a query contém ingredientes (batata-doce, frango), apenas search_recipes é chamada, uma única vez; retrieve_pantry nunca é chamada, apesar do pedido do usuário. Receita de jantar completa com batata-doce e frango.",
+    "expected_tools": [
+      {
+        "name": "search_recipes"
+      }
+    ],
+    "additional_metadata": {
+      "flow": "B3-3",
+      "scenario": "Query com ingredientes que também pede a despensa",
+      "spec_refs": [
+        "B3",
+        "Constraint: nunca chamar ambas as ferramentas na mesma execução"
+      ],
+      "mocks": {
+        "search_recipes": [
+          {
+            "title": "Frango com batata-doce assada",
+            "url": "https://exemplo.com/frango-batata-doce",
+            "content": "Tempere o frango, distribua com batata-doce em cubos na assadeira e asse a 200 °C por 40 minutos."
+          },
+          {
+            "title": "Escondidinho de batata-doce",
+            "url": "https://exemplo.com/escondidinho-batata-doce",
+            "content": "Faça um purê de batata-doce e cubra o frango desfiado. Leve ao forno para dourar."
+          }
+        ],
+        "retrieve_pantry": [
+          "arroz",
+          "brócolis",
+          "alho",
+          "creme de leite"
+        ]
+      }
+    }
+  },
+  {
+    "name": "JG-B3-4",
+    "input": "Tenho arroz e brócolis. Quero um acompanhamento simples.",
+    "expected_output": "search_recipes chamada uma vez com arroz e brócolis; retrieve_pantry não chamada. Ingredientes que aparecem só nas referências (bacon, creme de leite, parmesão, camarão, vinho branco) não viram ingredientes-base. Acompanhamento simples e completo centrado em arroz e brócolis, que não reproduz nenhuma das receitas de referência.",
+    "expected_tools": [
+      {
+        "name": "search_recipes"
+      }
+    ],
+    "additional_metadata": {
+      "flow": "B3-4",
+      "scenario": "Referências trazem ingredientes ausentes da query",
+      "spec_refs": [
+        "Tools/search_recipes: não são fonte de ingredientes-base, nem a receita final"
+      ],
+      "mocks": {
+        "search_recipes": [
+          {
+            "title": "Arroz com brócolis, bacon e creme de leite",
+            "url": "https://exemplo.com/arroz-brocolis-bacon",
+            "content": "Frite o bacon, junte o brócolis, o arroz cozido e o creme de leite. Finalize com parmesão ralado e gratine."
+          },
+          {
+            "title": "Risoto de brócolis com camarão",
+            "url": "https://exemplo.com/risoto-brocolis-camarao",
+            "content": "Refogue camarão na manteiga, junte arroz arbóreo, vinho branco e brócolis. Finalize com parmesão."
+          }
+        ],
+        "retrieve_pantry": [
+          "arroz",
+          "feijão",
+          "tomate",
+          "cebola",
+          "alho"
+        ]
+      }
+    }
+  },
+  {
+    "name": "JG-B4-1",
+    "input": "Me surpreenda com um prato para o jantar usando o que eu tiver em casa.",
+    "expected_output": "Lista de ingredientes da query vazia. retrieve_pantry chamada exatamente uma vez e search_recipes não chamada. Receita de jantar completa usando os itens da despensa (arroz, feijão, ovos, tomate, cebola, alho) como ingredientes-base.",
+    "expected_tools": [
+      {
+        "name": "retrieve_pantry"
+      }
+    ],
+    "additional_metadata": {
+      "flow": "B4-1",
+      "scenario": "Lista de ingredientes vazia consulta a despensa",
+      "spec_refs": [
+        "B4",
+        "Constraint: nunca chamar ambas as ferramentas"
+      ],
+      "mocks": {
+        "search_recipes": [
+          {
+            "title": "Receita de referência genérica",
+            "url": "https://exemplo.com/receita-generica",
+            "content": "Trecho de preparo genérico."
+          }
+        ],
+        "retrieve_pantry": [
+          "arroz",
+          "feijão",
+          "ovos",
+          "tomate",
+          "cebola",
+          "alho"
+        ]
+      }
+    }
+  },
+  {
+    "name": "JG-B5-1",
+    "input": "O que dá para cozinhar hoje com o que eu tenho em casa?",
+    "expected_output": "retrieve_pantry chamada uma vez e retorna lista vazia; search_recipes não chamada. O agente interrompe a execução com mensagem iniciada por 'Error:' explicando que não há ingredientes disponíveis. Nenhuma receita gerada.",
+    "expected_tools": [
+      {
+        "name": "retrieve_pantry"
+      }
+    ],
+    "additional_metadata": {
+      "flow": "B5-1",
+      "scenario": "Despensa vazia",
+      "spec_refs": [
+        "B5"
+      ],
+      "mocks": {
+        "search_recipes": [
+          {
+            "title": "Receita de referência genérica",
+            "url": "https://exemplo.com/receita-generica",
+            "content": "Trecho de preparo genérico."
+          }
+        ],
+        "retrieve_pantry": []
+      }
+    }
+  },
+  {
+    "name": "JG-B6-1",
+    "input": "Sou vegano. Tenho mel, gelatina e manteiga. Quero uma sobremesa.",
+    "expected_output": "Mel, gelatina e manteiga são de origem animal e, portanto, implicitamente excluídos pela restrição vegana, mesmo sem o usuário tê-los citado como proibidos. Nenhum ingrediente-base é compatível: o agente interrompe com mensagem iniciada por 'Error:' explicando a incompatibilidade com a dieta vegana. Nenhuma receita gerada; retrieve_pantry não chamada.",
+    "expected_tools": [
+      {
+        "name": "search_recipes",
+        "description": "opcional: pode ou não ser chamada, no máximo uma vez"
+      }
+    ],
+    "additional_metadata": {
+      "flow": "B6-1",
+      "scenario": "Todos os ingredientes incompatíveis via derivados implícitos",
+      "spec_refs": [
+        "B6",
+        "Policy: restrição implica todos os ingredientes derivados",
+        "Constraint: nunca gerar receitas que não respeitem as restrições"
+      ],
+      "mocks": {
+        "search_recipes": [
+          {
+            "title": "Mousse de mel",
+            "url": "https://exemplo.com/mousse-mel",
+            "content": "Dissolva a gelatina, misture com mel e creme batido e leve à geladeira por 4 horas."
+          },
+          {
+            "title": "Calda de manteiga e mel",
+            "url": "https://exemplo.com/calda-manteiga-mel",
+            "content": "Derreta a manteiga com mel em fogo baixo até engrossar."
+          }
+        ],
+        "retrieve_pantry": [
+          "arroz",
+          "feijão",
+          "tomate",
+          "cebola",
+          "alho"
+        ]
+      }
+    }
+  },
+  {
+    "name": "JG-B7-1",
+    "input": "Tenho abóbora e gengibre. Quero uma sopa cremosa.",
+    "expected_output": "search_recipes chamada uma vez e retorna mensagem iniciada por 'erro:'. O agente trata a falha sem exceção não tratada, não chama retrieve_pantry como alternativa e responde com mensagem iniciada por 'Error:' explicando a falha na busca de receitas. Nenhuma receita gerada.",
+    "expected_tools": [
+      {
+        "name": "search_recipes"
+      }
+    ],
+    "additional_metadata": {
+      "flow": "B7-1",
+      "scenario": "search_recipes retorna erro de timeout",
+      "spec_refs": [
+        "B7",
+        "Tools/Falhas"
+      ],
+      "mocks": {
+        "search_recipes": "erro: timeout ao consultar a API do Tavily",
+        "retrieve_pantry": [
+          "arroz",
+          "feijão",
+          "tomate",
+          "cebola",
+          "alho"
+        ]
+      }
+    }
+  },
+  {
+    "name": "JG-B8-1",
+    "input": "Tenho salmão, aspargos e limão. Quero um jantar leve, pronto em até 30 minutos e feito no forno.",
+    "expected_output": "search_recipes chamada uma vez com salmão, aspargos e limão; retrieve_pantry não chamada. Receita completa (Título, Ingredientes com quantidades, Equipamentos, Instruções passo a passo, Armazenamento) contendo salmão, aspargos e limão, feita no forno, leve e com tempo total de até 30 minutos.",
+    "expected_tools": [
+      {
+        "name": "search_recipes"
+      }
+    ],
+    "additional_metadata": {
+      "flow": "B8-1",
+      "scenario": "Ingredientes compatíveis com preferências de preparo",
+      "spec_refs": [
+        "B8",
+        "Constraint: a receita deve conter todos os ingredientes identificados na query",
+        "Quality attributes"
+      ],
+      "mocks": {
+        "search_recipes": [
+          {
+            "title": "Salmão assado com aspargos",
+            "url": "https://exemplo.com/salmao-aspargos",
+            "content": "Disponha salmão e aspargos na assadeira, regue com azeite e limão e asse a 200 °C por 15 minutos."
+          },
+          {
+            "title": "Salmão ao molho de limão",
+            "url": "https://exemplo.com/salmao-limao",
+            "content": "Sele o salmão, finalize com suco e raspas de limão e manteiga."
+          }
+        ],
+        "retrieve_pantry": [
+          "arroz",
+          "feijão",
+          "tomate",
+          "cebola",
+          "alho"
+        ]
+      }
+    }
+  },
+  {
+    "name": "JG-B8-2",
+    "input": "Quero um lanche da tarde para duas pessoas.",
+    "expected_output": "Query sem ingredientes: retrieve_pantry chamada uma vez, search_recipes não chamada. Receita completa de lanche da tarde para duas pessoas, com os 5 campos preenchidos e contendo pelo menos um ingrediente da despensa (banana, aveia, ovos, canela, mel).",
+    "expected_tools": [
+      {
+        "name": "retrieve_pantry"
+      }
+    ],
+    "additional_metadata": {
+      "flow": "B8-2",
+      "scenario": "Receita a partir da despensa",
+      "spec_refs": [
+        "B8",
+        "Constraint: sem ingredientes na query, a receita deve conter ao menos um ingrediente de retrieve_pantry"
+      ],
+      "mocks": {
+        "search_recipes": [
+          {
+            "title": "Receita de referência genérica",
+            "url": "https://exemplo.com/receita-generica",
+            "content": "Trecho de preparo genérico."
+          }
+        ],
+        "retrieve_pantry": [
+          "banana",
+          "aveia",
+          "ovos",
+          "canela",
+          "mel"
+        ]
+      }
+    }
+  },
+  {
+    "name": "JG-B8-3",
+    "input": "Sou celíaco. Tenho frango, arroz, shoyu e cerveja preta, e quero usar macarrão comum também. Quero um jantar.",
+    "expected_output": "search_recipes chamada uma vez; retrieve_pantry não chamada. Shoyu comum (trigo), cerveja preta (cevada/malte) e macarrão comum (trigo) são incompatíveis com a doença celíaca e ficam fora da receita, mesmo o usuário tendo pedido o macarrão. Receita de jantar completa e sem glúten contendo frango e arroz; nenhum ingrediente acrescentado pelo agente contém glúten (farinha de trigo, cevada, malte, centeio, shoyu comum, pão ou empanados).",
+    "expected_tools": [
+      {
+        "name": "search_recipes"
+      }
+    ],
+    "additional_metadata": {
+      "flow": "B8-3",
+      "scenario": "Celíaco com ingredientes parcialmente incompatíveis e pedido conflitante",
+      "spec_refs": [
+        "B8",
+        "Constraints sobre restrições dietéticas e ingredientes da query",
+        "Policy: restrição implica ingredientes derivados"
+      ],
+      "mocks": {
+        "search_recipes": [
+          {
+            "title": "Frango xadrez com shoyu",
+            "url": "https://exemplo.com/frango-xadrez",
+            "content": "Marine o frango no shoyu, salteie com pimentões e engrosse com amido de milho."
+          },
+          {
+            "title": "Frango na cerveja com arroz",
+            "url": "https://exemplo.com/frango-cerveja",
+            "content": "Cozinhe o frango na cerveja preta com cebola e sirva com arroz branco."
+          }
+        ],
+        "retrieve_pantry": [
+          "arroz",
+          "feijão",
+          "tomate",
+          "cebola",
+          "alho"
+        ]
+      }
+    }
+  }
+]

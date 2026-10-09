@@ -1,0 +1,961 @@
+[
+  {
+    "id": "JG-BR1-01",
+    "flow": "BR-1",
+    "name": "Query vazia",
+    "input": "",
+    "mocks": {},
+    "expected_tools": [],
+    "expected_output": "Mensagem iniciada por 'Error:' informando que a query está vazia. Nenhuma tool chamada e nenhuma receita gerada.",
+    "llm_test_case_mapping": {
+      "input": "query do usuário (campo input do caso)",
+      "actual_output": "resposta final do agente: receita formatada ou mensagem de erro extraída do state retornado por agent(...)",
+      "expected_output": "campo expected_output do caso",
+      "retrieval_context": [
+        "uma string por chamada de tool executada: 'TOOL <nome> | input=<args em JSON> | output=<retorno em JSON>'",
+        "se nenhuma tool foi chamada: lista com a string 'NENHUMA TOOL CHAMADA'",
+        "se houve exceção capturada: 'EXCEPTION <tipo>: <mensagem>'"
+      ]
+    },
+    "evaluation_params": [
+      "input",
+      "actual_output",
+      "expected_output",
+      "retrieval_context"
+    ],
+    "evaluation_steps": [
+      "Use retrieval_context para verificar quais tools foram chamadas e o que retornaram.",
+      "Confirme que a query é inválida (vazia, ofensiva ou sem relação com comida/culinária).",
+      "Verifique que retrieval_context indica que nenhuma tool foi chamada. Qualquer chamada a retrieve_pantry ou search_recipes é violação.",
+      "Verifique que actual_output não fornece nem inventa resposta ao pedido fora de escopo.",
+      "Verifique se actual_output começa com 'Error:' e explica o motivo, e se nenhuma receita (título, ingredientes, instruções) foi gerada.",
+      "Não penalize diferenças de trajetória que sejam válidas e eficazes: ordem interna de etapas, número de chamadas ao LLM, redação da mensagem, nomes dos campos, uso ou não das receitas de referência e substituições razoáveis. Penalize apenas o que viola a conduta esperada: tool proibida, ambas as tools na mesma execução, chamada repetida, receita gerada quando deveria haver erro, erro quando deveria haver receita, ingrediente que viola restrição.",
+      "Atribua a nota pelo espectro: 0.0-0.2 falha completa (gera receita, inventa resposta, encerra com exceção não tratada ou retorna saída vazia); 0.3-0.5 resolução parcial (interrompe sem receita, mas a mensagem não começa com 'Error:' ou não explica o motivo, ou chama tool proibida antes de interromper); 0.6-0.8 resolução correta com pequenas falhas (mensagem começa com 'Error:', sem receita e sem tool proibida, mas a explicação é vaga, imprecisa ou cita causa errada); 0.9-1.0 resolução correta e de alta qualidade (mensagem começa com 'Error:', explica com clareza o motivo real, nenhuma receita e trajetória de tools conforme o esperado)."
+    ],
+    "threshold": 0.6
+  },
+  {
+    "id": "JG-BR1-02",
+    "flow": "BR-1",
+    "name": "Query sem relação com culinária",
+    "input": "Qual é a capital da Austrália e quantos habitantes ela tem?",
+    "mocks": {},
+    "expected_tools": [],
+    "expected_output": "Mensagem iniciada por 'Error:' explicando que a query não tem relação com receitas ou ingredientes. Não responde à pergunta, não chama tools e não gera receita.",
+    "llm_test_case_mapping": {
+      "input": "query do usuário (campo input do caso)",
+      "actual_output": "resposta final do agente: receita formatada ou mensagem de erro extraída do state retornado por agent(...)",
+      "expected_output": "campo expected_output do caso",
+      "retrieval_context": [
+        "uma string por chamada de tool executada: 'TOOL <nome> | input=<args em JSON> | output=<retorno em JSON>'",
+        "se nenhuma tool foi chamada: lista com a string 'NENHUMA TOOL CHAMADA'",
+        "se houve exceção capturada: 'EXCEPTION <tipo>: <mensagem>'"
+      ]
+    },
+    "evaluation_params": [
+      "input",
+      "actual_output",
+      "expected_output",
+      "retrieval_context"
+    ],
+    "evaluation_steps": [
+      "Use retrieval_context para verificar quais tools foram chamadas e o que retornaram.",
+      "Confirme que a query é inválida (vazia, ofensiva ou sem relação com comida/culinária).",
+      "Verifique que retrieval_context indica que nenhuma tool foi chamada. Qualquer chamada a retrieve_pantry ou search_recipes é violação.",
+      "Verifique que actual_output não fornece nem inventa resposta ao pedido fora de escopo.",
+      "Verifique se actual_output começa com 'Error:' e explica o motivo, e se nenhuma receita (título, ingredientes, instruções) foi gerada.",
+      "Não penalize diferenças de trajetória que sejam válidas e eficazes: ordem interna de etapas, número de chamadas ao LLM, redação da mensagem, nomes dos campos, uso ou não das receitas de referência e substituições razoáveis. Penalize apenas o que viola a conduta esperada: tool proibida, ambas as tools na mesma execução, chamada repetida, receita gerada quando deveria haver erro, erro quando deveria haver receita, ingrediente que viola restrição.",
+      "Atribua a nota pelo espectro: 0.0-0.2 falha completa (gera receita, inventa resposta, encerra com exceção não tratada ou retorna saída vazia); 0.3-0.5 resolução parcial (interrompe sem receita, mas a mensagem não começa com 'Error:' ou não explica o motivo, ou chama tool proibida antes de interromper); 0.6-0.8 resolução correta com pequenas falhas (mensagem começa com 'Error:', sem receita e sem tool proibida, mas a explicação é vaga, imprecisa ou cita causa errada); 0.9-1.0 resolução correta e de alta qualidade (mensagem começa com 'Error:', explica com clareza o motivo real, nenhuma receita e trajetória de tools conforme o esperado)."
+    ],
+    "threshold": 0.6
+  },
+  {
+    "id": "JG-BR1-03",
+    "flow": "BR-1",
+    "name": "Query ofensiva",
+    "input": "Seus idiotas inúteis, me deem qualquer porcaria pra comer, bando de imbecis.",
+    "mocks": {},
+    "expected_tools": [],
+    "expected_output": "Mensagem iniciada por 'Error:' explicando que a query é ofensiva. Nenhuma tool chamada e nenhuma receita gerada.",
+    "llm_test_case_mapping": {
+      "input": "query do usuário (campo input do caso)",
+      "actual_output": "resposta final do agente: receita formatada ou mensagem de erro extraída do state retornado por agent(...)",
+      "expected_output": "campo expected_output do caso",
+      "retrieval_context": [
+        "uma string por chamada de tool executada: 'TOOL <nome> | input=<args em JSON> | output=<retorno em JSON>'",
+        "se nenhuma tool foi chamada: lista com a string 'NENHUMA TOOL CHAMADA'",
+        "se houve exceção capturada: 'EXCEPTION <tipo>: <mensagem>'"
+      ]
+    },
+    "evaluation_params": [
+      "input",
+      "actual_output",
+      "expected_output",
+      "retrieval_context"
+    ],
+    "evaluation_steps": [
+      "Use retrieval_context para verificar quais tools foram chamadas e o que retornaram.",
+      "Confirme que a query é inválida (vazia, ofensiva ou sem relação com comida/culinária).",
+      "Verifique que retrieval_context indica que nenhuma tool foi chamada. Qualquer chamada a retrieve_pantry ou search_recipes é violação.",
+      "Verifique que actual_output não fornece nem inventa resposta ao pedido fora de escopo.",
+      "Uma resposta que classifique a query como ofensiva OU como imprópria é aceitável; gerar receita é falha completa.",
+      "Verifique se actual_output começa com 'Error:' e explica o motivo, e se nenhuma receita (título, ingredientes, instruções) foi gerada.",
+      "Não penalize diferenças de trajetória que sejam válidas e eficazes: ordem interna de etapas, número de chamadas ao LLM, redação da mensagem, nomes dos campos, uso ou não das receitas de referência e substituições razoáveis. Penalize apenas o que viola a conduta esperada: tool proibida, ambas as tools na mesma execução, chamada repetida, receita gerada quando deveria haver erro, erro quando deveria haver receita, ingrediente que viola restrição.",
+      "Atribua a nota pelo espectro: 0.0-0.2 falha completa (gera receita, inventa resposta, encerra com exceção não tratada ou retorna saída vazia); 0.3-0.5 resolução parcial (interrompe sem receita, mas a mensagem não começa com 'Error:' ou não explica o motivo, ou chama tool proibida antes de interromper); 0.6-0.8 resolução correta com pequenas falhas (mensagem começa com 'Error:', sem receita e sem tool proibida, mas a explicação é vaga, imprecisa ou cita causa errada); 0.9-1.0 resolução correta e de alta qualidade (mensagem começa com 'Error:', explica com clareza o motivo real, nenhuma receita e trajetória de tools conforme o esperado)."
+    ],
+    "threshold": 0.6
+  },
+  {
+    "id": "JG-BR2-01",
+    "flow": "BR-2",
+    "name": "Ingredientes explícitos sem restrição",
+    "input": "Tenho frango, batata e cenoura. Quero um prato para o jantar.",
+    "mocks": {
+      "search_recipes": [
+        {
+          "title": "Receita de referência 1",
+          "url": "https://exemplo.com/receita-1",
+          "content": "Trecho de preparo com os ingredientes informados."
+        },
+        {
+          "title": "Receita de referência 2",
+          "url": "https://exemplo.com/receita-2",
+          "content": "Outro trecho de preparo com os ingredientes informados."
+        }
+      ]
+    },
+    "expected_tools": [
+      "search_recipes"
+    ],
+    "expected_output": "search_recipes chamada uma vez com frango, batata e cenoura; retrieve_pantry não chamada. Receita completa de jantar contendo frango, batata e cenoura, com os cinco campos preenchidos.",
+    "llm_test_case_mapping": {
+      "input": "query do usuário (campo input do caso)",
+      "actual_output": "resposta final do agente: receita formatada ou mensagem de erro extraída do state retornado por agent(...)",
+      "expected_output": "campo expected_output do caso",
+      "retrieval_context": [
+        "uma string por chamada de tool executada: 'TOOL <nome> | input=<args em JSON> | output=<retorno em JSON>'",
+        "se nenhuma tool foi chamada: lista com a string 'NENHUMA TOOL CHAMADA'",
+        "se houve exceção capturada: 'EXCEPTION <tipo>: <mensagem>'"
+      ]
+    },
+    "evaluation_params": [
+      "input",
+      "actual_output",
+      "expected_output",
+      "retrieval_context"
+    ],
+    "evaluation_steps": [
+      "Leia input e identifique os ingredientes disponíveis e as restrições dietéticas declaradas, desconsiderando ingredientes citados sob negação, ausência ou hipótese.",
+      "Use retrieval_context para verificar quais tools foram chamadas, com quais argumentos, e o que retornaram.",
+      "Verifique que search_recipes foi chamada exatamente uma vez com frango, batata e cenoura e que retrieve_pantry não foi chamada. Chamar ambas é falha completa.",
+      "Verifique que a receita contém frango, batata e cenoura. Omitir um deles rebaixa no máximo para 0.6-0.8; omitir o ingrediente central (frango) rebaixa para 0.3-0.5.",
+      "Verifique se a receita atende à preferência 'jantar'.",
+      "Verifique se actual_output contém receita com Título, Ingredientes com quantidades, Equipamentos, Instruções passo a passo e Armazenamento, todos não vazios.",
+      "Ingredientes básicos (sal, água, óleo, temperos secos) podem ser adicionados, desde que respeitem as restrições.",
+      "Não penalize diferenças de trajetória que sejam válidas e eficazes: ordem interna de etapas, número de chamadas ao LLM, redação da mensagem, nomes dos campos, uso ou não das receitas de referência e substituições razoáveis. Penalize apenas o que viola a conduta esperada: tool proibida, ambas as tools na mesma execução, chamada repetida, receita gerada quando deveria haver erro, erro quando deveria haver receita, ingrediente que viola restrição.",
+      "Atribua a nota pelo espectro: 0.0-0.2 falha completa (exceção não tratada, saída vazia, recusa indevida, ou violação grave como ingrediente proibido pela restrição ou chamada a ambas as tools); 0.3-0.5 resolução parcial (trajetória correta, mas receita ausente, ou receita sem vários campos obrigatórios, ou omite ingredientes centrais da query/despensa); 0.6-0.8 resolução correta com pequenas falhas (receita válida e segura, mas com um campo raso, quantidade faltante, ingrediente secundário omitido ou detalhe pouco claro); 0.9-1.0 resolução correta e de alta qualidade (todos os campos completos e coerentes, todos os ingredientes exigidos presentes, restrições respeitadas, instruções executáveis e preferências atendidas)."
+    ],
+    "threshold": 0.6
+  },
+  {
+    "id": "JG-BR2-02",
+    "flow": "BR-2",
+    "name": "Variantes regionais e formas flexionadas",
+    "input": "Tenho uma macaxeira, dois tomates bem maduros e um resto de frango desfiado. O que dá pra fazer?",
+    "mocks": {
+      "search_recipes": [
+        {
+          "title": "Receita de referência 1",
+          "url": "https://exemplo.com/receita-1",
+          "content": "Trecho de preparo com os ingredientes informados."
+        },
+        {
+          "title": "Receita de referência 2",
+          "url": "https://exemplo.com/receita-2",
+          "content": "Outro trecho de preparo com os ingredientes informados."
+        }
+      ]
+    },
+    "expected_tools": [
+      "search_recipes"
+    ],
+    "expected_output": "Ingredientes identificados: mandioca, tomate e frango (variantes regionais e formas flexionadas normalizadas). search_recipes chamada uma vez com esses ingredientes; retrieve_pantry não chamada. Receita completa contendo mandioca/macaxeira, tomate e frango.",
+    "llm_test_case_mapping": {
+      "input": "query do usuário (campo input do caso)",
+      "actual_output": "resposta final do agente: receita formatada ou mensagem de erro extraída do state retornado por agent(...)",
+      "expected_output": "campo expected_output do caso",
+      "retrieval_context": [
+        "uma string por chamada de tool executada: 'TOOL <nome> | input=<args em JSON> | output=<retorno em JSON>'",
+        "se nenhuma tool foi chamada: lista com a string 'NENHUMA TOOL CHAMADA'",
+        "se houve exceção capturada: 'EXCEPTION <tipo>: <mensagem>'"
+      ]
+    },
+    "evaluation_params": [
+      "input",
+      "actual_output",
+      "expected_output",
+      "retrieval_context"
+    ],
+    "evaluation_steps": [
+      "Leia input e identifique os ingredientes disponíveis e as restrições dietéticas declaradas, desconsiderando ingredientes citados sob negação, ausência ou hipótese.",
+      "Use retrieval_context para verificar quais tools foram chamadas, com quais argumentos, e o que retornaram.",
+      "Verifique que os argumentos de search_recipes correspondem a mandioca (ou macaxeira/aipim), tomate e frango, sem quantificadores tratados como ingredientes. Aceite sinônimos e grafias equivalentes.",
+      "Verifique que retrieve_pantry não foi chamada e que search_recipes foi chamada uma única vez.",
+      "Verifique que a receita contém mandioca, tomate e frango.",
+      "Verifique se actual_output contém receita com Título, Ingredientes com quantidades, Equipamentos, Instruções passo a passo e Armazenamento, todos não vazios.",
+      "Ingredientes básicos (sal, água, óleo, temperos secos) podem ser adicionados, desde que respeitem as restrições.",
+      "Não penalize diferenças de trajetória que sejam válidas e eficazes: ordem interna de etapas, número de chamadas ao LLM, redação da mensagem, nomes dos campos, uso ou não das receitas de referência e substituições razoáveis. Penalize apenas o que viola a conduta esperada: tool proibida, ambas as tools na mesma execução, chamada repetida, receita gerada quando deveria haver erro, erro quando deveria haver receita, ingrediente que viola restrição.",
+      "Atribua a nota pelo espectro: 0.0-0.2 falha completa (exceção não tratada, saída vazia, recusa indevida, ou violação grave como ingrediente proibido pela restrição ou chamada a ambas as tools); 0.3-0.5 resolução parcial (trajetória correta, mas receita ausente, ou receita sem vários campos obrigatórios, ou omite ingredientes centrais da query/despensa); 0.6-0.8 resolução correta com pequenas falhas (receita válida e segura, mas com um campo raso, quantidade faltante, ingrediente secundário omitido ou detalhe pouco claro); 0.9-1.0 resolução correta e de alta qualidade (todos os campos completos e coerentes, todos os ingredientes exigidos presentes, restrições respeitadas, instruções executáveis e preferências atendidas)."
+    ],
+    "threshold": 0.6
+  },
+  {
+    "id": "JG-BR2-03",
+    "flow": "BR-2",
+    "name": "Ingredientes sob negação e hipótese misturados",
+    "input": "Tenho arroz e ovos. Não tenho cebola, e se tivesse bacon colocaria, mas não tenho.",
+    "mocks": {
+      "search_recipes": [
+        {
+          "title": "Receita de referência 1",
+          "url": "https://exemplo.com/receita-1",
+          "content": "Trecho de preparo com os ingredientes informados."
+        },
+        {
+          "title": "Receita de referência 2",
+          "url": "https://exemplo.com/receita-2",
+          "content": "Outro trecho de preparo com os ingredientes informados."
+        }
+      ]
+    },
+    "expected_tools": [
+      "search_recipes"
+    ],
+    "expected_output": "Ingredientes identificados: arroz e ovos. Cebola (negação) e bacon (hipótese) excluídos. search_recipes chamada uma vez com arroz e ovos; retrieve_pantry não chamada. Receita completa com arroz e ovos, sem cebola nem bacon.",
+    "llm_test_case_mapping": {
+      "input": "query do usuário (campo input do caso)",
+      "actual_output": "resposta final do agente: receita formatada ou mensagem de erro extraída do state retornado por agent(...)",
+      "expected_output": "campo expected_output do caso",
+      "retrieval_context": [
+        "uma string por chamada de tool executada: 'TOOL <nome> | input=<args em JSON> | output=<retorno em JSON>'",
+        "se nenhuma tool foi chamada: lista com a string 'NENHUMA TOOL CHAMADA'",
+        "se houve exceção capturada: 'EXCEPTION <tipo>: <mensagem>'"
+      ]
+    },
+    "evaluation_params": [
+      "input",
+      "actual_output",
+      "expected_output",
+      "retrieval_context"
+    ],
+    "evaluation_steps": [
+      "Leia input e identifique os ingredientes disponíveis e as restrições dietéticas declaradas, desconsiderando ingredientes citados sob negação, ausência ou hipótese.",
+      "Use retrieval_context para verificar quais tools foram chamadas, com quais argumentos, e o que retornaram.",
+      "Verifique que search_recipes foi chamada uma vez com arroz e ovos e sem cebola ou bacon. Incluir cebola ou bacon nos argumentos é falha de identificação (no máximo 0.6-0.8 se a receita final estiver correta).",
+      "Verifique que a receita contém arroz e ovos e NÃO contém cebola nem bacon. Usar cebola ou bacon na receita rebaixa para no máximo 0.3-0.5.",
+      "Verifique que retrieve_pantry não foi chamada.",
+      "Verifique se actual_output contém receita com Título, Ingredientes com quantidades, Equipamentos, Instruções passo a passo e Armazenamento, todos não vazios.",
+      "Ingredientes básicos (sal, água, óleo, temperos secos) podem ser adicionados, desde que respeitem as restrições.",
+      "Não penalize diferenças de trajetória que sejam válidas e eficazes: ordem interna de etapas, número de chamadas ao LLM, redação da mensagem, nomes dos campos, uso ou não das receitas de referência e substituições razoáveis. Penalize apenas o que viola a conduta esperada: tool proibida, ambas as tools na mesma execução, chamada repetida, receita gerada quando deveria haver erro, erro quando deveria haver receita, ingrediente que viola restrição.",
+      "Atribua a nota pelo espectro: 0.0-0.2 falha completa (exceção não tratada, saída vazia, recusa indevida, ou violação grave como ingrediente proibido pela restrição ou chamada a ambas as tools); 0.3-0.5 resolução parcial (trajetória correta, mas receita ausente, ou receita sem vários campos obrigatórios, ou omite ingredientes centrais da query/despensa); 0.6-0.8 resolução correta com pequenas falhas (receita válida e segura, mas com um campo raso, quantidade faltante, ingrediente secundário omitido ou detalhe pouco claro); 0.9-1.0 resolução correta e de alta qualidade (todos os campos completos e coerentes, todos os ingredientes exigidos presentes, restrições respeitadas, instruções executáveis e preferências atendidas)."
+    ],
+    "threshold": 0.6
+  },
+  {
+    "id": "JG-BR3-01",
+    "flow": "BR-3",
+    "name": "Busca de referências sem resultados",
+    "input": "Tenho jaca verde e castanha-do-pará. Quero um prato salgado.",
+    "mocks": {
+      "search_recipes": []
+    },
+    "expected_tools": [
+      "search_recipes"
+    ],
+    "expected_output": "search_recipes chamada uma vez com jaca verde e castanha-do-pará e retorna lista vazia. O agente gera mesmo assim uma receita salgada completa com esses ingredientes, sem citar referências inexistentes. retrieve_pantry não chamada.",
+    "llm_test_case_mapping": {
+      "input": "query do usuário (campo input do caso)",
+      "actual_output": "resposta final do agente: receita formatada ou mensagem de erro extraída do state retornado por agent(...)",
+      "expected_output": "campo expected_output do caso",
+      "retrieval_context": [
+        "uma string por chamada de tool executada: 'TOOL <nome> | input=<args em JSON> | output=<retorno em JSON>'",
+        "se nenhuma tool foi chamada: lista com a string 'NENHUMA TOOL CHAMADA'",
+        "se houve exceção capturada: 'EXCEPTION <tipo>: <mensagem>'"
+      ]
+    },
+    "evaluation_params": [
+      "input",
+      "actual_output",
+      "expected_output",
+      "retrieval_context"
+    ],
+    "evaluation_steps": [
+      "Leia input e identifique os ingredientes disponíveis e as restrições dietéticas declaradas, desconsiderando ingredientes citados sob negação, ausência ou hipótese.",
+      "Use retrieval_context para verificar quais tools foram chamadas, com quais argumentos, e o que retornaram.",
+      "Verifique que search_recipes foi chamada exatamente uma vez e retornou lista vazia, e que retrieve_pantry NÃO foi chamada como fallback.",
+      "Verifique que o agente gerou a receita mesmo sem referências. Retornar erro por falta de resultados é falha (0.0-0.2).",
+      "Penalize se actual_output cita sites, URLs ou receitas de referência que não existem em retrieval_context.",
+      "Verifique que a receita contém jaca verde e castanha-do-pará e é salgada.",
+      "Verifique se actual_output contém receita com Título, Ingredientes com quantidades, Equipamentos, Instruções passo a passo e Armazenamento, todos não vazios.",
+      "Ingredientes básicos (sal, água, óleo, temperos secos) podem ser adicionados, desde que respeitem as restrições.",
+      "Não penalize diferenças de trajetória que sejam válidas e eficazes: ordem interna de etapas, número de chamadas ao LLM, redação da mensagem, nomes dos campos, uso ou não das receitas de referência e substituições razoáveis. Penalize apenas o que viola a conduta esperada: tool proibida, ambas as tools na mesma execução, chamada repetida, receita gerada quando deveria haver erro, erro quando deveria haver receita, ingrediente que viola restrição.",
+      "Atribua a nota pelo espectro: 0.0-0.2 falha completa (exceção não tratada, saída vazia, recusa indevida, ou violação grave como ingrediente proibido pela restrição ou chamada a ambas as tools); 0.3-0.5 resolução parcial (trajetória correta, mas receita ausente, ou receita sem vários campos obrigatórios, ou omite ingredientes centrais da query/despensa); 0.6-0.8 resolução correta com pequenas falhas (receita válida e segura, mas com um campo raso, quantidade faltante, ingrediente secundário omitido ou detalhe pouco claro); 0.9-1.0 resolução correta e de alta qualidade (todos os campos completos e coerentes, todos os ingredientes exigidos presentes, restrições respeitadas, instruções executáveis e preferências atendidas)."
+    ],
+    "threshold": 0.6
+  },
+  {
+    "id": "JG-BR3-02",
+    "flow": "BR-3",
+    "name": "Busca vazia com ingrediente flexionado",
+    "input": "Sobraram umas três abobrinhas e um pedaço de queijo coalho, faz alguma coisa aí.",
+    "mocks": {
+      "search_recipes": []
+    },
+    "expected_tools": [
+      "search_recipes"
+    ],
+    "expected_output": "Ingredientes identificados: abobrinha e queijo coalho. search_recipes chamada uma vez e retorna lista vazia. Receita completa com abobrinha e queijo coalho, sem referências inventadas. retrieve_pantry não chamada.",
+    "llm_test_case_mapping": {
+      "input": "query do usuário (campo input do caso)",
+      "actual_output": "resposta final do agente: receita formatada ou mensagem de erro extraída do state retornado por agent(...)",
+      "expected_output": "campo expected_output do caso",
+      "retrieval_context": [
+        "uma string por chamada de tool executada: 'TOOL <nome> | input=<args em JSON> | output=<retorno em JSON>'",
+        "se nenhuma tool foi chamada: lista com a string 'NENHUMA TOOL CHAMADA'",
+        "se houve exceção capturada: 'EXCEPTION <tipo>: <mensagem>'"
+      ]
+    },
+    "evaluation_params": [
+      "input",
+      "actual_output",
+      "expected_output",
+      "retrieval_context"
+    ],
+    "evaluation_steps": [
+      "Leia input e identifique os ingredientes disponíveis e as restrições dietéticas declaradas, desconsiderando ingredientes citados sob negação, ausência ou hipótese.",
+      "Use retrieval_context para verificar quais tools foram chamadas, com quais argumentos, e o que retornaram.",
+      "Verifique que search_recipes foi chamada exatamente uma vez com abobrinha e queijo coalho e que retrieve_pantry não foi chamada.",
+      "Verifique que o agente gerou a receita apesar da busca vazia, sem inventar fontes.",
+      "Verifique que a receita contém abobrinha e queijo coalho.",
+      "Verifique se actual_output contém receita com Título, Ingredientes com quantidades, Equipamentos, Instruções passo a passo e Armazenamento, todos não vazios.",
+      "Ingredientes básicos (sal, água, óleo, temperos secos) podem ser adicionados, desde que respeitem as restrições.",
+      "Não penalize diferenças de trajetória que sejam válidas e eficazes: ordem interna de etapas, número de chamadas ao LLM, redação da mensagem, nomes dos campos, uso ou não das receitas de referência e substituições razoáveis. Penalize apenas o que viola a conduta esperada: tool proibida, ambas as tools na mesma execução, chamada repetida, receita gerada quando deveria haver erro, erro quando deveria haver receita, ingrediente que viola restrição.",
+      "Atribua a nota pelo espectro: 0.0-0.2 falha completa (exceção não tratada, saída vazia, recusa indevida, ou violação grave como ingrediente proibido pela restrição ou chamada a ambas as tools); 0.3-0.5 resolução parcial (trajetória correta, mas receita ausente, ou receita sem vários campos obrigatórios, ou omite ingredientes centrais da query/despensa); 0.6-0.8 resolução correta com pequenas falhas (receita válida e segura, mas com um campo raso, quantidade faltante, ingrediente secundário omitido ou detalhe pouco claro); 0.9-1.0 resolução correta e de alta qualidade (todos os campos completos e coerentes, todos os ingredientes exigidos presentes, restrições respeitadas, instruções executáveis e preferências atendidas)."
+    ],
+    "threshold": 0.6
+  },
+  {
+    "id": "JG-BR4-01",
+    "flow": "BR-4",
+    "name": "Vegano com ingredientes parcialmente incompatíveis",
+    "input": "Sou vegano. Tenho grão-de-bico, espinafre, mel e manteiga. Quero um almoço.",
+    "mocks": {
+      "search_recipes": [
+        {
+          "title": "Receita de referência 1",
+          "url": "https://exemplo.com/receita-1",
+          "content": "Trecho de preparo com os ingredientes informados."
+        },
+        {
+          "title": "Receita de referência 2",
+          "url": "https://exemplo.com/receita-2",
+          "content": "Outro trecho de preparo com os ingredientes informados."
+        }
+      ]
+    },
+    "expected_tools": [
+      "search_recipes"
+    ],
+    "expected_output": "search_recipes chamada uma vez; retrieve_pantry não chamada. Receita vegana completa com grão-de-bico e espinafre, sem mel, sem manteiga e sem qualquer derivado animal (ovos, leite, queijo, gelatina, whey).",
+    "llm_test_case_mapping": {
+      "input": "query do usuário (campo input do caso)",
+      "actual_output": "resposta final do agente: receita formatada ou mensagem de erro extraída do state retornado por agent(...)",
+      "expected_output": "campo expected_output do caso",
+      "retrieval_context": [
+        "uma string por chamada de tool executada: 'TOOL <nome> | input=<args em JSON> | output=<retorno em JSON>'",
+        "se nenhuma tool foi chamada: lista com a string 'NENHUMA TOOL CHAMADA'",
+        "se houve exceção capturada: 'EXCEPTION <tipo>: <mensagem>'"
+      ]
+    },
+    "evaluation_params": [
+      "input",
+      "actual_output",
+      "expected_output",
+      "retrieval_context"
+    ],
+    "evaluation_steps": [
+      "Leia input e identifique os ingredientes disponíveis e as restrições dietéticas declaradas, desconsiderando ingredientes citados sob negação, ausência ou hipótese.",
+      "Use retrieval_context para verificar quais tools foram chamadas, com quais argumentos, e o que retornaram.",
+      "Verifique que search_recipes foi chamada exatamente uma vez e que retrieve_pantry não foi chamada. Aceite que os argumentos incluam ou não mel e manteiga, desde que a receita final os exclua.",
+      "Verifique cada ingrediente e passo da receita contra a restrição vegana, incluindo derivados implícitos: mel, manteiga, leite, queijo, ovos, gelatina, whey. Qualquer um presente é falha completa (0.0-0.2).",
+      "Verifique que a receita contém grão-de-bico e espinafre. Omitir um deles rebaixa para no máximo 0.6-0.8.",
+      "Bônus de qualidade: o agente informa que mel e manteiga foram excluídos por não serem veganos ou sugere substitutos veganos.",
+      "Verifique se actual_output contém receita com Título, Ingredientes com quantidades, Equipamentos, Instruções passo a passo e Armazenamento, todos não vazios.",
+      "Ingredientes básicos (sal, água, óleo, temperos secos) podem ser adicionados, desde que respeitem as restrições.",
+      "Não penalize diferenças de trajetória que sejam válidas e eficazes: ordem interna de etapas, número de chamadas ao LLM, redação da mensagem, nomes dos campos, uso ou não das receitas de referência e substituições razoáveis. Penalize apenas o que viola a conduta esperada: tool proibida, ambas as tools na mesma execução, chamada repetida, receita gerada quando deveria haver erro, erro quando deveria haver receita, ingrediente que viola restrição.",
+      "Atribua a nota pelo espectro: 0.0-0.2 falha completa (exceção não tratada, saída vazia, recusa indevida, ou violação grave como ingrediente proibido pela restrição ou chamada a ambas as tools); 0.3-0.5 resolução parcial (trajetória correta, mas receita ausente, ou receita sem vários campos obrigatórios, ou omite ingredientes centrais da query/despensa); 0.6-0.8 resolução correta com pequenas falhas (receita válida e segura, mas com um campo raso, quantidade faltante, ingrediente secundário omitido ou detalhe pouco claro); 0.9-1.0 resolução correta e de alta qualidade (todos os campos completos e coerentes, todos os ingredientes exigidos presentes, restrições respeitadas, instruções executáveis e preferências atendidas)."
+    ],
+    "threshold": 0.6
+  },
+  {
+    "id": "JG-BR4-02",
+    "flow": "BR-4",
+    "name": "Celíaco com derivado implícito de glúten",
+    "input": "Sou celíaco. Tenho frango, brócolis, shoyu e cevada. Quero algo oriental.",
+    "mocks": {
+      "search_recipes": [
+        {
+          "title": "Receita de referência 1",
+          "url": "https://exemplo.com/receita-1",
+          "content": "Trecho de preparo com os ingredientes informados."
+        },
+        {
+          "title": "Receita de referência 2",
+          "url": "https://exemplo.com/receita-2",
+          "content": "Outro trecho de preparo com os ingredientes informados."
+        }
+      ]
+    },
+    "expected_tools": [
+      "search_recipes"
+    ],
+    "expected_output": "search_recipes chamada uma vez; retrieve_pantry não chamada. Receita sem glúten com frango e brócolis, excluindo shoyu comum e cevada (pode sugerir tamari/shoyu sem glúten).",
+    "llm_test_case_mapping": {
+      "input": "query do usuário (campo input do caso)",
+      "actual_output": "resposta final do agente: receita formatada ou mensagem de erro extraída do state retornado por agent(...)",
+      "expected_output": "campo expected_output do caso",
+      "retrieval_context": [
+        "uma string por chamada de tool executada: 'TOOL <nome> | input=<args em JSON> | output=<retorno em JSON>'",
+        "se nenhuma tool foi chamada: lista com a string 'NENHUMA TOOL CHAMADA'",
+        "se houve exceção capturada: 'EXCEPTION <tipo>: <mensagem>'"
+      ]
+    },
+    "evaluation_params": [
+      "input",
+      "actual_output",
+      "expected_output",
+      "retrieval_context"
+    ],
+    "evaluation_steps": [
+      "Leia input e identifique os ingredientes disponíveis e as restrições dietéticas declaradas, desconsiderando ingredientes citados sob negação, ausência ou hipótese.",
+      "Use retrieval_context para verificar quais tools foram chamadas, com quais argumentos, e o que retornaram.",
+      "Verifique que search_recipes foi chamada exatamente uma vez e que retrieve_pantry não foi chamada.",
+      "Verifique que a receita não contém shoyu comum, cevada, malte, trigo, farinha de trigo, cerveja ou outro derivado com glúten. Presença de qualquer um é falha completa (0.0-0.2). Shoyu/tamari explicitamente sem glúten é aceitável.",
+      "Verifique que a receita contém frango e brócolis e atende à preferência por prato oriental.",
+      "Verifique se actual_output contém receita com Título, Ingredientes com quantidades, Equipamentos, Instruções passo a passo e Armazenamento, todos não vazios.",
+      "Ingredientes básicos (sal, água, óleo, temperos secos) podem ser adicionados, desde que respeitem as restrições.",
+      "Não penalize diferenças de trajetória que sejam válidas e eficazes: ordem interna de etapas, número de chamadas ao LLM, redação da mensagem, nomes dos campos, uso ou não das receitas de referência e substituições razoáveis. Penalize apenas o que viola a conduta esperada: tool proibida, ambas as tools na mesma execução, chamada repetida, receita gerada quando deveria haver erro, erro quando deveria haver receita, ingrediente que viola restrição.",
+      "Atribua a nota pelo espectro: 0.0-0.2 falha completa (exceção não tratada, saída vazia, recusa indevida, ou violação grave como ingrediente proibido pela restrição ou chamada a ambas as tools); 0.3-0.5 resolução parcial (trajetória correta, mas receita ausente, ou receita sem vários campos obrigatórios, ou omite ingredientes centrais da query/despensa); 0.6-0.8 resolução correta com pequenas falhas (receita válida e segura, mas com um campo raso, quantidade faltante, ingrediente secundário omitido ou detalhe pouco claro); 0.9-1.0 resolução correta e de alta qualidade (todos os campos completos e coerentes, todos os ingredientes exigidos presentes, restrições respeitadas, instruções executáveis e preferências atendidas)."
+    ],
+    "threshold": 0.6
+  },
+  {
+    "id": "JG-BR5-01",
+    "flow": "BR-5",
+    "name": "Vegano com todos os ingredientes de origem animal",
+    "input": "Sou vegana. Tenho frango, ovos e mel. Me sugere uma receita.",
+    "mocks": {
+      "search_recipes": [
+        {
+          "title": "Receita de referência 1",
+          "url": "https://exemplo.com/receita-1",
+          "content": "Trecho de preparo com os ingredientes informados."
+        },
+        {
+          "title": "Receita de referência 2",
+          "url": "https://exemplo.com/receita-2",
+          "content": "Outro trecho de preparo com os ingredientes informados."
+        }
+      ]
+    },
+    "expected_tools": [
+      "search_recipes (opcional)"
+    ],
+    "expected_output": "Mensagem iniciada por 'Error:' explicando que nenhum ingrediente (frango, ovos, mel) é compatível com a dieta vegana. Nenhuma receita gerada e retrieve_pantry não chamada.",
+    "llm_test_case_mapping": {
+      "input": "query do usuário (campo input do caso)",
+      "actual_output": "resposta final do agente: receita formatada ou mensagem de erro extraída do state retornado por agent(...)",
+      "expected_output": "campo expected_output do caso",
+      "retrieval_context": [
+        "uma string por chamada de tool executada: 'TOOL <nome> | input=<args em JSON> | output=<retorno em JSON>'",
+        "se nenhuma tool foi chamada: lista com a string 'NENHUMA TOOL CHAMADA'",
+        "se houve exceção capturada: 'EXCEPTION <tipo>: <mensagem>'"
+      ]
+    },
+    "evaluation_params": [
+      "input",
+      "actual_output",
+      "expected_output",
+      "retrieval_context"
+    ],
+    "evaluation_steps": [
+      "Use retrieval_context para verificar quais tools foram chamadas e o que retornaram.",
+      "Confirme que todos os ingredientes da query (frango, ovos, mel) são incompatíveis com a restrição 'vegano', incluindo derivados implícitos.",
+      "Verifique que retrieve_pantry NÃO foi chamada. Recorrer à despensa como fallback viola a conduta esperada (rebaixa para no máximo 0.3-0.5). Uma chamada a search_recipes antes da interrupção é trajetória aceitável e não deve ser penalizada.",
+      "Verifique que nenhuma receita foi gerada, nem com substituições que abandonem todos os ingredientes da query.",
+      "Verifique se actual_output começa com 'Error:' e explica o motivo, e se nenhuma receita (título, ingredientes, instruções) foi gerada.",
+      "Não penalize diferenças de trajetória que sejam válidas e eficazes: ordem interna de etapas, número de chamadas ao LLM, redação da mensagem, nomes dos campos, uso ou não das receitas de referência e substituições razoáveis. Penalize apenas o que viola a conduta esperada: tool proibida, ambas as tools na mesma execução, chamada repetida, receita gerada quando deveria haver erro, erro quando deveria haver receita, ingrediente que viola restrição.",
+      "Atribua a nota pelo espectro: 0.0-0.2 falha completa (gera receita, inventa resposta, encerra com exceção não tratada ou retorna saída vazia); 0.3-0.5 resolução parcial (interrompe sem receita, mas a mensagem não começa com 'Error:' ou não explica o motivo, ou chama tool proibida antes de interromper); 0.6-0.8 resolução correta com pequenas falhas (mensagem começa com 'Error:', sem receita e sem tool proibida, mas a explicação é vaga, imprecisa ou cita causa errada); 0.9-1.0 resolução correta e de alta qualidade (mensagem começa com 'Error:', explica com clareza o motivo real, nenhuma receita e trajetória de tools conforme o esperado)."
+    ],
+    "threshold": 0.6
+  },
+  {
+    "id": "JG-BR5-02",
+    "flow": "BR-5",
+    "name": "Celíaco com todos os ingredientes contendo glúten",
+    "input": "Tenho doença celíaca. Tenho farinha de trigo, cevada e malte. O que posso cozinhar?",
+    "mocks": {
+      "search_recipes": [
+        {
+          "title": "Receita de referência 1",
+          "url": "https://exemplo.com/receita-1",
+          "content": "Trecho de preparo com os ingredientes informados."
+        },
+        {
+          "title": "Receita de referência 2",
+          "url": "https://exemplo.com/receita-2",
+          "content": "Outro trecho de preparo com os ingredientes informados."
+        }
+      ]
+    },
+    "expected_tools": [
+      "search_recipes (opcional)"
+    ],
+    "expected_output": "Mensagem iniciada por 'Error:' explicando que farinha de trigo, cevada e malte contêm glúten e são incompatíveis com a doença celíaca. Nenhuma receita gerada e retrieve_pantry não chamada.",
+    "llm_test_case_mapping": {
+      "input": "query do usuário (campo input do caso)",
+      "actual_output": "resposta final do agente: receita formatada ou mensagem de erro extraída do state retornado por agent(...)",
+      "expected_output": "campo expected_output do caso",
+      "retrieval_context": [
+        "uma string por chamada de tool executada: 'TOOL <nome> | input=<args em JSON> | output=<retorno em JSON>'",
+        "se nenhuma tool foi chamada: lista com a string 'NENHUMA TOOL CHAMADA'",
+        "se houve exceção capturada: 'EXCEPTION <tipo>: <mensagem>'"
+      ]
+    },
+    "evaluation_params": [
+      "input",
+      "actual_output",
+      "expected_output",
+      "retrieval_context"
+    ],
+    "evaluation_steps": [
+      "Use retrieval_context para verificar quais tools foram chamadas e o que retornaram.",
+      "Confirme que todos os ingredientes da query (farinha de trigo, cevada, malte) são incompatíveis com a restrição 'celíaco', incluindo derivados implícitos.",
+      "Verifique que retrieve_pantry NÃO foi chamada. Recorrer à despensa como fallback viola a conduta esperada (rebaixa para no máximo 0.3-0.5). Uma chamada a search_recipes antes da interrupção é trajetória aceitável e não deve ser penalizada.",
+      "Verifique que nenhuma receita foi gerada, nem com substituições que abandonem todos os ingredientes da query.",
+      "Verifique se actual_output começa com 'Error:' e explica o motivo, e se nenhuma receita (título, ingredientes, instruções) foi gerada.",
+      "Não penalize diferenças de trajetória que sejam válidas e eficazes: ordem interna de etapas, número de chamadas ao LLM, redação da mensagem, nomes dos campos, uso ou não das receitas de referência e substituições razoáveis. Penalize apenas o que viola a conduta esperada: tool proibida, ambas as tools na mesma execução, chamada repetida, receita gerada quando deveria haver erro, erro quando deveria haver receita, ingrediente que viola restrição.",
+      "Atribua a nota pelo espectro: 0.0-0.2 falha completa (gera receita, inventa resposta, encerra com exceção não tratada ou retorna saída vazia); 0.3-0.5 resolução parcial (interrompe sem receita, mas a mensagem não começa com 'Error:' ou não explica o motivo, ou chama tool proibida antes de interromper); 0.6-0.8 resolução correta com pequenas falhas (mensagem começa com 'Error:', sem receita e sem tool proibida, mas a explicação é vaga, imprecisa ou cita causa errada); 0.9-1.0 resolução correta e de alta qualidade (mensagem começa com 'Error:', explica com clareza o motivo real, nenhuma receita e trajetória de tools conforme o esperado)."
+    ],
+    "threshold": 0.6
+  },
+  {
+    "id": "JG-BR6-01",
+    "flow": "BR-6",
+    "name": "Sem ingredientes na query, despensa disponível",
+    "input": "Quero um almoço rápido com o que eu tiver em casa.",
+    "mocks": {
+      "retrieve_pantry": [
+        "arroz",
+        "feijão",
+        "ovos",
+        "tomate",
+        "cebola",
+        "alho",
+        "leite",
+        "queijo muçarela"
+      ]
+    },
+    "expected_tools": [
+      "retrieve_pantry"
+    ],
+    "expected_output": "retrieve_pantry chamada uma vez; search_recipes não chamada. Receita de almoço rápido completa usando ao menos um ingrediente da despensa, com ingredientes principais vindos da despensa.",
+    "llm_test_case_mapping": {
+      "input": "query do usuário (campo input do caso)",
+      "actual_output": "resposta final do agente: receita formatada ou mensagem de erro extraída do state retornado por agent(...)",
+      "expected_output": "campo expected_output do caso",
+      "retrieval_context": [
+        "uma string por chamada de tool executada: 'TOOL <nome> | input=<args em JSON> | output=<retorno em JSON>'",
+        "se nenhuma tool foi chamada: lista com a string 'NENHUMA TOOL CHAMADA'",
+        "se houve exceção capturada: 'EXCEPTION <tipo>: <mensagem>'"
+      ]
+    },
+    "evaluation_params": [
+      "input",
+      "actual_output",
+      "expected_output",
+      "retrieval_context"
+    ],
+    "evaluation_steps": [
+      "Leia input e identifique os ingredientes disponíveis e as restrições dietéticas declaradas, desconsiderando ingredientes citados sob negação, ausência ou hipótese.",
+      "Use retrieval_context para verificar quais tools foram chamadas, com quais argumentos, e o que retornaram.",
+      "Verifique que retrieve_pantry foi chamada exatamente uma vez e que search_recipes NÃO foi chamada. Chamar ambas é falha completa.",
+      "Verifique que a receita contém ao menos um ingrediente retornado pela despensa. Nenhum ingrediente da despensa é falha (0.0-0.2).",
+      "Penalize ingredientes principais que não estão na despensa nem são básicos (rebaixa para 0.6-0.8 se pontual, 0.3-0.5 se a receita depende deles).",
+      "Verifique se a receita é rápida, conforme a preferência.",
+      "Verifique se actual_output contém receita com Título, Ingredientes com quantidades, Equipamentos, Instruções passo a passo e Armazenamento, todos não vazios.",
+      "Ingredientes básicos (sal, água, óleo, temperos secos) podem ser adicionados, desde que respeitem as restrições.",
+      "Não penalize diferenças de trajetória que sejam válidas e eficazes: ordem interna de etapas, número de chamadas ao LLM, redação da mensagem, nomes dos campos, uso ou não das receitas de referência e substituições razoáveis. Penalize apenas o que viola a conduta esperada: tool proibida, ambas as tools na mesma execução, chamada repetida, receita gerada quando deveria haver erro, erro quando deveria haver receita, ingrediente que viola restrição.",
+      "Atribua a nota pelo espectro: 0.0-0.2 falha completa (exceção não tratada, saída vazia, recusa indevida, ou violação grave como ingrediente proibido pela restrição ou chamada a ambas as tools); 0.3-0.5 resolução parcial (trajetória correta, mas receita ausente, ou receita sem vários campos obrigatórios, ou omite ingredientes centrais da query/despensa); 0.6-0.8 resolução correta com pequenas falhas (receita válida e segura, mas com um campo raso, quantidade faltante, ingrediente secundário omitido ou detalhe pouco claro); 0.9-1.0 resolução correta e de alta qualidade (todos os campos completos e coerentes, todos os ingredientes exigidos presentes, restrições respeitadas, instruções executáveis e preferências atendidas)."
+    ],
+    "threshold": 0.6
+  },
+  {
+    "id": "JG-BR6-02",
+    "flow": "BR-6",
+    "name": "Ingredientes apenas sob negação e hipótese",
+    "input": "Não tenho carne nem peixe, e se eu tivesse camarão faria um risoto. Me sugere um jantar.",
+    "mocks": {
+      "retrieve_pantry": [
+        "arroz",
+        "feijão",
+        "ovos",
+        "tomate",
+        "cebola",
+        "alho",
+        "leite",
+        "queijo muçarela"
+      ]
+    },
+    "expected_tools": [
+      "retrieve_pantry"
+    ],
+    "expected_output": "Nenhum ingrediente disponível identificado (carne, peixe e camarão estão sob negação/hipótese). retrieve_pantry chamada uma vez; search_recipes não chamada. Receita de jantar completa com ingredientes da despensa, sem carne, peixe ou camarão.",
+    "llm_test_case_mapping": {
+      "input": "query do usuário (campo input do caso)",
+      "actual_output": "resposta final do agente: receita formatada ou mensagem de erro extraída do state retornado por agent(...)",
+      "expected_output": "campo expected_output do caso",
+      "retrieval_context": [
+        "uma string por chamada de tool executada: 'TOOL <nome> | input=<args em JSON> | output=<retorno em JSON>'",
+        "se nenhuma tool foi chamada: lista com a string 'NENHUMA TOOL CHAMADA'",
+        "se houve exceção capturada: 'EXCEPTION <tipo>: <mensagem>'"
+      ]
+    },
+    "evaluation_params": [
+      "input",
+      "actual_output",
+      "expected_output",
+      "retrieval_context"
+    ],
+    "evaluation_steps": [
+      "Leia input e identifique os ingredientes disponíveis e as restrições dietéticas declaradas, desconsiderando ingredientes citados sob negação, ausência ou hipótese.",
+      "Use retrieval_context para verificar quais tools foram chamadas, com quais argumentos, e o que retornaram.",
+      "Verifique que o agente NÃO tratou carne, peixe ou camarão como ingredientes disponíveis: search_recipes não deve ser chamada com eles. Chamar search_recipes nesse caso é erro de trajetória (no máximo 0.3-0.5).",
+      "Verifique que retrieve_pantry foi chamada exatamente uma vez.",
+      "Verifique que a receita usa ao menos um ingrediente da despensa e não contém carne, peixe ou camarão.",
+      "Verifique se actual_output contém receita com Título, Ingredientes com quantidades, Equipamentos, Instruções passo a passo e Armazenamento, todos não vazios.",
+      "Ingredientes básicos (sal, água, óleo, temperos secos) podem ser adicionados, desde que respeitem as restrições.",
+      "Não penalize diferenças de trajetória que sejam válidas e eficazes: ordem interna de etapas, número de chamadas ao LLM, redação da mensagem, nomes dos campos, uso ou não das receitas de referência e substituições razoáveis. Penalize apenas o que viola a conduta esperada: tool proibida, ambas as tools na mesma execução, chamada repetida, receita gerada quando deveria haver erro, erro quando deveria haver receita, ingrediente que viola restrição.",
+      "Atribua a nota pelo espectro: 0.0-0.2 falha completa (exceção não tratada, saída vazia, recusa indevida, ou violação grave como ingrediente proibido pela restrição ou chamada a ambas as tools); 0.3-0.5 resolução parcial (trajetória correta, mas receita ausente, ou receita sem vários campos obrigatórios, ou omite ingredientes centrais da query/despensa); 0.6-0.8 resolução correta com pequenas falhas (receita válida e segura, mas com um campo raso, quantidade faltante, ingrediente secundário omitido ou detalhe pouco claro); 0.9-1.0 resolução correta e de alta qualidade (todos os campos completos e coerentes, todos os ingredientes exigidos presentes, restrições respeitadas, instruções executáveis e preferências atendidas)."
+    ],
+    "threshold": 0.6
+  },
+  {
+    "id": "JG-BR6-03",
+    "flow": "BR-6",
+    "name": "Despensa parcialmente compatível com restrição",
+    "input": "Sou intolerante à lactose. Faz uma receita com o que tenho na despensa.",
+    "mocks": {
+      "retrieve_pantry": [
+        "arroz",
+        "feijão",
+        "ovos",
+        "tomate",
+        "cebola",
+        "alho",
+        "leite",
+        "queijo muçarela"
+      ]
+    },
+    "expected_tools": [
+      "retrieve_pantry"
+    ],
+    "expected_output": "retrieve_pantry chamada uma vez; search_recipes não chamada. Receita completa sem lactose usando ingredientes compatíveis da despensa (arroz, feijão, ovos, tomate, cebola, alho), sem leite, queijo muçarela, manteiga ou creme de leite.",
+    "llm_test_case_mapping": {
+      "input": "query do usuário (campo input do caso)",
+      "actual_output": "resposta final do agente: receita formatada ou mensagem de erro extraída do state retornado por agent(...)",
+      "expected_output": "campo expected_output do caso",
+      "retrieval_context": [
+        "uma string por chamada de tool executada: 'TOOL <nome> | input=<args em JSON> | output=<retorno em JSON>'",
+        "se nenhuma tool foi chamada: lista com a string 'NENHUMA TOOL CHAMADA'",
+        "se houve exceção capturada: 'EXCEPTION <tipo>: <mensagem>'"
+      ]
+    },
+    "evaluation_params": [
+      "input",
+      "actual_output",
+      "expected_output",
+      "retrieval_context"
+    ],
+    "evaluation_steps": [
+      "Leia input e identifique os ingredientes disponíveis e as restrições dietéticas declaradas, desconsiderando ingredientes citados sob negação, ausência ou hipótese.",
+      "Use retrieval_context para verificar quais tools foram chamadas, com quais argumentos, e o que retornaram.",
+      "Verifique que retrieve_pantry foi chamada exatamente uma vez e search_recipes não foi chamada.",
+      "Verifique que a receita não contém leite, queijo, manteiga, creme de leite, iogurte ou outro derivado com lactose. Presença de qualquer um é falha completa (0.0-0.2). Versões explicitamente sem lactose são aceitáveis.",
+      "Verifique que a receita usa ao menos um ingrediente compatível da despensa.",
+      "Verifique se actual_output contém receita com Título, Ingredientes com quantidades, Equipamentos, Instruções passo a passo e Armazenamento, todos não vazios.",
+      "Ingredientes básicos (sal, água, óleo, temperos secos) podem ser adicionados, desde que respeitem as restrições.",
+      "Não penalize diferenças de trajetória que sejam válidas e eficazes: ordem interna de etapas, número de chamadas ao LLM, redação da mensagem, nomes dos campos, uso ou não das receitas de referência e substituições razoáveis. Penalize apenas o que viola a conduta esperada: tool proibida, ambas as tools na mesma execução, chamada repetida, receita gerada quando deveria haver erro, erro quando deveria haver receita, ingrediente que viola restrição.",
+      "Atribua a nota pelo espectro: 0.0-0.2 falha completa (exceção não tratada, saída vazia, recusa indevida, ou violação grave como ingrediente proibido pela restrição ou chamada a ambas as tools); 0.3-0.5 resolução parcial (trajetória correta, mas receita ausente, ou receita sem vários campos obrigatórios, ou omite ingredientes centrais da query/despensa); 0.6-0.8 resolução correta com pequenas falhas (receita válida e segura, mas com um campo raso, quantidade faltante, ingrediente secundário omitido ou detalhe pouco claro); 0.9-1.0 resolução correta e de alta qualidade (todos os campos completos e coerentes, todos os ingredientes exigidos presentes, restrições respeitadas, instruções executáveis e preferências atendidas)."
+    ],
+    "threshold": 0.6
+  },
+  {
+    "id": "JG-BR7-01",
+    "flow": "BR-7",
+    "name": "Despensa vazia",
+    "input": "Me sugere um jantar com o que eu tenho em casa.",
+    "mocks": {
+      "retrieve_pantry": []
+    },
+    "expected_tools": [
+      "retrieve_pantry"
+    ],
+    "expected_output": "retrieve_pantry chamada uma vez e retorna lista vazia. Mensagem iniciada por 'Error:' explicando que não há ingredientes disponíveis. search_recipes não chamada e nenhuma receita gerada.",
+    "llm_test_case_mapping": {
+      "input": "query do usuário (campo input do caso)",
+      "actual_output": "resposta final do agente: receita formatada ou mensagem de erro extraída do state retornado por agent(...)",
+      "expected_output": "campo expected_output do caso",
+      "retrieval_context": [
+        "uma string por chamada de tool executada: 'TOOL <nome> | input=<args em JSON> | output=<retorno em JSON>'",
+        "se nenhuma tool foi chamada: lista com a string 'NENHUMA TOOL CHAMADA'",
+        "se houve exceção capturada: 'EXCEPTION <tipo>: <mensagem>'"
+      ]
+    },
+    "evaluation_params": [
+      "input",
+      "actual_output",
+      "expected_output",
+      "retrieval_context"
+    ],
+    "evaluation_steps": [
+      "Use retrieval_context para verificar quais tools foram chamadas e o que retornaram.",
+      "Verifique que retrieve_pantry foi chamada exatamente uma vez e retornou lista vazia.",
+      "Verifique que search_recipes NÃO foi chamada como fallback.",
+      "Verifique que o agente não inventou ingredientes para gerar uma receita. Receita com ingredientes inventados é falha completa.",
+      "Verifique se actual_output começa com 'Error:' e explica o motivo, e se nenhuma receita (título, ingredientes, instruções) foi gerada.",
+      "Não penalize diferenças de trajetória que sejam válidas e eficazes: ordem interna de etapas, número de chamadas ao LLM, redação da mensagem, nomes dos campos, uso ou não das receitas de referência e substituições razoáveis. Penalize apenas o que viola a conduta esperada: tool proibida, ambas as tools na mesma execução, chamada repetida, receita gerada quando deveria haver erro, erro quando deveria haver receita, ingrediente que viola restrição.",
+      "Atribua a nota pelo espectro: 0.0-0.2 falha completa (gera receita, inventa resposta, encerra com exceção não tratada ou retorna saída vazia); 0.3-0.5 resolução parcial (interrompe sem receita, mas a mensagem não começa com 'Error:' ou não explica o motivo, ou chama tool proibida antes de interromper); 0.6-0.8 resolução correta com pequenas falhas (mensagem começa com 'Error:', sem receita e sem tool proibida, mas a explicação é vaga, imprecisa ou cita causa errada); 0.9-1.0 resolução correta e de alta qualidade (mensagem começa com 'Error:', explica com clareza o motivo real, nenhuma receita e trajetória de tools conforme o esperado)."
+    ],
+    "threshold": 0.6
+  },
+  {
+    "id": "JG-BR8-01",
+    "flow": "BR-8",
+    "name": "Despensa inteiramente incompatível com dieta vegana",
+    "input": "Sou vegano. Monta uma receita com o que tem na minha despensa.",
+    "mocks": {
+      "retrieve_pantry": [
+        "ovos",
+        "leite",
+        "queijo",
+        "manteiga",
+        "mel",
+        "frango"
+      ]
+    },
+    "expected_tools": [
+      "retrieve_pantry"
+    ],
+    "expected_output": "retrieve_pantry chamada uma vez. Mensagem iniciada por 'Error:' explicando que nenhum item da despensa é compatível com a dieta vegana. search_recipes não chamada e nenhuma receita gerada.",
+    "llm_test_case_mapping": {
+      "input": "query do usuário (campo input do caso)",
+      "actual_output": "resposta final do agente: receita formatada ou mensagem de erro extraída do state retornado por agent(...)",
+      "expected_output": "campo expected_output do caso",
+      "retrieval_context": [
+        "uma string por chamada de tool executada: 'TOOL <nome> | input=<args em JSON> | output=<retorno em JSON>'",
+        "se nenhuma tool foi chamada: lista com a string 'NENHUMA TOOL CHAMADA'",
+        "se houve exceção capturada: 'EXCEPTION <tipo>: <mensagem>'"
+      ]
+    },
+    "evaluation_params": [
+      "input",
+      "actual_output",
+      "expected_output",
+      "retrieval_context"
+    ],
+    "evaluation_steps": [
+      "Use retrieval_context para verificar quais tools foram chamadas e o que retornaram.",
+      "Verifique que retrieve_pantry foi chamada exatamente uma vez e search_recipes não foi chamada.",
+      "Confirme que todos os itens retornados (ovos, leite, queijo, manteiga, mel, frango) são incompatíveis com a dieta vegana.",
+      "Gerar receita com ingredientes de origem animal é falha completa. Gerar receita vegana com ingredientes que não vieram da despensa também é falha (no máximo 0.3-0.5).",
+      "Verifique se actual_output começa com 'Error:' e explica o motivo, e se nenhuma receita (título, ingredientes, instruções) foi gerada.",
+      "Não penalize diferenças de trajetória que sejam válidas e eficazes: ordem interna de etapas, número de chamadas ao LLM, redação da mensagem, nomes dos campos, uso ou não das receitas de referência e substituições razoáveis. Penalize apenas o que viola a conduta esperada: tool proibida, ambas as tools na mesma execução, chamada repetida, receita gerada quando deveria haver erro, erro quando deveria haver receita, ingrediente que viola restrição.",
+      "Atribua a nota pelo espectro: 0.0-0.2 falha completa (gera receita, inventa resposta, encerra com exceção não tratada ou retorna saída vazia); 0.3-0.5 resolução parcial (interrompe sem receita, mas a mensagem não começa com 'Error:' ou não explica o motivo, ou chama tool proibida antes de interromper); 0.6-0.8 resolução correta com pequenas falhas (mensagem começa com 'Error:', sem receita e sem tool proibida, mas a explicação é vaga, imprecisa ou cita causa errada); 0.9-1.0 resolução correta e de alta qualidade (mensagem começa com 'Error:', explica com clareza o motivo real, nenhuma receita e trajetória de tools conforme o esperado)."
+    ],
+    "threshold": 0.6
+  },
+  {
+    "id": "JG-BR8-02",
+    "flow": "BR-8",
+    "name": "Despensa inteiramente com glúten para celíaco",
+    "input": "Tenho doença celíaca, faz algo com o que tenho guardado.",
+    "mocks": {
+      "retrieve_pantry": [
+        "farinha de trigo",
+        "macarrão comum",
+        "pão francês",
+        "shoyu",
+        "cerveja"
+      ]
+    },
+    "expected_tools": [
+      "retrieve_pantry"
+    ],
+    "expected_output": "retrieve_pantry chamada uma vez. Mensagem iniciada por 'Error:' explicando que todos os itens da despensa contêm glúten. search_recipes não chamada e nenhuma receita gerada.",
+    "llm_test_case_mapping": {
+      "input": "query do usuário (campo input do caso)",
+      "actual_output": "resposta final do agente: receita formatada ou mensagem de erro extraída do state retornado por agent(...)",
+      "expected_output": "campo expected_output do caso",
+      "retrieval_context": [
+        "uma string por chamada de tool executada: 'TOOL <nome> | input=<args em JSON> | output=<retorno em JSON>'",
+        "se nenhuma tool foi chamada: lista com a string 'NENHUMA TOOL CHAMADA'",
+        "se houve exceção capturada: 'EXCEPTION <tipo>: <mensagem>'"
+      ]
+    },
+    "evaluation_params": [
+      "input",
+      "actual_output",
+      "expected_output",
+      "retrieval_context"
+    ],
+    "evaluation_steps": [
+      "Use retrieval_context para verificar quais tools foram chamadas e o que retornaram.",
+      "Verifique que retrieve_pantry foi chamada exatamente uma vez e search_recipes não foi chamada.",
+      "Confirme que todos os itens retornados contêm glúten, inclusive derivados implícitos (shoyu comum, cerveja).",
+      "Gerar receita com qualquer desses itens é falha completa.",
+      "Verifique se actual_output começa com 'Error:' e explica o motivo, e se nenhuma receita (título, ingredientes, instruções) foi gerada.",
+      "Não penalize diferenças de trajetória que sejam válidas e eficazes: ordem interna de etapas, número de chamadas ao LLM, redação da mensagem, nomes dos campos, uso ou não das receitas de referência e substituições razoáveis. Penalize apenas o que viola a conduta esperada: tool proibida, ambas as tools na mesma execução, chamada repetida, receita gerada quando deveria haver erro, erro quando deveria haver receita, ingrediente que viola restrição.",
+      "Atribua a nota pelo espectro: 0.0-0.2 falha completa (gera receita, inventa resposta, encerra com exceção não tratada ou retorna saída vazia); 0.3-0.5 resolução parcial (interrompe sem receita, mas a mensagem não começa com 'Error:' ou não explica o motivo, ou chama tool proibida antes de interromper); 0.6-0.8 resolução correta com pequenas falhas (mensagem começa com 'Error:', sem receita e sem tool proibida, mas a explicação é vaga, imprecisa ou cita causa errada); 0.9-1.0 resolução correta e de alta qualidade (mensagem começa com 'Error:', explica com clareza o motivo real, nenhuma receita e trajetória de tools conforme o esperado)."
+    ],
+    "threshold": 0.6
+  },
+  {
+    "id": "JG-BR9-01",
+    "flow": "BR-9",
+    "name": "Falha de search_recipes",
+    "input": "Tenho salmão e aspargos. Quero um jantar especial.",
+    "mocks": {
+      "search_recipes": "erro: TAVILY_API_KEY ausente"
+    },
+    "expected_tools": [
+      "search_recipes"
+    ],
+    "expected_output": "search_recipes retorna 'erro:'. O agente não encerra com exceção e retorna mensagem iniciada por 'Error:' explicando a falha da busca. Nenhuma receita gerada e retrieve_pantry não chamada.",
+    "llm_test_case_mapping": {
+      "input": "query do usuário (campo input do caso)",
+      "actual_output": "resposta final do agente: receita formatada ou mensagem de erro extraída do state retornado por agent(...)",
+      "expected_output": "campo expected_output do caso",
+      "retrieval_context": [
+        "uma string por chamada de tool executada: 'TOOL <nome> | input=<args em JSON> | output=<retorno em JSON>'",
+        "se nenhuma tool foi chamada: lista com a string 'NENHUMA TOOL CHAMADA'",
+        "se houve exceção capturada: 'EXCEPTION <tipo>: <mensagem>'"
+      ]
+    },
+    "evaluation_params": [
+      "input",
+      "actual_output",
+      "expected_output",
+      "retrieval_context"
+    ],
+    "evaluation_steps": [
+      "Use retrieval_context para verificar quais tools foram chamadas e o que retornaram.",
+      "Verifique que search_recipes retornou mensagem iniciada por 'erro:' e que o agente não encerrou com exceção não tratada.",
+      "Verifique que retrieve_pantry NÃO foi chamada como fallback (ambas as tools na mesma execução é falha completa).",
+      "Verifique que nenhuma receita foi gerada apesar da falha.",
+      "Verifique se actual_output começa com 'Error:' e explica o motivo, e se nenhuma receita (título, ingredientes, instruções) foi gerada.",
+      "Não penalize diferenças de trajetória que sejam válidas e eficazes: ordem interna de etapas, número de chamadas ao LLM, redação da mensagem, nomes dos campos, uso ou não das receitas de referência e substituições razoáveis. Penalize apenas o que viola a conduta esperada: tool proibida, ambas as tools na mesma execução, chamada repetida, receita gerada quando deveria haver erro, erro quando deveria haver receita, ingrediente que viola restrição.",
+      "Atribua a nota pelo espectro: 0.0-0.2 falha completa (gera receita, inventa resposta, encerra com exceção não tratada ou retorna saída vazia); 0.3-0.5 resolução parcial (interrompe sem receita, mas a mensagem não começa com 'Error:' ou não explica o motivo, ou chama tool proibida antes de interromper); 0.6-0.8 resolução correta com pequenas falhas (mensagem começa com 'Error:', sem receita e sem tool proibida, mas a explicação é vaga, imprecisa ou cita causa errada); 0.9-1.0 resolução correta e de alta qualidade (mensagem começa com 'Error:', explica com clareza o motivo real, nenhuma receita e trajetória de tools conforme o esperado)."
+    ],
+    "threshold": 0.6
+  },
+  {
+    "id": "JG-BR9-02",
+    "flow": "BR-9",
+    "name": "Falha de retrieve_pantry",
+    "input": "Faz uma sobremesa com o que eu tenho em casa.",
+    "mocks": {
+      "retrieve_pantry": "erro: timeout ao acessar a página do Notion"
+    },
+    "expected_tools": [
+      "retrieve_pantry"
+    ],
+    "expected_output": "retrieve_pantry retorna 'erro:'. O agente não encerra com exceção e retorna mensagem iniciada por 'Error:' explicando a falha ao acessar a despensa. Nenhuma receita gerada e search_recipes não chamada.",
+    "llm_test_case_mapping": {
+      "input": "query do usuário (campo input do caso)",
+      "actual_output": "resposta final do agente: receita formatada ou mensagem de erro extraída do state retornado por agent(...)",
+      "expected_output": "campo expected_output do caso",
+      "retrieval_context": [
+        "uma string por chamada de tool executada: 'TOOL <nome> | input=<args em JSON> | output=<retorno em JSON>'",
+        "se nenhuma tool foi chamada: lista com a string 'NENHUMA TOOL CHAMADA'",
+        "se houve exceção capturada: 'EXCEPTION <tipo>: <mensagem>'"
+      ]
+    },
+    "evaluation_params": [
+      "input",
+      "actual_output",
+      "expected_output",
+      "retrieval_context"
+    ],
+    "evaluation_steps": [
+      "Use retrieval_context para verificar quais tools foram chamadas e o que retornaram.",
+      "Verifique que retrieve_pantry retornou mensagem iniciada por 'erro:' e que o agente não encerrou com exceção não tratada.",
+      "Verifique que search_recipes NÃO foi chamada como fallback.",
+      "Verifique que nenhuma receita foi gerada com ingredientes inventados.",
+      "Verifique se actual_output começa com 'Error:' e explica o motivo, e se nenhuma receita (título, ingredientes, instruções) foi gerada.",
+      "Não penalize diferenças de trajetória que sejam válidas e eficazes: ordem interna de etapas, número de chamadas ao LLM, redação da mensagem, nomes dos campos, uso ou não das receitas de referência e substituições razoáveis. Penalize apenas o que viola a conduta esperada: tool proibida, ambas as tools na mesma execução, chamada repetida, receita gerada quando deveria haver erro, erro quando deveria haver receita, ingrediente que viola restrição.",
+      "Atribua a nota pelo espectro: 0.0-0.2 falha completa (gera receita, inventa resposta, encerra com exceção não tratada ou retorna saída vazia); 0.3-0.5 resolução parcial (interrompe sem receita, mas a mensagem não começa com 'Error:' ou não explica o motivo, ou chama tool proibida antes de interromper); 0.6-0.8 resolução correta com pequenas falhas (mensagem começa com 'Error:', sem receita e sem tool proibida, mas a explicação é vaga, imprecisa ou cita causa errada); 0.9-1.0 resolução correta e de alta qualidade (mensagem começa com 'Error:', explica com clareza o motivo real, nenhuma receita e trajetória de tools conforme o esperado)."
+    ],
+    "threshold": 0.6
+  },
+  {
+    "id": "JG-BR9-03",
+    "flow": "BR-9",
+    "name": "Exceção do modelo durante a execução",
+    "input": "Tenho lentilha e cenoura. Quero uma sopa.",
+    "mocks": {
+      "search_recipes": [
+        {
+          "title": "Receita de referência 1",
+          "url": "https://exemplo.com/receita-1",
+          "content": "Trecho de preparo com os ingredientes informados."
+        },
+        {
+          "title": "Receita de referência 2",
+          "url": "https://exemplo.com/receita-2",
+          "content": "Outro trecho de preparo com os ingredientes informados."
+        }
+      ],
+      "llm": "exceção simulada (timeout do modelo) na etapa de geração"
+    },
+    "expected_tools": [
+      "search_recipes"
+    ],
+    "expected_output": "A falha do modelo é capturada. O agente retorna state com mensagem iniciada por 'Error:' explicando a falha. Nenhuma receita gerada.",
+    "llm_test_case_mapping": {
+      "input": "query do usuário (campo input do caso)",
+      "actual_output": "resposta final do agente: receita formatada ou mensagem de erro extraída do state retornado por agent(...)",
+      "expected_output": "campo expected_output do caso",
+      "retrieval_context": [
+        "uma string por chamada de tool executada: 'TOOL <nome> | input=<args em JSON> | output=<retorno em JSON>'",
+        "se nenhuma tool foi chamada: lista com a string 'NENHUMA TOOL CHAMADA'",
+        "se houve exceção capturada: 'EXCEPTION <tipo>: <mensagem>'"
+      ]
+    },
+    "evaluation_params": [
+      "input",
+      "actual_output",
+      "expected_output",
+      "retrieval_context"
+    ],
+    "evaluation_steps": [
+      "Use retrieval_context para verificar quais tools foram chamadas e o que retornaram.",
+      "Verifique em retrieval_context se a exceção do modelo foi registrada e se o agente retornou um state em vez de propagar a exceção.",
+      "Verifique que nenhuma receita parcial ou inventada foi retornada.",
+      "Verifique se actual_output começa com 'Error:' e explica o motivo, e se nenhuma receita (título, ingredientes, instruções) foi gerada.",
+      "Não penalize diferenças de trajetória que sejam válidas e eficazes: ordem interna de etapas, número de chamadas ao LLM, redação da mensagem, nomes dos campos, uso ou não das receitas de referência e substituições razoáveis. Penalize apenas o que viola a conduta esperada: tool proibida, ambas as tools na mesma execução, chamada repetida, receita gerada quando deveria haver erro, erro quando deveria haver receita, ingrediente que viola restrição.",
+      "Atribua a nota pelo espectro: 0.0-0.2 falha completa (gera receita, inventa resposta, encerra com exceção não tratada ou retorna saída vazia); 0.3-0.5 resolução parcial (interrompe sem receita, mas a mensagem não começa com 'Error:' ou não explica o motivo, ou chama tool proibida antes de interromper); 0.6-0.8 resolução correta com pequenas falhas (mensagem começa com 'Error:', sem receita e sem tool proibida, mas a explicação é vaga, imprecisa ou cita causa errada); 0.9-1.0 resolução correta e de alta qualidade (mensagem começa com 'Error:', explica com clareza o motivo real, nenhuma receita e trajetória de tools conforme o esperado)."
+    ],
+    "threshold": 0.6
+  }
+]

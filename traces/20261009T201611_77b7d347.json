@@ -1,0 +1,78 @@
+{
+  "run_id": "77b7d34749c642839c3405e5e97fc9a6",
+  "query": "quero um bolo de cenoura com tapioca",
+  "status": "ok",
+  "trajectory": [
+    "agent.agent",
+    "agent._initial_state",
+    "agent.build_graph",
+    "agent.validate_query",
+    "agent.get_llm",
+    "agent._request_timeout",
+    "agent.route_after_validation",
+    "agent._has_error",
+    "agent.analyze_query",
+    "agent.get_llm",
+    "agent._request_timeout",
+    "agent.route_tool",
+    "agent._has_error",
+    "agent.call_search_recipes",
+    "search_recipes",
+    "agent._tavily_search",
+    "agent._request_timeout",
+    "agent.route_after_tool",
+    "agent._has_error",
+    "agent.check_ingredients",
+    "agent.route_after_check",
+    "agent._has_error",
+    "agent.generate_recipe",
+    "agent._format_tool_context",
+    "agent.get_llm",
+    "agent._request_timeout",
+    "agent.route_after_generate",
+    "agent._has_error",
+    "agent.verify_restrictions",
+    "agent.route_after_verify",
+    "agent._has_error",
+    "agent.format_output",
+    "agent.format_recipe"
+  ],
+  "tool_calls": [
+    {
+      "name": "search_recipes",
+      "input": {
+        "ingredients": [
+          "cenoura",
+          "tapioca"
+        ]
+      },
+      "output": [
+        {
+          "title": "SKIP THE BREAD, MAKE A TAPIOCA OMELET IN 3 MINUTES WITH JUST 1 EGG FOR BREAKFAST",
+          "url": "https://www.youtube.com/watch?v=MUS8m0ARWcc",
+          "content": "[0:55] começar né Sarinha PR essa receitinha a gente vai precisar de que Sarinha de um ovo três colheres bem cheias de tapioca\n[1:05] meia cenoura metade de uma cenoura crua ralada uma pitadinha de sal Quatro\n[1:12] colheres de queijo musarela ralada apenas isso não é isso mãe Isso mesmo então vamos começar essa delícia de\n[1:20] receita Vamos lá então pessoal começando essa receita a gente pegou uma vasilha e aqui a gente [...] [2:12] logo a tapioca três colheres bem cheias de tapioca Lembrando que essa tapioca é aquela famosa tapioca que já vem\n[2:20] hidratada é a tapioca mais comum nos supermercados é aquela tapioca que as pessoas usam no café da\n[2:27] manhã isso mesmo aqui a gente tá colocando a cenoura cenoura que a gente ralou e ela\n[2:35] está o que S está crua isso ralada isso agora pessoal a gente vai\n[2:43] colocar Quatro colheres de queijo mussarela você pode usar três colheres também que também dá [...] [1:27] vai começar colocando os ingredientes que é o Sarinha vamos quebrar apenas um\n[1:35] ovo isso mesmo pegar o fu e aqui a gente vai bater esse\n[1:51] ovo pronto pessoal agora a gente vai colocar uma pitadinha de sal uma\n[1:57] colherzinha esse momento você quiser colocar um temperinho seco pimenta do reino é tempero baiano condimento que\n[2:05] você preferir também Dá super certo aqui a gente vai colocar também meia cenoura crua ralada só que primeiro vou colocar"
+        },
+        {
+          "title": "The BEST Brazilian Carrot Cake Recipe (Bolo de Cenoura) - Brazilian Kitchen Abroad",
+          "url": "https://braziliankitchenabroad.com/brazilian-carrot-cake",
+          "content": "Want bite-sized sweets? Beijinho de Coco – Brazilian Coconut Balls Recipe with Condensed Milk are delightful for sharing!\n\nWant something with a different texture? Pudim de Tapioca – Brazilian Tapioca Pudding is a classic.\n\nFOR MORE BRAZILIAN FOOD INSPO, BE SURE TO FOLLOW ME ON\n\n    \n\n  \n\nA chocolate-glazed Brazilian bolo de cenoura sits on a cake stand\n\n## Brazilian Carrot Cake with Chocolate Sauce\n\nAline Shaw [...] Pudim de Tapioca – Brazilian Tapioca Pudding Recipe\n\n### Pudim de Tapioca – Brazilian Tapioca Pudding Recipe\n\nBlack Bean Salsa Recipe\n\n### Black Bean Salsa Recipe\n\nCaldo Verde Recipe – Portuguese Green Soup\n\n### Caldo Verde Recipe – Portuguese Green Soup\n\n## 33 Comments [...] This is such a great trick because I don’t know about you, but I absolutely hate grating just about anything.\n\nSo here’s how you make it:\n\nPreheat the oven and spray your bundt pan liberally with nonstick cooking spray. This is super important because you do not want your cake to stick!\n\nMix the dry ingredients. In a bowl, whisk together the flour, baking powder, and salt, and set aside."
+        },
+        {
+          "title": "Bolo de Cenoura Recipe (Brazilian Carrot Cake)  | The Kitchn",
+          "url": "https://www.thekitchn.com/bolo-de-cenoura-recipe-23653657",
+          "content": "Place 4 large eggs on the counter and let sit until room temperature. Meanwhile, arrange a rack in the middle of the oven and heat the oven to 350ºF. Line the bottom of a 9-inch round cake pan with a parchment paper round. Coat the bottom and sides of the pan with a thin layer of canola or vegetable oil, or cooking spray; dust the pan with all-purpose flour and tap out the excess. [...] Peel 12 ounces carrots and cut crosswise into 1/8-inch-thick rounds (use a mandoline if you have one). Place in a blender. Add the eggs, 1 1/2 cups granulated sugar, 1 cup canola or vegetable oil, and 1/2 teaspoon kosher salt. Blend on medium high speed until the texture of a smoothie, about 5 minutes. [...] Pour into a large bowl. Add 2 cups all-purpose flour by sifting it in or passing it through a fine-mesh strainer 1/4 cup at a time, folding it in with a flexible spatula in between each addition. Sprinkle 1 tablespoon baking powder over the batter and fold until combined. Transfer the batter to the cake pan."
+        },
+        {
+          "title": "Bolo de Cenoura - Beryl Shereshewsky",
+          "url": "https://www.beryl.nyc/index.php/2024/12/09/bolo-de-cenoura",
+          "content": "Add the oil to the sliced carrots. In a small bowl, crack each egg one by one and transfer them to the blender.\n Add the sugar and blend everything well until smooth, for about 5 min.\n\n  \n Transfer the liquid mixture to a large bowl and add the dry ingredients in three batches, sifting them as you go. Gently mix with a whisk after each addition until well incorporated. [...] Bolo de Cenoura is a delightful Brazilian carrot cake that combines the sweetness of carrots with the richness of chocolate. Its moist texture and vibrant flavor make it a cherished dessert in many households. Whether enjoyed at a celebration or as a simple snack, Bolo de Cenoura is sure to bring a smile to anyone who tastes it. Experience the flavors of Brazil with this classic treat, and indulge in a slice of happiness!\n\n## Bolo de Cenoura\n\nPrint Recipe Pin Recipe\n\n### Ingredients [...] ### Ingredients\n\n#### For the cake\n\n 3 medium carrots (about 360g)\n 4 eggs room temp\n 1 cup vegetable oil\n 1½ cups sugar\n 2 cups flour\n 1 Tbsp baking powder\n 1 pinch salt\n butter and flour for the pan\n\n#### For the icing\n\n 1 can condensed milk\n 4 Tbsp chocolate powder\n 2 Tbsp butter\n\n### Instructions\n\n#### For the cake"
+        },
+        {
+          "title": "Bolo de Cenoura (Carrot Cake) Recipe",
+          "url": "https://cooking.nytimes.com/recipes/1024026-bolo-de-cenoura-carrot-cake",
+          "content": "Bolo de cenoura, a carrot cake often found in Portuguese and Brazilian bakeries, is thrilling in its simplicity. A few key ingredients (carrots, flour, sugar, eggs and oil) and a blender or food processor are all you need to bring together the batter. The carrots give the cake its tender orange-amber crumb, which is finished with a brigadeiro frosting, anchored by a condensed milk and cocoa powder, that’s made while the cake cools. A spoonful of sour cream, a nontraditional addition to the [...] ### FOR THE CAKE\n\n 2 cups/260 grams all-purpose flour\n 1 tablespoon baking powder\n 1 teaspoon kosher salt (such as Diamond Crystal)\n ½ cup/115 milliliters grapeseed oil or other neutral oil, such as safflower or canola, plus more for pan\n 2 large or 3 medium carrots (about 300 grams), trimmed, scrubbed and roughly chopped\n 1 ¼ cups/270 grams granulated sugar\n 3 eggs, at room temperature\n ½ cup/112 grams full-fat sour cream\n\n### FOR THE BRIGADEIRO TOPPING [...] Pour the wet mixture into the dry ingredients, and, using a whisk, mix until just combined. Gently mix in the sour cream and pour the mixture into the prepared cake pan. Bake until the sides pull away slightly from the edge of the tin and a toothpick inserted into the center comes out clean, about 45 to 50 minutes.\n Step 4"
+        }
+      ]
+    }
+  ]
+}
