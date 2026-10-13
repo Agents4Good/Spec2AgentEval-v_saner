@@ -1,0 +1,9 @@
+{
+  "run_id": "d58b4080dfa94351adb8dbe7b2ef9aea",
+  "query": "quero um bolo de cenoura com tapioca",
+  "status": "ok",
+  "error": null,
+  "runs_collected": 1,
+  "trajectory": [],
+  "tool_calls": []
+}
