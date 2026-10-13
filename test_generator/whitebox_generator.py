@@ -66,6 +66,8 @@ IMPORTANT:
 - Do not assume APIs from older DeepEval versions.
 - Do not invent DeepEval APIs or metric interfaces.
 
+Formato do trace: 
+
 Output: file named test_trace.py with a pytest test suite that evaluates
 the agent execution trace against the specification.
 """
