@@ -1,0 +1,35 @@
+# MVP geração isolada: só toolchain dos 3 LLMs, sem COPY do repo.
+# Imagem construída a partir de docker/ (contexto mínimo, sem specs).
+FROM python:3.11-slim
+
+ENV DEBIAN_FRONTEND=noninteractive PYTHONUNBUFFERED=1
+
+# Versões pinadas em 2026-10-14 (atualizar via `npm view <pkg> version`):
+# opencode fica na linha 1.x (pacote `opencode-ai`): v2 muda CLI/flags demais.
+ARG CLAUDE_CODE_VERSION=2.1.299
+ARG CODEX_VERSION=0.162.1
+ARG OPENCODE_VERSION=1.19.0
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    bash ca-certificates curl git \
+    && rm -rf /var/lib/apt/lists/*
+
+# Node 20 (necessário p/ as 3 CLIs)
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y --no-install-recommends nodejs \
+    && rm -rf /var/lib/apt/lists/* \
+    && node -v && npm -v
+
+# CLIs dos 3 LLMs cobertos pelo MVP (copilot/gemini ficam de fora)
+RUN npm install -g \
+    @anthropic-ai/claude-code@${CLAUDE_CODE_VERSION} \
+    @openai/codex@${CODEX_VERSION} \
+    opencode-ai@${OPENCODE_VERSION}
+
+# Usuário non-root (defesa p/ código gerado); run usa --user uid:gid do host.
+RUN useradd -m -s /bin/bash agent
+USER agent
+
+# NENHUM COPY do repo: spec entra via /in:ro, saída sai via /out:rw.
+WORKDIR /out
+CMD ["bash"]

@@ -1,5 +1,20 @@
 # Running with Docker
 
+> **Nota (branch `feat/independencia-entre-agentes`):** o fluxo antigo abaixo
+> (`Dockerfile` + `docker-compose.yml` da raiz, com `COPY . .` e sem isolamento)
+> está **depreciado**. O fluxo atual é o MVP isolado, documentado em
+> [`../docker/README_MVP.md`](../docker/README_MVP.md):
+>
+> ```bash
+> docker build -f docker/Dockerfile.gen -t spec2agent-gen:infra docker/
+> docker build -f docker/Dockerfile.eval -t spec2agent-eval:infra .
+> USE_DOCKER=1 RUNS=1 ./pipe.sh
+> ```
+>
+> O restante deste arquivo descreve o fluxo antigo e será removido.
+
+---
+
 The repository ships a `Dockerfile` and `docker-compose.yml` that build a container with every CLI the pipeline needs (Python 3.11, Node 20, Gemini CLI, Copilot CLI) and run `pipe.sh` as the default command.
 
 ## Build and run

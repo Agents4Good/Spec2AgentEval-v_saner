@@ -1,0 +1,21 @@
+# MVP avaliação isolada: só dependências Python; código entra via mount :ro.
+# ESCOLHA: não damos COPY em pipeline/ nem specs/ — o repo é montado
+# em /repo:ro no `docker run` (sempre fresco, nada vaza p/ a imagem;
+# nenhuma spec alheia é copiada). Ver docker/README_MVP.md.
+FROM python:3.11-slim
+
+ENV DEBIAN_FRONTEND=noninteractive PYTHONUNBUFFERED=1
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    bash \
+    && rm -rf /var/lib/apt/lists/*
+
+# Só o requirements (contexto de build = raiz do repo, sem COPY de código).
+COPY requirements.txt /tmp/requirements.txt
+RUN pip install --no-cache-dir --upgrade pip \
+    && pip install --no-cache-dir -r /tmp/requirements.txt
+
+RUN useradd -m -s /bin/bash agent
+USER agent
+WORKDIR /work
+CMD ["bash"]

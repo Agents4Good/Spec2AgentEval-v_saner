@@ -17,6 +17,26 @@ EXPERIMENT=${EXPERIMENT:-by_tool}
 RUNS_FROM=${RUNS_FROM:-${RUN:-1}}
 RUNS_TO=${RUNS_TO:-${RUN:-$RUNS}}
 
+# MVP Docker: 1 = geração via docker_run_gen.sh, eval via docker_run_eval.sh.
+USE_DOCKER=${USE_DOCKER:-0}
+DOCKER_DIR="$SCRIPT_DIR/docker"
+
+gen_cmd() { # <llm> <agent> <run>
+    if [ "$USE_DOCKER" = "1" ]; then
+        echo "bash \"$DOCKER_DIR/docker_run_gen.sh\" --llm \"$1\" --agent \"$2\" --run \"$3\" --experiment \"$EXPERIMENT\""
+    else
+        echo "python3 \"$PIPELINE_DIR/01_generate.py\" --llm \"$1\" --agent \"$2\" --run \"$3\" --experiment \"$EXPERIMENT\""
+    fi
+}
+
+eval_cmd() { # <step_file> <llm> <agent> <run>
+    if [ "$USE_DOCKER" = "1" ]; then
+        echo "bash \"$DOCKER_DIR/docker_run_eval.sh\" --step \"$(echo "$1" | cut -d_ -f1)\" --llm \"$2\" --agent \"$3\" --run \"$4\" --experiment \"$EXPERIMENT\""
+    else
+        echo "python3 \"$PIPELINE_DIR/$1\" --llm \"$2\" --agent \"$3\" --run \"$4\" --experiment \"$EXPERIMENT\""
+    fi
+}
+
 spinner() {
     local pid=$1
     local msg="$2"
@@ -69,11 +89,7 @@ labels=()
 for llm in "${llms[@]}"; do
     for agent in "${agents[@]}"; do
 
-        python3 "$PIPELINE_DIR/01_generate.py" \
-            --llm "$llm" \
-            --agent "$agent" \
-            --run "$run" \
-            --experiment "$EXPERIMENT" &
+        bash -c "$(gen_cmd "$llm" "$agent" "$run")" &
 
         pids+=($!)
         labels+=("$llm / $agent (run $run)")
@@ -116,31 +132,31 @@ for llm in "${llms[@]}"; do
         printf "============================================================\n"
 
         run_step \
-            "python3 \"$PIPELINE_DIR/02_static_check.py\" --llm \"$llm\" --agent \"$agent\" --run \"$run\" --experiment \"$EXPERIMENT\"" \
+            "$(eval_cmd 02_static_check.py "$llm" "$agent" "$run")" \
             "Executando 02_static_check.py para $llm / $agent (run $run)..."
 
         run_step \
-            "python3 \"$PIPELINE_DIR/03_lints_check.py\" --llm \"$llm\" --agent \"$agent\" --run \"$run\" --experiment \"$EXPERIMENT\"" \
+            "$(eval_cmd 03_lints_check.py "$llm" "$agent" "$run")" \
             "Executando 03_lints_check.py para $llm / $agent (run $run)..."
 
         run_step \
-            "python3 \"$PIPELINE_DIR/04_tests_check.py\" --llm \"$llm\" --agent \"$agent\" --run \"$run\" --experiment \"$EXPERIMENT\"" \
+            "$(eval_cmd 04_tests_check.py "$llm" "$agent" "$run")" \
             "Executando 04_tests_check.py para $llm / $agent (run $run)..."
 
         run_step \
-            "python3 \"$PIPELINE_DIR/05_spec_llm_judge_check.py\" --llm \"$llm\" --agent \"$agent\" --run \"$run\" --experiment \"$EXPERIMENT\"" \
+            "$(eval_cmd 05_spec_llm_judge_check.py "$llm" "$agent" "$run")" \
             "Executando 05_spec_llm_judge_check.py para $llm / $agent (run $run)..."
 
         run_step \
-            "python3 \"$PIPELINE_DIR/06_graph_eval_check.py\" --llm \"$llm\" --agent \"$agent\" --run \"$run\" --experiment \"$EXPERIMENT\"" \
+            "$(eval_cmd 06_graph_eval_check.py "$llm" "$agent" "$run")" \
             "Executando 06_graph_eval_check.py para $llm / $agent (run $run)..."
 
         run_step \
-            "python3 \"$PIPELINE_DIR/07_behavioral_check.py\" --llm \"$llm\" --agent \"$agent\" --run \"$run\" --experiment \"$EXPERIMENT\"" \
+            "$(eval_cmd 07_behavioral_check.py "$llm" "$agent" "$run")" \
             "Executando 07_behavioral_check.py para $llm / $agent (run $run)..."
 
         run_step \
-            "python3 \"$PIPELINE_DIR/08_trace_check.py\" --llm \"$llm\" --agent \"$agent\" --run \"$run\" --experiment \"$EXPERIMENT\"" \
+            "$(eval_cmd 08_trace_check.py "$llm" "$agent" "$run")" \
             "Executando 08_trace_check.py para $llm / $agent (run $run)..."
 
     done

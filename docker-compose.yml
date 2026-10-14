@@ -1,3 +1,4 @@
+# DEPRECIADO (branch feat/independencia-entre-agentes): ver docker/README_MVP.md.
 services:
   spec2agenteval:
     build: .

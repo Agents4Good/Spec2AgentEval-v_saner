@@ -1,3 +1,8 @@
+# DEPRECIADO (branch feat/independencia-entre-agentes): fluxo antigo sem
+# isolamento (COPY . ., sem as CLIs do pipe, sem separação gen/eval).
+# Use o fluxo MVP em docker/README_MVP.md
+# (docker/Dockerfile.gen + docker/Dockerfile.eval + USE_DOCKER=1 ./pipe.sh).
+# Mantido aqui só para não quebrar referências; será removido.
 # Dockerfile para Spec2AgentEval-v_esem
 FROM python:3.11-slim
 
