@@ -1,7 +1,12 @@
 """Stage 08 — trace-based evaluation runner.
 
-Executes ``test_trace.py`` from each spec against the matching generated
-agent, embedding pytest's structured JSON report so no test is lost.
+For each generated agent, executes the agent once per scenario declared in the
+spec's ``test_trace.py`` under LangChain run collection (``trace_capture``),
+then runs ``test_trace.py`` over the captured traces (trajectory, tool calls
+and output), passed in memory. The test file never invokes the agent itself.
+
+The traces are embedded in the stage report alongside pytest's structured JSON
+report, so every verdict can be audited against the exact evidence it used.
 """
 
 from __future__ import annotations
@@ -20,6 +25,8 @@ load_dotenv(override=True)
 GENERATED_AGENTS_DIR = Path(os.getenv("GENERATED_DIR") or "")
 BENCH_DIR = Path(os.getenv("BENCH_DIR") or "")
 EXPERIMENTS_RESULTS = Path(os.getenv("EXPERIMENTS_RESULTS") or "")
+
+TRACE_RUNNER = Path(__file__).parent / "utils" / "trace_runner.py"
 
 
 def main() -> None:
@@ -61,6 +68,7 @@ def main() -> None:
         experiments_results=EXPERIMENTS_RESULTS,
         run=args.run,
         experiment=args.experiment,
+        runner_script=TRACE_RUNNER,
     )
 
 
