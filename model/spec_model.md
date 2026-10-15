@@ -1,74 +1,60 @@
 **Task:** você é um gerador de agentes de IA e abaixo está uma especificação de um agente. Gere um agente conforme a especificação. Considere que as ferramentas do agente devem ser geradas junto ao código do agente.  
 **Contexto:** Um agente de IA é uma entidade que usa LLM e ferramentas para executar tarefas específicas de forma autônoma.  
-**Output:** agent.py, requirements.txt, tests.py  
+**Output:** agent.py, requirements.txt, tests.py 
+
 **Contrato de interface com o benchmark:**
 
-| Requisito de interface | Exemplo       |
-| ---------------------- | ------------- |
-| Modelo                 | GPT-4o        |
-| Framework              | LangGraph     |
-| GenAI Tool             | ChatOpenAI    |
-| Entrypoint             | `agent(...) - > output, trace`  |
-| Output                 | `output: dict` |
-| Trace                  | `trace: dict` |
+| Requisito de interface | Exemplo |
+| --- | --- |
+| Modelo |  |
+| Framework |  |
+| GenAI Tool |  |
+| Tools | Toda ferramenta deve ser uma ferramenta do LangChain (@tool, StructuredTool ou obtida de servidor MCP via langchain-mcp-adapters) e deve ser executada exclusivamente por sua interface (invoke/ainvoke, diretamente ou via ToolNode), nunca pela chamada direta da função que a implementa. |
+| Entrypoint |  |
+| Output |  |
 
-**Detalhes de implementação**
+**Detalhes de implementação:**
 
-| Variáveis de ambiente | **…** |
-| --------------------- | ----- |
-|                       |       |
+| Detalhe de implementação | Especificação |
+| --- | --- |
+|  |  |
 
 
-**Requisitos**
+**Requisitos:**
 
-| Requisito                                        | Significado                                                                                                                                                                                                                                                                                                                                        | Critério de Corretude                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| ------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Goal                                             | Objetivo e comportamento principal do agente na voz ativa                                                                                                                                                                                                                                                                                          | O comportamento principal está declarado definindo quem faz, o que faz e o resultado?                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| Persona (Opcional)                               | A personalidade que o agente assume ao realizar as tarefas                                                                                                                                                                                                                                                                                         | A especificação define uma persona e sua área de atuação?<br>A persona é adequada/coerente com o Goal?                                                                                                                                                                                                                                                                                                                                                                                                                                  |
-| Inputs                                           | Informação enviada para o agente                                                                                                                                                                                                                                                                                                                   | A especificação define qual é a entrada esperada?                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| Tools                                            | Lista com as ferramentas disponíveis e para que elas servem                                                                                                                                                                                                                                                                                        | A especificação define a ferramenta, seus parâmetros, o retorno e o propósito de uso dela estão definidos?                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| Constraints                                      | Uma afirmação que restringe as ações que o agente (ou seus usuários/operadores) têm permissão de realizar. Descreve o que o agente deve, não deve, ou não pode fazer, ou define que apenas determinados papéis/condições autorizam uma certa ação.                                                                                                 | A especificação declara explicitamente uma ação que o agente deve, não deve, ou só pode sob certas condições?<br>A restrição está expressa em termos de ação/comportamento permitido ou proibido — não em termos de tecnologia, ferramenta ou biblioteca usada para implementar o agente?<br>Quando a restrição envolve papel/autorização ("só X pode fazer Y"), a especificação define quem ou o que está autorizado?<br>A restrição é verificável: é possível observar, no comportamento do agente, se ela foi violada ou respeitada? |
-| Guardrails and Invariants                              | Regras externas ou condições que devem ser sempre respeitadas pelo agente durante sua execução. Podem vir de leis, regulamentações, políticas da empresa ou regras do domínio. Quando uma condição é um invariante, ela deve ser satisfeita antes e depois da execução de qualquer comportamento do agente.                                                              | A especificação declara uma relação, propriedade ou condição do domínio que é (ou deve ser) sempre verdadeira, e não uma ação permitida/proibida?<br>O invariante está conectado a uma entrada, saída, evento ou dado que o agente efetivamente manipula (não é conhecimento de domínio irrelevante ao escopo do agente)?<br>É possível verificar, a qualquer momento durante a execução, se o invariante ainda é válido?                                                                                                               |
-| Quality attributes (non-functional requirements) | Características observáveis do comportamento do agente durante a execução, que não descrevem o que ele faz (isso é Goal/Behavior Requirements) nem o que ele nunca deve fazer (Constraints), mas quão bem ele faz — de forma consistente, segura, eficiente e confiável. Moldam diretamente a confiança e a experiência de quem depende do agente. | O atributo está descrito de forma observável/mensurável no comportamento (não é uma característica de implementação, ex: "usar cache" não é quality attribute, é constraint de implementação)?<br>Existe um critério de aceitação verificável (limiar, taxa, ou condição de teste), e não apenas um adjetivo vago ("deve ser rápido" sem definir o quê é rápido)?<br>Havendo trade-off entre atributos (ex: robustez vs. performance), a especificação deixa explícita a prioridade?                                                    |
+| Requisito | Significado | Especificação do agente |
+| --- | --- | --- |
+| Goal | Objetivo e comportamento principal do agente na voz ativa |  |
+| Persona (Opcional) | A personalidade que o agente assume ao realizar as tarefas |  |
+| Inputs | Informação enviada para o agente |  |
+| Constraints | Uma afirmação que restringe as ações que o agente (ou seus usuários/operadores) têm permissão de realizar. Descreve o que o agente deve, não deve, ou não pode fazer, ou define que apenas determinados papéis/condições autorizam uma certa ação. |  |
+| Guardrails and Invariants | Regras externas ou condições que devem ser sempre respeitadas pelo agente durante sua execução. Podem vir de leis, regulamentações, políticas da empresa ou regras do domínio. Quando uma condição é um invariante, ela deve ser satisfeita antes e depois da execução de qualquer comportamento do agente. |  |
+| Quality attributes (non-functional requirements) | Características observáveis do comportamento do agente durante a execução, que não descrevem o que ele faz (isso é Goal/Behavior Requirements) nem o que ele nunca deve fazer (Constraints), mas quão bem ele faz — de forma consistente, segura, eficiente e confiável. Moldam diretamente a confiança e a experiência de quem depende do agente. |  |
 
-Comportamentos
+**Tools:**
 
-| Behavioral Requirement | Trigger | Input | Tools | Expected Outcome | Environment Effect |
-| ------ | ------- | ----- | ----- | ---------------- | ------------------ |
-| Capacidade específica e testável que o agente deve implementar para atingir o Goal declarado. Cada requisito é atômico, unicamente identificável, e cobre não só o caminho feliz, mas também como o agente deve se comportar diante de entradas inválidas, falhas de ferramentas, ambiguidade na solicitação, ou condições de erro previstas |A condição ou evento que inicia a execução desse comportamento | Informação enviada para o agente para execução desse comportamento | Lista com as ferramentas necessárias para execução desse comportamento | Resposta do agente ou artefato produzido, seja final ou intermediária, no formato X | Comportamento que altera o ambiente, exemplo: criação de arquivo ou entrada em banco de dados |
+| Nome | Propósito | Entradas | Retorno | Falhas |
+| --- | --- | --- | --- | --- |
+|  |  |  |  |  |
 
-| Campo              | Critério de corretude                                                                                                     |
-| ------------------ | ------------------------------------------------------------------------------------------------------------------------- |
-| Comportamento      | Cada comportamento está especificado como um requisito individual e identificável, separado do Goal? Cada requisito é atômico o suficiente para ser testado isoladamente (dá pra escrever um caso de teste "dado X, o agente deve fazer Y")? A especificação cobre explicitamente o comportamento esperado diante de: entrada inválida, falha de ferramenta/tool call, ambiguidade, ausência de informação necessária? Os requisitos, somados, são suficientes para realizar o Goal declarado (nada essencial ficou implícito)? |
-| Trigger            | A condição ou evento que inicia o comportamento está explicitamente definido e é observável?                              |
-| Input              | A especificação define qual é a entrada esperada?                                             |
-| Tools              | As ferramentas necessárias para o comportamento estão identificadas e seu propósito de uso está definido?                                             |
-| Expected Outcome   | A especificação define qual alteração deve ocorrer no ambiente? A alteração esperada é observável e verificável após a execução do comportamento? |
-| Environment Effect | A especificação define qual ambiente o agente vai alterar?  A especificação define como será feita a alteração no ambiente?                                 |
+**Comportamentos:**
 
-**Grafo comportamental esperado:**
+| Comportamento | Trigger | Input | Tools | Saída | Efeito no ambiente | Constraints |
+| --- | --- | --- | --- | --- | --- | --- |
+| **B1 — |  |  |  |  |  |  |
 
-> O grafo representa as transições comportamentais esperadas durante a execução. A trajetória observada pode conter eventos intermediários, desde que preserve as transições e condições definidas no grafo.
-
+**Grafo comportamental:**
 
 ```mermaid
 flowchart TD
+```
 
-    B1["B1 — Comportamento inicial"]
-
-    B2["B2 — Próximo comportamento"]
-
-    BF["BF — Comportamento de falha"]
-
-    BN["BN — Comportamento alternativo"]
-
-    BO["BO — Comportamento final"]
-
-    B1 -->|condição de sucesso| B2
-    B1 -->|condição de falha| BF
-
-    B2 -->|condição A| BO
-    B2 -->|condição B| BN
-
-    BN --> BO
-    BF --> BO
+| Campo | Critério de corretude |
+| --- | --- |
+| Comportamento | Cada comportamento está especificado como um requisito individual e identificável, separado do Goal? Cada requisito é atômico o suficiente para ser testado isoladamente (dá pra escrever um caso de teste "dado X, o agente deve fazer Y")? A especificação cobre explicitamente o comportamento esperado diante de: entrada inválida, falha de ferramenta/tool call, ambiguidade, ausência de informação necessária? Os requisitos, somados, são suficientes para realizar o Goal declarado (nada essencial ficou implícito)? |
+| Trigger | A condição ou evento que inicia o comportamento está explicitamente definido e é observável? |
+| Input | A especificação define qual é a entrada esperada? |
+| Tools | As ferramentas necessárias para o comportamento estão identificadas e seu propósito de uso está definido? |
+| Expected Outcome | A especificação define qual alteração deve ocorrer no ambiente? A alteração esperada é observável e verificável após a execução do comportamento? |
+| Efeito no ambiente | A especificação define qual ambiente o agente vai alterar?  A especificação define como será feita a alteração no ambiente? |
+| Constraints | As restrições do comportamento estão explícitas, são verificáveis e coerentes com as restrições gerais? |
