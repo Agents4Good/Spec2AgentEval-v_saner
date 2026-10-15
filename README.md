@@ -53,6 +53,8 @@ Os artefatos de cada etapa ficam em `EXPERIMENTS_RESULTS/<NN_etapa>/<llm>/<agent
 
 Os arquivos `test_deepeval.py` e `test_trace.py` são gerados a partir do `spec.md` de cada especificação, usando os scripts em `test_generator/`:
 
+> lembre-se de baixar a skill do deepeval antes de realizar a geração de testes: `https://www.confident-ai.com/docs/coding-agents/skills/deepeval`
+
 ```bash
 # teste caixa-preta (DeepEval) — para a etapa 07
 python3 test_generator/blackbox_generator.py specs/001_list_issues_agent/spec.md
