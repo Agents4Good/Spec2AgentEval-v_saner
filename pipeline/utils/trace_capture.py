@@ -1,4 +1,4 @@
-import importlib.util, json, os, sys, uuid
+import functools, importlib.util, json, os, sys, uuid
 from contextlib import contextmanager
 from contextvars import ContextVar
 from datetime import datetime, timezone
@@ -73,10 +73,14 @@ def _tool_output(out):
     if isinstance(out, ToolMessage):
         if out.artifact is not None:
             return _jsonable(out.artifact)
+        out = out.content
+    if isinstance(out, str):
+        # Mesma saída, mesmo valor: chamada direta (tool.invoke) também
+        # devolve o JSON serializado.
         try:
-            return json.loads(out.content)
-        except (TypeError, ValueError):
-            return out.content
+            return json.loads(out)
+        except ValueError:
+            return out
     return _jsonable(out)
 
 
@@ -118,6 +122,99 @@ def _call(entrypoint, query):
     return entrypoint(query)
 
 
+_SECRET_ENV = ("TOKEN", "KEY", "SECRET", "PASSWORD")
+
+
+def _redact(query):
+    """Troca por "***" valores iguais a variáveis de ambiente sensíveis
+    (ex.: GITHUB_TOKEN), para que credenciais não vão parar no trace."""
+    secrets = {v for k, v in os.environ.items()
+               if v and any(s in k.upper() for s in _SECRET_ENV)}
+
+    def walk(v):
+        if isinstance(v, str):
+            return "***" if v in secrets else v
+        if isinstance(v, dict):
+            return {k: walk(x) for k, x in v.items()}
+        if isinstance(v, (list, tuple)):
+            return [walk(x) for x in v]
+        return v
+
+    return _jsonable(walk(query))
+
+
+def _capture(entrypoint, query) -> tuple[object, dict, BaseException | None]:
+    """Executa ``entrypoint`` sob o coletor e devolve (retorno, trace, exceção).
+    Nunca propaga a exceção do agente: ela volta como terceiro elemento."""
+    run_id, started_at = uuid.uuid4().hex, _now()
+    state, status, error, exc, cb = None, "error", None, None, None
+    try:
+        with collect_runs() as cb:
+            state = _call(entrypoint, query)
+        status = "ok"
+    except Exception as e:
+        error, exc = f"{type(e).__name__}: {e}", e
+    runs = cb.traced_runs if cb else []
+
+    tools = sorted(_tool_runs(runs), key=lambda r: _iso(r.start_time))
+    tool_calls = []
+    for r in tools:
+        call = {"name": r.name, "input": _jsonable(r.inputs)}
+        out = (r.outputs or {}).get("output")
+        if r.error:
+            call["error"] = r.error.split("Traceback")[0].strip()
+        elif isinstance(out, ToolMessage) and out.status == "error":
+            call["error"] = out.content
+        else:
+            call["output"] = _tool_output(out)
+        call["start"], call["end"] = _iso(r.start_time), _iso(r.end_time)
+        tool_calls.append(call)
+
+    events = list(_node_runs(runs)) + [(r.name, r) for r in tools]
+    trajectory = [n for n, _ in sorted(events,
+                                       key=lambda e: _iso(e[1].start_time))]
+
+    trace = {
+        "run_id": run_id, "query": _redact(query), "status": status,
+        "error": error,
+        "runs_collected": len(runs),
+        "trajectory": trajectory,
+        "tool_calls": tool_calls,
+    }
+    return state, trace, exc
+
+
+def _export(trace: dict, out_dir: str | Path, name: str | None = None) -> Path:
+    path = trace_path(name or f"{_now():%Y%m%dT%H%M%S}_{trace['run_id'][:8]}",
+                      out_dir)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(trace, ensure_ascii=False, indent=2),
+                    encoding="utf-8")
+    return path
+
+
+def traced(entrypoint):
+    """Envolve o entrypoint do agente: ``traced(agent)(*args, **kwargs)``
+    executa ``agent(*args, **kwargs)`` sob instrumentação e devolve
+    ``(output, trace)``.
+
+    Se o agente lançar exceção, ``output`` é None e ``trace["status"]`` é
+    "error" (mensagem em ``trace["error"]``). Com a variável de ambiente
+    TRACE_DIR definida, cada execução também é exportada para
+    ``$TRACE_DIR/<data>_<id>.json``.
+    """
+    @functools.wraps(entrypoint)
+    def wrapper(*args, **kwargs):
+        query = {"args": list(args), "kwargs": kwargs} if kwargs else list(args)
+        state, trace, _ = _capture(lambda: entrypoint(*args, **kwargs), ())
+        trace["query"] = _redact(query)
+        if os.environ.get("TRACE_DIR"):
+            _export(trace, os.environ["TRACE_DIR"])
+        return state, trace
+
+    return wrapper
+
+
 def run_traced(query: str | tuple | list | dict,
                out_dir: str | Path | None = TRACE_DIR,
                name: str | None = "trace",
@@ -132,49 +229,13 @@ def run_traced(query: str | tuple | list | dict,
     exceção. Com name=None, usa <data>_<id>.json.
     """
     agent_module = load_agent(agent_dir)
-    run_id, started_at = uuid.uuid4().hex, _now()
-    state, status, error, cb = None, "error", None, None
-    try:
-        with collect_runs() as cb:
-            state = _call(agent_module.agent, query)
-        status = "ok"
-    except Exception as e:
-        error = f"{type(e).__name__}: {e}"
-        raise
-    finally:
-        runs = cb.traced_runs if cb else []
-
-        tools = sorted(_tool_runs(runs), key=lambda r: _iso(r.start_time))
-        tool_calls = []
-        for r in tools:
-            call = {"name": r.name, "input": _jsonable(r.inputs)}
-            out = (r.outputs or {}).get("output")
-            if r.error:
-                call["error"] = r.error.split("Traceback")[0].strip()
-            elif isinstance(out, ToolMessage) and out.status == "error":
-                call["error"] = out.content
-            else:
-                call["output"] = _tool_output(out)
-            call["start"], call["end"] = _iso(r.start_time), _iso(r.end_time)
-            tool_calls.append(call)
-
-        events = list(_node_runs(runs)) + [(r.name, r) for r in tools]
-        trajectory = [n for n, r in sorted(events,
-                                           key=lambda e: _iso(e[1].start_time))]
-
-        if out_dir is not None:
-            path = trace_path(name or f"{started_at:%Y%m%dT%H%M%S}_{run_id[:8]}",
-                              out_dir)
-            path.parent.mkdir(parents=True, exist_ok=True)
-            path.write_text(json.dumps({
-                "run_id": run_id, "query": query, "status": status,
-                "error": error,
-                "agent_dir": str(Path(agent_dir).resolve()),
-                "runs_collected": len(runs),
-                "trajectory": trajectory,
-                "tool_calls": tool_calls,
-            }, ensure_ascii=False, indent=2), encoding="utf-8")
-    return state, trajectory, tool_calls
+    state, trace, exc = _capture(agent_module.agent, query)
+    trace["agent_dir"] = str(Path(agent_dir).resolve())
+    if out_dir is not None:
+        _export(trace, out_dir, name)
+    if exc is not None:
+        raise exc
+    return state, trace["trajectory"], trace["tool_calls"]
 
 
 def load_run(path: str | Path) -> tuple[list[str], list[dict]]:

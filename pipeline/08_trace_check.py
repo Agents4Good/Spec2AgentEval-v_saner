@@ -1,12 +1,13 @@
 """Stage 08 — trace-based evaluation runner.
 
-For each generated agent, executes the agent once per scenario declared in the
-spec's ``test_trace.py`` under LangChain run collection (``trace_capture``),
-then runs ``test_trace.py`` over the captured traces (trajectory, tool calls
-and output), passed in memory. The test file never invokes the agent itself.
+Executes ``test_trace.py`` from each spec against the matching generated
+agent. The test invokes the agent through ``traced(agent)(...)``
+(``utils/trace_capture.py``, put on ``PYTHONPATH``), which runs it under
+LangChain run collection and returns ``(output, trace)``.
 
-The traces are embedded in the stage report alongside pytest's structured JSON
-report, so every verdict can be audited against the exact evidence it used.
+Every execution is also exported to
+``<EXPERIMENTS_RESULTS>/<experiment>/run_<N>/08_traces/<llm>/<agent>/``,
+so each verdict can be audited against the exact evidence it used.
 """
 
 from __future__ import annotations
@@ -26,7 +27,7 @@ GENERATED_AGENTS_DIR = Path(os.getenv("GENERATED_DIR") or "")
 BENCH_DIR = Path(os.getenv("BENCH_DIR") or "")
 EXPERIMENTS_RESULTS = Path(os.getenv("EXPERIMENTS_RESULTS") or "")
 
-TRACE_RUNNER = Path(__file__).parent / "utils" / "trace_runner.py"
+UTILS_DIR = Path(__file__).resolve().parent / "utils"
 
 
 def main() -> None:
@@ -56,6 +57,18 @@ def main() -> None:
     )
     args = parser.parse_args()
 
+    traces_root = (EXPERIMENTS_RESULTS / args.experiment / f"run_{args.run}"
+                   / "08_traces" / args.llm).resolve()
+
+    def trace_env(agent_folder: Path) -> dict[str, str]:
+        # `from trace_capture import traced` no teste + exportação dos traces
+        pythonpath = os.pathsep.join(
+            p for p in (str(UTILS_DIR), os.environ.get("PYTHONPATH")) if p)
+        return {
+            "PYTHONPATH": pythonpath,
+            "TRACE_DIR": str(traces_root / agent_folder.name),
+        }
+
     run_pytest_for_agents(
         llm=args.llm,
         agent_filter=args.agent,
@@ -68,7 +81,7 @@ def main() -> None:
         experiments_results=EXPERIMENTS_RESULTS,
         run=args.run,
         experiment=args.experiment,
-        runner_script=TRACE_RUNNER,
+        extra_env=trace_env,
     )
 
 
