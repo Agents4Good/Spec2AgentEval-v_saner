@@ -6,12 +6,12 @@
 
 | Requisito de interface | Exemplo |
 | --- | --- |
-| Modelo |  |
-| Framework |  |
-| GenAI Tool |  |
+| Modelo | GPT-4o |
+| Framework | LangGraph |
+| GenAI Tool | ChatOpenAI |
 | Tools | Toda ferramenta deve ser uma ferramenta do LangChain (@tool, StructuredTool ou obtida de servidor MCP via langchain-mcp-adapters) e deve ser executada exclusivamente por sua interface (invoke/ainvoke, diretamente ou via ToolNode), nunca pela chamada direta da função que a implementa. |
-| Entrypoint |  |
-| Output |  |
+| Entrypoint | agent(...) |
+| Output | state: dict |
 
 **Detalhes de implementação:**
 
