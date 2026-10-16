@@ -41,9 +41,93 @@ bash docker/docker_run_eval.sh --step 02 --llm opencode --agent 011_list_issues 
 
 ## Como isola
 - gen: monta `spec.md` em `/in:ro` + output em `/out:rw`; **repo nunca montado**.
-- eval: output `:rw` (`/data`, `/results`), repo e specs `:ro`; etapas
-  02/04/06 com `--network none`, 03/05/07/08 com rede + env de judge.
+- eval: staging privado por allowlist; `/data` e `/results` `:rw`, código e
+  bench selecionados `:ro`. 02/04/06 sem rede; demais com rede configurável
+  e ambiente mínimo por etapa/provider (detalhes abaixo).
 - `USE_DOCKER=0` (default) mantém o fluxo atual sem Docker.
+
+## Fase 4 — staging privado da avaliação
+
+`docker_run_eval.sh` chama `eval_staging.py` (stdlib). Os quatro mounts
+`/repo:ro`, `/bench:ro`, `/data:rw`, `/results:rw` vêm exclusivamente de
+temporários privados (raiz 0700), nunca dos diretórios originais. A seleção
+ocorre **antes** da cópia; não se copia árvore para depois filtrar.
+
+Allowlist por job:
+- `/repo`: somente o script da etapa; 03 acrescenta
+  `sonar_scripts/sonar_pipeline.py`; 07/08 acrescentam `utils/pytest_runner.py`.
+- `/bench/<agent>`: 05 recebe `spec.md` e `spec_adherence.py`; 06 recebe
+  `eval_2_graph.py`; 07 recebe `test_deepeval.py`; 08 recebe `test_trace.py`.
+  Arquivos de bench ausentes continuam ausentes, preservando o diagnóstico
+  da etapa. Rubricas alheias ao alvo, `.env`, outros agentes e arquivos
+  auxiliares não entram.
+- `/data/<experiment>/run_N/<llm>/<agent>`: `agent.py` obrigatório;
+  somente 04 recebe também testes Python diretos (`test*.py` ou `*test.py`),
+  necessários ao inventário dessa etapa. Não há cópia recursiva nem resolução
+  automática de imports de agentes. A recon dos runners encontrou apenas
+  os dois imports locais acima; não há agentes gerados ou testes de bench
+  no checkout para justificar dependências adicionais. Agentes multifile
+  precisam de futura allowlist explícita, não de expansão automática.
+- `/results` começa vazio. Resultados anteriores nunca são montados.
+
+Publicação em `EXPERIMENTS_RESULTS/<experiment>/run_N`: somente
+`02_validation`, `03_lint`, `04_tests_check`, `05_spec_judge`, `06_graph_eval`,
+`07_test_deepeval`, `08_trace_eval`, seguidos de `_<llm>_YYYYMMDD_HHMMSS.json`.
+07/08 também preservam os arquivos opcionais exatos `trace.json`,
+`trace.jsonl`, `agent.log`, `.pytest_report.json` da pasta do agente em
+`eval_artifacts/<step>_<llm>_<agent>_<job-uuid>/`. Essa é a allowlist de
+diagnósticos, não uma promessa sobre nomes de traces externos desconhecidos.
+Pytest incorpora stdout/stderr e seu relatório estruturado no relatório da
+etapa; seu helper normalmente apaga `.pytest_report.json` após incorporá-lo.
+Nada é publicado em generated, e `agent.py`/outros produtos arbitrários são
+ignorados. Publicação também ocorre após falha/interrupção; nunca sobrescreve
+destinos existentes, e falha operacional de publicação retorna não zero.
+Symlinks nos arquivos selecionados ou seus ancestrais, inclusive destinos de
+publicação, são rejeitados. Componentes de job aceitam somente letras,
+números, `_` e `-`; run é inteiro positivo canônico. UID/GID são os do host.
+
+Políticas explícitas (sem fallback):
+- SELinux: default `EVAL_SELINUX=Z` aplica `:Z` somente aos temporários.
+  `none` omite relabel; `disable` emite aviso e usa
+  `--security-opt label=disable`. Outros valores falham.
+- Rede: 02/04/06 sempre `--network none`. Nas demais,
+  `EVAL_NETWORK=bridge` por default; `none` é opt-in offline e nomes de redes
+  customizadas são aceitos. `host` e namespaces `container:...` são proibidos.
+- 03 recebe somente `SONAR_HOST_URL`, `SONAR_LOGIN`, `SONAR_PASSWORD`,
+  `USER_TOKEN`, `SONAR_COMMAND`. 05/07/08 usam
+  `EVAL_PROVIDER=openai|gemini|none` (default `openai`) e recebem somente a
+  chave selecionada (`OPENAI_API_KEY` ou `GEMINI_API_KEY`). 02/04/06 não
+  recebem credenciais. HOME, proxies e credenciais de geração não são
+  encaminhados. Paths são internos e dotenv é desabilitado no container.
+  Credenciais são encaminhadas somente como `-e NOME`, resolvidas pelo
+  ambiente do cliente Docker; seus valores não entram no argv.
+
+stdout/stderr permanecem nos streams do chamador. Inspect, build e run são
+rastreados e canceláveis: polling a cada 0,1 s, término do grupo do cliente
+com até 1 s para SIGTERM e mais 1 s para SIGKILL. Cancelamento nunca inicia
+build/run subsequente. O run não tem prazo total de execução normal.
+Após qualquer saída do cliente run (inclusive 125/desconexão/exceção),
+teardown força `docker rm -f` e confirma ausência por listagem nomeada
+bem-sucedida; cada operação tem timeout de 3 s. Falha de rm só é tolerada
+se a ausência for confirmada, como no caso de auto-remoção por `--rm`.
+Publicação e remoção dos temporários só ocorrem depois dessa confirmação.
+Se não for possível confirmar (ou se o cliente não puder ser terminado e
+recolhido dentro do prazo), retorna erro operacional, não publica e
+preserva staging privado, imprimindo localização e nome do container para
+recuperação explícita. Antes de remover esse staging manualmente, confirme
+que o container nomeado não existe mais. Interrupção confirmada retorna
+128+sinal; erros de teardown têm prioridade e conservam o contexto da exceção.
+
+A falha de image inspect mantém o build existente como fallback de setup.
+Nenhuma mudança de imagem é necessária para staging. **Limitação preexistente:**
+o contexto desse build fallback continua sendo a raiz do repositório, sem
+garantia de allowlist do contexto disponibilizado ao daemon. A allowlist
+descrita nesta seção restringe staging/mounts de runtime, não o build.
+
+Limites: bridge **não restringe endpoints**; código avaliado com rede pode
+usar/exfiltrar a chave selecionada. Isto não é sandbox perfeito nem defesa
+contra host concorrente malicioso com o mesmo UID. Não há evidência aqui de
+execução Docker real, compatibilidade de modelos ou serviços autenticados.
 
 ## Limitações assumidas
 - `docker_setup.log` contém apenas metadados/status após setup bem-sucedido.

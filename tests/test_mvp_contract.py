@@ -200,6 +200,9 @@ def test_eval_offline_uses_network_none(tmp_path, monkeypatch):
     env = base_env(tmp_path, monkeypatch)
     bindir = fake_docker_bin(tmp_path)
 
+    agent = Path(env['GENERATED_DIR']) / 't/run_1/opencode/011_list_issues'
+    agent.mkdir(parents=True)
+    (agent / 'agent.py').write_text('# synthetic agent\n')
     for step, offline in [("02", True), ("03", False)]:
         (bindir / "FAKE_LOG").write_text("")
         p = run(["bash", str(DOCKER / "docker_run_eval.sh"), "--step", step,
@@ -208,7 +211,7 @@ def test_eval_offline_uses_network_none(tmp_path, monkeypatch):
         assert p.returncode == 0, p.stderr
         log = (bindir / "FAKE_LOG").read_text()
         assert ("--network none" in log) == offline
-        assert ":/repo:ro" in log and f"{step}_" in log
+        assert ":/repo:ro,Z" in log and f"{step}_" in log
 
 
 def test_pipe_order_docker(tmp_path, monkeypatch):
