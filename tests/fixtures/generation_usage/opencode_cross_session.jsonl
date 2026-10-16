@@ -1,0 +1,2 @@
+{"type": "step_finish", "sessionID": "ses-SYNTHETIC-A", "part": {"id": "prt-7", "messageID": "msg-7", "sessionID": "ses-SYNTHETIC-A", "tokens": {"input": 100, "output": 10}}, "_synthetic": true}
+{"type": "step_finish", "sessionID": "ses-SYNTHETIC-B", "part": {"id": "prt-7", "messageID": "msg-7", "sessionID": "ses-SYNTHETIC-B", "tokens": {"input": 200, "output": 20}}, "_synthetic": true}

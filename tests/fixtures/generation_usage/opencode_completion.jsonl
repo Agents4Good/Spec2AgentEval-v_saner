@@ -1,0 +1,2 @@
+{"type": "step_finish", "sessionID": "ses-SYNTHETIC-C", "part": {"id": "prt-3", "messageID": "msg-3", "sessionID": "ses-SYNTHETIC-C", "tokens": {"input": 100}}, "_synthetic": true}
+{"type": "step_finish", "sessionID": "ses-SYNTHETIC-C", "part": {"id": "prt-3", "messageID": "msg-3", "sessionID": "ses-SYNTHETIC-C", "tokens": {"input": 100, "output": 10}}, "_synthetic": true}

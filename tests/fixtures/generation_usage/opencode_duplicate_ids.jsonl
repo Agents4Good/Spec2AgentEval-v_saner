@@ -1,0 +1,3 @@
+{"type": "step_finish", "sessionID": "ses-SYNTHETIC-A", "part": {"id": "prt-1", "messageID": "msg-1", "sessionID": "ses-SYNTHETIC-A", "tokens": {"input": 100, "output": 10, "cache": {"read": 5, "write": 2}}, "cost": 0.001}, "_synthetic": true}
+{"type": "step_finish", "sessionID": "ses-SYNTHETIC-A", "part": {"id": "prt-1", "messageID": "msg-1", "sessionID": "ses-SYNTHETIC-A", "tokens": {"input": 100, "output": 10, "cache": {"read": 5, "write": 2}}, "cost": 0.001}, "_synthetic": true}
+{"type": "step_finish", "sessionID": "ses-SYNTHETIC-A", "part": {"id": "prt-2", "messageID": "msg-2", "sessionID": "ses-SYNTHETIC-A", "tokens": {"input": 50, "output": 5, "cache": {"read": 1, "write": 1}}, "cost": 0.002}, "_synthetic": true}

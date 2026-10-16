@@ -1,0 +1,4 @@
+{"type": "thread.started", "thread_id": "thr-SYNTHETIC-A", "_synthetic": true}
+{"type": "turn.completed", "usage": {"input_tokens": 100, "output_tokens": 10}, "_synthetic": true}
+{"type": "thread.started", "thread_id": "thr-SYNTHETIC-B", "_synthetic": true}
+{"type": "turn.completed", "usage": {"input_tokens": 200, "output_tokens": 20}, "_synthetic": true}

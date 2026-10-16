@@ -1,0 +1,2 @@
+{"type": "step_finish", "part": {"id": "p1", "tokens": {"input": 500, "output": 120, "cache": {"read": 2000}}}, "_synthetic": true}
+{"type": "step_finish", "part": {"id": "p2", "tokens": {"input": 700, "output": 180, "cache": {"read": 1000}}}, "_synthetic": true}

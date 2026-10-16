@@ -1,0 +1,2 @@
+{"type": "step_finish", "part": {"id": "sA-1", "sessionID": "s-A", "tokens": {"input": 100, "output": 10}}, "_synthetic": true}
+{"type": "step_finish", "part": {"id": "sB-1", "sessionID": "s-B", "tokens": {"input": 200, "output": 20}}, "_synthetic": true}

@@ -1,0 +1,6 @@
+{"type": "thread.started", "thread_id": "thr-SYNTHETIC-1", "_synthetic": true}
+{"type": "turn.started", "_synthetic": true}
+{"type": "item.completed", "item": {"id": "item_0", "type": "agent_message"}, "_synthetic": true}
+{"type": "turn.completed", "usage": {"input_tokens": 1000, "cached_input_tokens": 700, "cache_write_input_tokens": 0, "output_tokens": 100, "reasoning_output_tokens": 60}, "_synthetic": true}
+{"type": "turn.started", "_synthetic": true}
+{"type": "turn.completed", "usage": {"input_tokens": 3000, "cached_input_tokens": 2200, "cache_write_input_tokens": 10, "output_tokens": 400, "reasoning_output_tokens": 150}, "_synthetic": true}

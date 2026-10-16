@@ -1,0 +1,4 @@
+{"type": "step_finish", "part": {"id": "m1", "tokens": {"input": 100, "output": 20}}, "_synthetic": true}
+this is not json {{{ SYNTHETIC malformed line
+
+{"type": "step_finish", "part": {"id": "m2", "tokens": {"input": 200, "output": 40}}, "_synthetic": true}

@@ -1,0 +1,2 @@
+{"type": "turn.completed", "usage": {"input_tokens": 300, "cached_input_tokens": 20, "output_tokens": 40}, "_synthetic": true}
+{"type": "turn.completed", "usage": {"input_tokens": false, "cached_input_tokens": 10, "output_tokens": -3}, "_synthetic": true}

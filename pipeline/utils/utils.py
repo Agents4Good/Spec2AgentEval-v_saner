@@ -1,6 +1,50 @@
 import re
 import json
 
+try:
+    from .generation_usage import parse_generation_usage
+except ImportError:  # loaded without package context
+    from utils.generation_usage import parse_generation_usage
+
+
+def _display_num(value) -> str:
+    """Transitional display helper: numerics via format_number, null as unknown."""
+    if isinstance(value, bool):
+        return "unknown"
+    if isinstance(value, int):
+        return format_number(value)
+    return "unknown"
+
+
+def _render_est_breakdown(model_name: str, usage: dict) -> dict:
+    """Shared Codex/OpenCode legacy breakdown: display only, numerics stay null."""
+    requests = usage.get("requests") or 0
+    total_input = usage.get("input_tokens")
+    total_output = usage.get("output_tokens")
+    total_cached = usage.get("cache_read_tokens")
+
+    if not (requests > 0 or (isinstance(total_input, int) and total_input > 0)):
+        return {"requests": requests, "time_spent": "", "models_breakdown": {}}
+
+    req_word = "request" if requests == 1 else "requests"
+    cached_text = (
+        f", {format_number(total_cached)} cached"
+        if isinstance(total_cached, int) and total_cached > 0
+        else ""
+    )
+    return {
+        "requests": requests,
+        "time_spent": "",  # adapters own wall timing; no trusted CLI duration
+        "models_breakdown": {
+            model_name: (
+                f"{_display_num(total_input)} in, "
+                f"{_display_num(total_output)} out"
+                f"{cached_text} "
+                f"(Est. {requests} {req_word})"
+            )
+        },
+    }
+
 def format_number(num: int) -> str:
     if num >= 1000000:
         return f"{num/1000000:.1f}m".replace('.0m', 'm')
@@ -151,78 +195,71 @@ def copilot_parse_stats(log_text: str, model_name: str) -> dict:
 
 
 def claude_parse_stats(data, model_name: str) -> dict:
+    """Legacy-shape wrapper over the numeric parser (transitional).
+
+    Keeps the historical return keys so existing adapters work unchanged
+    during phase 1. Numeric truth lives in generation_usage; the
+    models_breakdown string here is display only.
+    """
     result = {
         "requests": 0,
         "time_spent": "",
         "models_breakdown": {}
     }
-    
+
     if not data:
         return result
 
-    if isinstance(data, dict):
-        cost = data.get("total_cost_usd", 0.0)
-        duration_ms = data.get("duration_api_ms", data.get("duration_ms", 0)) 
-        
-        requests = data.get("num_turns", 0)
-        
-        usage = data.get("usage", {})
-        tokens_in = usage.get("input_tokens", 0)
-        tokens_out = usage.get("output_tokens", 0)
-        tokens_cached_read = usage.get("cache_read_input_tokens", 0)
-        tokens_cached_created = usage.get("cache_creation_input_tokens", 0)
-        
-        cost_str = f"${float(cost):.2f}" if float(cost) > 0 else ""
-        time_str = f"{duration_ms/1000:.2f}s" if duration_ms > 0 else ""
-            
-        result["requests"] = requests
-        result["time_spent"] = time_str
-        
-        if requests > 0 or tokens_in > 0:
-            str_in = format_number(tokens_in)
-            str_out = format_number(tokens_out)
-            
-            cache_read_text = f", {format_number(tokens_cached_read)} cache read" if tokens_cached_read > 0 else ""
-            cache_create_text = f", {format_number(tokens_cached_created)} cache created" if tokens_cached_created > 0 else ""
-            
-            req_word = "request" if requests == 1 else "requests"
-            req_text = f" - {requests} {req_word}" if requests > 0 else ""
-            
-            result["models_breakdown"] = {
-                model_name: f"{str_in} in, {str_out} out{cache_read_text}{cache_create_text} (Cost: {cost_str}{req_text})"
-            }
-            
+    if not isinstance(data, (dict, str)):
         return result
 
-    if isinstance(data, str):
-        clean_log = re.sub(r'\x1b\[[0-9;]*[a-zA-Z]', '', data).lower()
-            
-        time_api = re.search(r'duration\s*\(api\)\s*:\s*([a-z0-9\.\s]+)', clean_log)
-        if time_api: result["time_spent"] = time_api.group(1).strip()
-            
-        cost_match = re.search(r'cost\s*:\s*\$?([0-9\.]+)', clean_log)
-        if cost_match:
-            cost_val = float(cost_match.group(1))
-            cost_str = f"${cost_val:.2f}"
-        else:
-            cost_str = ""
+    parsed = parse_generation_usage("claude", data, model=model_name)
 
-        turns_match = re.search(r'(\d+)\s+turns?', clean_log)
-        requests = int(turns_match.group(1)) if turns_match else 0
-        
-        if cost_str or result["time_spent"] or requests > 0:
-            result["requests"] = requests
-            req_word = "request" if requests == 1 else "requests"
-            req_text = f" - {requests} {req_word}" if requests > 0 else ""
-            
-            result["models_breakdown"] = {
-                model_name: f"Cost: {cost_str}{req_text}".strip()
-            }
-            
+    usage = parsed["usage"]
+    requests = usage.get("requests") or 0
+    tokens_in = usage.get("input_tokens")
+    tokens_out = usage.get("output_tokens")
+
+    result["requests"] = requests
+    result["time_spent"] = ""  # no trusted CLI duration; adapters own timing
+
+    if requests > 0 or (isinstance(tokens_in, int) and tokens_in > 0):
+        cost = usage.get("cost_usd")
+        cost_str = f"${float(cost):.2f}" if isinstance(cost, (int, float)) else ""
+
+        tokens_cached_read = usage.get("cache_read_tokens")
+        tokens_cached_created = usage.get("cache_write_tokens")
+        cache_read_text = (
+            f", {format_number(tokens_cached_read)} cache read"
+            if isinstance(tokens_cached_read, int) and tokens_cached_read > 0
+            else ""
+        )
+        cache_create_text = (
+            f", {format_number(tokens_cached_created)} cache created"
+            if isinstance(tokens_cached_created, int) and tokens_cached_created > 0
+            else ""
+        )
+
+        req_word = "request" if requests == 1 else "requests"
+        req_text = f" - {requests} {req_word}" if requests > 0 else ""
+
+        result["models_breakdown"] = {
+            model_name: (
+                f"{_display_num(tokens_in)} in, {_display_num(tokens_out)} out"
+                f"{cache_read_text}{cache_create_text} (Cost: {cost_str}{req_text})"
+            )
+        }
+
     return result
 
 
 def opencode_parse_stats(stdout: str, model_name: str) -> dict:
+    """Legacy-shape wrapper over the numeric parser (transitional).
+
+    Keeps the historical return keys so the existing adapter works unchanged
+    during phase 1. The adapter still overwrites time_spent with its own
+    wall measurement; numeric truth lives in generation_usage.
+    """
     result = {
         "changes_added": 0,
         "changes_removed": 0,
@@ -234,59 +271,22 @@ def opencode_parse_stats(stdout: str, model_name: str) -> dict:
     if not stdout:
         return result
 
-    total_input = 0
-    total_output = 0
-    total_cached = 0
-    requests = 0
+    if not isinstance(stdout, (dict, str)):
+        return result
 
-    for line in stdout.splitlines():
-        line = line.strip()
-
-        if not line:
-            continue
-
-        try:
-            event = json.loads(line)
-        except (json.JSONDecodeError, TypeError):
-            continue
-
-        if event.get("type") != "step_finish":
-            continue
-
-        part = event.get("part", {})
-        tokens = part.get("tokens", {})
-        cache = tokens.get("cache", {})
-
-        total_input += tokens.get("input", 0)
-        total_output += tokens.get("output", 0)
-        total_cached += cache.get("read", 0)
-
-        requests += 1
-
-    result["requests"] = requests
-
-    if requests > 0 or total_input > 0:
-        req_word = "request" if requests == 1 else "requests"
-
-        cached_text = (
-            f", {format_number(total_cached)} cached"
-            if total_cached > 0
-            else ""
-        )
-
-        result["models_breakdown"] = {
-            model_name: (
-                f"{format_number(total_input)} in, "
-                f"{format_number(total_output)} out"
-                f"{cached_text} "
-                f"(Est. {requests} {req_word})"
-            )
-        }
+    parsed = parse_generation_usage("opencode", stdout, model=model_name)
+    result.update(_render_est_breakdown(model_name, parsed["usage"]))
 
     return result
 
 
 def codex_parse_stats(stdout: str, model_name: str) -> dict:
+    """Legacy-shape wrapper over the numeric parser (transitional).
+
+    Keeps the historical return keys so the existing adapter works unchanged
+    during phase 1. The adapter still overwrites time_spent with its own
+    wall measurement; numeric truth lives in generation_usage.
+    """
     result = {
         "changes_added": 0,
         "changes_removed": 0,
@@ -298,51 +298,10 @@ def codex_parse_stats(stdout: str, model_name: str) -> dict:
     if not stdout:
         return result
 
-    total_input = 0
-    total_cached = 0
-    total_output = 0
-    requests = 0
+    if not isinstance(stdout, (dict, str)):
+        return result
 
-    for line in stdout.splitlines():
-        line = line.strip()
-
-        if not line:
-            continue
-
-        try:
-            event = json.loads(line)
-        except json.JSONDecodeError:
-            continue
-
-        event_type = event.get("type")
-
-        if event_type == "turn.completed":
-            usage = event.get("usage", {})
-
-            total_input += usage.get("input_tokens", 0)
-            total_cached += usage.get("cached_input_tokens", 0)
-            total_output += usage.get("output_tokens", 0)
-
-            requests += 1
-
-    result["requests"] = requests
-
-    if requests > 0 or total_input > 0:
-        req_word = "request" if requests == 1 else "requests"
-
-        cached_text = (
-            f", {format_number(total_cached)} cached"
-            if total_cached > 0
-            else ""
-        )
-
-        result["models_breakdown"] = {
-            model_name: (
-                f"{format_number(total_input)} in, "
-                f"{format_number(total_output)} out"
-                f"{cached_text} "
-                f"(Est. {requests} {req_word})"
-            )
-        }
+    parsed = parse_generation_usage("codex", stdout, model=model_name)
+    result.update(_render_est_breakdown(model_name, parsed["usage"]))
 
     return result

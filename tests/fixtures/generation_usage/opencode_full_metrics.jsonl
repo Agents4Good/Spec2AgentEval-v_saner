@@ -1,0 +1,2 @@
+{"type": "step_finish", "part": {"id": "a1", "sessionID": "s1", "tokens": {"input": 400, "output": 100, "reasoning": 50, "total": 9000, "cache": {"read": 100, "write": 20}}, "cost": 0.005}, "_synthetic": true}
+{"type": "step_finish", "part": {"id": "a2", "sessionID": "s1", "tokens": {"input": 600, "output": 200, "reasoning": 70, "total": 9100, "cache": {"read": 300, "write": 40}}, "cost": 0.007}, "_synthetic": true}
