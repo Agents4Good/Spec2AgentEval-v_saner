@@ -22,6 +22,15 @@ Phase-2 contract (lane B):
   exception strings, prompts, or CLI stdout/stderr (those stay in logs).
 
 ``SPEC2AGENT_SKIP_DOTENV=1`` bypasses ``.env`` loading (isolated tests).
+
+Phase-3 backend (core lane A): ``--backend local|docker`` (default local)
+and ``--model`` per-job override. Docker attaches
+``adapter.transport = DockerTransport(spec_file)`` before ``run()`` for the
+canonical three adapters (Claude aliases included) and maps OpenCode to
+``execution_dir=/out``; local-only Copilot/Gemini are rejected explicitly.
+Transport setup failures are canonical operational errors with safe
+``docker_*`` diagnostics; the stage still owns reservation, artifact
+validation and atomic report publication alone.
 """
 import argparse
 import json
@@ -42,6 +51,8 @@ from adapters.gemini import GeminiAdapter
 from adapters.claude import ClaudeCodeAdapter
 from adapters.codex import CodexAdapter
 from adapters.open_code import OpenCodeAdapter
+from adapters.base_adapter import transport_error_token
+from adapters.docker_transport import DockerTransport
 
 ADAPTERS: dict[str, tuple[type, dict]] = {
     "copilot":   (CopilotAdapter,     {}),
@@ -341,7 +352,16 @@ def _error_entry(base: dict, *, error: str, usage=None, exit_code=None,
     }
 
 
-def generate(llm: str, spec_folder: Path, generated_root: Path) -> dict:
+def generate(llm: str, spec_folder: Path, generated_root: Path,
+             *, backend: str = "local", model: str | None = None) -> dict:
+    """Run one job locally (default) or via the Docker transport.
+
+    ``model`` overrides the adapter model for this job only, on a copy of
+    the registry kwargs, so alias effort and registry defaults are never
+    mutated. Docker supports only the canonical three adapters (including
+    Claude aliases); local-only Copilot/Gemini are rejected explicitly
+    before any execution.
+    """
     base = _base_entry(llm, spec_folder, generated_root)
     output_dir = Path(base["output_dir"])
     artifact = output_dir / "agent.py"
@@ -350,17 +370,42 @@ def generate(llm: str, spec_folder: Path, generated_root: Path) -> dict:
     if not (spec_folder / "spec.md").exists():
         return _error_entry(base, error="spec_not_found")
 
+    adapter_class, adapter_kwargs = ADAPTERS[llm]
+    job_kwargs = dict(adapter_kwargs)
+    if model is not None:
+        job_kwargs["model"] = model
+
+    docker = False
+    if backend == "docker":
+        if adapter_class not in _CANONICAL_ADAPTERS:
+            return _error_entry(base, error="docker_unsupported_adapter")
+        docker = True
+
     token, identity = _reserve_output_dir(output_dir, generated_root)
     if token is not None:
         return _error_entry(base, error=token)
 
     pre_sig = _snapshot(artifact)
-    adapter_class, adapter_kwargs = ADAPTERS[llm]
 
     adapter = None
     exc_kind: str | None = None  # None | "fnf" | "collect"
     try:
-        adapter = adapter_class(spec_folder / "spec.md", output_dir, **adapter_kwargs)
+        adapter = adapter_class(spec_folder / "spec.md", output_dir, **job_kwargs)
+        if docker:
+            try:
+                adapter.transport = DockerTransport(spec_folder / "spec.md")
+            except Exception as e:
+                # Transport construction is setup, not collection: keep the
+                # safe code and never let a raw exception escape the job.
+                meta = _adapter_metadata(adapter, logs_dir)
+                return _error_entry(base, error=transport_error_token(e),
+                                    usage=meta["usage"],
+                                    exit_code=meta["exit_code"],
+                                    parse_status=meta["parse_status"],
+                                    warnings=meta["warnings"],
+                                    log_paths=meta["log_paths"])
+            if isinstance(adapter, OpenCodeAdapter):
+                adapter.execution_dir = Path("/out")
         adapter.run()
     except FileNotFoundError:
         # Legacy adapters raise on spawn failure while canonical ones
@@ -405,7 +450,7 @@ def generate(llm: str, spec_folder: Path, generated_root: Path) -> dict:
             tokens.append(artifact_token)
 
     failed_root_cause = any(
-        t == "collect_failed" or t.startswith(("spawn_failed", "persistence_failed"))
+        t == "collect_failed" or t.startswith(("spawn_failed", "persistence_failed", "docker_"))
         for t in tokens
     )
 
@@ -491,6 +536,10 @@ def main(argv=None):
     parser.add_argument("--agent", default=None, help="Filter a specific agent (folder name in bench/)")
     parser.add_argument("--run", type=int, default=1, help="Run index (1..N). Writes under run_<N>/ subpath.")
     parser.add_argument("--experiment", default="by_tool", help="Experiment slug (e.g., by_tool, by_claude_version).")
+    parser.add_argument("--backend", default="local", choices=("local", "docker"),
+                        help="Execution backend: local CLI (default) or Docker transport.")
+    parser.add_argument("--model", default=None,
+                        help="Per-job model override (registry kwargs are copied; alias effort preserved).")
     args = parser.parse_args(argv)
 
     if not _SAFE_COMPONENT.fullmatch(args.experiment or ""):
@@ -535,7 +584,8 @@ def main(argv=None):
 
     for spec_folder in specs:
         print(f"[generate] experiment={args.experiment} run={args.run} {args.llm} ← {spec_folder.name}")
-        result = generate(args.llm, spec_folder, generated_root)
+        result = generate(args.llm, spec_folder, generated_root,
+                          backend=args.backend, model=args.model)
         if result["status"] == "error":
             print(f"[generate] {args.llm} ← {spec_folder.name}: "
                   f"error ({result['error']})")

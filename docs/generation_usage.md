@@ -158,3 +158,22 @@ monotonic process/wall measurement is phase-2 work.
   `parse_error`, `spawn_failed: <prog>`, artifact tokens); raw CLI
   stdout/stderr are stored in the per-agent log files referenced by
   `log_paths`. Prompts and exception text are not included in the report.
+
+## Phase-3 Docker notes (transport)
+
+- The container executes the same canonical host-built argv
+  (`docker run … IMAGE <argv>`, no shell); only the run's stdout feeds the
+  numeric parser above. Image inspect/build stdout/stderr are discarded,
+  never parsed or persisted. After successful setup, `docker_setup.log`
+  contains metadata/status notes only (including inspect/build exit codes
+  and credential mode); failed setup does not create this log.
+- Process duration covers the host transport window including container
+  startup, not isolated CLI runtime; wall additionally covers
+  prepare/setup/cleanup. CLI duration/version stay unknown.
+- Credential values never appear in argv, reports or setup logs (env mode
+  forwards names only); offline fake-Docker evidence establishes
+  orchestration boundaries, not live provider login or billing parity.
+- Cleanup always attempts both private temporary trees, restoring owner
+  directory access without following symlinks. A remaining removal failure
+  reports `docker_cleanup_failed`; completed streams, usage and exit status
+  remain available, with CLI/parse errors retaining priority.

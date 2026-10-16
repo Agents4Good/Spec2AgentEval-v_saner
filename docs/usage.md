@@ -108,6 +108,29 @@ selectors, including symlinked run roots).
 
 `SPEC2AGENT_SKIP_DOTENV=1` bypasses `.env` loading (isolated tests only).
 
+### Docker backend (phase 3)
+
+`python3 pipeline/01_generate.py --backend docker` (default `local`) runs
+the same canonical adapter command inside a container via a small
+transport; `--model` overrides the adapter model for that job only
+(Claude alias effort preserved). Only `claude`, `codex`, `opencode`
+(including `claude-opus-*-low` aliases) are supported — local-only
+`copilot`/`gemini` are rejected explicitly before execution.
+
+`docker/docker_run_gen.sh` is a thin compatibility wrapper (same
+`--llm/--agent/--run/--experiment`, optional `--model`): it applies the
+`BENCH_DIR`/`GENERATED_DIR`/`EXPERIMENTS_RESULTS` path defaults plus
+`GEN_IMAGE` (default `spec2agent-gen:infra`) and delegates to stage 01.
+The obsolete standalone `docker_gen_report.json` is gone; Docker runs emit
+the canonical `01_generation_*` report above, with extra `docker_*` error
+tokens on transport failures. Reservation, artifact validation and
+no-clobber publication are unchanged and still owned by stage 01.
+Successful setup writes metadata/status notes to `docker_setup.log`;
+inspect/build stdout/stderr are discarded, and failed setup creates no
+setup log. Temporary cleanup failures report `docker_cleanup_failed`
+without discarding completed CLI streams, usage or exit status (CLI/parse
+errors retain priority).
+
 ## Running the full pipeline with `pipe.sh`
 
 ```bash

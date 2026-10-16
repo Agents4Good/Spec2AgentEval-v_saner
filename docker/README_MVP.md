@@ -14,8 +14,23 @@ codex login        # gera ~/.codex/auth.json
 claude login       # gera ~/.claude/.credentials.json
 # opencode usa modelo free: sem auth
 ```
-Os scripts copiam o auth p/ um HOME temporário por job (0600) com
-`CODEX_HOME`/`CLAUDE_CONFIG_DIR` apontando p/ ele.
+Por job, o transporte provisiona exatamente UM modo da CLI selecionada
+(nunca ambos, nunca cruzado entre CLIs):
+- **env**: encaminha só o NOME da variável (`-e NOME`, sem valor no argv):
+  Claude `ANTHROPIC_AUTH_TOKEN` → `ANTHROPIC_API_KEY` →
+  `CLAUDE_CODE_OAUTH_TOKEN`; Codex `CODEX_API_KEY` → `CODEX_ACCESS_TOKEN`.
+- **arquivo**: copia só o arquivo selecionado
+  (`CLAUDE_CONFIG_DIR/.credentials.json` ou `CODEX_HOME/auth.json`,
+  default `~/.claude` / `~/.codex`) para um HOME temporário privado por job
+  (dirs 0700, arquivo 0600); o original nunca é modificado e o temporário é
+  removido no cleanup (credenciais renovadas não persistem de volta).
+  Falha de remoção gera `docker_cleanup_failed`, sem descartar streams,
+  uso ou código de saída já coletados; erros da CLI/parser têm prioridade.
+- **OpenCode**: sem credenciais por default (ainda mais nos modelos free
+  `opencode/*`); opt-in estreito via `GEN_OPENCODE_API_KEY_ENV` nomeando
+  exatamente `OPENAI_API_KEY` (`openai/*`), `ANTHROPIC_API_KEY`
+  (`anthropic/*`) ou `GEMINI_API_KEY` (`google/*`).
+Sem `--env-file`, sem HOME/config inteiros, sem binds duplicados `/auth`.
 
 ## Run exemplo
 ```bash
@@ -31,9 +46,20 @@ bash docker/docker_run_eval.sh --step 02 --llm opencode --agent 011_list_issues 
 - `USE_DOCKER=0` (default) mantém o fluxo atual sem Docker.
 
 ## Limitações assumidas
+- `docker_setup.log` contém apenas metadados/status após setup bem-sucedido.
+  stdout/stderr de inspect/build são descartados; falha no setup não cria
+  esse log.
 - Sem Sonar por job, lock por provedor, métricas nativas ou proxy egress.
-- Tokens/duration vão em `docker_gen_report.json` ao lado do `agent.py`;
-  o relatório `01_generation_*` não é gerado no modo Docker.
+- O `docker_gen_report.json` plano e independente foi removido de propósito:
+  a geração Docker publica o mesmo relatório canônico
+  `EXPERIMENTS_RESULTS/<experiment>/run_<N>/01_generation_<llm>_<id>.json`
+  do modo local (mesmo envelope, mesmos tokens de erro + `docker_*`).
+- `Dockerfile.eval` instala o `requirements.txt` cheio (build lento, uma vez).
+- Auth depende de login humano prévio no host; sem credencial, só opencode.
+- Versões das CLIs pinadas no Dockerfile.gen (opencode fica na linha 1.x via
+  pacote `opencode-ai`; revisar periodicamente).
+- Evidência aqui é de orquestração offline (Docker fake): sem claims de
+  compatibilidade com provedores reais, login em produção ou billing.
 - `Dockerfile.eval` instala o `requirements.txt` cheio (build lento, uma vez).
 - Auth depende de login humano prévio no host; sem credencial, só opencode.
 - Versões das CLIs pinadas no Dockerfile.gen (opencode fica na linha 1.x via

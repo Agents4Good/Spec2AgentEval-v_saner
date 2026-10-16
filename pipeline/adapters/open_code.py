@@ -12,6 +12,11 @@ class OpenCodeAdapter(BaseAdapter):
     ):
         super().__init__(spec_path, output_dir)
         self.model = model
+        # Host working directory for the canonical command. The local
+        # default is resolved once here, so later argv construction must
+        # use it literally: stage 01 replaces it with /out for Docker,
+        # which must never be resolved against the host filesystem.
+        self.execution_dir = Path(output_dir).resolve()
         self.usage = {}
 
     def run(self):
@@ -32,7 +37,7 @@ class OpenCodeAdapter(BaseAdapter):
             "--format",
             "json",
             "--auto",
-            str(self.output_dir.resolve()),
+            str(self.execution_dir),
         ]
 
         self._collect(cmd, cli="opencode", model=self.model, tag="OpenCodeAdapter")

@@ -18,10 +18,20 @@ from pathlib import Path
 
 from utils.generation_usage import parse_generation_usage
 
+from .docker_transport import DockerTransportError, ERROR_CODES
+
 SPAWN_FAILED = "spawn_failed"
 COLLECT_FAILED = "collect_failed"
 PARSE_ERROR = "parse_error"
 PERSISTENCE_FAILED = "persistence_failed"
+
+
+def transport_error_token(exc, default="docker_setup_failed"):
+    """Safe error token for a transport failure, never raw content."""
+    code = getattr(exc, "code", None)
+    if isinstance(code, str) and code in ERROR_CODES:
+        return code
+    return default
 
 _NON_UTF8_STDOUT = "stdout is not valid UTF-8; no usage data"
 
@@ -39,6 +49,10 @@ class BaseAdapter:
         self.error: str | None = None
         self.log_paths: dict = {}
         self.durations: dict = {"process_duration_s": None, "wall_duration_s": None}
+        # Optional Docker transport hook (phase 3). None means local
+        # execution; the stage attaches DockerTransport(spec_file) before
+        # run() when --backend docker is selected.
+        self.transport = None
 
     def check_spec(self):
         if not self.spec_file.exists():
@@ -108,6 +122,16 @@ class BaseAdapter:
         records a safe ``persistence_failed`` diagnostic instead of
         masquerading as a spawn failure. Expected process failures never
         raise.
+
+        With ``self.transport`` set, the canonical argv is executed through
+        ``transport.prepare(argv, cli=..., output_dir=...)``, a cleanup
+        context yielding the final argv (``docker run ... IMAGE <argv>``).
+        Only that yielded argv is executed and parsed: transport
+        inspect/build diagnostics never feed the usage parser. The process
+        window covers the docker run start/exit including container
+        startup; the wall window additionally covers transport
+        prepare/setup/cleanup. Transport setup failures surface as stable
+        ``docker_*`` tokens with collected metadata retained.
         """
         wall_start = time.monotonic()
         self.log_paths = {}
@@ -120,25 +144,58 @@ class BaseAdapter:
         exit_code = None
         process_duration = None
         error = None
-        try:
+        prog = cmd[0] if cmd else cli
+        cleanup_error = None
+
+        def _spawn(argv):
             proc_start = time.monotonic()
             process = subprocess.Popen(
-                cmd,
+                argv,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 cwd=self.output_dir,
                 shell=False,
             )
             out, err = process.communicate()
-            process_duration = time.monotonic() - proc_start
-            exit_code = process.returncode
+            return out, err, process.returncode, time.monotonic() - proc_start
+
+        def _keep(out, err):
+            # Bytes are retained before the transport context exits, so a
+            # cleanup failure can never discard a completed collection.
+            nonlocal stdout_b, stderr_b
             if isinstance(out, (bytes, bytearray)):
                 stdout_b = bytes(out)
             if isinstance(err, (bytes, bytearray)):
                 stderr_b = bytes(err)
+
+        try:
+            if self.transport is None:
+                out, err, exit_code, process_duration = _spawn(cmd)
+                _keep(out, err)
+            else:
+                prog = "docker"
+                with self.transport.prepare(cmd, cli=cli,
+                                           output_dir=self.output_dir) as run_argv:
+                    argv = list(run_argv)
+                    prog = argv[0] if argv else "docker"
+                    out, err, exit_code, process_duration = _spawn(argv)
+                    _keep(out, err)
+        except DockerTransportError as e:
+            if exit_code is None:
+                # Setup failed before any process ran: no streams/status.
+                process_duration = None
+                error = transport_error_token(e)
+                if not self._log_step(f"[{tag}] transport setup failed cli={cli}"):
+                    step_log_failed = True
+            else:
+                # Cleanup failed after the process completed: streams,
+                # status and duration are already kept; surface the
+                # diagnostic without masking the process outcome.
+                cleanup_error = transport_error_token(e)
+                if not self._log_step(f"[{tag}] transport cleanup failed cli={cli}"):
+                    step_log_failed = True
         except (FileNotFoundError, OSError):
             process_duration = None
-            prog = cmd[0] if cmd else cli
             error = f"{SPAWN_FAILED}: {prog}"
             if not self._log_step(f"[{tag}] spawn failed cli={cli}"):
                 step_log_failed = True
@@ -181,6 +238,12 @@ class BaseAdapter:
             "process_duration_s": process_duration,
             "wall_duration_s": wall_duration,
         }
+        if cleanup_error is not None:
+            # A post-collection cleanup fault joins the warnings; the
+            # process outcome keeps error priority.
+            self.warnings.append(cleanup_error)
+            if self.error is None:
+                self.error = cleanup_error
 
         # Persist each raw log independently; a fault keeps collected
         # metadata and still attempts the remaining logs.
@@ -206,4 +269,12 @@ class BaseAdapter:
                 self.warnings.append(marker)
             if self.error is None:
                 self.error = PERSISTENCE_FAILED
+        if self.transport is not None:
+            # Merge successfully persisted transport setup logs without
+            # clobbering collector entries; keys/values stay plain strings.
+            transport_logs = getattr(self.transport, "log_paths", None)
+            if isinstance(transport_logs, dict):
+                for key, value in transport_logs.items():
+                    if isinstance(key, str) and isinstance(value, str):
+                        self.log_paths.setdefault(key, value)
         return self.usage
