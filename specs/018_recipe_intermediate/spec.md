@@ -1,65 +1,78 @@
-**Task:** você é um gerador de agentes de IA e abaixo está uma especificação de um agente. Gere um agente conforme a especificação. Considere que as ferramentas do agente devem ser geradas junto ao código do agente.  
-**Contexto:** Um agente de IA é uma entidade que usa LLM e ferramentas para executar tarefas específicas de forma autônoma.  
+**Task:** you are an AI agent generator, and below is the specification of an agent. Generate an agent according to the specification. Consider that the agent's tools must be generated together with the agent code.
+
+**Context:** An AI agent is an entity that uses an LLM and tools to perform specific tasks autonomously.
+
 **Output:** agent.py, requirements.txt, tests.py
 
-**Contrato de interface com o benchmark:**
+**Interface contract with the benchmark:**
 
-| Requisito de interface | Exemplo |
+| Interface requirement | Example |
 | --- | --- |
-| Modelo | GPT-4o |
+| Model | GPT-4o |
 | Framework | LangGraph |
 | GenAI Tool | ChatOpenAI |
+| Tools | Every tool must be a LangChain tool (@tool, StructuredTool, or obtained from an MCP server via langchain-mcp-adapters) and must be executed exclusively through its interface (invoke/ainvoke, either directly or via ToolNode), never by directly calling the function that implements it. |
 | Entrypoint | agent(...) |
 | Output | state: dict |
 
-**Requisitos gerais:**
+**Implementation details:**
 
-| Requisito | Significado | Especificação do agente |
+| Implementation detail | Specification |
+| --- | --- |
+| Environment variables | The agent must access the environment variables when necessary.<br>Available keys: NOTION\_PAGE\_ID, TAVILY\_API\_KEY, NOTION\_API\_KEY, OPENAI\_API\_KEY  |
+
+**Requirements:**
+
+| Requirement | Meaning | Agent specification |
 | --- | --- | --- |
-| Goal | Objetivo e comportamento principal do agente na voz ativa | O agente atua como um gerador de receitas personalizadas, adaptadas para utilizar os ingredientes colocados na query do usuário ou na sua despensa e para respeitar preferências e restrições dietéticas do usuário. Retorna a receita completa com ingredientes, equipamentos, instruções e recomendações de armazenamento. |
-| Persona (Opcional) | A personalidade que o agente assume ao realizar as tarefas | O agente assume a persona de um **chefe de cozinha**, cuja função é criar receitas personalizadas. |
-| Inputs | Informação enviada para o agente | O agente recebe uma _query (em linguagem natural)_ do usuário, contendo preferências e opcionalmente ingredientes específicos e restrições dietéticas. |
-| Constraints | Uma afirmação que restringe as ações que o agente (ou seus usuários/operadores) têm permissão de realizar. | • O agente não deve fornecer/inventar respostas quando a query não for relacionada a receitas ou ingredientes.  
-• O agente nunca deve chamar ambas as ferramentas na mesma execução.  
-• O agente nunca deve gerar receitas que não respeitem as restrições dietéticas do usuário (quando houverem).  
-• A receita deve conter todos os ingredientes identificados na query, exceto os incompatíveis com as restrições dietéticas do usuário.  
-• Quando a query não contiver ingredientes, a receita deve conter ao menos um ingrediente retornado por `retrieve_pantry`. |
-| Policies/Invariants | Afirmações que descrevem o que é verdadeiro sobre o domínio ou sobre o estado do agente em um dado momento | • Uma restrição dietética implica todos os seus ingredientes derivados, mesmo os não citados pelo usuário. Exemplo: "vegano" exclui mel, gelatina, manteiga e whey; "celíaco" exclui cevada, malte e shoyu comum.  
-• Um ingrediente mencionado sob negação, ausência ou hipótese não é um ingrediente disponível. |
-| Quality attributes (non-functional requirements) | Características observáveis do comportamento do agente durante a execução, que não descrevem o que ele faz nem o que ele nunca deve fazer, mas quão bem ele faz. | A execução deve produzir uma resposta estruturada e adequada para avaliação automatizada. |
-| Env | Chaves disponíveis através da configuração do ambiente | O agente deve acessar as variáveis de ambiente quando necessário.  
-  
-Chaves disponíveis: NOTION\_PAGE\_ID, TAVILY\_API\_KEY, NOTION\_API\_KEY |
+| Goal | The agent's main objective and behavior, in the active voice | The agent acts as a generator of personalized recipes, adapted to use the ingredients provided in the user's query or in their pantry and to respect the user's dietary preferences and restrictions. It returns the complete recipe with ingredients, equipment, instructions, and storage recommendations. |
+| Persona (Optional) | The personality the agent assumes when performing tasks | The agent assumes the persona of a **chef**, whose role is to create personalized recipes. |
+| Inputs | Information sent to the agent | The agent receives a _query (in natural language)_ from the user, containing preferences and, optionally, specific ingredients and dietary restrictions. |
+| Guardrails and Invariants | External rules or conditions that must always be respected by the agent during its execution. They may come from laws, regulations, company policies, or domain rules. When a condition is an invariant, it must be satisfied before and after the execution of any agent behavior. | • A dietary restriction implies all of its derived ingredients, even those not mentioned by the user.<br>• An ingredient mentioned under negation, absence, or hypothesis is not an available ingredient. |
+| Quality attributes (non-functional requirements) | Observable characteristics of the agent's behavior during execution that describe neither what it does (that is Goal/Behavior Requirements) nor what it must never do (Constraints), but how well it does it — consistently, safely, efficiently, and reliably. They directly shape the trust and experience of those who depend on the agent. | The execution must produce a structured response suitable for automated evaluation. |
 
 **Tools:**
 
-| Nome | Propósito | Entradas | Retorno | Falhas |
+| Name | Purpose | Inputs | Returns | Failures |
 | --- | --- | --- | --- | --- |
-| retrieve\_pantry | Obter os ingredientes disponíveis na despensa do usuário, através de uma página do notion. | Nenhuma. | A lista completa de ingredientes da despensa. Despensa sem itens retorna lista vazia. | Credenciais ausentes, página inacessível ou timeout devem retornar uma mensagem começando com `erro:` seguida por uma mensagem explicando a falha. |
-| search\_recipes | Obter receitas da web, através do **tavily**, como **referência** de preparo para os ingredientes identificados na query. As receitas encontradas não são fonte de ingredientes-base, nem a receita final. | Ingredientes identificados na query. | Até 5 resultados, cada um com título, URL e trecho do conteúdo. Ausência de resultados retorna lista vazia. | Credenciais ausentes, página inacessível ou timeout devem retornar uma mensagem começando com `erro:` seguida por uma mensagem explicando a falha. |
+| retrieve\_pantry | Obtain the ingredients available in the user's pantry, through a Notion page. | None. | The complete list of pantry ingredients. An empty pantry returns an empty list. | Missing credentials, an inaccessible page, or a timeout must return a message beginning with `Error:` followed by a message explaining the failure. |
+| search\_recipes | Obtain recipes from the web, through **tavily**, as a preparation **reference** for the ingredients identified in the query. The recipes found are neither a source of base ingredients nor the final recipe. | Ingredients identified in the query. | Up to 5 results, each with title, URL, and content excerpt. No results returns an empty list. | Missing credentials, an inaccessible page, or a timeout must return a message beginning with `erro:` followed by a message explaining the failure. |
 
-**Comportamentos:**
+**Behaviors:**
 
-| Comportamento | Trigger | Input | Tools | Saída | Efeito no ambiente | Condição de satisfação |
+| Behavior | Trigger | Input | Tools | Output | Environment effect | Constraints |
 | --- | --- | --- | --- | --- | --- | --- |
-| **B1 — Validação da query**  
-O agente classifica a query como inválida (vazia, ofensiva ou sem relação com comida/culinária) ou válida (qualquer query que não satisfaça nenhum critério de invalidez), e interrompe a execução se for inválida. | Recebimento da query. | Query do usuário. | Nenhuma. | Indicador booleano de validade. Se inválida, mensagem iniciada por `Error:` com a explicação. | Nenhum. | O indicador corresponde à classificação esperada. Se inválida, a mensagem começa com `Error:`, nenhuma tool é chamada e nenhuma receita é gerada. |
-| **B2 — Identificação de ingredientes**  
-O agente identifica os ingredientes mencionados na query. | Query classificada como válida em B1. | Query do usuário. | Nenhuma. | Lista de ingredientes identificados, se nenhum ingrediente for identificado, lista vazia. | Nenhum. | A lista é igual ao conjunto esperado, considerando variantes regionais (por exemplo, "macaxeira" e "aipim" correspondem a mandioca), formas flexionadas (por exemplo, "dois tomates bem maduros" e "um resto de frango"), e excluindo ingredientes mencionados sob negação, ausência ou hipótese. |
-| **B3 — Busca de receitas de referência**  
-O agente busca receitas que sirvam de referência de preparo para os ingredientes identificados na query. | Lista de ingredientes identificados em B2 não vazia. | Lista de ingredientes identificados em B2. | `search_recipes` | Até cinco resultados, cada um com título, URL e trecho do conteúdo, possivelmente nenhum. | Nenhum. | `search_recipes` é chamada exatamente uma vez, com a lista de ingredientes identificados em B2, e `retrieve_pantry` não é chamada. |
-| **B4 — Consulta à despensa**  
-O agente recupera os ingredientes disponíveis na despensa do usuário. | Lista de ingredientes identificados em B2 vazia. | Nenhum. | `retrieve_pantry` | Lista de ingredientes da despensa, possivelmente vazia. | Nenhum. | `retrieve_pantry` é chamada exatamente uma vez, e `search_recipes` não é chamada. |
-| **B5 — Falta de insumos**  
-O agente interrompe a execução quando a despensa não fornece ingredientes. | `retrieve_pantry` retorna lista vazia. | Retorno de `retrieve_pantry`. | Nenhuma. | Mensagem iniciada por `Error:` explicando a ausência de ingredientes. | Nenhum. | A mensagem começa com `Error:` e nenhuma receita é gerada. |
-| **B6 — Incompatibilidade dietética**  
-O agente interrompe a execução quando nenhum ingrediente-base é compatível com as restrições dietéticas do usuário. | Nenhum ingrediente-base compatível com as restrições dietéticas declaradas na query. | Query do usuário e ingredientes-base. | Nenhuma. | Mensagem iniciada por `Error:` explicando a incompatibilidade. | Nenhum. | A mensagem começa com `Error:` e nenhuma receita é gerada. |
-| **B7 — Falha de execução**  
-O agente trata falhas das tools ou do modelo sem abortar a execução. | Uma tool retorna mensagem iniciada por `erro:`, ou ocorre exceção durante a execução (timeout, credenciais ausentes ou falha do modelo). | Mensagem de falha ou exceção recebida. | Nenhuma. | Mensagem iniciada por `Error:` explicando a falha. | Nenhum. | O agente não encerra com exceção não tratada, a mensagem começa com `Error:` e nenhuma receita é gerada. |
-| **B8 — Geração da receita**  
-O agente usa seu conhecimento culinário para transformar os ingredientes-base compatíveis em uma receita completa, considerando as preferências do usuário e usando as receitas de referência, quando houver. | Existe ao menos um ingrediente-base compatível com as restrições dietéticas declaradas na query. | Query do usuário, ingredientes-base e resultados de B3, quando houver. | Nenhuma. | Receita com os campos:  
-• **Título:** título da receita;  
-• **Ingredientes:** lista de ingredientes com suas quantidades;  
-• **Equipamentos:** lista de equipamentos necessários;  
-• **Instruções:** instruções de preparo, passo a passo;  
-• **Armazenamento:** recomendações de armazenamento. | Nenhum. | Todos os campos estão presentes e não vazios; nenhum ingrediente da receita viola as restrições dietéticas declaradas na query; a receita satisfaz as Constraints sobre ingredientes da query e da despensa. |
+| **B1 — Query validation**<br>The agent classifies the query as invalid (empty, offensive, or unrelated to food/cooking) or valid (any query that meets none of the invalidity criteria), and stops the execution if it is invalid. | Receipt of the query. | User query. | None. | Boolean validity indicator. If invalid, a message beginning with `Error:` with the explanation. | None. | The indicator matches the expected classification. If invalid, the message begins with `Error:`, no tool is called, and no recipe is generated. |
+| **B2 — Ingredient identification**<br>The agent identifies the ingredients mentioned in the query and retains only those compatible with the declared dietary restrictions. | Query classified as valid in B1. | User query. | None. | List of identified ingredients that are compatible with the dietary restrictions; if no ingredient is identified or compatible, an empty list. | None. | The list equals the expected set, taking into account regional variants, inflected forms, excluding ingredients mentioned under negation, absence, or hypothesis, and excluding ingredients incompatible with the declared dietary restrictions. |
+| **B3 — Reference recipe search**<br>The agent searches for recipes that serve as a preparation reference for the ingredients identified in the query. | List of ingredients from B2 is not empty. | List of ingredients from B2. | `search_recipes` | Up to five results, each with title, URL, and content excerpt, possibly none. | None. | `search_recipes` is called exactly once, with the list of ingredients from B2, and `retrieve_pantry` is not called. |
+| **B4 — Pantry lookup**<br>The agent retrieves the ingredients available in the user's pantry and retains only those compatible with the dietary restrictions declared in the query. | List of ingredients from B2 is empty (query without ingredients or without compatible ingredients). | User query. | `retrieve_pantry` | List of pantry ingredients compatible with the dietary restrictions, possibly empty. | None. | `retrieve_pantry` is called exactly once, and `search_recipes` is not called. |
+| **B5 — Lack of ingredients**<br>The agent stops the execution when the pantry provides no ingredient compatible with the dietary restrictions. | List from B4 is empty (empty pantry or no compatible ingredients). | List from B4. | None. | Message beginning with `Error:` explaining the absence of compatible ingredients. | None. | The message begins with `Error:` and no recipe is generated. |
+| **B6 — Execution failure**<br>The agent handles tool or model failures without aborting the execution. | A tool returns a message beginning with `erro:`, or an exception occurs during execution (timeout, missing credentials, or model failure). | Failure message or exception received. | None. | Message beginning with `Error:` explaining the failure. | None. | The agent does not terminate with an unhandled exception, the message begins with `Error:`, and no recipe is generated. |
+| **B7 — Recipe generation**<br>The agent uses its culinary knowledge to turn the compatible ingredients into a complete recipe, taking the user's preferences into account and using the reference recipes, when available. | B3 executed successfully, or B4 returned at least one ingredient compatible with the dietary restrictions. | User query, compatible ingredients (from B2 or B4), and results from B3, when available. | None. | Recipe with the fields:<br>• **Title:** recipe title;<br>• **Ingredients:** list of ingredients with their quantities;<br>• **Equipment:** list of required equipment;<br>• **Instructions:** step-by-step preparation instructions;<br>• **Storage:** storage recommendations. | None. | All fields are present and non-empty; no ingredient in the recipe violates the dietary restrictions declared in the query; the recipe contains at least one ingredient identified in B2 or, when B2 returned an empty list, at least one ingredient returned by B4. |
+
+**Behavioral graph:**
+
+```mermaid
+flowchart TD
+    Q(["User query"]) --> B1{"B1: valid query?"}
+    B1 -->|invalid| E1["Error: invalid query"]
+    B1 -->|valid| B2["B2: identify compatible ingredients"]
+    B2 -->|non-empty list| B3["B3: search_recipes"]
+    B2 -->|empty list| B4["B4: retrieve_pantry + dietary filter"]
+    B3 -->|success| B7["B7: generate recipe"]
+    B4 -->|non-empty list| B7
+    B4 -->|empty list| B5["B5: Error: lack of ingredients"]
+    B3 -->|error| B6["B6: Error: execution failure"]
+    B4 -->|error| B6
+    B7 --> R(["Recipe"])
+```
+
+| Field | Correctness criterion |
+| --- | --- |
+| Behavior | Is each behavior specified as an individual, identifiable requirement, separate from the Goal? Is each requirement atomic enough to be tested in isolation (can you write a test case "given X, the agent must do Y")? Does the specification explicitly cover the expected behavior in the face of: invalid input, tool/tool call failure, ambiguity, absence of necessary information? Are the requirements, taken together, sufficient to achieve the stated Goal (nothing essential left implicit)? |
+| Trigger | Is the condition or event that starts the behavior explicitly defined and observable? |
+| Input | Does the specification define the expected input? |
+| Tools | Are the tools needed for the behavior identified, and is their purpose of use defined? |
+| Expected Outcome | Does the specification define what change must occur in the environment? Is the expected change observable and verifiable after the behavior is executed? |
+| Environment effect | Does the specification define which environment the agent will change? Does the specification define how the change to the environment will be made? |
+| Constraints | Are the behavior's constraints explicit, verifiable, and consistent with the general constraints? |
