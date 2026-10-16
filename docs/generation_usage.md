@@ -141,3 +141,20 @@ monotonic process/wall measurement is phase-2 work.
   evidence.
 - Cost `estimated` taxonomy and usage-vs-cost scope mismatch are reconciled
   by the orchestrator at the report layer.
+
+## Phase-2 harness notes (stage 01)
+
+- `process_duration_s` / `wall_duration_s` are harness-measured around the
+  full spawn-to-exit window and mirrored into the normalized usage dict;
+  `cli_duration_s` stays null (no trusted CLI-duration semantic) and
+  `source.cli_version` is recorded only when a caller provides it — stage
+  01 never shells out to probe CLI versions.
+- `parse_status "error"` is an operational failure for the canonical
+  `claude` / `codex` / `opencode` adapters (nonzero exit, spawn failure and
+  invalid artifacts fail the same way); `partial` only warns and keeps
+  `status "ok"`. Copilot/Gemini legacy shapes bypass the numeric parser
+  entirely, so missing numeric parse status alone does not fail their jobs.
+- The report carries stable safe diagnostics only (`cli_exit_<N>`,
+  `parse_error`, `spawn_failed: <prog>`, artifact tokens); raw CLI
+  stdout/stderr are stored in the per-agent log files referenced by
+  `log_paths`. Prompts and exception text are not included in the report.

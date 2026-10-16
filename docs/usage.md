@@ -74,6 +74,40 @@ Every stage emits a JSON result file following this envelope:
 
 > Any stage can be executed standalone as long as its prerequisites are met.
 
+### Stage 01 report contract (phase 2)
+
+Stage 01 reserves one fresh output directory per agent
+(`GENERATED_DIR/<experiment>/run_<N>/<llm>/<agent>`) before any CLI starts.
+A pre-existing, symlinked or otherwise unsafe target is rejected; reruns
+never overwrite prior artifacts or logs — pick a new `--run` for another
+execution. `agent.py` must afterwards be a fresh regular symlink-free file
+contained in the output directory, even when the CLI itself failed (the
+artifact and parsed usage are then retained with `status: "error"`).
+
+Every entry (success and error alike) carries the same keys: `agent`, `llm`,
+`spec_file`, `output_dir`, `generated_file`, `status`, `error` (null on
+success, otherwise stable safe tokens such as `cli_exit_9`, `parse_error`,
+`persistence_failed`, `spawn_failed: <prog>`, `artifact_missing`,
+`output_exists`/`output_unsafe`/`output_replaced` — never raw exceptions, prompts
+or CLI output), `exit_code`, `parse_status` (`ok`/`partial`/`error`; a
+canonical `error` fails the run while `partial` only warns, and legacy
+Copilot/Gemini adapters report null here), `warnings`, `usage` (numeric
+usage with harness-measured `process_duration_s`/`wall_duration_s`;
+`cli_duration_s`/`cli_version` stay null unless a caller provides them) and
+`log_paths` (raw stdout/stderr live only in these log files, never in the
+report).
+
+Reports are published under a UUID identity
+(`01_generation_<llm>_<report_id>.json`) with atomic no-clobber semantics,
+so parallel same-second jobs and reruns never overwrite each other:
+temporaries are exclusively created unique files and a real UUID collision
+retries with a fresh identity. The
+report is always written first; any operational error then exits `1`
+(`2` for missing env config or unsafe `--experiment`/`--agent`/`--run`
+selectors, including symlinked run roots).
+
+`SPEC2AGENT_SKIP_DOTENV=1` bypasses `.env` loading (isolated tests only).
+
 ## Running the full pipeline with `pipe.sh`
 
 ```bash
