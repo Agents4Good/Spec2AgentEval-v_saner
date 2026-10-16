@@ -1,6 +1,0 @@
-projectKey=claude-opus-4-8-low_014_academic_triage_agent_83aa
-serverUrl=http://localhost:9000
-serverVersion=26.10.0.133078
-dashboardUrl=http://localhost:9000/dashboard?id=claude-opus-4-8-low_014_academic_triage_agent_83aa
-ceTaskId=e680081c-9e35-49f3-99de-dd1fdcfb2138
-ceTaskUrl=http://localhost:9000/api/ce/task?id=e680081c-9e35-49f3-99de-dd1fdcfb2138
