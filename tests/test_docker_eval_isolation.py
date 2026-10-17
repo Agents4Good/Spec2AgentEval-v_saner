@@ -4,6 +4,7 @@ import importlib.util
 import os
 from pathlib import Path
 import signal
+import shutil
 import subprocess
 import sys
 import time
@@ -15,7 +16,7 @@ HELPER = ROOT / 'docker/eval_staging.py'
 STEMS = {'02': 'validation', '03': 'lint', '04': 'tests_check',
          '05': 'spec_judge', '06': 'graph_eval', '07': 'test_deepeval', '08': 'trace_eval'}
 FAKE = r'''
-import json, os, pathlib, signal, sys, time
+import json, os, pathlib, signal, subprocess, sys, time
 args = sys.argv[1:]
 with open(os.environ['CALLS'], 'a') as f:
     f.write(json.dumps(args) + '\n')
@@ -62,6 +63,21 @@ for i, arg in enumerate(args):
         key, separator, value = args[i+1].partition('=')
         forwarded[key] = value if separator else os.environ[key]
 pathlib.Path(os.environ['SNAPSHOT']).write_text(json.dumps({'args':args, 'mounts':mounts, 'files':files, 'contents':contents, 'forwarded':forwarded}))
+if os.environ.get('EXECUTE_STAGED'):
+    # Execute the actual allowlisted stage, not a mock report producer.
+    child_env = {'HOME': os.environ['HOME'], 'PATH': '',
+                 'PYTEST_DISABLE_PLUGIN_AUTOLOAD': '1', 'DEEPEVAL_TELEMETRY_OPT_OUT': '1'}
+    child_env.update({key: mounts.get(value, value) for key, value in forwarded.items()})
+    index = args.index('python3')
+    script = args[index + 1].replace('/repo/', mounts['/repo'] + '/', 1)
+    child = subprocess.run([sys.executable, script, *args[index + 2:]],
+                           env=child_env, capture_output=True, text=True, timeout=10)
+    print(child.stdout, end='')
+    print(child.stderr, end='', file=sys.stderr)
+    products = list(pathlib.Path(mounts['/results']).rglob('*.json'))
+    pathlib.Path(os.environ['BEFORE_CLEANUP']).write_text(json.dumps({
+        'returncode': child.returncode, 'reports': [json.loads(p.read_text()) for p in products]}))
+    sys.exit(child.returncode)
 step = os.environ['STEP']
 relative = pathlib.Path('exp/run_1')
 out = pathlib.Path(mounts['/results']) / relative
@@ -124,6 +140,8 @@ def harness(tmp_path):
     outside.mkdir()
     (outside / 'secret').write_text('synthetic secret')
     env = dict(PATH=str(bindir), HOME=str(home), SPEC2AGENT_SKIP_DOTENV='1',
+               PYTHON_DOTENV_DISABLED='1', PYTEST_DISABLE_PLUGIN_AUTOLOAD='1',
+               DEEPEVAL_TELEMETRY_OPT_OUT='1',
                BENCH_DIR=str(bench), GENERATED_DIR=str(generated),
                EXPERIMENTS_RESULTS=str(results), CALLS=str(tmp_path / 'calls'),
                SNAPSHOT=str(tmp_path / 'snapshot'), OUTSIDE=str(outside),
@@ -175,7 +193,7 @@ def test_allowlisted_mounts_env_network_and_products(harness, step):
     assert len(files['/repo']) == (2 if step in ('03', '07', '08') else 1)
     forwarded = snapshot['forwarded']
     secret_names = {k for k in forwarded if k in env and k not in ('GENERATED_DIR', 'BENCH_DIR',
-                    'EXPERIMENTS_RESULTS', 'SPEC2AGENT_SKIP_DOTENV')}
+                    'EXPERIMENTS_RESULTS', 'SPEC2AGENT_SKIP_DOTENV', 'PYTHON_DOTENV_DISABLED')}
     assert secret_names == (set(('SONAR_HOST_URL', 'SONAR_LOGIN', 'SONAR_PASSWORD',
                                 'USER_TOKEN', 'SONAR_COMMAND')) if step == '03' else
                             {'OPENAI_API_KEY'} if step in ('05', '07', '08') else set())
@@ -500,3 +518,65 @@ def test_unreaped_client_preserves_staging_even_if_name_currently_absent(harness
     with pytest.raises(RuntimeError, match='synthetic unreaped client'):
         helper.main()
     assert checked and list(directory.glob('spec2agent-eval-*'))
+
+
+@pytest.mark.parametrize('step', STEMS)
+def test_only_stage_specific_operational_config_is_forwarded(harness, step):
+    harness[1].update(SONAR_MODE='disabled', SONAR_REQUIRED='0', PYTEST_TIMEOUT_SECONDS='17')
+    result, snapshot = run(harness, step)
+    assert result.returncode == 0, result.stderr
+    expected = {'SONAR_MODE': 'disabled', 'SONAR_REQUIRED': '0'} if step == '03' else (
+        {'PYTEST_TIMEOUT_SECONDS': '17'} if step in ('07', '08') else {})
+    keys = {'SONAR_MODE', 'SONAR_REQUIRED', 'PYTEST_TIMEOUT_SECONDS'}
+    assert {key: value for key, value in snapshot['forwarded'].items() if key in keys} == expected
+    for key, value in expected.items():
+        assert f'{key}={value}' in snapshot['args']
+        assert key not in snapshot['args']
+    assert 'DEEPEVAL_TELEMETRY_OPT_OUT' not in snapshot['forwarded']
+
+
+@pytest.mark.parametrize('step', STEMS)
+@pytest.mark.parametrize('missing', ['file', 'folder'])
+def test_missing_agent_real_staged_script_publishes_error(harness, step, missing):
+    directory, env = harness
+    target = directory / 'generated/exp/run_1/model/agent'
+    if missing == 'file':
+        (target / 'agent.py').unlink()
+    else:
+        shutil.rmtree(target)
+    env.update(EXECUTE_STAGED='1', BEFORE_CLEANUP=str(directory / 'before-cleanup'),
+               EVAL_PROVIDER='none', SONAR_MODE='disabled')
+    for key in ('SONAR_HOST_URL', 'SONAR_LOGIN', 'SONAR_PASSWORD', 'USER_TOKEN', 'SONAR_COMMAND',
+                'OPENAI_API_KEY', 'GEMINI_API_KEY'):
+        env.pop(key, None)
+    result, snapshot = run(harness, step)
+    assert result.returncode == 1, result.stderr
+    assert 'exp/run_1/model/agent/agent.py' not in snapshot['files']['/data']
+    before = json.loads((directory / 'before-cleanup').read_text())
+    assert before['returncode'] == 1 and len(before['reports']) == 1
+    reports = list((directory / 'results/exp/run_1').glob(f'{step}_*.json'))
+    assert len(reports) == 1
+    report = json.loads(reports[0].read_text())
+    assert report == before['reports'][0]
+    assert report['status'] == 'error' and len(report['results']) == 1
+    assert report['results'][0]['status'] == 'error'
+    assert report['results'][0]['reason_code'] == 'missing_agent'
+    assert not (target / 'agent.py').exists()
+    assert target.is_dir() == (missing == 'file')
+
+
+@pytest.mark.parametrize('step', ['02', '04'])
+@pytest.mark.parametrize('location', ['file', 'ancestor'])
+def test_missing_optional_input_still_rejects_dangling_symlinks(harness, step, location):
+    directory, env = harness
+    target = directory / 'generated/exp/run_1/model/agent'
+    if location == 'file':
+        target = target / 'agent.py'
+        target.unlink()
+    else:
+        shutil.rmtree(target)
+    target.symlink_to(directory / 'nonexistent')
+    result, snapshot = run(harness, step)
+    assert result.returncode == 1 and snapshot is None
+    assert 'symlink forbidden' in result.stderr
+    assert target.is_symlink()

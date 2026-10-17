@@ -19,8 +19,8 @@ The LLM identifier used throughout the pipeline is the lower-case name: `claude`
 ### Project dependencies
 
 ```sh
-python3 -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
+uv venv
+uv pip install -r requirements.txt
 ```
 
 ### Environment configuration
@@ -36,20 +36,20 @@ Copy `.env.example` to `.env` and fill in:
 
 ## Pipeline stages
 
-Each stage is a standalone script in `pipeline/`, called as `python3 pipeline/NN_*.py --llm <llm> --agent <agent>`. Stages read inputs from `GENERATED_DIR` / `BENCH_DIR` and write their artifacts under `EXPERIMENTS_RESULTS/<stage>/<llm>/<agent>/`.
+Each stage is a standalone script in `pipeline/`, called as `uv run python pipeline/NN_*.py --llm <llm> --agent <agent>`. Stages read inputs from `GENERATED_DIR` / `BENCH_DIR` and write reports under `EXPERIMENTS_RESULTS/<experiment>/run_<N>/` (`--experiment by_tool`, `--run 1` by default).
 
 | Stage | Script                        | What it does                                                     | Prerequisites |
 |-------|-------------------------------|------------------------------------------------------------------|---------------|
 | 01    | `01_generate.py`              | Calls the LLM adapter and writes the agent to `GENERATED_DIR`    | `specs/<agent>/spec.md` exists |
 | 02    | `02_static_check.py`          | Static / executability check on the generated agent              | Agent generated |
 | 03    | `03_lints_check.py`           | Lint via `ruff` / `pylint` plus SonarQube analysis               | Agent generated |
-| 04    | `04_tests_check.py`           | Runs the agent's own test suite                                  | Agent generated |
+| 04    | `04_tests_check.py`           | Inventories generated Python test files; does not execute them   | Agent generated |
 | 05    | `05_spec_llm_judge_check.py`  | LLM-as-judge against `spec_adherence.py`                         | Agent generated + `spec_adherence.py` present |
 | 06    | `06_graph_eval_check.py`      | Evaluates the agent's LangGraph                                  | Agent generated |
 | 07    | `07_behavioral_check.py`      | Runs `test_deepeval.py` (DeepEval metrics)                       | Agent generated + `test_deepeval.py` present |
 | 08    | `08_trace_check.py`           | Runs `test_trace.py` (trajectory / trace verification)           | Agent generated + `test_trace.py` present |
 
-Every stage emits a JSON result file following this envelope:
+Stage 01 emits a JSON result file following this envelope; evaluation stages retain their own legacy fields and add the operational status contract below:
 
 ```json
 {
@@ -73,6 +73,45 @@ Every stage emits a JSON result file following this envelope:
 ```
 
 > Any stage can be executed standalone as long as its prerequisites are met.
+
+### Evaluation status and controls (phase 5, stages 02–08)
+
+`status: ok|error|skipped` describes execution, not metric approval. Negative
+metrics retain their legacy verdicts (`final_status`, `passed`, checks or opaque
+`judge`) with `status: ok` and exit 0. Operational errors have a stable
+`reason_code`, retain string/null `error`, make the report `error` and exit 1
+after saving it. Explicitly disabled components may be `skipped`; missing
+required inputs are errors, never skips. CLI argument errors retain exit 2;
+cancellation uses 128+signal. Each requested `--agent` gets an entry even if
+its folder/file is missing; unfiltered empty discovery is an error.
+
+- 02 syntax, dependency and entrypoint check failures remain metric `FAILED`.
+- 04 valid agents without tests return `tests.exists=false`, not an error.
+- 05/06 preserve the judge payload without inferring `passed`; evaluator
+  import/call failures and missing graph builders are operational errors.
+- 03 runs Ruff/Pylint/Radon before Sonar setup. `SONAR_MODE=local` (default)
+  starts a job-owned server; `external` uses the configured server without
+  managing it; `disabled` skips Sonar only, not linters. `SONAR_REQUIRED=1`
+  is default; `0` permits only missing configuration to skip. Errors from a
+  configured Sonar remain errors. Tool/scanner timeout is 300s, HTTP 10s,
+  boot/analysis polling 300s. No new Radon threshold is applied.
+- 07/08 use the current Python interpreter and a private test/config/JSON
+  workspace, preserving preexisting agent files. `PYTEST_TIMEOUT_SECONDS`
+  must be positive and finite (default 300). Call-only failures are valid
+  metric failures (`ok`, `passed=false`); setup/teardown errors, collection,
+  timeout/spawn or invalid/missing JSON yield `error`, `passed=null`.
+  Valid all-skipped tests are `ok`, `passed=null`, not implicit approval.
+  Plugin autoload is disabled; required plugins are explicit and DeepEval
+  telemetry is opted out before import. This is not a sandbox for local code.
+
+```sh
+SONAR_MODE=disabled uv run python pipeline/03_lints_check.py --llm opencode --agent 011_list_issues
+PYTEST_TIMEOUT_SECONDS=300 uv run python pipeline/07_behavioral_check.py --llm opencode --agent 011_list_issues
+```
+
+Docker forwards these controls only to their respective stages; it does not
+forward arbitrary host environment. Offline synthetic tests do not establish
+compatibility with real providers, Sonar services, Docker or SELinux.
 
 ### Stage 01 report contract (phase 2)
 

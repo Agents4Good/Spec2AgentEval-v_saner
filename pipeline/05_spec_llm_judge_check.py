@@ -1,3 +1,4 @@
+import sys
 import argparse
 import importlib.util
 from pathlib import Path
@@ -6,7 +7,8 @@ import json
 from datetime import datetime
 from dotenv import load_dotenv
 
-load_dotenv(override=True)
+if os.getenv("SPEC2AGENT_SKIP_DOTENV") != "1":
+    load_dotenv(override=True)
 
 GENERATED_AGENTS_DIR = Path(os.getenv("GENERATED_DIR"))
 BENCH_DIR = Path(os.getenv("BENCH_DIR"))
@@ -42,51 +44,53 @@ def main():
     generated_root = GENERATED_AGENTS_DIR / args.experiment / f"run_{args.run}"
     experiments_root = EXPERIMENTS_RESULTS / args.experiment / f"run_{args.run}"
 
-    if not generated_root.exists():
-        raise FileNotFoundError(f"Generated agents dir not found: {generated_root}")
-
-    if not BENCH_DIR.exists():
-        raise FileNotFoundError(f"Bench dir not found: {BENCH_DIR}")
-
     model_folder = generated_root / args.llm
-    if not model_folder.exists():
-        raise FileNotFoundError(f"LLM directory not found: {model_folder}")
-
     experiments_root.mkdir(parents=True, exist_ok=True)
 
     run_id = datetime.now().strftime("%Y%m%d_%H%M%S")
 
     results = []
 
-    for agent_folder in model_folder.iterdir():
-        if not agent_folder.is_dir():
-            continue
-        if args.agent and agent_folder.name != args.agent:
-            continue
+    selection_error = None
+    if not generated_root.is_dir():
+        selection_error = "missing_generated_root"
+    elif not model_folder.is_dir():
+        selection_error = "missing_model_root"
+    folders = ([model_folder / args.agent] if args.agent else
+               sorted(p for p in model_folder.iterdir() if p.is_dir()) if model_folder.is_dir() else [])
+    if not folders and selection_error is None:
+        selection_error = "empty_selection"
+
+    for agent_folder in folders:
 
         agent_file_path = agent_folder / "agent.py"
         spec_path = BENCH_DIR / agent_folder.name / "spec.md"
         eval_module_path = BENCH_DIR / agent_folder.name / "spec_adherence.py"
 
-        if not agent_file_path.exists() or not spec_path.exists() or not eval_module_path.exists():
-            continue
-
-        source_code = agent_file_path.read_text(encoding="utf-8")
-        spec_text = load_text_file(spec_path)
-
-        static_eval_module = load_module(eval_module_path)
-
-        judge_result = static_eval_module.run_static_eval(
-            source_code=source_code,
-            spec_text=spec_text,
-        )
-
-        results.append({
+        entry = {
             "model": args.llm,
             "agent_folder": agent_folder.name,
             "agent_file": "agent.py",
-            "judge": judge_result
-        })
+            "judge": None,
+            "error": None,
+            "status": "ok",
+        }
+        results.append(entry)
+        missing = next(((path, reason) for path, reason in (
+            (agent_file_path, "missing_agent"), (spec_path, "missing_spec"),
+            (eval_module_path, "missing_evaluator")) if not path.is_file()), None)
+        if missing:
+            entry.update(status="error", reason_code=missing[1], error=f"{missing[0].name} not found")
+            continue
+        try:
+            source_code = agent_file_path.read_text(encoding="utf-8")
+            spec_text = load_text_file(spec_path)
+            static_eval_module = load_module(eval_module_path)
+            entry["judge"] = static_eval_module.run_static_eval(
+                source_code=source_code, spec_text=spec_text)
+        except Exception as exc:
+            entry.update(status="error", reason_code="evaluation_error",
+                         error=f"Spec evaluation failed ({type(exc).__name__})")
 
     final_report = {
         "run_id": run_id,
@@ -99,11 +103,18 @@ def main():
         "results": results
     }
 
+    final_report["status"] = "error" if selection_error or any(
+        entry["status"] == "error" for entry in results) else "ok"
+    if final_report["status"] == "error":
+        final_report["reason_code"] = selection_error or "target_error"
+
     report_path = experiments_root / f"05_spec_judge_{args.llm}_{run_id}.json"
     save_report(report_path, final_report)
 
     print(f"Spec judge evaluation completed. Report saved to {report_path}")
 
+    return 1 if final_report["status"] == "error" else 0
+
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

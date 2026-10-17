@@ -1,3 +1,4 @@
+import sys
 import argparse
 import json
 import py_compile
@@ -7,7 +8,8 @@ from dotenv import load_dotenv
 import os
 from datetime import datetime
 
-load_dotenv(override=True)
+if os.getenv("SPEC2AGENT_SKIP_DOTENV") != "1":
+    load_dotenv(override=True)
 GENERATED_DIR = os.getenv("GENERATED_DIR")
 EXPERIMENTS_RESULTS = os.getenv("EXPERIMENTS_RESULTS")
 
@@ -32,6 +34,8 @@ def validate_agent_folder(model_name: str, agent_folder: Path):
     result = {
         "model": model_name,
         "agent_folder": agent_folder.name,
+        "status": "ok",
+        "error": None,
         "checks": {
             "file_exists": {"passed": False},
             "syntax_valid": {"passed": False},
@@ -46,10 +50,11 @@ def validate_agent_folder(model_name: str, agent_folder: Path):
     agent_module = None
 
     # 1. File existence
-    if agent_file.exists():
+    if agent_file.is_file():
         result["checks"]["file_exists"]["passed"] = True
     else:
         result["checks"]["file_exists"]["error"] = "agent.py not found"
+        result.update(status="error", reason_code="missing_agent", error="agent.py not found")
         success = False
 
     # 2. Syntax
@@ -115,24 +120,24 @@ def main():
     generated_agents = Path(GENERATED_DIR) / args.experiment / f"run_{args.run}"
     experiment_dir = Path(EXPERIMENTS_RESULTS) / args.experiment / f"run_{args.run}"
 
-    if not generated_agents.exists():
-        raise FileNotFoundError(f"Agents directory not found: {generated_agents}")
-
     model_folder = generated_agents / args.llm
-    if not model_folder.exists():
-        raise FileNotFoundError(f"LLM directory not found: {model_folder}")
-
     experiment_dir.mkdir(parents=True, exist_ok=True)
 
     run_id = datetime.now().strftime("%Y%m%d_%H%M%S")
 
     execution_results = []
 
-    for agent_folder in model_folder.iterdir():
-        if not agent_folder.is_dir():
-            continue
-        if args.agent and agent_folder.name != args.agent:
-            continue
+    selection_error = None
+    if not generated_agents.is_dir():
+        selection_error = "missing_generated_root"
+    elif not model_folder.is_dir():
+        selection_error = "missing_model_root"
+    folders = ([model_folder / args.agent] if args.agent else
+               sorted(p for p in model_folder.iterdir() if p.is_dir()) if model_folder.is_dir() else [])
+    if not folders and selection_error is None:
+        selection_error = "empty_selection"
+
+    for agent_folder in folders:
         execution_results.append(
             validate_agent_folder(args.llm, agent_folder)
         )
@@ -148,12 +153,19 @@ def main():
         "results": execution_results
     }
 
+    report["status"] = "error" if selection_error or any(
+        entry["status"] == "error" for entry in execution_results) else "ok"
+    if report["status"] == "error":
+        report["reason_code"] = selection_error or "target_error"
+
     report_path = experiment_dir / f"02_validation_{args.llm}_{run_id}.json"
 
     save_report(report_path, report)
 
     print(f"Report saved to: {report_path}")
 
+    return 1 if report["status"] == "error" else 0
+
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

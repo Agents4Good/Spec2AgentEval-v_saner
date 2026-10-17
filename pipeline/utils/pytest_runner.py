@@ -13,8 +13,14 @@ the full ``longrepr`` for every failure.
 from __future__ import annotations
 
 import json
+import math
+import os
 import shutil
+import signal
 import subprocess
+import sys
+import tempfile
+import time
 from datetime import datetime
 from pathlib import Path
 from typing import Any
@@ -24,9 +30,9 @@ PYTEST_REPORT_FILENAME = ".pytest_report.json"
 
 
 def _load_report(report_path: Path) -> dict[str, Any] | None:
-    if not report_path.exists():
-        return None
     try:
+        if not _safe(report_path).is_file():
+            return None
         return json.loads(report_path.read_text(encoding="utf-8"))
     except Exception:
         return None
@@ -44,7 +50,7 @@ def _normalize_tests(report: dict[str, Any]) -> list[dict[str, Any]]:
         reason = ""
         for phase in ("call", "setup", "teardown"):
             info = test.get(phase) or {}
-            lr = info.get("longrepr") or info.get("crash", {}).get("message")
+            lr = info.get("longrepr") or (info.get("crash") or {}).get("message")
             if lr:
                 reason = lr if isinstance(lr, str) else str(lr)
                 break
@@ -56,9 +62,97 @@ def _normalize_tests(report: dict[str, Any]) -> list[dict[str, Any]]:
                 "passed": outcome == "passed",
                 "reason": reason,
                 "duration": test.get("duration"),
+                **{phase: test.get(phase) for phase in ("setup", "call", "teardown")},
             }
         )
     return normalized
+
+
+def _safe(path: Path) -> Path:
+    path = Path(os.path.abspath(path))
+    if any(part.is_symlink() for part in (path, *path.parents)):
+        raise ValueError("selected input or ancestor is a symlink")
+    return path
+
+
+def _execute(args, cwd, env, timeout, cancelled):
+    process = subprocess.Popen(args, cwd=cwd, env=env, stdout=subprocess.PIPE,
+                               stderr=subprocess.PIPE, text=True, start_new_session=True)
+    deadline, reason = time.monotonic() + timeout, None
+    try:
+        while True:
+            if cancelled() or time.monotonic() >= deadline:
+                reason = "interrupted" if cancelled() else "pytest_timeout"
+                break
+            try:
+                process.communicate(timeout=min(.1, max(.001, deadline - time.monotonic())))
+                break
+            except subprocess.TimeoutExpired:
+                continue
+    finally:
+        # Kill the whole owned group, even when its leader already exited.
+        for signum in (signal.SIGTERM, signal.SIGKILL):
+            try:
+                os.killpg(process.pid, signum)
+            except ProcessLookupError:
+                pass
+            try:
+                process.wait(timeout=1)
+            except subprocess.TimeoutExpired:
+                pass
+        stdout, stderr = process.communicate(timeout=1)
+    return process.returncode, stdout, stderr, reason
+
+
+def _classify(report, rc):
+    if (not isinstance(report, dict) or type(report.get("exitcode")) is not int
+            or report["exitcode"] != rc or not isinstance(report.get("summary"), dict)
+            or not isinstance(report.get("tests"), list)):
+        raise ValueError("invalid JSON report structure or exitcode")
+    tests = report["tests"]
+    summary = report["summary"]
+    if (type(summary.get("total")) is not int or summary["total"] != len(tests)
+            or type(summary.get("collected")) is not int or summary["collected"] < len(tests)):
+        raise ValueError("JSON report total contradicts tests")
+    failures, evaluated, phase_error = False, [], False
+    for test in tests:
+        if not isinstance(test, dict) or not isinstance(test.get("nodeid"), str):
+            raise ValueError("invalid JSON test")
+        outcome = test.get("outcome")
+        if outcome not in ("passed", "failed", "error", "skipped", "xfailed", "xpassed"):
+            raise ValueError("invalid test outcome")
+        for phase in ("setup", "call", "teardown"):
+            info = test.get(phase)
+            if info is None and phase == "call":
+                continue
+            if not isinstance(info, dict) or info.get("outcome") not in ("passed", "failed", "skipped"):
+                raise ValueError("invalid or missing pytest phase")
+            if info["outcome"] == "failed":
+                failures = True
+                phase_error |= phase != "call"
+        call = test.get("call", {})
+        if test["setup"]["outcome"] != "passed" and call:
+            raise ValueError("call present after unsuccessful setup")
+        if call.get("outcome") in ("passed", "failed") and outcome not in ("xfailed", "xpassed"):
+            evaluated.append(call["outcome"] == "passed")
+        if outcome == "passed" and call.get("outcome") != "passed":
+            raise ValueError("passed test without passed call")
+        if outcome in ("failed", "error") and not any(
+                test.get(p, {}).get("outcome") == "failed" for p in ("setup", "call", "teardown")):
+            raise ValueError("failed test without failing phase")
+        if outcome in ("passed", "skipped", "xfailed", "xpassed") and any(
+                test.get(p, {}).get("outcome") == "failed" for p in ("setup", "call", "teardown")):
+            raise ValueError("test outcome contradicts failing phase")
+    for outcome in ("passed", "failed", "error", "skipped", "xfailed", "xpassed"):
+        if summary.get(outcome, 0) != sum(t["outcome"] == outcome for t in tests):
+            raise ValueError("JSON summary contradicts test outcomes")
+    if not tests:
+        raise ValueError("empty test report is not an evaluated run")
+    if (rc == 0 and failures) or (rc == 1 and not failures):
+        raise ValueError("pytest returncode contradicts phases")
+    if phase_error:
+        return "error", None, "pytest_phase_error"
+    return "ok", all(evaluated) if evaluated else None, None if evaluated else "no_evaluated_tests"
 
 
 def run_pytest_for_agents(
@@ -84,8 +178,8 @@ def run_pytest_for_agents(
     agent_filter
         If provided, run only this agent folder (e.g. ``"001_list_issues_agent"``).
     test_filename
-        Test file to copy from ``bench_dir/<agent>/`` into the agent folder
-        before running pytest (e.g. ``"test_deepeval.py"`` or ``"test_trace.py"``).
+        Test file to copy from ``bench_dir/<agent>/`` into a private workspace;
+        pytest keeps the agent directory as cwd for its imports.
     stage_label
         Human-readable stage used in the top-level ``"stage"`` field.
     stage_prefix
@@ -98,101 +192,96 @@ def run_pytest_for_agents(
     generated_root = generated_dir / experiment / f"run_{run}"
     experiments_root = experiments_results / experiment / f"run_{run}"
 
-    if not generated_root.exists():
-        raise FileNotFoundError(f"Generated dir not found: {generated_root}")
-    if not bench_dir.exists():
-        raise FileNotFoundError(f"Bench dir not found: {bench_dir}")
-
     model_folder = generated_root / llm
-    if not model_folder.exists():
-        raise FileNotFoundError(f"LLM directory not found: {model_folder}")
-
     results: list[dict[str, Any]] = []
+    selection_error = None
+    interrupted = None
+    def stop(signum, _frame):
+        nonlocal interrupted
+        interrupted = signum
+    handlers = {s: signal.signal(s, stop) for s in (signal.SIGINT, signal.SIGTERM)}
+    try:
+        targets = ([model_folder / agent_filter] if agent_filter else
+                   sorted(p for p in _safe(model_folder).iterdir() if p.is_dir() or p.is_symlink()))
+    except (OSError, ValueError) as exc:
+        targets, selection_error = [], str(exc)
 
-    for agent_folder in sorted(model_folder.iterdir()):
-        if not agent_folder.is_dir():
-            continue
-        if agent_filter and agent_folder.name != agent_filter:
-            continue
-
-        entry: dict[str, Any] = {
-            "model": llm,
-            "agent_folder": agent_folder.name,
-            "agent_file": "agent.py",
-            "test_file": test_filename,
-            "passed": None,
-            "returncode": None,
-            "stdout": None,
-            "stderr": None,
-            "error": None,
-            "summary": None,
-            "tests": [],
-            "pytest_report": None,
-        }
-
-        agent_file = agent_folder / "agent.py"
-        source_test = bench_dir / agent_folder.name / test_filename
-        target_test = agent_folder / test_filename
-        report_path = agent_folder / PYTEST_REPORT_FILENAME
-
-        if not agent_file.exists():
-            entry["error"] = "agent.py not found"
+    try:
+        for agent_folder in targets:
+            entry: dict[str, Any] = {
+                "model": llm,
+                "agent_folder": agent_folder.name,
+                "agent_file": "agent.py",
+                "test_file": test_filename,
+                "passed": None,
+                "returncode": None,
+                "stdout": None,
+                "stderr": None,
+                "error": None,
+                "summary": None,
+                "tests": [],
+                "pytest_report": None,
+                "status": "error",
+                "reason_code": None,
+            }
+            try:
+                entry["reason_code"] = "invalid_input"
+                if Path(test_filename).name != test_filename or Path(test_filename).suffix != ".py":
+                    raise ValueError("test filename must be a Python basename")
+                agent_file = _safe(agent_folder / "agent.py")
+                source_test = _safe(bench_dir / agent_folder.name / test_filename)
+                if not agent_file.is_file():
+                    entry["reason_code"] = "missing_agent"
+                    raise FileNotFoundError("agent.py not found")
+                if not source_test.is_file():
+                    entry["reason_code"] = "missing_test"
+                    raise FileNotFoundError(f"{test_filename} not found in specification directory")
+                entry["reason_code"] = "invalid_timeout"
+                timeout = float(os.environ.get("PYTEST_TIMEOUT_SECONDS", "300"))
+                if not math.isfinite(timeout) or timeout <= 0:
+                    raise ValueError("PYTEST_TIMEOUT_SECONDS must be finite and positive")
+                with tempfile.TemporaryDirectory(prefix="spec2agent-pytest-") as temp:
+                    workspace = Path(temp)
+                    target_test, report_path = workspace / test_filename, workspace / PYTEST_REPORT_FILENAME
+                    shutil.copyfile(source_test, target_test)
+                    config = workspace / "pytest.ini"
+                    config.write_text("[pytest]\nasyncio_mode = strict\n", encoding="utf-8")
+                    env = os.environ.copy()
+                    for key in ("PYTEST_ADDOPTS", "PYTEST_PLUGINS"):
+                        env.pop(key, None)
+                    env.update(PYTEST_DISABLE_PLUGIN_AUTOLOAD="1", DEEPEVAL_TELEMETRY_OPT_OUT="1")
+                    args = [sys.executable, "-m", "pytest", str(target_test), "-v", "--tb=long", "-rN",
+                            "-c", str(config), "--confcutdir", str(workspace), "--noconftest",
+                            "--json-report", f"--json-report-file={report_path}",
+                            "--json-report-omit=keywords,warnings,streams,collectors"]
+                    for plugin in ("pytest_jsonreport.plugin", "pytest_asyncio.plugin", "deepeval.plugins.plugin"):
+                        args += ["-p", plugin]
+                    entry["reason_code"] = "pytest_spawn"
+                    rc, stdout, stderr, reason = _execute(args, _safe(agent_folder), env, timeout,
+                                                         lambda: interrupted is not None)
+                    entry.update(returncode=rc, stdout=stdout, stderr=stderr)
+                    report = _load_report(report_path)
+                    entry["pytest_report"] = report
+                    if isinstance(report, dict):
+                        entry["summary"] = report.get("summary")
+                    entry["reason_code"] = reason or ("pytest_exit" if rc not in (0, 1) else "pytest_report_invalid")
+                    if reason or rc not in (0, 1):
+                        raise ValueError(f"pytest did not complete normally ({entry['reason_code']}; rc={rc})")
+                    status, passed, reason = _classify(report, rc)
+                    entry.update(status=status, passed=passed, reason_code=reason)
+                    entry["tests"] = _normalize_tests(report)
+                    if status == "error":
+                        entry["error"] = "pytest setup or teardown failed"
+            except Exception as exc:
+                entry.update(status="error", passed=None)
+                entry["reason_code"] = entry["reason_code"] or "pytest_report_invalid"
+                entry["error"] = str(exc)
             results.append(entry)
-            continue
-
-        if not source_test.exists():
-            entry["error"] = f"{test_filename} not found in specification directory"
-            results.append(entry)
-            continue
-
-        try:
-            shutil.copy2(source_test, target_test)
-
-            print(f"Running {test_filename} for {agent_folder.name}...")
-
-            result = subprocess.run(
-                [
-                    "python",
-                    "-m",
-                    "pytest",
-                    test_filename,
-                    "-v",
-                    "--tb=long",
-                    "-rN",  # no summary section (we have the json report)
-                    "--json-report",
-                    f"--json-report-file={PYTEST_REPORT_FILENAME}",
-                    "--json-report-omit=keywords,warnings,streams,collectors",
-                ],
-                cwd=agent_folder,
-                capture_output=True,
-                text=True,
-            )
-
-            entry["passed"] = result.returncode == 0
-            entry["returncode"] = result.returncode
-            entry["stdout"] = result.stdout
-            entry["stderr"] = result.stderr
-
-            report = _load_report(report_path)
-            if report is None:
-                entry["error"] = (
-                    "pytest-json-report did not produce a report; install "
-                    "`pytest-json-report` to preserve test details."
-                )
-            else:
-                entry["pytest_report"] = report
-                entry["summary"] = report.get("summary")
-                entry["tests"] = _normalize_tests(report)
-
-        except Exception as exc:  # pragma: no cover - defensive
-            entry["error"] = f"Error running tests: {exc}"
-        finally:
-            if target_test.exists():
-                target_test.unlink()
-            if report_path.exists():
-                report_path.unlink()
-
-        results.append(entry)
+            if interrupted:
+                break
+    finally:
+        for signum, handler in handlers.items():
+            signal.signal(signum, handler)
 
     run_id = datetime.now().strftime("%Y%m%d_%H%M%S")
 
@@ -208,7 +297,11 @@ def run_pytest_for_agents(
         "generated_dir": str(generated_root),
         "total_agents": len(results),
         "results": results,
+        "status": "error" if not results or any(e["status"] == "error" for e in results) else "ok",
     }
+    if not results:
+        final_report.update(reason_code="empty_targets", error=selection_error or "no agents selected")
+    final_report["exit_code"] = 128 + interrupted if interrupted else int(final_report["status"] == "error")
 
     report_path = (
         experiments_root

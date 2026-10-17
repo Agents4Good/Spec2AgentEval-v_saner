@@ -172,9 +172,10 @@ def main():
             if args.step in extra:
                 copy_file(ROOT / 'pipeline' / extra[args.step],
                           private / 'repo/pipeline' / extra[args.step], True)
-            copy_file(generated / job / 'agent.py', private / 'data' / job / 'agent.py', True)
+            (private / 'data' / job).mkdir(parents=True)
+            copy_file(generated / job / 'agent.py', private / 'data' / job / 'agent.py')
             # Stage04 inventories generated tests: direct Python test files only.
-            if args.step == '04':
+            if args.step == '04' and safe(generated / job).is_dir():
                 for source in safe(generated / job).iterdir():
                     if source.suffix == '.py' and (source.name.startswith('test')
                                                    or source.name.endswith('test.py')):
@@ -202,6 +203,11 @@ def main():
             environment = {'GENERATED_DIR': '/data', 'EXPERIMENTS_RESULTS': '/results',
                            'BENCH_DIR': '/bench', 'SPEC2AGENT_SKIP_DOTENV': '1',
                            'PYTHON_DOTENV_DISABLED': '1'}
+            config = {'03': ('SONAR_MODE', 'SONAR_REQUIRED'),
+                      '07': ('PYTEST_TIMEOUT_SECONDS',), '08': ('PYTEST_TIMEOUT_SECONDS',)}
+            for key in config.get(args.step, ()):
+                if key in os.environ:
+                    environment[key] = os.environ[key]
             allowed = ()
             if args.step == '03':
                 allowed = ('SONAR_HOST_URL', 'SONAR_LOGIN', 'SONAR_PASSWORD',

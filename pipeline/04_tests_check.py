@@ -6,7 +6,8 @@ from dotenv import load_dotenv
 from datetime import datetime
 import os
 
-load_dotenv(override=True)
+if os.getenv("SPEC2AGENT_SKIP_DOTENV") != "1":
+    load_dotenv(override=True)
 
 GENERATED_AGENTS_DIR = os.getenv("GENERATED_DIR")
 EXPERIMENTS_RESULTS = os.getenv("EXPERIMENTS_RESULTS")
@@ -30,24 +31,24 @@ def main():
     generated_agents = Path(GENERATED_AGENTS_DIR) / args.experiment / f"run_{args.run}"
     experiment_dir = Path(EXPERIMENTS_RESULTS) / args.experiment / f"run_{args.run}"
 
-    if not generated_agents.exists():
-        raise FileNotFoundError(f"Agents directory not found: {generated_agents}")
-
     model_folder = generated_agents / args.llm
-    if not model_folder.exists():
-        raise FileNotFoundError(f"LLM directory not found: {model_folder}")
-
     experiment_dir.mkdir(parents=True, exist_ok=True)
 
     run_id = datetime.now().strftime("%Y%m%d_%H%M%S")
 
     tests_results = []
 
-    for agent_folder in model_folder.iterdir():
-        if not agent_folder.is_dir():
-            continue
-        if args.agent and agent_folder.name != args.agent:
-            continue
+    selection_error = None
+    if not generated_agents.is_dir():
+        selection_error = "missing_generated_root"
+    elif not model_folder.is_dir():
+        selection_error = "missing_model_root"
+    folders = ([model_folder / args.agent] if args.agent else
+               sorted(p for p in model_folder.iterdir() if p.is_dir()) if model_folder.is_dir() else [])
+    if not folders and selection_error is None:
+        selection_error = "empty_selection"
+
+    for agent_folder in folders:
 
         agent_file = agent_folder / "agent.py"
 
@@ -61,6 +62,8 @@ def main():
             "model": args.llm,
             "agent_folder": agent_folder.name,
             "agent_file": str(agent_file.name),
+            "status": "ok" if agent_file.is_file() else "error",
+            "error": None if agent_file.is_file() else "agent.py not found",
             "tests": {
                 "exists": len(test_files) > 0,
                 "count": len(test_files),
@@ -69,6 +72,8 @@ def main():
         }
 
         tests_results.append(report_entry)
+        if not agent_file.is_file():
+            report_entry["reason_code"] = "missing_agent"
 
     final_report = {
         "run_id": run_id,
@@ -81,11 +86,18 @@ def main():
         "results": tests_results
     }
 
+    final_report["status"] = "error" if selection_error or any(
+        entry["status"] == "error" for entry in tests_results) else "ok"
+    if final_report["status"] == "error":
+        final_report["reason_code"] = selection_error or "target_error"
+
     report_path = experiment_dir / f"04_tests_check_{args.llm}_{run_id}.json"
     save_report(report_path, final_report)
 
     print(f"Test existence check completed. Report saved to {report_path}")
 
+    return 1 if final_report["status"] == "error" else 0
+
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

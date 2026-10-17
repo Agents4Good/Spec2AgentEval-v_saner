@@ -22,7 +22,7 @@ BENCH_DIR = Path(os.getenv("BENCH_DIR") or "")
 EXPERIMENTS_RESULTS = Path(os.getenv("EXPERIMENTS_RESULTS") or "")
 
 
-def main() -> None:
+def main() -> int:
     parser = argparse.ArgumentParser(
         description="Runs behavioral evaluation for generated agents."
     )
@@ -54,7 +54,7 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    run_pytest_for_agents(
+    report = run_pytest_for_agents(
         llm=args.llm,
         agent_filter=args.agent,
         test_filename=args.test,
@@ -67,7 +67,8 @@ def main() -> None:
         run=args.run,
         experiment=args.experiment,
     )
+    return report["exit_code"]
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

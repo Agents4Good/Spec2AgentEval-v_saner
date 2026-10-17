@@ -61,7 +61,8 @@ Allowlist por job:
   Arquivos de bench ausentes continuam ausentes, preservando o diagnóstico
   da etapa. Rubricas alheias ao alvo, `.env`, outros agentes e arquivos
   auxiliares não entram.
-- `/data/<experiment>/run_N/<llm>/<agent>`: `agent.py` obrigatório;
+- `/data/<experiment>/run_N/<llm>/<agent>`: pasta privada sempre criada;
+  `agent.py` é copiado se presente (ausência obrigatória é relatada pela etapa);
   somente 04 recebe também testes Python diretos (`test*.py` ou `*test.py`),
   necessários ao inventário dessa etapa. Não há cópia recursiva nem resolução
   automática de imports de agentes. A recon dos runners encontrou apenas
@@ -78,7 +79,7 @@ Publicação em `EXPERIMENTS_RESULTS/<experiment>/run_N`: somente
 `eval_artifacts/<step>_<llm>_<agent>_<job-uuid>/`. Essa é a allowlist de
 diagnósticos, não uma promessa sobre nomes de traces externos desconhecidos.
 Pytest incorpora stdout/stderr e seu relatório estruturado no relatório da
-etapa; seu helper normalmente apaga `.pytest_report.json` após incorporá-lo.
+etapa; seu JSON próprio fica em workspace temporário, sem apagar arquivos preexistentes.
 Nada é publicado em generated, e `agent.py`/outros produtos arbitrários são
 ignorados. Publicação também ocorre após falha/interrupção; nunca sobrescreve
 destinos existentes, e falha operacional de publicação retorna não zero.
@@ -128,6 +129,40 @@ Limites: bridge **não restringe endpoints**; código avaliado com rede pode
 usar/exfiltrar a chave selecionada. Isto não é sandbox perfeito nem defesa
 contra host concorrente malicioso com o mesmo UID. Não há evidência aqui de
 execução Docker real, compatibilidade de modelos ou serviços autenticados.
+
+## Fase 5 — status e configuração da avaliação
+
+02–08 distinguem status operacional (`ok`, `error`, `skipped`) do veredicto
+métrico legado. Reprovação métrica concluída retorna 0; erro operacional
+retorna 1 após salvar o relatório possível. Qualquer entrada com erro torna
+o relatório `error`; requisitos ausentes nunca são skips. Um alvo solicitado
+sem pasta/`agent.py` chega à etapa e produz uma entrada `missing_agent`, sem
+criar árvore no generated do host. Symlinks, inclusive dangling e ancestrais,
+continuam proibidos. O payload `judge` permanece opaco, sem `passed` inferido.
+
+Controles adicionais não sensíveis, enviados como `-e NOME=valor` somente
+à etapa indicada (credenciais continuam somente `-e NOME`):
+- 03: `SONAR_MODE=local|external|disabled` (default local),
+  `SONAR_REQUIRED=1|0` (default 1). Linters rodam antes do Sonar; disabled
+  pula só Sonar. Required=0 permite skip apenas por configuração ausente;
+  erro configurado continua error. External não gerencia servidor; local
+  encerra somente o servidor criado pelo job. Comandos/scanner: 300s,
+  HTTP: 10s, boot/análise: 300s.
+- 07/08: `PYTEST_TIMEOUT_SECONDS` positivo/finito (default 300). Usam Python
+  corrente, workspace exclusivo e JSON fresco; call-only failure é
+  `ok/passed=false`, setup/teardown ou falha operacional é `error/passed=null`.
+  Todos skipped válidos não significam aprovação. Runner controla plugins e
+  aplica `DEEPEVAL_TELEMETRY_OPT_OUT=1`; não se encaminha telemetry do host.
+
+```bash
+SONAR_MODE=disabled bash docker/docker_run_eval.sh --step 03 --llm opencode --agent 011_list_issues
+PYTEST_TIMEOUT_SECONDS=300 bash docker/docker_run_eval.sh --step 07 --llm opencode --agent 011_list_issues
+```
+
+04 somente inventaria testes; não os executa. Não há novos mounts, cópia
+recursiva, forwarding genérico de ambiente ou mudança de rede/SELinux nesta
+fase. Evidência com Docker fake e etapas estagiadas locais não prova Docker,
+SELinux, Sonar ou providers reais. O código local confiado não é sandbox.
 
 ## Limitações assumidas
 - `docker_setup.log` contém apenas metadados/status após setup bem-sucedido.
