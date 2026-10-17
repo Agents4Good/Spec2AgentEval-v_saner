@@ -140,12 +140,12 @@ def main():
         [
             "claude",
             "--dangerously-skip-permissions",
-            "--model", "claude-haiku-5-5",
+            "--model", "claude-opus-5-5",
             "-p",
             TRACE_EVAL_PROMPT.format(
                 spec_path=spec_path
             ),
-            "--effort", "max",
+            "--effort", "low",
         ],
         cwd=spec_path.parent,
         check=True,
