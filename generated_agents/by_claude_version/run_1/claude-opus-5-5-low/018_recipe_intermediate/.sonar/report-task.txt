@@ -1,0 +1,6 @@
+projectKey=claude-opus-5-5-low_018_recipe_intermediate_ff9d
+serverUrl=http://localhost:9000
+serverVersion=26.3.0.120487
+dashboardUrl=http://localhost:9000/dashboard?id=claude-opus-5-5-low_018_recipe_intermediate_ff9d
+ceTaskId=cc23d7af-2e5c-462d-a7c6-7e745bddec6d
+ceTaskUrl=http://localhost:9000/api/ce/task?id=cc23d7af-2e5c-462d-a7c6-7e745bddec6d

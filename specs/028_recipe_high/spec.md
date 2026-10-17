@@ -13,13 +13,13 @@
 | GenAI Tool | ChatOpenAI |
 | Tools | Every tool must be a LangChain tool (@tool, StructuredTool, or obtained from an MCP server via langchain-mcp-adapters) and must be executed exclusively through its interface (invoke/ainvoke, either directly or via ToolNode), never by directly calling the function that implements it. |
 | Entrypoint | agent(...) |
-| Output | state: dict |
+| Output | string |
 
 **Implementation details:**
 
 | Implementation detail | Specification |
 | --- | --- |
-| Environment variables | The agent must access the environment variables when necessary.<br>Available keys: NOTION\_PAGE\_ID, TAVILY\_API\_KEY, NOTION\_API\_KEY |
+| Environment variables | The agent must access the environment variables when necessary.<br>Available keys: NOTION\_PAGE\_ID, TAVILY\_API\_KEY, NOTION\_API\_KEY, OPENAI\_API\_KEY |
 
 **Requirements:**
 
@@ -35,8 +35,8 @@
 
 | Name | Purpose | Inputs | Returns | Failures |
 | --- | --- | --- | --- | --- |
-| retrieve\_pantry | Obtain the ingredients available in the user's pantry, through a Notion page. | None. | The complete list of pantry ingredients. An empty pantry returns an empty list. | Missing credentials, an inaccessible page, or a timeout must return a message beginning with `erro:` followed by a message explaining the failure. |
-| search\_recipes | Obtain recipes from the web, through **tavily**, as a preparation **reference** for the usable ingredients, derived from the pantry and the query. The recipes found are neither a source of base ingredients nor the final recipe. | Usable ingredients, derived from the output of `retrieve_pantry` and from the query. | Up to 5 results, each with title, URL, and content excerpt. No results returns an empty list. | Missing credentials, an inaccessible page, or a timeout must return a message beginning with `erro:` followed by a message explaining the failure. |
+| retrieve\_pantry | Obtain the ingredients available in the user's pantry, through a Notion page. | None. | The complete list of pantry ingredients. An empty pantry returns an empty list. | Missing credentials, an inaccessible page, or a timeout must return a message beginning with `Error:` followed by a message explaining the failure. |
+| search\_recipes | Obtain recipes from the web, through **tavily**, as a preparation **reference** for the usable ingredients, derived from the pantry and the query. The recipes found are neither a source of base ingredients nor the final recipe. | identified ingredients compatible with the dietary restrictions, derived from the output of `retrieve_pantry` and from the query. | Up to 5 results, each with title, URL, and content excerpt. No results returns an empty list. | Missing credentials, an inaccessible page, or a timeout must return a message beginning with `Error:` followed by a message explaining the failure. |
 
 **Behaviors:**
 

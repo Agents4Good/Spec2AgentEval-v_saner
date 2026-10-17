@@ -45,18 +45,21 @@ GENERATED CODE:
 
 ---
 Return this exact JSON structure:
-{{
-"scores": {{
-        "correct_signature":          <0|1>,
-        "correct_tools":              <0|1>,
-        "correct_return_type":        <0|1>,
-        "langgraph_orchestration":    <0|1>,
-        "correct_model":              <0|1>,
-        "dynamic_tool_calling":       <0|1>,
-        "parallel_tools_disabled":    <0|1>,
-        "system_prompt_sequence":     <0|1>,
-        "output_structure_present":   <0|1>,
-        "handles_invalid_query":      <0|1>
+
+
+{{"scores": {{
+        "correct_signature":        <0|1>,
+        "correct_return_type":      <0|1>,
+        "langgraph_orchestration":  <0|1>,
+        "native_tool_calling":      <0|1>,
+        "sequential_tool_execution":   <0|1>,
+        "tools_implemented":        <0|1>,
+        "correct_model":            <0|1>,
+        "output_structure_present":    <0|1>,
+        "handles_empty_input":      <0|1>,
+        "exception_handling":      <0|1>,
+        "dietary_filtering":      <0|1>,
+        "handles_no_ingredients":      <0|1>
     }},
  "total_score": <int>,
  "max_score": 10,
@@ -64,18 +67,21 @@ Return this exact JSON structure:
  "summary": "<one paragraph describing the main implementation problems found in the code, or 'No problems found'>" 
 }}
 
-
 Criteria definitions:
 - correct_signature:       agent() is defined with exactly one parameter: query (type str).
-- correct_tools:           The code explicitly defines exactly two callable tools: retrieve_pantry and search_recipes, utilizing the respective Notion and Tavily SDKs/clients.
 - correct_return_type:     agent() returns a string.
-- langgraph_orchestration: uses LangGraph StateGraph to orchestrate the workflow; build_graph() returns a CompiledStateGraph.
+- langgraph_orchestration: uses LangGraph to orchestrate the workflow; 
+- native_tool_calling: Tools are LangChain tool objects (@tool, StructuredTool, or obtained via langchain-mcp-adapters). 
+- sequential_tool_execution:  retrieve_pantry runs and completes before search_recipes starts, never in parallel, each at most once per execution, and the input
+  of search_recipes is derived from the output of retrieve_pantry (and the query).
+- tools_implemented: The code explicitly defines exactly two tools: retrieve_pantry (using Notion) and search_recipes (using Tavily).
 - correct_model:           the ChatOpenAI model is instantiated with model="gpt-4o".
-- dynamic_tool_calling:      LLM is bound to tools via bind_tools() or equivalent so the LLM can select tools based on intent
-- parallel_tools_disabled: The code enforces mutually exclusive tool execution by disabling parallel tool calling (e.g., .bind_tools(tools, parallel_tool_calls=False)) or via explicit strict logic.
-- system_prompt_sequence:    The code contains a system prompt (or equivalent instruction passed to the LLM) that explicitly instructs the model to invoke the retrieve_pantry tool FIRST, before attempting to use search_recipes.
-- output_structure_present: the response string includes all required sections: Title, Ingredients, Equipment, Instructions, Nutrition, Storage.
-- handles_invalid_query:     The code or LLM prompt explicitly handles invalid queries (e.g., scenarios with zero ingredients available) and dictates returning a string starting exactly with "Error:".
+- output_structure_present: The logic attempts to format the final response containing ALL required sections: Title, Ingredients, Equipment, Instructions, Nutrition, Storage.
+- handles_invalid_input:     the code explicitly handles empty orblank queries and returns a string starting with "Error:".
+- exception_handling:      The graph execution or tool calls are wrapped in try/except blocks to prevent unhandled crashes, returning "Error:" strings upon failure.
+- dietary_filtering: The workflow includes an LLM-based step that identifies the usable ingredients (from the query and the pantry output) and removes those incompatible with
+  the dietary restrictions BEFORE search_recipes is called
+- handles_no_ingredients: When no compatible ingredient remains after filtering, the code returns an Error: message without calling search_recipes and without generating a recipe.
 
 passed = true only if total_score == max_score.
 Be strict: partial implementations score 0.
