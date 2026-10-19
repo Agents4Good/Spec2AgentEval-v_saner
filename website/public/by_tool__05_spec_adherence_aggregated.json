@@ -3,12 +3,12 @@
   "results": [
     {
       "model": "claude",
-      "agent_folder": "011_list_issues",
-      "score_percent": 72.33,
-      "total_score": 8.67,
-      "max_score": 12,
+      "agent_folder": "011_list_prs_or_issues",
+      "score_percent": 45.33,
+      "total_score": 5.0,
+      "max_score": 11,
       "passed": 0.0,
-      "summary": "The code lacks integration with a real MCP endpoint and does not dynamically load tools or bind LLM to tools. Other aspects like correct signature, return type, and handling of empty results are correctly implemented.",
+      "summary": "The code correctly implements the agent signature, uses LangGraph for orchestration, ensures single tool invocation per run, and handles failures appropriately. However, it lacks dynamic tool loading, does not use a real MCP endpoint, and fails to bind LLM to tools. The return type is incorrect, and the system prompt does not fully cover the required information. Additionally, the build_graph function does not accept tools as a parameter.",
       "details": [
         {
           "key": "correct_signature",
@@ -16,7 +16,7 @@
         },
         {
           "key": "correct_return_type",
-          "score": 1
+          "score": 0
         },
         {
           "key": "real_mcp_endpoint",
@@ -39,36 +39,32 @@
           "score": 1
         },
         {
-          "key": "output_schema_enforced",
+          "key": "system_prompt_coverage",
+          "score": 0
+        },
+        {
+          "key": "single_tool_per_run",
           "score": 1
         },
         {
-          "key": "filters_by_user_request",
+          "key": "failure_handling",
           "score": 1
         },
         {
-          "key": "returns_only_filtered",
-          "score": 1
-        },
-        {
-          "key": "handles_empty_results",
-          "score": 1
-        },
-        {
-          "key": "build_graph_funcion",
-          "score": 1
+          "key": "build_graph_function",
+          "score": 0
         }
       ],
       "runs": [
         {
           "run": 1,
           "model": "claude",
-          "agent_folder": "011_list_issues",
-          "score_percent": 75,
-          "total_score": 9,
-          "max_score": 12,
+          "agent_folder": "011_list_prs_or_issues",
+          "score_percent": 55,
+          "total_score": 6,
+          "max_score": 11,
           "passed": false,
-          "summary": "The code lacks integration with a real MCP endpoint and does not dynamically load tools or bind LLM to MCP tools. Other aspects like correct signature, return type, and handling of empty results are correctly implemented.",
+          "summary": "The code correctly implements the agent signature, dynamic tool loading, LangGraph orchestration, single tool invocation per run, and basic failure handling. However, it lacks a real MCP endpoint, does not bind the LLM to tools, and does not provide a system prompt with full coverage. Additionally, it does not define a build_graph function, and the return type does not fully meet the specification.",
           "details": [
             {
               "key": "correct_signature",
@@ -76,7 +72,7 @@
             },
             {
               "key": "correct_return_type",
-              "score": 1
+              "score": 0
             },
             {
               "key": "real_mcp_endpoint",
@@ -84,7 +80,7 @@
             },
             {
               "key": "dynamic_tool_loading",
-              "score": 0
+              "score": 1
             },
             {
               "key": "langgraph_orchestration",
@@ -99,36 +95,32 @@
               "score": 1
             },
             {
-              "key": "output_schema_enforced",
+              "key": "system_prompt_coverage",
+              "score": 0
+            },
+            {
+              "key": "single_tool_per_run",
               "score": 1
             },
             {
-              "key": "filters_by_user_request",
+              "key": "failure_handling",
               "score": 1
             },
             {
-              "key": "returns_only_filtered",
-              "score": 1
-            },
-            {
-              "key": "handles_empty_results",
-              "score": 1
-            },
-            {
-              "key": "build_graph_funcion",
-              "score": 1
+              "key": "build_graph_function",
+              "score": 0
             }
           ]
         },
         {
           "run": 2,
           "model": "claude",
-          "agent_folder": "011_list_issues",
-          "score_percent": 67,
-          "total_score": 8,
-          "max_score": 12,
+          "agent_folder": "011_list_prs_or_issues",
+          "score_percent": 36,
+          "total_score": 4,
+          "max_score": 11,
           "passed": false,
-          "summary": "The code correctly implements the agent signature, return type, and uses LangGraph for orchestration. It filters issues based on user requests and handles empty results. However, it does not use the real MCP endpoint, lacks dynamic tool loading, does not bind LLM to tools, and does not define a build_graph() function.",
+          "summary": "The code correctly uses LangGraph for orchestration and ensures a single tool is invoked per run. However, it lacks dynamic tool loading, does not use a real MCP endpoint, and fails to handle failures properly. The return type is not as specified, and there is no build_graph function to dynamically receive tools. Additionally, the system prompt does not cover all required elements.",
           "details": [
             {
               "key": "correct_signature",
@@ -136,7 +128,7 @@
             },
             {
               "key": "correct_return_type",
-              "score": 1
+              "score": 0
             },
             {
               "key": "real_mcp_endpoint",
@@ -159,23 +151,19 @@
               "score": 1
             },
             {
-              "key": "output_schema_enforced",
+              "key": "system_prompt_coverage",
+              "score": 0
+            },
+            {
+              "key": "single_tool_per_run",
               "score": 1
             },
             {
-              "key": "filters_by_user_request",
-              "score": 1
+              "key": "failure_handling",
+              "score": 0
             },
             {
-              "key": "returns_only_filtered",
-              "score": 1
-            },
-            {
-              "key": "handles_empty_results",
-              "score": 1
-            },
-            {
-              "key": "build_graph_funcion",
+              "key": "build_graph_function",
               "score": 0
             }
           ]
@@ -183,12 +171,12 @@
         {
           "run": 3,
           "model": "claude",
-          "agent_folder": "011_list_issues",
-          "score_percent": 75,
-          "total_score": 9,
-          "max_score": 12,
+          "agent_folder": "011_list_prs_or_issues",
+          "score_percent": 45,
+          "total_score": 5,
+          "max_score": 11,
           "passed": false,
-          "summary": "The code lacks integration with a real MCP endpoint and does not dynamically load tools or bind LLM to tools. Other aspects like correct signature, return type, and handling of empty results are correctly implemented.",
+          "summary": "The code correctly implements the agent signature, uses LangGraph for orchestration, ensures single tool invocation per run, and handles failures appropriately. However, it lacks dynamic tool loading, does not use a real MCP endpoint, and fails to bind LLM to tools. The return type is incorrect, and the system prompt does not fully cover the required information. Additionally, the build_graph function does not accept tools as a parameter.",
           "details": [
             {
               "key": "correct_signature",
@@ -196,7 +184,7 @@
             },
             {
               "key": "correct_return_type",
-              "score": 1
+              "score": 0
             },
             {
               "key": "real_mcp_endpoint",
@@ -219,23 +207,1245 @@
               "score": 1
             },
             {
-              "key": "output_schema_enforced",
+              "key": "system_prompt_coverage",
+              "score": 0
+            },
+            {
+              "key": "single_tool_per_run",
               "score": 1
             },
             {
-              "key": "filters_by_user_request",
+              "key": "failure_handling",
               "score": 1
             },
             {
-              "key": "returns_only_filtered",
+              "key": "build_graph_function",
+              "score": 0
+            }
+          ]
+        }
+      ],
+      "runs_count": 3
+    },
+    {
+      "model": "claude",
+      "agent_folder": "012_explore_travel_destination",
+      "score_percent": 91.67,
+      "total_score": 11.0,
+      "max_score": 12,
+      "passed": 0.33,
+      "summary": "No issues found",
+      "details": [
+        {
+          "key": "correct_signature",
+          "score": 1
+        },
+        {
+          "key": "correct_return_type",
+          "score": 1
+        },
+        {
+          "key": "uses_langgraph_stategraph",
+          "score": 1
+        },
+        {
+          "key": "uses_chat_openai_gpt4o",
+          "score": 1
+        },
+        {
+          "key": "build_graph_function",
+          "score": 1
+        },
+        {
+          "key": "implements_get_weather",
+          "score": 1
+        },
+        {
+          "key": "implements_search_news",
+          "score": 1
+        },
+        {
+          "key": "weather_uses_wttrin",
+          "score": 1
+        },
+        {
+          "key": "news_uses_tavily",
+          "score": 1
+        },
+        {
+          "key": "llm_bound_to_tools",
+          "score": 1
+        },
+        {
+          "key": "handles_empty_request",
+          "score": 1
+        },
+        {
+          "key": "no_mocks_or_stubs",
+          "score": 1
+        }
+      ],
+      "runs": [
+        {
+          "run": 1,
+          "model": "claude",
+          "agent_folder": "012_explore_travel_destination",
+          "score_percent": 83,
+          "total_score": 10,
+          "max_score": 12,
+          "passed": false,
+          "summary": "The implementation is mostly correct, but it lacks a build_graph() function and does not bind the LLM to tools via bind_tools() or an equivalent method. These issues prevent the agent from dynamically selecting tools based on intent.",
+          "details": [
+            {
+              "key": "correct_signature",
               "score": 1
             },
             {
-              "key": "handles_empty_results",
+              "key": "correct_return_type",
               "score": 1
             },
             {
-              "key": "build_graph_funcion",
+              "key": "uses_langgraph_stategraph",
+              "score": 1
+            },
+            {
+              "key": "uses_chat_openai_gpt4o",
+              "score": 1
+            },
+            {
+              "key": "build_graph_function",
+              "score": 0
+            },
+            {
+              "key": "implements_get_weather",
+              "score": 1
+            },
+            {
+              "key": "implements_search_news",
+              "score": 1
+            },
+            {
+              "key": "weather_uses_wttrin",
+              "score": 1
+            },
+            {
+              "key": "news_uses_tavily",
+              "score": 1
+            },
+            {
+              "key": "llm_bound_to_tools",
+              "score": 0
+            },
+            {
+              "key": "handles_empty_request",
+              "score": 1
+            },
+            {
+              "key": "no_mocks_or_stubs",
+              "score": 1
+            }
+          ]
+        },
+        {
+          "run": 2,
+          "model": "claude",
+          "agent_folder": "012_explore_travel_destination",
+          "score_percent": 92,
+          "total_score": 11,
+          "max_score": 12,
+          "passed": false,
+          "summary": "The implementation is mostly correct, but it lacks binding of the LLM to tools via bind_tools() or an equivalent method, which prevents the LLM from selecting tools based on intent. All other criteria are met, including correct signature, return type, and use of LangGraph and GPT-4o.",
+          "details": [
+            {
+              "key": "correct_signature",
+              "score": 1
+            },
+            {
+              "key": "correct_return_type",
+              "score": 1
+            },
+            {
+              "key": "uses_langgraph_stategraph",
+              "score": 1
+            },
+            {
+              "key": "uses_chat_openai_gpt4o",
+              "score": 1
+            },
+            {
+              "key": "build_graph_function",
+              "score": 1
+            },
+            {
+              "key": "implements_get_weather",
+              "score": 1
+            },
+            {
+              "key": "implements_search_news",
+              "score": 1
+            },
+            {
+              "key": "weather_uses_wttrin",
+              "score": 1
+            },
+            {
+              "key": "news_uses_tavily",
+              "score": 1
+            },
+            {
+              "key": "llm_bound_to_tools",
+              "score": 0
+            },
+            {
+              "key": "handles_empty_request",
+              "score": 1
+            },
+            {
+              "key": "no_mocks_or_stubs",
+              "score": 1
+            }
+          ]
+        },
+        {
+          "run": 3,
+          "model": "claude",
+          "agent_folder": "012_explore_travel_destination",
+          "score_percent": 100,
+          "total_score": 12,
+          "max_score": 12,
+          "passed": true,
+          "summary": "No issues found",
+          "details": [
+            {
+              "key": "correct_signature",
+              "score": 1
+            },
+            {
+              "key": "correct_return_type",
+              "score": 1
+            },
+            {
+              "key": "uses_langgraph_stategraph",
+              "score": 1
+            },
+            {
+              "key": "uses_chat_openai_gpt4o",
+              "score": 1
+            },
+            {
+              "key": "build_graph_function",
+              "score": 1
+            },
+            {
+              "key": "implements_get_weather",
+              "score": 1
+            },
+            {
+              "key": "implements_search_news",
+              "score": 1
+            },
+            {
+              "key": "weather_uses_wttrin",
+              "score": 1
+            },
+            {
+              "key": "news_uses_tavily",
+              "score": 1
+            },
+            {
+              "key": "llm_bound_to_tools",
+              "score": 1
+            },
+            {
+              "key": "handles_empty_request",
+              "score": 1
+            },
+            {
+              "key": "no_mocks_or_stubs",
+              "score": 1
+            }
+          ]
+        }
+      ],
+      "runs_count": 3
+    },
+    {
+      "model": "claude",
+      "agent_folder": "021_classify_prs_by_review_status",
+      "score_percent": 59.33,
+      "total_score": 7.67,
+      "max_score": 13,
+      "passed": 0.0,
+      "summary": "The code correctly implements the agent's signature, uses LangGraph orchestration, and handles multi-step tool usage and failure scenarios. However, it lacks dynamic tool loading, does not use a real MCP endpoint, and does not bind the LLM to tools. The return type is incorrect, and the build_graph function is not defined as required.",
+      "details": [
+        {
+          "key": "correct_signature",
+          "score": 1
+        },
+        {
+          "key": "correct_return_type",
+          "score": 0
+        },
+        {
+          "key": "real_mcp_endpoint",
+          "score": 0
+        },
+        {
+          "key": "dynamic_tool_loading",
+          "score": 0
+        },
+        {
+          "key": "langgraph_orchestration",
+          "score": 1
+        },
+        {
+          "key": "llm_bound_to_tools",
+          "score": 0
+        },
+        {
+          "key": "no_mocks_or_stubs",
+          "score": 1
+        },
+        {
+          "key": "system_prompt_coverage",
+          "score": 1
+        },
+        {
+          "key": "multi_step_tool_usage",
+          "score": 1
+        },
+        {
+          "key": "classification_logic",
+          "score": 1
+        },
+        {
+          "key": "subset_limitation",
+          "score": 1
+        },
+        {
+          "key": "failure_handling",
+          "score": 1
+        },
+        {
+          "key": "build_graph_function",
+          "score": 0
+        }
+      ],
+      "runs": [
+        {
+          "run": 1,
+          "model": "claude",
+          "agent_folder": "021_classify_prs_by_review_status",
+          "score_percent": 54,
+          "total_score": 7,
+          "max_score": 13,
+          "passed": false,
+          "summary": "The code correctly implements the agent signature, dynamic tool loading, multi-step tool usage, classification logic, subset limitation, and failure handling. However, it lacks the use of a real MCP endpoint, LangGraph orchestration, LLM binding to tools, and a build_graph function. The system prompt does not fully cover all required instructions, and the return type does not match the expected format.",
+          "details": [
+            {
+              "key": "correct_signature",
+              "score": 1
+            },
+            {
+              "key": "correct_return_type",
+              "score": 0
+            },
+            {
+              "key": "real_mcp_endpoint",
+              "score": 0
+            },
+            {
+              "key": "dynamic_tool_loading",
+              "score": 1
+            },
+            {
+              "key": "langgraph_orchestration",
+              "score": 0
+            },
+            {
+              "key": "llm_bound_to_tools",
+              "score": 0
+            },
+            {
+              "key": "no_mocks_or_stubs",
+              "score": 1
+            },
+            {
+              "key": "system_prompt_coverage",
+              "score": 0
+            },
+            {
+              "key": "multi_step_tool_usage",
+              "score": 1
+            },
+            {
+              "key": "classification_logic",
+              "score": 1
+            },
+            {
+              "key": "subset_limitation",
+              "score": 1
+            },
+            {
+              "key": "failure_handling",
+              "score": 1
+            },
+            {
+              "key": "build_graph_function",
+              "score": 0
+            }
+          ]
+        },
+        {
+          "run": 2,
+          "model": "claude",
+          "agent_folder": "021_classify_prs_by_review_status",
+          "score_percent": 62,
+          "total_score": 8,
+          "max_score": 13,
+          "passed": false,
+          "summary": "The code correctly implements the agent signature, uses LangGraph orchestration, handles failures, and limits the subset of PRs. However, it lacks dynamic tool loading, does not use a real MCP endpoint, and fails to bind the LLM to tools. The system prompt coverage is incomplete, and the return type does not match the expected format.",
+          "details": [
+            {
+              "key": "correct_signature",
+              "score": 1
+            },
+            {
+              "key": "correct_return_type",
+              "score": 0
+            },
+            {
+              "key": "real_mcp_endpoint",
+              "score": 0
+            },
+            {
+              "key": "dynamic_tool_loading",
+              "score": 0
+            },
+            {
+              "key": "langgraph_orchestration",
+              "score": 1
+            },
+            {
+              "key": "llm_bound_to_tools",
+              "score": 0
+            },
+            {
+              "key": "no_mocks_or_stubs",
+              "score": 1
+            },
+            {
+              "key": "system_prompt_coverage",
+              "score": 0
+            },
+            {
+              "key": "multi_step_tool_usage",
+              "score": 1
+            },
+            {
+              "key": "classification_logic",
+              "score": 1
+            },
+            {
+              "key": "subset_limitation",
+              "score": 1
+            },
+            {
+              "key": "failure_handling",
+              "score": 1
+            },
+            {
+              "key": "build_graph_function",
+              "score": 1
+            }
+          ]
+        },
+        {
+          "run": 3,
+          "model": "claude",
+          "agent_folder": "021_classify_prs_by_review_status",
+          "score_percent": 62,
+          "total_score": 8,
+          "max_score": 13,
+          "passed": false,
+          "summary": "The code correctly implements the agent's signature, uses LangGraph orchestration, and handles multi-step tool usage and failure scenarios. However, it lacks dynamic tool loading, does not use a real MCP endpoint, and does not bind the LLM to tools. The return type is incorrect, and the build_graph function is not defined as required.",
+          "details": [
+            {
+              "key": "correct_signature",
+              "score": 1
+            },
+            {
+              "key": "correct_return_type",
+              "score": 0
+            },
+            {
+              "key": "real_mcp_endpoint",
+              "score": 0
+            },
+            {
+              "key": "dynamic_tool_loading",
+              "score": 0
+            },
+            {
+              "key": "langgraph_orchestration",
+              "score": 1
+            },
+            {
+              "key": "llm_bound_to_tools",
+              "score": 0
+            },
+            {
+              "key": "no_mocks_or_stubs",
+              "score": 1
+            },
+            {
+              "key": "system_prompt_coverage",
+              "score": 1
+            },
+            {
+              "key": "multi_step_tool_usage",
+              "score": 1
+            },
+            {
+              "key": "classification_logic",
+              "score": 1
+            },
+            {
+              "key": "subset_limitation",
+              "score": 1
+            },
+            {
+              "key": "failure_handling",
+              "score": 1
+            },
+            {
+              "key": "build_graph_function",
+              "score": 0
+            }
+          ]
+        }
+      ],
+      "runs_count": 3
+    },
+    {
+      "model": "claude",
+      "agent_folder": "022_explore_travel_viability",
+      "score_percent": 17.67,
+      "total_score": 2.33,
+      "max_score": 13,
+      "passed": 0.0,
+      "summary": "The code does not implement the required MCP-based agent functionalities, such as correct signature, return type, and use of MCP endpoints. It lacks dynamic tool loading, LangGraph orchestration, and proper classification logic. Failure handling is partially implemented, but overall, the code does not meet the specified requirements.",
+      "details": [
+        {
+          "key": "correct_signature",
+          "score": 0
+        },
+        {
+          "key": "correct_return_type",
+          "score": 0
+        },
+        {
+          "key": "real_mcp_endpoint",
+          "score": 0
+        },
+        {
+          "key": "dynamic_tool_loading",
+          "score": 0
+        },
+        {
+          "key": "langgraph_orchestration",
+          "score": 0
+        },
+        {
+          "key": "llm_bound_to_tools",
+          "score": 0
+        },
+        {
+          "key": "no_mocks_or_stubs",
+          "score": 1
+        },
+        {
+          "key": "system_prompt_coverage",
+          "score": 0
+        },
+        {
+          "key": "multi_step_tool_usage",
+          "score": 0
+        },
+        {
+          "key": "classification_logic",
+          "score": 0
+        },
+        {
+          "key": "subset_limitation",
+          "score": 0
+        },
+        {
+          "key": "failure_handling",
+          "score": 1
+        },
+        {
+          "key": "build_graph_function",
+          "score": 0
+        }
+      ],
+      "runs": [
+        {
+          "run": 1,
+          "model": "claude",
+          "agent_folder": "022_explore_travel_viability",
+          "score_percent": 15,
+          "total_score": 2,
+          "max_score": 13,
+          "passed": false,
+          "summary": "The code lacks integration with LangGraph and MCP tools, missing dynamic tool loading, and does not implement the required classification logic for GitHub PRs. It also fails to limit the subset of PRs analyzed and does not use a real MCP endpoint. Failure handling is implemented, but the system prompt does not cover all necessary instructions for PR classification.",
+          "details": [
+            {
+              "key": "correct_signature",
+              "score": 0
+            },
+            {
+              "key": "correct_return_type",
+              "score": 0
+            },
+            {
+              "key": "real_mcp_endpoint",
+              "score": 0
+            },
+            {
+              "key": "dynamic_tool_loading",
+              "score": 0
+            },
+            {
+              "key": "langgraph_orchestration",
+              "score": 0
+            },
+            {
+              "key": "llm_bound_to_tools",
+              "score": 0
+            },
+            {
+              "key": "no_mocks_or_stubs",
+              "score": 1
+            },
+            {
+              "key": "system_prompt_coverage",
+              "score": 0
+            },
+            {
+              "key": "multi_step_tool_usage",
+              "score": 0
+            },
+            {
+              "key": "classification_logic",
+              "score": 0
+            },
+            {
+              "key": "subset_limitation",
+              "score": 0
+            },
+            {
+              "key": "failure_handling",
+              "score": 1
+            },
+            {
+              "key": "build_graph_function",
+              "score": 0
+            }
+          ]
+        },
+        {
+          "run": 2,
+          "model": "claude",
+          "agent_folder": "022_explore_travel_viability",
+          "score_percent": 23,
+          "total_score": 3,
+          "max_score": 13,
+          "passed": false,
+          "summary": "The code lacks correct signature and return type for the agent function, does not use a real MCP endpoint, and fails to dynamically load tools. It does not bind LLM to tools, lacks system prompt coverage for PR classification, and does not implement multi-step tool usage or correct classification logic. It also does not limit the subset of PRs analyzed. However, it uses LangGraph orchestration and handles failures appropriately.",
+          "details": [
+            {
+              "key": "correct_signature",
+              "score": 0
+            },
+            {
+              "key": "correct_return_type",
+              "score": 0
+            },
+            {
+              "key": "real_mcp_endpoint",
+              "score": 0
+            },
+            {
+              "key": "dynamic_tool_loading",
+              "score": 0
+            },
+            {
+              "key": "langgraph_orchestration",
+              "score": 1
+            },
+            {
+              "key": "llm_bound_to_tools",
+              "score": 0
+            },
+            {
+              "key": "no_mocks_or_stubs",
+              "score": 1
+            },
+            {
+              "key": "system_prompt_coverage",
+              "score": 0
+            },
+            {
+              "key": "multi_step_tool_usage",
+              "score": 0
+            },
+            {
+              "key": "classification_logic",
+              "score": 0
+            },
+            {
+              "key": "subset_limitation",
+              "score": 0
+            },
+            {
+              "key": "failure_handling",
+              "score": 1
+            },
+            {
+              "key": "build_graph_function",
+              "score": 0
+            }
+          ]
+        },
+        {
+          "run": 3,
+          "model": "claude",
+          "agent_folder": "022_explore_travel_viability",
+          "score_percent": 15,
+          "total_score": 2,
+          "max_score": 13,
+          "passed": false,
+          "summary": "The code does not implement the required MCP-based agent functionalities, such as correct signature, return type, and use of MCP endpoints. It lacks dynamic tool loading, LangGraph orchestration, and proper classification logic. Failure handling is partially implemented, but overall, the code does not meet the specified requirements.",
+          "details": [
+            {
+              "key": "correct_signature",
+              "score": 0
+            },
+            {
+              "key": "correct_return_type",
+              "score": 0
+            },
+            {
+              "key": "real_mcp_endpoint",
+              "score": 0
+            },
+            {
+              "key": "dynamic_tool_loading",
+              "score": 0
+            },
+            {
+              "key": "langgraph_orchestration",
+              "score": 0
+            },
+            {
+              "key": "llm_bound_to_tools",
+              "score": 0
+            },
+            {
+              "key": "no_mocks_or_stubs",
+              "score": 1
+            },
+            {
+              "key": "system_prompt_coverage",
+              "score": 0
+            },
+            {
+              "key": "multi_step_tool_usage",
+              "score": 0
+            },
+            {
+              "key": "classification_logic",
+              "score": 0
+            },
+            {
+              "key": "subset_limitation",
+              "score": 0
+            },
+            {
+              "key": "failure_handling",
+              "score": 1
+            },
+            {
+              "key": "build_graph_function",
+              "score": 0
+            }
+          ]
+        }
+      ],
+      "runs_count": 3
+    },
+    {
+      "model": "codex",
+      "agent_folder": "011_list_prs_or_issues",
+      "score_percent": 45.0,
+      "total_score": 5.0,
+      "max_score": 11,
+      "passed": 0.0,
+      "summary": "The code correctly implements the agent signature, uses LangGraph for orchestration, handles failures, and ensures a single tool invocation per run. However, it lacks dynamic tool loading, does not use a real MCP endpoint, and fails to bind the LLM to tools. The return type is incorrect, and there is no build_graph function or system prompt coverage.",
+      "details": [
+        {
+          "key": "correct_signature",
+          "score": 1
+        },
+        {
+          "key": "correct_return_type",
+          "score": 0
+        },
+        {
+          "key": "real_mcp_endpoint",
+          "score": 0
+        },
+        {
+          "key": "dynamic_tool_loading",
+          "score": 0
+        },
+        {
+          "key": "langgraph_orchestration",
+          "score": 1
+        },
+        {
+          "key": "llm_bound_to_tools",
+          "score": 0
+        },
+        {
+          "key": "no_mocks_or_stubs",
+          "score": 1
+        },
+        {
+          "key": "system_prompt_coverage",
+          "score": 0
+        },
+        {
+          "key": "single_tool_per_run",
+          "score": 1
+        },
+        {
+          "key": "failure_handling",
+          "score": 1
+        },
+        {
+          "key": "build_graph_function",
+          "score": 0
+        }
+      ],
+      "runs": [
+        {
+          "run": 1,
+          "model": "codex",
+          "agent_folder": "011_list_prs_or_issues",
+          "score_percent": 45,
+          "total_score": 5,
+          "max_score": 11,
+          "passed": false,
+          "summary": "The code correctly implements the agent signature, uses LangGraph for orchestration, ensures single tool invocation per run, and handles failures appropriately. However, it lacks dynamic tool loading, does not use a real MCP endpoint, and fails to bind the LLM to tools. The return type is incorrect, and the system prompt does not fully cover the required output details. Additionally, there is no build_graph function that receives tools.",
+          "details": [
+            {
+              "key": "correct_signature",
+              "score": 1
+            },
+            {
+              "key": "correct_return_type",
+              "score": 0
+            },
+            {
+              "key": "real_mcp_endpoint",
+              "score": 0
+            },
+            {
+              "key": "dynamic_tool_loading",
+              "score": 0
+            },
+            {
+              "key": "langgraph_orchestration",
+              "score": 1
+            },
+            {
+              "key": "llm_bound_to_tools",
+              "score": 0
+            },
+            {
+              "key": "no_mocks_or_stubs",
+              "score": 1
+            },
+            {
+              "key": "system_prompt_coverage",
+              "score": 0
+            },
+            {
+              "key": "single_tool_per_run",
+              "score": 1
+            },
+            {
+              "key": "failure_handling",
+              "score": 1
+            },
+            {
+              "key": "build_graph_function",
+              "score": 0
+            }
+          ]
+        },
+        {
+          "run": 2,
+          "model": "codex",
+          "agent_folder": "011_list_prs_or_issues",
+          "score_percent": 45,
+          "total_score": 5,
+          "max_score": 11,
+          "passed": false,
+          "summary": "The code correctly implements the agent signature, uses LangGraph for orchestration, handles failures, and ensures a single tool is invoked per run. However, it lacks dynamic tool loading, does not use a real MCP endpoint, and does not bind the LLM to tools. The return type is incorrect, and there is no system prompt coverage or build_graph function.",
+          "details": [
+            {
+              "key": "correct_signature",
+              "score": 1
+            },
+            {
+              "key": "correct_return_type",
+              "score": 0
+            },
+            {
+              "key": "real_mcp_endpoint",
+              "score": 0
+            },
+            {
+              "key": "dynamic_tool_loading",
+              "score": 0
+            },
+            {
+              "key": "langgraph_orchestration",
+              "score": 1
+            },
+            {
+              "key": "llm_bound_to_tools",
+              "score": 0
+            },
+            {
+              "key": "no_mocks_or_stubs",
+              "score": 1
+            },
+            {
+              "key": "system_prompt_coverage",
+              "score": 0
+            },
+            {
+              "key": "single_tool_per_run",
+              "score": 1
+            },
+            {
+              "key": "failure_handling",
+              "score": 1
+            },
+            {
+              "key": "build_graph_function",
+              "score": 0
+            }
+          ]
+        },
+        {
+          "run": 3,
+          "model": "codex",
+          "agent_folder": "011_list_prs_or_issues",
+          "score_percent": 45,
+          "total_score": 5,
+          "max_score": 11,
+          "passed": false,
+          "summary": "The code correctly implements the agent signature, uses LangGraph for orchestration, handles failures, and ensures a single tool invocation per run. However, it lacks dynamic tool loading, does not use a real MCP endpoint, and fails to bind the LLM to tools. The return type is incorrect, and there is no build_graph function or system prompt coverage.",
+          "details": [
+            {
+              "key": "correct_signature",
+              "score": 1
+            },
+            {
+              "key": "correct_return_type",
+              "score": 0
+            },
+            {
+              "key": "real_mcp_endpoint",
+              "score": 0
+            },
+            {
+              "key": "dynamic_tool_loading",
+              "score": 0
+            },
+            {
+              "key": "langgraph_orchestration",
+              "score": 1
+            },
+            {
+              "key": "llm_bound_to_tools",
+              "score": 0
+            },
+            {
+              "key": "no_mocks_or_stubs",
+              "score": 1
+            },
+            {
+              "key": "system_prompt_coverage",
+              "score": 0
+            },
+            {
+              "key": "single_tool_per_run",
+              "score": 1
+            },
+            {
+              "key": "failure_handling",
+              "score": 1
+            },
+            {
+              "key": "build_graph_function",
+              "score": 0
+            }
+          ]
+        }
+      ],
+      "runs_count": 3
+    },
+    {
+      "model": "codex",
+      "agent_folder": "012_explore_travel_destination",
+      "score_percent": 89.0,
+      "total_score": 10.67,
+      "max_score": 12,
+      "passed": 0.0,
+      "summary": "The implementation is mostly correct, but it lacks a build_graph() function and does not bind the LLM to tools using bind_tools() or an equivalent method. These issues prevent the agent from dynamically selecting tools based on intent.",
+      "details": [
+        {
+          "key": "correct_signature",
+          "score": 1
+        },
+        {
+          "key": "correct_return_type",
+          "score": 1
+        },
+        {
+          "key": "uses_langgraph_stategraph",
+          "score": 1
+        },
+        {
+          "key": "uses_chat_openai_gpt4o",
+          "score": 1
+        },
+        {
+          "key": "build_graph_function",
+          "score": 0
+        },
+        {
+          "key": "implements_get_weather",
+          "score": 1
+        },
+        {
+          "key": "implements_search_news",
+          "score": 1
+        },
+        {
+          "key": "weather_uses_wttrin",
+          "score": 1
+        },
+        {
+          "key": "news_uses_tavily",
+          "score": 1
+        },
+        {
+          "key": "llm_bound_to_tools",
+          "score": 0
+        },
+        {
+          "key": "handles_empty_request",
+          "score": 1
+        },
+        {
+          "key": "no_mocks_or_stubs",
+          "score": 1
+        }
+      ],
+      "runs": [
+        {
+          "run": 1,
+          "model": "codex",
+          "agent_folder": "012_explore_travel_destination",
+          "score_percent": 92,
+          "total_score": 11,
+          "max_score": 12,
+          "passed": false,
+          "summary": "The implementation is mostly correct, but it lacks explicit binding of the LLM to tools via bind_tools() or an equivalent method, which prevents the LLM from selecting tools based on intent. All other criteria are met successfully.",
+          "details": [
+            {
+              "key": "correct_signature",
+              "score": 1
+            },
+            {
+              "key": "correct_return_type",
+              "score": 1
+            },
+            {
+              "key": "uses_langgraph_stategraph",
+              "score": 1
+            },
+            {
+              "key": "uses_chat_openai_gpt4o",
+              "score": 1
+            },
+            {
+              "key": "build_graph_function",
+              "score": 1
+            },
+            {
+              "key": "implements_get_weather",
+              "score": 1
+            },
+            {
+              "key": "implements_search_news",
+              "score": 1
+            },
+            {
+              "key": "weather_uses_wttrin",
+              "score": 1
+            },
+            {
+              "key": "news_uses_tavily",
+              "score": 1
+            },
+            {
+              "key": "llm_bound_to_tools",
+              "score": 0
+            },
+            {
+              "key": "handles_empty_request",
+              "score": 1
+            },
+            {
+              "key": "no_mocks_or_stubs",
+              "score": 1
+            }
+          ]
+        },
+        {
+          "run": 2,
+          "model": "codex",
+          "agent_folder": "012_explore_travel_destination",
+          "score_percent": 92,
+          "total_score": 11,
+          "max_score": 12,
+          "passed": false,
+          "summary": "The implementation is mostly correct, but it lacks explicit binding of the LLM to tools via a method like bind_tools(), which prevents the LLM from selecting tools based on intent.",
+          "details": [
+            {
+              "key": "correct_signature",
+              "score": 1
+            },
+            {
+              "key": "correct_return_type",
+              "score": 1
+            },
+            {
+              "key": "uses_langgraph_stategraph",
+              "score": 1
+            },
+            {
+              "key": "uses_chat_openai_gpt4o",
+              "score": 1
+            },
+            {
+              "key": "build_graph_function",
+              "score": 1
+            },
+            {
+              "key": "implements_get_weather",
+              "score": 1
+            },
+            {
+              "key": "implements_search_news",
+              "score": 1
+            },
+            {
+              "key": "weather_uses_wttrin",
+              "score": 1
+            },
+            {
+              "key": "news_uses_tavily",
+              "score": 1
+            },
+            {
+              "key": "llm_bound_to_tools",
+              "score": 0
+            },
+            {
+              "key": "handles_empty_request",
+              "score": 1
+            },
+            {
+              "key": "no_mocks_or_stubs",
+              "score": 1
+            }
+          ]
+        },
+        {
+          "run": 3,
+          "model": "codex",
+          "agent_folder": "012_explore_travel_destination",
+          "score_percent": 83,
+          "total_score": 10,
+          "max_score": 12,
+          "passed": false,
+          "summary": "The implementation is mostly correct, but it lacks a build_graph() function and does not bind the LLM to tools using bind_tools() or an equivalent method. These issues prevent the agent from dynamically selecting tools based on intent.",
+          "details": [
+            {
+              "key": "correct_signature",
+              "score": 1
+            },
+            {
+              "key": "correct_return_type",
+              "score": 1
+            },
+            {
+              "key": "uses_langgraph_stategraph",
+              "score": 1
+            },
+            {
+              "key": "uses_chat_openai_gpt4o",
+              "score": 1
+            },
+            {
+              "key": "build_graph_function",
+              "score": 0
+            },
+            {
+              "key": "implements_get_weather",
+              "score": 1
+            },
+            {
+              "key": "implements_search_news",
+              "score": 1
+            },
+            {
+              "key": "weather_uses_wttrin",
+              "score": 1
+            },
+            {
+              "key": "news_uses_tavily",
+              "score": 1
+            },
+            {
+              "key": "llm_bound_to_tools",
+              "score": 0
+            },
+            {
+              "key": "handles_empty_request",
+              "score": 1
+            },
+            {
+              "key": "no_mocks_or_stubs",
               "score": 1
             }
           ]
@@ -245,28 +1455,28 @@
     },
     {
       "model": "codex",
-      "agent_folder": "011_list_issues",
-      "score_percent": 80.33,
-      "total_score": 9.67,
-      "max_score": 12,
+      "agent_folder": "021_classify_prs_by_review_status",
+      "score_percent": 56.67,
+      "total_score": 7.33,
+      "max_score": 13,
       "passed": 0.0,
-      "summary": "The implementation is mostly correct, but the agent function signature does not match the expected parameters, and the LLM is not explicitly bound to MCP tools. These issues prevent a perfect score.",
+      "summary": "The code correctly implements the agent signature, uses LangGraph orchestration, handles multi-step tool usage, and includes proper classification logic and failure handling. However, it lacks dynamic tool loading, does not use a real MCP endpoint, and fails to bind the LLM to tools. The system prompt coverage is incomplete, and there is no build_graph function defined.",
       "details": [
         {
           "key": "correct_signature",
-          "score": 0
+          "score": 1
         },
         {
           "key": "correct_return_type",
-          "score": 1
+          "score": 0
         },
         {
           "key": "real_mcp_endpoint",
-          "score": 1
+          "score": 0
         },
         {
           "key": "dynamic_tool_loading",
-          "score": 1
+          "score": 0
         },
         {
           "key": "langgraph_orchestration",
@@ -281,52 +1491,56 @@
           "score": 1
         },
         {
-          "key": "output_schema_enforced",
+          "key": "system_prompt_coverage",
+          "score": 0
+        },
+        {
+          "key": "multi_step_tool_usage",
           "score": 1
         },
         {
-          "key": "filters_by_user_request",
+          "key": "classification_logic",
           "score": 1
         },
         {
-          "key": "returns_only_filtered",
+          "key": "subset_limitation",
           "score": 1
         },
         {
-          "key": "handles_empty_results",
+          "key": "failure_handling",
           "score": 1
         },
         {
-          "key": "build_graph_funcion",
-          "score": 1
+          "key": "build_graph_function",
+          "score": 0
         }
       ],
       "runs": [
         {
           "run": 1,
           "model": "codex",
-          "agent_folder": "011_list_issues",
-          "score_percent": 83,
-          "total_score": 10,
-          "max_score": 12,
+          "agent_folder": "021_classify_prs_by_review_status",
+          "score_percent": 54,
+          "total_score": 7,
+          "max_score": 13,
           "passed": false,
-          "summary": "The agent function does not have the correct signature, and the LLM is not bound to MCP tools. Other aspects, such as dynamic tool loading and handling of empty results, are correctly implemented.",
+          "summary": "The code correctly implements the agent signature, uses LangGraph orchestration, and handles multi-step tool usage and failure scenarios. However, it lacks dynamic tool loading, does not use a real MCP endpoint, and fails to bind the LLM to tools. The return type is incorrect, and the system prompt does not fully cover all required instructions. Additionally, there is no build_graph function defined.",
           "details": [
             {
               "key": "correct_signature",
-              "score": 0
+              "score": 1
             },
             {
               "key": "correct_return_type",
-              "score": 1
+              "score": 0
             },
             {
               "key": "real_mcp_endpoint",
-              "score": 1
+              "score": 0
             },
             {
               "key": "dynamic_tool_loading",
-              "score": 1
+              "score": 0
             },
             {
               "key": "langgraph_orchestration",
@@ -341,52 +1555,56 @@
               "score": 1
             },
             {
-              "key": "output_schema_enforced",
+              "key": "system_prompt_coverage",
+              "score": 0
+            },
+            {
+              "key": "multi_step_tool_usage",
               "score": 1
             },
             {
-              "key": "filters_by_user_request",
+              "key": "classification_logic",
               "score": 1
             },
             {
-              "key": "returns_only_filtered",
+              "key": "subset_limitation",
               "score": 1
             },
             {
-              "key": "handles_empty_results",
+              "key": "failure_handling",
               "score": 1
             },
             {
-              "key": "build_graph_funcion",
-              "score": 1
+              "key": "build_graph_function",
+              "score": 0
             }
           ]
         },
         {
           "run": 2,
           "model": "codex",
-          "agent_folder": "011_list_issues",
-          "score_percent": 75,
-          "total_score": 9,
-          "max_score": 12,
+          "agent_folder": "021_classify_prs_by_review_status",
+          "score_percent": 62,
+          "total_score": 8,
+          "max_score": 13,
           "passed": false,
-          "summary": "The code correctly uses the MCP endpoint, dynamically loads tools, and applies filters based on user requests. However, it lacks a build_graph() function and does not bind LLM to tools. The function signature is also incorrect.",
+          "summary": "The code correctly implements the agent signature, uses LangGraph orchestration, and handles multi-step tool usage and failure scenarios. However, it lacks dynamic tool loading, does not use a real MCP endpoint, and does not define a build_graph function. The return type is incorrect as it does not handle both string and dict types as specified.",
           "details": [
             {
               "key": "correct_signature",
-              "score": 0
+              "score": 1
             },
             {
               "key": "correct_return_type",
-              "score": 1
+              "score": 0
             },
             {
               "key": "real_mcp_endpoint",
-              "score": 1
+              "score": 0
             },
             {
               "key": "dynamic_tool_loading",
-              "score": 1
+              "score": 0
             },
             {
               "key": "langgraph_orchestration",
@@ -401,23 +1619,27 @@
               "score": 1
             },
             {
-              "key": "output_schema_enforced",
+              "key": "system_prompt_coverage",
               "score": 1
             },
             {
-              "key": "filters_by_user_request",
+              "key": "multi_step_tool_usage",
               "score": 1
             },
             {
-              "key": "returns_only_filtered",
+              "key": "classification_logic",
               "score": 1
             },
             {
-              "key": "handles_empty_results",
+              "key": "subset_limitation",
               "score": 1
             },
             {
-              "key": "build_graph_funcion",
+              "key": "failure_handling",
+              "score": 1
+            },
+            {
+              "key": "build_graph_function",
               "score": 0
             }
           ]
@@ -425,28 +1647,28 @@
         {
           "run": 3,
           "model": "codex",
-          "agent_folder": "011_list_issues",
-          "score_percent": 83,
-          "total_score": 10,
-          "max_score": 12,
+          "agent_folder": "021_classify_prs_by_review_status",
+          "score_percent": 54,
+          "total_score": 7,
+          "max_score": 13,
           "passed": false,
-          "summary": "The implementation is mostly correct, but the agent function signature does not match the expected parameters, and the LLM is not explicitly bound to MCP tools. These issues prevent a perfect score.",
+          "summary": "The code correctly implements the agent signature, uses LangGraph orchestration, handles multi-step tool usage, and includes proper classification logic and failure handling. However, it lacks dynamic tool loading, does not use a real MCP endpoint, and fails to bind the LLM to tools. The system prompt coverage is incomplete, and there is no build_graph function defined.",
           "details": [
             {
               "key": "correct_signature",
-              "score": 0
+              "score": 1
             },
             {
               "key": "correct_return_type",
-              "score": 1
+              "score": 0
             },
             {
               "key": "real_mcp_endpoint",
-              "score": 1
+              "score": 0
             },
             {
               "key": "dynamic_tool_loading",
-              "score": 1
+              "score": 0
             },
             {
               "key": "langgraph_orchestration",
@@ -461,24 +1683,28 @@
               "score": 1
             },
             {
-              "key": "output_schema_enforced",
+              "key": "system_prompt_coverage",
+              "score": 0
+            },
+            {
+              "key": "multi_step_tool_usage",
               "score": 1
             },
             {
-              "key": "filters_by_user_request",
+              "key": "classification_logic",
               "score": 1
             },
             {
-              "key": "returns_only_filtered",
+              "key": "subset_limitation",
               "score": 1
             },
             {
-              "key": "handles_empty_results",
+              "key": "failure_handling",
               "score": 1
             },
             {
-              "key": "build_graph_funcion",
-              "score": 1
+              "key": "build_graph_function",
+              "score": 0
             }
           ]
         }
@@ -486,33 +1712,33 @@
       "runs_count": 3
     },
     {
-      "model": "opencode",
-      "agent_folder": "011_list_issues",
-      "score_percent": 86.0,
-      "total_score": 10.33,
-      "max_score": 12,
-      "passed": 0.33,
-      "summary": "The implementation is mostly correct, but it lacks LLM binding to tools and does not define a build_graph() function.",
+      "model": "codex",
+      "agent_folder": "022_explore_travel_viability",
+      "score_percent": 15.0,
+      "total_score": 2.0,
+      "max_score": 13,
+      "passed": 0.0,
+      "summary": "The code lacks the correct signature and return type for the agent function, does not use a real MCP endpoint, and fails to implement dynamic tool loading, LangGraph orchestration, or LLM binding to tools. It also does not cover the system prompt requirements for PR classification, multi-step tool usage, classification logic, or subset limitation. However, it does handle failures and avoids using mocks or stubs.",
       "details": [
         {
           "key": "correct_signature",
-          "score": 1
+          "score": 0
         },
         {
           "key": "correct_return_type",
-          "score": 1
+          "score": 0
         },
         {
           "key": "real_mcp_endpoint",
-          "score": 1
+          "score": 0
         },
         {
           "key": "dynamic_tool_loading",
-          "score": 1
+          "score": 0
         },
         {
           "key": "langgraph_orchestration",
-          "score": 1
+          "score": 0
         },
         {
           "key": "llm_bound_to_tools",
@@ -523,56 +1749,60 @@
           "score": 1
         },
         {
-          "key": "output_schema_enforced",
+          "key": "system_prompt_coverage",
+          "score": 0
+        },
+        {
+          "key": "multi_step_tool_usage",
+          "score": 0
+        },
+        {
+          "key": "classification_logic",
+          "score": 0
+        },
+        {
+          "key": "subset_limitation",
+          "score": 0
+        },
+        {
+          "key": "failure_handling",
           "score": 1
         },
         {
-          "key": "filters_by_user_request",
-          "score": 1
-        },
-        {
-          "key": "returns_only_filtered",
-          "score": 1
-        },
-        {
-          "key": "handles_empty_results",
-          "score": 1
-        },
-        {
-          "key": "build_graph_funcion",
+          "key": "build_graph_function",
           "score": 0
         }
       ],
       "runs": [
         {
           "run": 1,
-          "model": "opencode",
-          "agent_folder": "011_list_issues",
-          "score_percent": 92,
-          "total_score": 11,
-          "max_score": 12,
-          "passed": true,
-          "summary": "The implementation meets almost all criteria, but the LLM is not explicitly bound to MCP tools, which is a minor issue.",
+          "model": "codex",
+          "agent_folder": "022_explore_travel_viability",
+          "score_percent": 15,
+          "total_score": 2,
+          "max_score": 13,
+          "passed": false,
+          "summary": "The code does not implement the required MCP-based agent functionalities such as correct signature, return type, and use of LangGraph orchestration. It lacks dynamic tool loading, proper system prompt coverage, multi-step tool usage, classification logic, and subset limitation. However, it does handle failures and avoids using mocks or stubs.",
           "details": [
             {
               "key": "correct_signature",
-              "score": 1
+              "score": 0
             },
             {
               "key": "correct_return_type",
-              "score": 1
+              "score": 0
             },
             {
               "key": "real_mcp_endpoint",
-              "score": 1
+              "score": 0
             },
             {
               "key": "dynamic_tool_loading",
-              "score": 1
+              "score": 0
             },
             {
               "key": "langgraph_orchestration",
-              "score": 1
+              "score": 0
             },
             {
               "key": "llm_bound_to_tools",
@@ -583,36 +1813,40 @@
               "score": 1
             },
             {
-              "key": "output_schema_enforced",
+              "key": "system_prompt_coverage",
+              "score": 0
+            },
+            {
+              "key": "multi_step_tool_usage",
+              "score": 0
+            },
+            {
+              "key": "classification_logic",
+              "score": 0
+            },
+            {
+              "key": "subset_limitation",
+              "score": 0
+            },
+            {
+              "key": "failure_handling",
               "score": 1
             },
             {
-              "key": "filters_by_user_request",
-              "score": 1
-            },
-            {
-              "key": "returns_only_filtered",
-              "score": 1
-            },
-            {
-              "key": "handles_empty_results",
-              "score": 1
-            },
-            {
-              "key": "build_graph_funcion",
-              "score": 1
+              "key": "build_graph_function",
+              "score": 0
             }
           ]
         },
         {
           "run": 2,
-          "model": "opencode",
-          "agent_folder": "011_list_issues",
-          "score_percent": 83,
-          "total_score": 10,
-          "max_score": 12,
+          "model": "codex",
+          "agent_folder": "022_explore_travel_viability",
+          "score_percent": 15,
+          "total_score": 2,
+          "max_score": 13,
           "passed": false,
-          "summary": "The agent implementation is mostly correct, but it lacks the correct signature with the github_token parameter and does not bind the LLM to MCP tools. These issues prevent it from achieving a perfect score.",
+          "summary": "The generated code does not meet the requirements for implementing an MCP-based agent using LangGraph. It lacks correct signature, return type, and does not use real MCP endpoints or dynamic tool loading. There is no LangGraph orchestration or LLM binding to tools. The system prompt does not cover the necessary instructions for PR classification, and there is no multi-step tool usage or correct classification logic. Failure handling is partially implemented, but overall, the code does not fulfill the specified criteria.",
           "details": [
             {
               "key": "correct_signature",
@@ -620,19 +1854,19 @@
             },
             {
               "key": "correct_return_type",
-              "score": 1
+              "score": 0
             },
             {
               "key": "real_mcp_endpoint",
-              "score": 1
+              "score": 0
             },
             {
               "key": "dynamic_tool_loading",
-              "score": 1
+              "score": 0
             },
             {
               "key": "langgraph_orchestration",
-              "score": 1
+              "score": 0
             },
             {
               "key": "llm_bound_to_tools",
@@ -643,56 +1877,60 @@
               "score": 1
             },
             {
-              "key": "output_schema_enforced",
+              "key": "system_prompt_coverage",
+              "score": 0
+            },
+            {
+              "key": "multi_step_tool_usage",
+              "score": 0
+            },
+            {
+              "key": "classification_logic",
+              "score": 0
+            },
+            {
+              "key": "subset_limitation",
+              "score": 0
+            },
+            {
+              "key": "failure_handling",
               "score": 1
             },
             {
-              "key": "filters_by_user_request",
-              "score": 1
-            },
-            {
-              "key": "returns_only_filtered",
-              "score": 1
-            },
-            {
-              "key": "handles_empty_results",
-              "score": 1
-            },
-            {
-              "key": "build_graph_funcion",
-              "score": 1
+              "key": "build_graph_function",
+              "score": 0
             }
           ]
         },
         {
           "run": 3,
-          "model": "opencode",
-          "agent_folder": "011_list_issues",
-          "score_percent": 83,
-          "total_score": 10,
-          "max_score": 12,
+          "model": "codex",
+          "agent_folder": "022_explore_travel_viability",
+          "score_percent": 15,
+          "total_score": 2,
+          "max_score": 13,
           "passed": false,
-          "summary": "The implementation is mostly correct, but it lacks LLM binding to tools and does not define a build_graph() function.",
+          "summary": "The code lacks the correct signature and return type for the agent function, does not use a real MCP endpoint, and fails to implement dynamic tool loading, LangGraph orchestration, or LLM binding to tools. It also does not cover the system prompt requirements for PR classification, multi-step tool usage, classification logic, or subset limitation. However, it does handle failures and avoids using mocks or stubs.",
           "details": [
             {
               "key": "correct_signature",
-              "score": 1
+              "score": 0
             },
             {
               "key": "correct_return_type",
-              "score": 1
+              "score": 0
             },
             {
               "key": "real_mcp_endpoint",
-              "score": 1
+              "score": 0
             },
             {
               "key": "dynamic_tool_loading",
-              "score": 1
+              "score": 0
             },
             {
               "key": "langgraph_orchestration",
-              "score": 1
+              "score": 0
             },
             {
               "key": "llm_bound_to_tools",
@@ -703,23 +1941,27 @@
               "score": 1
             },
             {
-              "key": "output_schema_enforced",
+              "key": "system_prompt_coverage",
+              "score": 0
+            },
+            {
+              "key": "multi_step_tool_usage",
+              "score": 0
+            },
+            {
+              "key": "classification_logic",
+              "score": 0
+            },
+            {
+              "key": "subset_limitation",
+              "score": 0
+            },
+            {
+              "key": "failure_handling",
               "score": 1
             },
             {
-              "key": "filters_by_user_request",
-              "score": 1
-            },
-            {
-              "key": "returns_only_filtered",
-              "score": 1
-            },
-            {
-              "key": "handles_empty_results",
-              "score": 1
-            },
-            {
-              "key": "build_graph_funcion",
+              "key": "build_graph_function",
               "score": 0
             }
           ]

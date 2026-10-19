@@ -1,6 +1,6 @@
 {
-  "agentSpecifications": 1,
-  "codeGenTools": 6,
+  "agentSpecifications": 4,
+  "codeGenTools": 5,
   "evaluationFacets": 5,
-  "totalGenerations": 6
+  "totalGenerations": 20
 }

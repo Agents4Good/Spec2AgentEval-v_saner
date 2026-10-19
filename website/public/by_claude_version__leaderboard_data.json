@@ -1,63 +1,255 @@
 [
   {
-    "agent": "011_list_issues",
+    "agent": "011_list_prs_or_issues",
     "model": "claude-opus-4-6-low",
     "executability": 100.0,
     "structure": 100.0,
-    "spec_graph": 69.3,
+    "spec_graph": 66.7,
     "spec_prompt": null,
-    "behavioral": 51.7,
+    "behavioral": 87.4,
     "lint": 0.0,
-    "behavioral_passed": 15.0,
-    "behavioral_total": 29.0,
+    "behavioral_passed": 53.3,
+    "behavioral_total": 61.0,
     "runs": [
       {
         "run": 1,
         "executability": 100.0,
         "structure": 100.0,
-        "spec_graph": 75,
+        "spec_graph": 36,
         "spec_prompt": null,
-        "behavioral": 75.9,
-        "behavioral_passed": 22,
-        "behavioral_total": 29,
+        "behavioral": 86.9,
+        "behavioral_passed": 53,
+        "behavioral_total": 61,
         "lint": 0.0
       },
       {
         "run": 2,
         "executability": 100.0,
         "structure": 100.0,
-        "spec_graph": 75,
+        "spec_graph": 73,
         "spec_prompt": null,
-        "behavioral": 79.3,
-        "behavioral_passed": 23,
-        "behavioral_total": 29,
+        "behavioral": 95.1,
+        "behavioral_passed": 58,
+        "behavioral_total": 61,
         "lint": 0.0
       },
       {
         "run": 3,
         "executability": 100.0,
         "structure": 100.0,
-        "spec_graph": 58,
+        "spec_graph": 91,
         "spec_prompt": null,
-        "behavioral": 0.0,
-        "behavioral_passed": 0,
-        "behavioral_total": 29,
+        "behavioral": 80.3,
+        "behavioral_passed": 49,
+        "behavioral_total": 61,
         "lint": 0.0
       }
     ],
     "runs_count": 3
   },
   {
-    "agent": "011_list_issues",
+    "agent": "012_explore_travel_destination",
+    "model": "claude-opus-4-6-low",
+    "executability": 100.0,
+    "structure": 100.0,
+    "spec_graph": 97.3,
+    "spec_prompt": null,
+    "behavioral": 94.0,
+    "lint": 0.0,
+    "behavioral_passed": 52.7,
+    "behavioral_total": 56.0,
+    "runs": [
+      {
+        "run": 1,
+        "executability": 100.0,
+        "structure": 100.0,
+        "spec_graph": 92,
+        "spec_prompt": null,
+        "behavioral": 89.3,
+        "behavioral_passed": 50,
+        "behavioral_total": 56,
+        "lint": 0.0
+      },
+      {
+        "run": 2,
+        "executability": 100.0,
+        "structure": 100.0,
+        "spec_graph": 100,
+        "spec_prompt": null,
+        "behavioral": 96.4,
+        "behavioral_passed": 54,
+        "behavioral_total": 56,
+        "lint": 0.0
+      },
+      {
+        "run": 3,
+        "executability": 100.0,
+        "structure": 100.0,
+        "spec_graph": 100,
+        "spec_prompt": null,
+        "behavioral": 96.4,
+        "behavioral_passed": 54,
+        "behavioral_total": 56,
+        "lint": 0.0
+      }
+    ],
+    "runs_count": 3
+  },
+  {
+    "agent": "021_classify_prs_by_review_status",
+    "model": "claude-opus-4-6-low",
+    "executability": 100.0,
+    "structure": 100.0,
+    "spec_graph": 61.7,
+    "spec_prompt": null,
+    "behavioral": 93.5,
+    "lint": 0.0,
+    "behavioral_passed": 29.0,
+    "behavioral_total": 31.0,
+    "runs": [
+      {
+        "run": 1,
+        "executability": 100.0,
+        "structure": 100.0,
+        "spec_graph": 62,
+        "spec_prompt": null,
+        "behavioral": 96.8,
+        "behavioral_passed": 30,
+        "behavioral_total": 31,
+        "lint": 0.0
+      },
+      {
+        "run": 2,
+        "executability": 100.0,
+        "structure": 100.0,
+        "spec_graph": 54,
+        "spec_prompt": null,
+        "behavioral": 90.3,
+        "behavioral_passed": 28,
+        "behavioral_total": 31,
+        "lint": 0.0
+      },
+      {
+        "run": 3,
+        "executability": 100.0,
+        "structure": 100.0,
+        "spec_graph": 69,
+        "spec_prompt": null,
+        "behavioral": 93.5,
+        "behavioral_passed": 29,
+        "behavioral_total": 31,
+        "lint": 0.0
+      }
+    ],
+    "runs_count": 3
+  },
+  {
+    "agent": "022_explore_travel_viability",
+    "model": "claude-opus-4-6-low",
+    "executability": 100.0,
+    "structure": 100.0,
+    "spec_graph": 35.7,
+    "spec_prompt": null,
+    "behavioral": 100.0,
+    "lint": 0.0,
+    "behavioral_passed": 22.0,
+    "behavioral_total": 22.0,
+    "runs": [
+      {
+        "run": 1,
+        "executability": 100.0,
+        "structure": 100.0,
+        "spec_graph": 38,
+        "spec_prompt": null,
+        "behavioral": 100.0,
+        "behavioral_passed": 22,
+        "behavioral_total": 22,
+        "lint": 0.0
+      },
+      {
+        "run": 2,
+        "executability": 100.0,
+        "structure": 100.0,
+        "spec_graph": 38,
+        "spec_prompt": null,
+        "behavioral": 100.0,
+        "behavioral_passed": 22,
+        "behavioral_total": 22,
+        "lint": 0.0
+      },
+      {
+        "run": 3,
+        "executability": 100.0,
+        "structure": 100.0,
+        "spec_graph": 31,
+        "spec_prompt": null,
+        "behavioral": 100.0,
+        "behavioral_passed": 22,
+        "behavioral_total": 22,
+        "lint": 0.0
+      }
+    ],
+    "runs_count": 3
+  },
+  {
+    "agent": "011_list_prs_or_issues",
+    "model": "claude-opus-4-8-low",
+    "executability": 100.0,
+    "structure": 100.0,
+    "spec_graph": 91.0,
+    "spec_prompt": null,
+    "behavioral": 82.0,
+    "lint": 0.0,
+    "behavioral_passed": 50.0,
+    "behavioral_total": 61.0,
+    "runs": [
+      {
+        "run": 1,
+        "executability": 100.0,
+        "structure": 100.0,
+        "spec_graph": 91,
+        "spec_prompt": null,
+        "behavioral": 82.0,
+        "behavioral_passed": 50,
+        "behavioral_total": 61,
+        "lint": 0.0
+      },
+      {
+        "run": 2,
+        "executability": 100.0,
+        "structure": 100.0,
+        "spec_graph": 91,
+        "spec_prompt": null,
+        "behavioral": 82.0,
+        "behavioral_passed": 50,
+        "behavioral_total": 61,
+        "lint": 0.0
+      },
+      {
+        "run": 3,
+        "executability": 100.0,
+        "structure": 100.0,
+        "spec_graph": 91,
+        "spec_prompt": null,
+        "behavioral": 82.0,
+        "behavioral_passed": 50,
+        "behavioral_total": 61,
+        "lint": 0.0
+      }
+    ],
+    "runs_count": 3
+  },
+  {
+    "agent": "012_explore_travel_destination",
     "model": "claude-opus-4-8-low",
     "executability": 100.0,
     "structure": 100.0,
     "spec_graph": 100.0,
     "spec_prompt": null,
-    "behavioral": 88.5,
+    "behavioral": 82.7,
     "lint": 0.0,
-    "behavioral_passed": 25.7,
-    "behavioral_total": 29.0,
+    "behavioral_passed": 46.3,
+    "behavioral_total": 56.0,
     "runs": [
       {
         "run": 1,
@@ -65,9 +257,9 @@
         "structure": 100.0,
         "spec_graph": 100,
         "spec_prompt": null,
-        "behavioral": 93.1,
-        "behavioral_passed": 27,
-        "behavioral_total": 29,
+        "behavioral": 83.9,
+        "behavioral_passed": 47,
+        "behavioral_total": 56,
         "lint": 0.0
       },
       {
@@ -76,9 +268,9 @@
         "structure": 100.0,
         "spec_graph": 100,
         "spec_prompt": null,
-        "behavioral": 79.3,
-        "behavioral_passed": 23,
-        "behavioral_total": 29,
+        "behavioral": 82.1,
+        "behavioral_passed": 46,
+        "behavioral_total": 56,
         "lint": 0.0
       },
       {
@@ -87,35 +279,179 @@
         "structure": 100.0,
         "spec_graph": 100,
         "spec_prompt": null,
-        "behavioral": 93.1,
-        "behavioral_passed": 27,
-        "behavioral_total": 29,
+        "behavioral": 82.1,
+        "behavioral_passed": 46,
+        "behavioral_total": 56,
         "lint": 0.0
       }
     ],
     "runs_count": 3
   },
   {
-    "agent": "011_list_issues",
-    "model": "claude-opus-5-5-low",
+    "agent": "021_classify_prs_by_review_status",
+    "model": "claude-opus-4-8-low",
     "executability": 100.0,
     "structure": 100.0,
-    "spec_graph": 92.0,
+    "spec_graph": 79.7,
     "spec_prompt": null,
-    "behavioral": 93.1,
+    "behavioral": 59.1,
     "lint": 0.0,
-    "behavioral_passed": 27.0,
-    "behavioral_total": 29.0,
+    "behavioral_passed": 18.3,
+    "behavioral_total": 31.0,
     "runs": [
       {
         "run": 1,
         "executability": 100.0,
         "structure": 100.0,
-        "spec_graph": 92,
+        "spec_graph": 77,
         "spec_prompt": null,
-        "behavioral": 93.1,
-        "behavioral_passed": 27,
-        "behavioral_total": 29,
+        "behavioral": 77.4,
+        "behavioral_passed": 24,
+        "behavioral_total": 31,
+        "lint": 0.0
+      },
+      {
+        "run": 2,
+        "executability": 100.0,
+        "structure": 100.0,
+        "spec_graph": 85,
+        "spec_prompt": null,
+        "behavioral": 51.6,
+        "behavioral_passed": 16,
+        "behavioral_total": 31,
+        "lint": 0.0
+      },
+      {
+        "run": 3,
+        "executability": 100.0,
+        "structure": 100.0,
+        "spec_graph": 77,
+        "spec_prompt": null,
+        "behavioral": 48.4,
+        "behavioral_passed": 15,
+        "behavioral_total": 31,
+        "lint": 0.0
+      }
+    ],
+    "runs_count": 3
+  },
+  {
+    "agent": "022_explore_travel_viability",
+    "model": "claude-opus-4-8-low",
+    "executability": 100.0,
+    "structure": 100.0,
+    "spec_graph": 25.7,
+    "spec_prompt": null,
+    "behavioral": 36.4,
+    "lint": 0.0,
+    "behavioral_passed": 8.0,
+    "behavioral_total": 22.0,
+    "runs": [
+      {
+        "run": 1,
+        "executability": 100.0,
+        "structure": 100.0,
+        "spec_graph": 23,
+        "spec_prompt": null,
+        "behavioral": 36.4,
+        "behavioral_passed": 8,
+        "behavioral_total": 22,
+        "lint": 0.0
+      },
+      {
+        "run": 2,
+        "executability": 100.0,
+        "structure": 100.0,
+        "spec_graph": 31,
+        "spec_prompt": null,
+        "behavioral": 36.4,
+        "behavioral_passed": 8,
+        "behavioral_total": 22,
+        "lint": 0.0
+      },
+      {
+        "run": 3,
+        "executability": 100.0,
+        "structure": 100.0,
+        "spec_graph": 23,
+        "spec_prompt": null,
+        "behavioral": 36.4,
+        "behavioral_passed": 8,
+        "behavioral_total": 22,
+        "lint": 0.0
+      }
+    ],
+    "runs_count": 3
+  },
+  {
+    "agent": "011_list_prs_or_issues",
+    "model": "claude-opus-5-5-low",
+    "executability": 100.0,
+    "structure": 100.0,
+    "spec_graph": 42.0,
+    "spec_prompt": null,
+    "behavioral": 100.0,
+    "lint": 0.0,
+    "behavioral_passed": 61.0,
+    "behavioral_total": 61.0,
+    "runs": [
+      {
+        "run": 1,
+        "executability": 100.0,
+        "structure": 100.0,
+        "spec_graph": 45,
+        "spec_prompt": null,
+        "behavioral": 100.0,
+        "behavioral_passed": 61,
+        "behavioral_total": 61,
+        "lint": 0.0
+      },
+      {
+        "run": 2,
+        "executability": 100.0,
+        "structure": 100.0,
+        "spec_graph": 45,
+        "spec_prompt": null,
+        "behavioral": 100.0,
+        "behavioral_passed": 61,
+        "behavioral_total": 61,
+        "lint": 0.0
+      },
+      {
+        "run": 3,
+        "executability": 100.0,
+        "structure": 100.0,
+        "spec_graph": 36,
+        "spec_prompt": null,
+        "behavioral": 100.0,
+        "behavioral_passed": 61,
+        "behavioral_total": 61,
+        "lint": 0.0
+      }
+    ],
+    "runs_count": 3
+  },
+  {
+    "agent": "012_explore_travel_destination",
+    "model": "claude-opus-5-5-low",
+    "executability": 100.0,
+    "structure": 100.0,
+    "spec_graph": 94.7,
+    "spec_prompt": null,
+    "behavioral": 82.1,
+    "lint": 0.0,
+    "behavioral_passed": 46.0,
+    "behavioral_total": 56.0,
+    "runs": [
+      {
+        "run": 1,
+        "executability": 100.0,
+        "structure": 100.0,
+        "spec_graph": 100,
+        "spec_prompt": null,
+        "behavioral": 82.1,
+        "behavioral_passed": 46,
+        "behavioral_total": 56,
         "lint": 0.0
       },
       {
@@ -124,9 +460,9 @@
         "structure": 100.0,
         "spec_graph": 92,
         "spec_prompt": null,
-        "behavioral": 93.1,
-        "behavioral_passed": 27,
-        "behavioral_total": 29,
+        "behavioral": 82.1,
+        "behavioral_passed": 46,
+        "behavioral_total": 56,
         "lint": 0.0
       },
       {
@@ -135,9 +471,105 @@
         "structure": 100.0,
         "spec_graph": 92,
         "spec_prompt": null,
-        "behavioral": 93.1,
-        "behavioral_passed": 27,
-        "behavioral_total": 29,
+        "behavioral": 82.1,
+        "behavioral_passed": 46,
+        "behavioral_total": 56,
+        "lint": 0.0
+      }
+    ],
+    "runs_count": 3
+  },
+  {
+    "agent": "021_classify_prs_by_review_status",
+    "model": "claude-opus-5-5-low",
+    "executability": 100.0,
+    "structure": 100.0,
+    "spec_graph": 59.3,
+    "spec_prompt": null,
+    "behavioral": 76.3,
+    "lint": 0.0,
+    "behavioral_passed": 23.7,
+    "behavioral_total": 31.0,
+    "runs": [
+      {
+        "run": 1,
+        "executability": 100.0,
+        "structure": 100.0,
+        "spec_graph": 62,
+        "spec_prompt": null,
+        "behavioral": 64.5,
+        "behavioral_passed": 20,
+        "behavioral_total": 31,
+        "lint": 0.0
+      },
+      {
+        "run": 2,
+        "executability": 100.0,
+        "structure": 100.0,
+        "spec_graph": 54,
+        "spec_prompt": null,
+        "behavioral": 64.5,
+        "behavioral_passed": 20,
+        "behavioral_total": 31,
+        "lint": 0.0
+      },
+      {
+        "run": 3,
+        "executability": 100.0,
+        "structure": 100.0,
+        "spec_graph": 62,
+        "spec_prompt": null,
+        "behavioral": 100.0,
+        "behavioral_passed": 31,
+        "behavioral_total": 31,
+        "lint": 0.0
+      }
+    ],
+    "runs_count": 3
+  },
+  {
+    "agent": "022_explore_travel_viability",
+    "model": "claude-opus-5-5-low",
+    "executability": 100.0,
+    "structure": 100.0,
+    "spec_graph": 25.7,
+    "spec_prompt": null,
+    "behavioral": 36.4,
+    "lint": 0.0,
+    "behavioral_passed": 8.0,
+    "behavioral_total": 22.0,
+    "runs": [
+      {
+        "run": 1,
+        "executability": 100.0,
+        "structure": 100.0,
+        "spec_graph": 31,
+        "spec_prompt": null,
+        "behavioral": 36.4,
+        "behavioral_passed": 8,
+        "behavioral_total": 22,
+        "lint": 0.0
+      },
+      {
+        "run": 2,
+        "executability": 100.0,
+        "structure": 100.0,
+        "spec_graph": 23,
+        "spec_prompt": null,
+        "behavioral": 36.4,
+        "behavioral_passed": 8,
+        "behavioral_total": 22,
+        "lint": 0.0
+      },
+      {
+        "run": 3,
+        "executability": 100.0,
+        "structure": 100.0,
+        "spec_graph": 23,
+        "spec_prompt": null,
+        "behavioral": 36.4,
+        "behavioral_passed": 8,
+        "behavioral_total": 22,
         "lint": 0.0
       }
     ],

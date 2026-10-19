@@ -77,36 +77,41 @@ def discover_run_dirs() -> list[tuple[int, Path]]:
     return [(1, EXPERIMENTS_DIR)]
 
 
-def latest_per_model_in(run_dir: Path, stage: str) -> dict[str, Path]:
-    """Return {model: Path} within a run folder, picking the newest timestamp."""
+def _agent_name(entry: dict[str, Any]) -> str | None:
+    return entry.get("agent_folder") or entry.get("agent")
+
+
+def latest_entries_in(run_dir: Path, stage: str) -> list[tuple[str, dict[str, Any]]]:
+    """Return [(model, entry), ...] within a run folder.
+
+    Each stage file usually holds results for a single agent, so a model has
+    many files per run. Keeps the entry from the newest file per (model, agent).
+    """
     pattern = STAGE_PATTERNS[stage]
-    buckets: dict[str, tuple[str, Path]] = {}
     if not run_dir.exists():
-        return {}
+        return []
+    files: list[tuple[str, str, Path]] = []
     for path in run_dir.iterdir():
         if not path.is_file():
             continue
         m = pattern.match(path.name)
-        if not m:
-            continue
-        model, timestamp = m.group(1), m.group(2)
-        current = buckets.get(model)
-        if current is None or timestamp > current[0]:
-            buckets[model] = (timestamp, path)
-    return {model: info[1] for model, info in buckets.items()}
+        if m:
+            files.append((m.group(2), m.group(1), path))
+    files.sort(key=lambda t: t[0])  # oldest first; newer files overwrite
+    picked: dict[tuple[str, str | None], tuple[str, dict[str, Any]]] = {}
+    for _, model, path in files:
+        for entry in load(path).get("results", []):
+            picked[(model, _agent_name(entry))] = (model, entry)
+    return [picked[k] for k in sorted(picked, key=lambda k: (k[0], k[1] or ""))]
 
 
-def latest_per_model(stage: str) -> dict[str, Path]:
-    """Latest file per model across the newest run directory.
-
-    Dimension panels (02/03/05/07/08) use this to render their drill-down from
-    the most recent run. The leaderboard aggregator looks at every run.
-    """
+def latest_entries(stage: str) -> list[tuple[str, dict[str, Any]]]:
+    """Latest entries per (model, agent) in the newest run directory."""
     runs = discover_run_dirs()
     if not runs:
-        return {}
+        return []
     _, latest_run_dir = runs[-1]
-    return latest_per_model_in(latest_run_dir, stage)
+    return latest_entries_in(latest_run_dir, stage)
 
 
 def load(path: Path) -> dict[str, Any]:
@@ -268,23 +273,20 @@ def _merge_runs(
 def aggregate_01(run_dir: Path | None = None) -> dict[str, Any]:
     # Single-run variant (used by leaderboard which iterates runs itself).
     if run_dir is not None:
-        files = latest_per_model_in(run_dir, "01")
         results = []
-        for model, path in sorted(files.items()):
-            payload = load(path)
-            for entry in payload.get("results", []):
-                usage = entry.get("usage") or {}
-                tokens = parse_tokens(usage.get("models_breakdown") or {})
-                raw_time = usage.get("time_spent")
-                results.append({
-                    "model": model,
-                    "agent_folder": entry.get("agent"),
-                    "status": entry.get("status"),
-                    "execution_time": raw_time,
-                    "execution_seconds": parse_time_seconds(raw_time),
-                    "requests": usage.get("requests"),
-                    "tokens": tokens,
-                })
+        for model, entry in latest_entries_in(run_dir, "01"):
+            usage = entry.get("usage") or {}
+            tokens = parse_tokens(usage.get("models_breakdown") or {})
+            raw_time = usage.get("time_spent")
+            results.append({
+                "model": model,
+                "agent_folder": entry.get("agent"),
+                "status": entry.get("status"),
+                "execution_time": raw_time,
+                "execution_seconds": parse_time_seconds(raw_time),
+                "requests": usage.get("requests"),
+                "tokens": tokens,
+            })
         return {"stage": "generation", "results": results}
 
     # Multi-run merged variant (used by dimension JSON output).
@@ -313,28 +315,25 @@ CHECK_KEYS = (
 
 def aggregate_02(run_dir: Path | None = None) -> dict[str, Any]:
     if run_dir is not None:
-        files = latest_per_model_in(run_dir, "02")
         results = []
-        for model, path in sorted(files.items()):
-            payload = load(path)
-            for entry in payload.get("results", []):
-                checks = entry.get("checks") or {}
-                flat = {
-                    key: bool(((checks.get(key) or {}).get("passed")))
-                    for key in CHECK_KEYS
-                }
-                errors = []
-                for key in CHECK_KEYS:
-                    detail = (checks.get(key) or {}).get("error")
-                    if detail:
-                        errors.append(f"{key}: {detail}")
-                results.append({
-                    "model": model,
-                    "agent_folder": entry.get("agent_folder") or entry.get("agent"),
-                    **flat,
-                    "final_status": entry.get("final_status"),
-                    "_source_error": "\n".join(errors) if errors else None,
-                })
+        for model, entry in latest_entries_in(run_dir, "02"):
+            checks = entry.get("checks") or {}
+            flat = {
+                key: bool(((checks.get(key) or {}).get("passed")))
+                for key in CHECK_KEYS
+            }
+            errors = []
+            for key in CHECK_KEYS:
+                detail = (checks.get(key) or {}).get("error")
+                if detail:
+                    errors.append(f"{key}: {detail}")
+            results.append({
+                "model": model,
+                "agent_folder": entry.get("agent_folder") or entry.get("agent"),
+                **flat,
+                "final_status": entry.get("final_status"),
+                "_source_error": "\n".join(errors) if errors else None,
+            })
         return {"stage": "validation", "results": results}
 
     per_run = [(idx, aggregate_02(rd)["results"]) for idx, rd in discover_run_dirs()]
@@ -409,29 +408,26 @@ def _summarize_radon_mi(payload: Any) -> dict[str, Any]:
 
 def aggregate_03(run_dir: Path | None = None) -> dict[str, Any]:
     if run_dir is not None:
-        files = latest_per_model_in(run_dir, "03")
         results = []
-        for model, path in sorted(files.items()):
-            payload = load(path)
-            for entry in payload.get("results", []):
-                tools = entry.get("tools") or {}
-                summary: dict[str, Any] = {}
-                for name, tool in tools.items():
-                    stdout = tool.get("stdout")
-                    if name == "ruff" and isinstance(stdout, list):
-                        summary["ruff"] = _summarize_ruff(stdout)
-                    elif name == "pylint" and isinstance(stdout, list):
-                        summary["pylint"] = _summarize_pylint(stdout)
-                    elif name == "radon_cc":
-                        summary["radon_cc"] = _summarize_radon_cc(stdout)
-                    elif name == "radon_mi":
-                        summary["radon_mi"] = _summarize_radon_mi(stdout)
-                results.append({
-                    "model": model,
-                    "agent": entry.get("agent"),
-                    "passed": entry.get("passed"),
-                    "summary": summary,
-                })
+        for model, entry in latest_entries_in(run_dir, "03"):
+            tools = entry.get("tools") or {}
+            summary: dict[str, Any] = {}
+            for name, tool in tools.items():
+                stdout = tool.get("stdout")
+                if name == "ruff" and isinstance(stdout, list):
+                    summary["ruff"] = _summarize_ruff(stdout)
+                elif name == "pylint" and isinstance(stdout, list):
+                    summary["pylint"] = _summarize_pylint(stdout)
+                elif name == "radon_cc":
+                    summary["radon_cc"] = _summarize_radon_cc(stdout)
+                elif name == "radon_mi":
+                    summary["radon_mi"] = _summarize_radon_mi(stdout)
+            results.append({
+                "model": model,
+                "agent": entry.get("agent"),
+                "passed": entry.get("passed"),
+                "summary": summary,
+            })
         return {"stage": "lint", "results": results}
 
     per_run = [(idx, aggregate_03(rd)["results"]) for idx, rd in discover_run_dirs()]
@@ -449,27 +445,24 @@ def aggregate_03(run_dir: Path | None = None) -> dict[str, Any]:
 
 def aggregate_05(run_dir: Path | None = None) -> dict[str, Any]:
     if run_dir is not None:
-        files = latest_per_model_in(run_dir, "05")
         results = []
-        for model, path in sorted(files.items()):
-            payload = load(path)
-            for entry in payload.get("results", []):
-                judge = entry.get("judge") or {}
-                scores = judge.get("scores") or {}
-                details = [{"key": k, "score": int(bool(v))} for k, v in scores.items()]
-                total = judge.get("total_score")
-                max_score = judge.get("max_score")
-                percent = round((total / max_score) * 100) if (total is not None and max_score) else None
-                results.append({
-                    "model": model,
-                    "agent_folder": entry.get("agent_folder") or entry.get("agent"),
-                    "score_percent": percent,
-                    "total_score": total,
-                    "max_score": max_score,
-                    "passed": judge.get("passed"),
-                    "summary": judge.get("summary", ""),
-                    "details": details,
-                })
+        for model, entry in latest_entries_in(run_dir, "05"):
+            judge = entry.get("judge") or {}
+            scores = judge.get("scores") or {}
+            details = [{"key": k, "score": int(bool(v))} for k, v in scores.items()]
+            total = judge.get("total_score")
+            max_score = judge.get("max_score")
+            percent = round((total / max_score) * 100) if (total is not None and max_score) else None
+            results.append({
+                "model": model,
+                "agent_folder": entry.get("agent_folder") or entry.get("agent"),
+                "score_percent": percent,
+                "total_score": total,
+                "max_score": max_score,
+                "passed": judge.get("passed"),
+                "summary": judge.get("summary", ""),
+                "details": details,
+            })
         return {"stage": "spec_adherence", "results": results}
 
     per_run = [(idx, aggregate_05(rd)["results"]) for idx, rd in discover_run_dirs()]
@@ -688,26 +681,24 @@ def _tests_from_runner(entry: dict[str, Any]) -> dict[str, Any] | None:
 
 def _collect_behavioral(stage: str, run_dir: Path | None = None) -> list[dict[str, Any]]:
     agents = []
-    files = latest_per_model_in(run_dir, stage) if run_dir else latest_per_model(stage)
-    for model, path in sorted(files.items()):
-        payload = load(path)
-        for entry in payload.get("results", []):
-            structured = _tests_from_runner(entry)
-            if structured is not None:
-                parsed = structured
-            else:
-                parsed = parse_pytest_stdout(entry.get("stdout"))
-            agents.append({
-                "stage": stage,
-                "model": model,
-                "agent_folder": entry.get("agent_folder") or entry.get("agent"),
-                "test_file": entry.get("test_file"),
-                "returncode": entry.get("returncode"),
-                "passed": entry.get("passed"),
-                "tests": parsed["tests"],
-                "totals": parsed["totals"],
-                "_source_error": entry.get("stderr") or entry.get("error") or None,
-            })
+    entries = latest_entries_in(run_dir, stage) if run_dir else latest_entries(stage)
+    for model, entry in entries:
+        structured = _tests_from_runner(entry)
+        if structured is not None:
+            parsed = structured
+        else:
+            parsed = parse_pytest_stdout(entry.get("stdout"))
+        agents.append({
+            "stage": stage,
+            "model": model,
+            "agent_folder": entry.get("agent_folder") or entry.get("agent"),
+            "test_file": entry.get("test_file"),
+            "returncode": entry.get("returncode"),
+            "passed": entry.get("passed"),
+            "tests": parsed["tests"],
+            "totals": parsed["totals"],
+            "_source_error": entry.get("stderr") or entry.get("error") or None,
+        })
     return agents
 
 
@@ -782,18 +773,16 @@ def _pct(part: int, total: int) -> float | None:
 
 
 def _models_for_stage(stage: str) -> set[str]:
-    return set(latest_per_model(stage).keys())
+    return {model for model, _ in latest_entries(stage)}
 
 
 def aggregate_overview_stats() -> dict[str, Any]:
     agents: set[str] = set()
     for stage in ("01", "02", "03", "05", "07", "08"):
-        for path in latest_per_model(stage).values():
-            payload = load(path)
-            for entry in payload.get("results", []):
-                name = entry.get("agent_folder") or entry.get("agent")
-                if name:
-                    agents.add(name)
+        for _model, entry in latest_entries(stage):
+            name = _agent_name(entry)
+            if name:
+                agents.add(name)
     models = _models_for_stage("01") | _models_for_stage("02")
     return {
         "agentSpecifications": len(agents),
@@ -933,12 +922,10 @@ def aggregate_overview_across_experiments(experiments: list[tuple[str, Path]]) -
     for _slug, exp_path in experiments:
         EXPERIMENTS_DIR = exp_path
         for stage in ("01", "02", "03", "05", "07", "08"):
-            for path in latest_per_model(stage).values():
-                payload = load(path)
-                for entry in payload.get("results", []):
-                    name = entry.get("agent_folder") or entry.get("agent")
-                    if name:
-                        agents.add(name)
+            for _model, entry in latest_entries(stage):
+                name = _agent_name(entry)
+                if name:
+                    agents.add(name)
         models |= _models_for_stage("01") | _models_for_stage("02")
     return {
         "agentSpecifications": len(agents),

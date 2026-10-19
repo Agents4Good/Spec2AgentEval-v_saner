@@ -3,31 +3,31 @@
   "results": [
     {
       "model": "claude",
-      "agent_folder": "011_list_issues",
+      "agent_folder": "011_list_prs_or_issues",
       "file_exists": 1.0,
       "syntax_valid": 1.0,
-      "dependency_error": 1.0,
-      "has_entrypoint": 1.0,
-      "entrypoint_callable": 1.0,
+      "dependency_error": 0.67,
+      "has_entrypoint": 0.67,
+      "entrypoint_callable": 0.67,
       "final_status": "SUCCESS",
       "_source_error": null,
       "runs": [
         {
           "run": 1,
           "model": "claude",
-          "agent_folder": "011_list_issues",
+          "agent_folder": "011_list_prs_or_issues",
           "file_exists": true,
           "syntax_valid": true,
-          "dependency_error": true,
-          "has_entrypoint": true,
-          "entrypoint_callable": true,
-          "final_status": "SUCCESS",
-          "_source_error": null
+          "dependency_error": false,
+          "has_entrypoint": false,
+          "entrypoint_callable": false,
+          "final_status": "FAILED",
+          "_source_error": "dependency_error: missing_dependency: No module named 'langchain_mcp'\nhas_entrypoint: skipped_not_importable\nentrypoint_callable: skipped_no_entrypoint"
         },
         {
           "run": 2,
           "model": "claude",
-          "agent_folder": "011_list_issues",
+          "agent_folder": "011_list_prs_or_issues",
           "file_exists": true,
           "syntax_valid": true,
           "dependency_error": true,
@@ -39,7 +39,207 @@
         {
           "run": 3,
           "model": "claude",
-          "agent_folder": "011_list_issues",
+          "agent_folder": "011_list_prs_or_issues",
+          "file_exists": true,
+          "syntax_valid": true,
+          "dependency_error": true,
+          "has_entrypoint": true,
+          "entrypoint_callable": true,
+          "final_status": "SUCCESS",
+          "_source_error": null
+        }
+      ],
+      "runs_count": 3
+    },
+    {
+      "model": "claude",
+      "agent_folder": "012_explore_travel_destination",
+      "file_exists": 1.0,
+      "syntax_valid": 1.0,
+      "dependency_error": 1.0,
+      "has_entrypoint": 1.0,
+      "entrypoint_callable": 1.0,
+      "final_status": "SUCCESS",
+      "_source_error": null,
+      "runs": [
+        {
+          "run": 1,
+          "model": "claude",
+          "agent_folder": "012_explore_travel_destination",
+          "file_exists": true,
+          "syntax_valid": true,
+          "dependency_error": true,
+          "has_entrypoint": true,
+          "entrypoint_callable": true,
+          "final_status": "SUCCESS",
+          "_source_error": null
+        },
+        {
+          "run": 2,
+          "model": "claude",
+          "agent_folder": "012_explore_travel_destination",
+          "file_exists": true,
+          "syntax_valid": true,
+          "dependency_error": true,
+          "has_entrypoint": true,
+          "entrypoint_callable": true,
+          "final_status": "SUCCESS",
+          "_source_error": null
+        },
+        {
+          "run": 3,
+          "model": "claude",
+          "agent_folder": "012_explore_travel_destination",
+          "file_exists": true,
+          "syntax_valid": true,
+          "dependency_error": true,
+          "has_entrypoint": true,
+          "entrypoint_callable": true,
+          "final_status": "SUCCESS",
+          "_source_error": null
+        }
+      ],
+      "runs_count": 3
+    },
+    {
+      "model": "claude",
+      "agent_folder": "021_classify_prs_by_review_status",
+      "file_exists": 1.0,
+      "syntax_valid": 1.0,
+      "dependency_error": 0.33,
+      "has_entrypoint": 0.33,
+      "entrypoint_callable": 0.33,
+      "final_status": "SUCCESS",
+      "_source_error": null,
+      "runs": [
+        {
+          "run": 1,
+          "model": "claude",
+          "agent_folder": "021_classify_prs_by_review_status",
+          "file_exists": true,
+          "syntax_valid": true,
+          "dependency_error": false,
+          "has_entrypoint": false,
+          "entrypoint_callable": false,
+          "final_status": "FAILED",
+          "_source_error": "dependency_error: missing_dependency: No module named 'langchain_mcp'\nhas_entrypoint: skipped_not_importable\nentrypoint_callable: skipped_no_entrypoint"
+        },
+        {
+          "run": 2,
+          "model": "claude",
+          "agent_folder": "021_classify_prs_by_review_status",
+          "file_exists": true,
+          "syntax_valid": true,
+          "dependency_error": false,
+          "has_entrypoint": false,
+          "entrypoint_callable": false,
+          "final_status": "FAILED",
+          "_source_error": "dependency_error: missing_dependency: No module named 'langchain_mcp'\nhas_entrypoint: skipped_not_importable\nentrypoint_callable: skipped_no_entrypoint"
+        },
+        {
+          "run": 3,
+          "model": "claude",
+          "agent_folder": "021_classify_prs_by_review_status",
+          "file_exists": true,
+          "syntax_valid": true,
+          "dependency_error": true,
+          "has_entrypoint": true,
+          "entrypoint_callable": true,
+          "final_status": "SUCCESS",
+          "_source_error": null
+        }
+      ],
+      "runs_count": 3
+    },
+    {
+      "model": "claude",
+      "agent_folder": "022_explore_travel_viability",
+      "file_exists": 1.0,
+      "syntax_valid": 1.0,
+      "dependency_error": 0.67,
+      "has_entrypoint": 0.33,
+      "entrypoint_callable": 0.33,
+      "final_status": "FAILED",
+      "_source_error": "dependency_error: missing_dependency: No module named 'langchain_anthropic'\nhas_entrypoint: skipped_not_importable\nentrypoint_callable: skipped_no_entrypoint",
+      "runs": [
+        {
+          "run": 1,
+          "model": "claude",
+          "agent_folder": "022_explore_travel_viability",
+          "file_exists": true,
+          "syntax_valid": true,
+          "dependency_error": true,
+          "has_entrypoint": false,
+          "entrypoint_callable": false,
+          "final_status": "FAILED",
+          "_source_error": "has_entrypoint: agent function not found\nentrypoint_callable: skipped_no_entrypoint"
+        },
+        {
+          "run": 2,
+          "model": "claude",
+          "agent_folder": "022_explore_travel_viability",
+          "file_exists": true,
+          "syntax_valid": true,
+          "dependency_error": true,
+          "has_entrypoint": true,
+          "entrypoint_callable": true,
+          "final_status": "SUCCESS",
+          "_source_error": null
+        },
+        {
+          "run": 3,
+          "model": "claude",
+          "agent_folder": "022_explore_travel_viability",
+          "file_exists": true,
+          "syntax_valid": true,
+          "dependency_error": false,
+          "has_entrypoint": false,
+          "entrypoint_callable": false,
+          "final_status": "FAILED",
+          "_source_error": "dependency_error: missing_dependency: No module named 'langchain_anthropic'\nhas_entrypoint: skipped_not_importable\nentrypoint_callable: skipped_no_entrypoint"
+        }
+      ],
+      "runs_count": 3
+    },
+    {
+      "model": "codex",
+      "agent_folder": "011_list_prs_or_issues",
+      "file_exists": 1.0,
+      "syntax_valid": 1.0,
+      "dependency_error": 0.33,
+      "has_entrypoint": 0.33,
+      "entrypoint_callable": 0.33,
+      "final_status": "SUCCESS",
+      "_source_error": null,
+      "runs": [
+        {
+          "run": 1,
+          "model": "codex",
+          "agent_folder": "011_list_prs_or_issues",
+          "file_exists": true,
+          "syntax_valid": true,
+          "dependency_error": false,
+          "has_entrypoint": false,
+          "entrypoint_callable": false,
+          "final_status": "FAILED",
+          "_source_error": "dependency_error: import_runtime_error: name 'Any' is not defined\nhas_entrypoint: skipped_not_importable\nentrypoint_callable: skipped_no_entrypoint"
+        },
+        {
+          "run": 2,
+          "model": "codex",
+          "agent_folder": "011_list_prs_or_issues",
+          "file_exists": true,
+          "syntax_valid": true,
+          "dependency_error": false,
+          "has_entrypoint": false,
+          "entrypoint_callable": false,
+          "final_status": "FAILED",
+          "_source_error": "dependency_error: import_runtime_error: name 'Any' is not defined\nhas_entrypoint: skipped_not_importable\nentrypoint_callable: skipped_no_entrypoint"
+        },
+        {
+          "run": 3,
+          "model": "codex",
+          "agent_folder": "011_list_prs_or_issues",
           "file_exists": true,
           "syntax_valid": true,
           "dependency_error": true,
@@ -53,19 +253,19 @@
     },
     {
       "model": "codex",
-      "agent_folder": "011_list_issues",
+      "agent_folder": "012_explore_travel_destination",
       "file_exists": 1.0,
       "syntax_valid": 1.0,
       "dependency_error": 0.67,
       "has_entrypoint": 0.67,
       "entrypoint_callable": 0.67,
-      "final_status": "SUCCESS",
-      "_source_error": null,
+      "final_status": "FAILED",
+      "_source_error": "dependency_error: import_runtime_error: `Intent` is not fully defined; you should define `Literal`, then call `Intent.model_rebuild()`.\n\nFor further information visit https://errors.pydantic.dev/2.13/u/class-not-fully-defined\nhas_entrypoint: skipped_not_importable\nentrypoint_callable: skipped_no_entrypoint",
       "runs": [
         {
           "run": 1,
           "model": "codex",
-          "agent_folder": "011_list_issues",
+          "agent_folder": "012_explore_travel_destination",
           "file_exists": true,
           "syntax_valid": true,
           "dependency_error": true,
@@ -77,7 +277,57 @@
         {
           "run": 2,
           "model": "codex",
-          "agent_folder": "011_list_issues",
+          "agent_folder": "012_explore_travel_destination",
+          "file_exists": true,
+          "syntax_valid": true,
+          "dependency_error": true,
+          "has_entrypoint": true,
+          "entrypoint_callable": true,
+          "final_status": "SUCCESS",
+          "_source_error": null
+        },
+        {
+          "run": 3,
+          "model": "codex",
+          "agent_folder": "012_explore_travel_destination",
+          "file_exists": true,
+          "syntax_valid": true,
+          "dependency_error": false,
+          "has_entrypoint": false,
+          "entrypoint_callable": false,
+          "final_status": "FAILED",
+          "_source_error": "dependency_error: import_runtime_error: `Intent` is not fully defined; you should define `Literal`, then call `Intent.model_rebuild()`.\n\nFor further information visit https://errors.pydantic.dev/2.13/u/class-not-fully-defined\nhas_entrypoint: skipped_not_importable\nentrypoint_callable: skipped_no_entrypoint"
+        }
+      ],
+      "runs_count": 3
+    },
+    {
+      "model": "codex",
+      "agent_folder": "021_classify_prs_by_review_status",
+      "file_exists": 1.0,
+      "syntax_valid": 1.0,
+      "dependency_error": 0.0,
+      "has_entrypoint": 0.0,
+      "entrypoint_callable": 0.0,
+      "final_status": "FAILED",
+      "_source_error": "dependency_error: import_runtime_error: name 'Any' is not defined\nhas_entrypoint: skipped_not_importable\nentrypoint_callable: skipped_no_entrypoint",
+      "runs": [
+        {
+          "run": 1,
+          "model": "codex",
+          "agent_folder": "021_classify_prs_by_review_status",
+          "file_exists": true,
+          "syntax_valid": true,
+          "dependency_error": false,
+          "has_entrypoint": false,
+          "entrypoint_callable": false,
+          "final_status": "FAILED",
+          "_source_error": "dependency_error: import_runtime_error: name 'Any' is not defined\nhas_entrypoint: skipped_not_importable\nentrypoint_callable: skipped_no_entrypoint"
+        },
+        {
+          "run": 2,
+          "model": "codex",
+          "agent_folder": "021_classify_prs_by_review_status",
           "file_exists": true,
           "syntax_valid": true,
           "dependency_error": false,
@@ -89,33 +339,33 @@
         {
           "run": 3,
           "model": "codex",
-          "agent_folder": "011_list_issues",
+          "agent_folder": "021_classify_prs_by_review_status",
           "file_exists": true,
           "syntax_valid": true,
-          "dependency_error": true,
-          "has_entrypoint": true,
-          "entrypoint_callable": true,
-          "final_status": "SUCCESS",
-          "_source_error": null
+          "dependency_error": false,
+          "has_entrypoint": false,
+          "entrypoint_callable": false,
+          "final_status": "FAILED",
+          "_source_error": "dependency_error: import_runtime_error: name 'Any' is not defined\nhas_entrypoint: skipped_not_importable\nentrypoint_callable: skipped_no_entrypoint"
         }
       ],
       "runs_count": 3
     },
     {
-      "model": "opencode",
-      "agent_folder": "011_list_issues",
+      "model": "codex",
+      "agent_folder": "022_explore_travel_viability",
       "file_exists": 1.0,
       "syntax_valid": 1.0,
-      "dependency_error": 0.67,
-      "has_entrypoint": 0.67,
-      "entrypoint_callable": 0.67,
-      "final_status": "FAILED",
-      "_source_error": "dependency_error: import_runtime_error: name 'ChatOpenai' is not defined\nhas_entrypoint: skipped_not_importable\nentrypoint_callable: skipped_no_entrypoint",
+      "dependency_error": 1.0,
+      "has_entrypoint": 1.0,
+      "entrypoint_callable": 1.0,
+      "final_status": "SUCCESS",
+      "_source_error": null,
       "runs": [
         {
           "run": 1,
-          "model": "opencode",
-          "agent_folder": "011_list_issues",
+          "model": "codex",
+          "agent_folder": "022_explore_travel_viability",
           "file_exists": true,
           "syntax_valid": true,
           "dependency_error": true,
@@ -126,8 +376,8 @@
         },
         {
           "run": 2,
-          "model": "opencode",
-          "agent_folder": "011_list_issues",
+          "model": "codex",
+          "agent_folder": "022_explore_travel_viability",
           "file_exists": true,
           "syntax_valid": true,
           "dependency_error": true,
@@ -138,15 +388,15 @@
         },
         {
           "run": 3,
-          "model": "opencode",
-          "agent_folder": "011_list_issues",
+          "model": "codex",
+          "agent_folder": "022_explore_travel_viability",
           "file_exists": true,
           "syntax_valid": true,
-          "dependency_error": false,
-          "has_entrypoint": false,
-          "entrypoint_callable": false,
-          "final_status": "FAILED",
-          "_source_error": "dependency_error: import_runtime_error: name 'ChatOpenai' is not defined\nhas_entrypoint: skipped_not_importable\nentrypoint_callable: skipped_no_entrypoint"
+          "dependency_error": true,
+          "has_entrypoint": true,
+          "entrypoint_callable": true,
+          "final_status": "SUCCESS",
+          "_source_error": null
         }
       ],
       "runs_count": 3
