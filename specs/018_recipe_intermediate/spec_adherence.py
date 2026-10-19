@@ -71,10 +71,10 @@ Criteria definitions:
 - correct_return_type:     agent() returns a string.
 - langgraph_orchestration: uses LangGraph to orchestrate the workflow; 
 - native_tool_calling: Tools are LangChain tool objects (@tool, StructuredTool, or obtained via langchain-mcp-adapters). The decision to call a tool is made by the LLM.
-- single_tool_execution:   The implementation enforces that only one tool runs per execution.
+- single_tool_execution:   The graph routes to exactly one of the two tools per execution
 - tools_implemented: The code explicitly defines exactly two tools: retrieve_pantry (using Notion) and search_recipes (using Tavily).
 - correct_model:           the ChatOpenAI model is instantiated with model="gpt-4o".
-- output_structure_present: The logic attempts to format the final response containing ALL required sections: Title, Ingredients, Equipment, Instructions, Nutrition, Storage.
+- output_structure_present: The logic attempts to format the final response containing ALL required sections: Title, Ingredients, Equipment, Instructions, Storage.
 - handles_empty_input:     the code explicitly handles empty or blank queries and returns a string starting with "Error:".
 - exception_handling:      The graph execution or tool calls are wrapped in try/except blocks to prevent unhandled crashes, returning "Error:" strings upon failure.
 

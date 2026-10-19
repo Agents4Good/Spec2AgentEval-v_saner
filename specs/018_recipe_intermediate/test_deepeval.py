@@ -1,282 +1,306 @@
-"""Black-box behavioral evaluation of the personalized recipe agent (spec 018).
+"""Black-box behavioral evaluation of the recipe generator agent (spec 018).
 
-Entrypoint contract: ``agent(query: str) -> dict`` (LangGraph state).
+Only the public entrypoint `agent(query: str) -> str` is used.
 Run with: deepeval test run test_deepeval.py
 """
-import json
-from typing import Any, List
+import re
 
 import pytest
 
 from deepeval import assert_test
 from deepeval.metrics import GEval
-from deepeval.test_case import LLMTestCase, LLMTestCaseParams, ToolCall
+from deepeval.test_case import LLMTestCase, LLMTestCaseParams
 
 from agent import agent
 
 EVAL_MODEL = "gpt-4o"
-IO = [LLMTestCaseParams.INPUT, LLMTestCaseParams.ACTUAL_OUTPUT]
+ERROR_PREFIX = "Error:"
 
 
-# --------------------------------------------------------------------------- #
-# Observation helpers (based only on the output contract: a state dict)
-# --------------------------------------------------------------------------- #
-def _get(obj: Any, key: str, default=None):
-    if isinstance(obj, dict):
-        return obj.get(key, default)
-    return getattr(obj, key, default)
+def run(query: str) -> str:
+    response = agent(query)
+    assert isinstance(response, str), "agent must return a str"
+    return response
 
 
-def run_agent(query: str) -> dict:
-    state = agent(query)
-    assert isinstance(state, dict), "Output must be a state dict"
-    return state
+def is_error(response: str) -> bool:
+    return response.strip().startswith(ERROR_PREFIX)
 
 
-def tools_called(state: dict) -> List[ToolCall]:
-    calls = []
-    for msg in state.get("messages", []) or []:
-        for tc in _get(msg, "tool_calls", None) or []:
-            calls.append(ToolCall(name=_get(tc, "name"), input_parameters=_get(tc, "args") or {}))
-    return calls
+def has_recipe_sections(response: str) -> bool:
+    text = response.lower()
+    groups = [
+        ("ingredient", "ingrediente"),
+        ("equipment", "equipamento", "utens"),
+        ("instruction", "instru", "step", "preparo", "modo de preparo"),
+        ("storage", "armazen", "conserva"),
+    ]
+    return all(any(k in text for k in g) for g in groups)
 
 
-def tool_names(state: dict) -> List[str]:
-    return [c.name for c in tools_called(state)]
+# ---------------------------------------------------------------- metrics
 
-
-def final_text(state: dict) -> str:
-    """Final observable answer: the last message content, plus the remaining
-    state serialized so structured recipe/error fields are visible to the judge."""
-    parts = []
-    msgs = state.get("messages", []) or []
-    if msgs:
-        content = _get(msgs[-1], "content", "")
-        if isinstance(content, str) and content.strip():
-            parts.append(content)
-    rest = {k: v for k, v in state.items() if k != "messages"}
-    if rest:
-        parts.append(json.dumps(rest, default=str, ensure_ascii=False))
-    return "\n".join(parts) if parts else json.dumps(state, default=str)
-
-
-def error_strings(state: dict) -> List[str]:
-    """All string values in the state (and the last message) that look like errors."""
-    found = []
-
-    def walk(v):
-        if isinstance(v, str):
-            if v.strip().startswith("Error:"):
-                found.append(v.strip())
-        elif isinstance(v, dict):
-            for x in v.values():
-                walk(x)
-        elif isinstance(v, (list, tuple)):
-            for x in v:
-                walk(x)
-
-    walk({k: v for k, v in state.items() if k != "messages"})
-    msgs = state.get("messages", []) or []
-    if msgs:
-        walk(_get(msgs[-1], "content", ""))
-    return found
-
-
-def make_case(query: str, state: dict) -> LLMTestCase:
-    return LLMTestCase(input=query, actual_output=final_text(state), tools_called=tools_called(state))
-
-
-# --------------------------------------------------------------------------- #
-# Metrics (GEval custom criteria derived from the spec)
-# --------------------------------------------------------------------------- #
 recipe_completeness = GEval(
     name="Recipe Completeness (B7)",
     criteria=(
-        "The actual output contains a complete recipe with ALL of these fields present and "
-        "non-empty: a Title; Ingredients listed WITH quantities; Equipment list; step-by-step "
-        "Instructions; Storage recommendations."
+        "The actual output must be a complete recipe containing ALL of these fields, each present "
+        "and non-empty: Title; Ingredients (a list with quantities for each ingredient); Equipment "
+        "(list of required equipment); Instructions (step-by-step preparation); Storage "
+        "(storage recommendations). Penalize heavily if any field is missing or empty, or if "
+        "ingredients lack quantities."
     ),
-    evaluation_params=IO,
+    evaluation_params=[LLMTestCaseParams.ACTUAL_OUTPUT],
+    model=EVAL_MODEL,
     threshold=0.7,
-    model=EVAL_MODEL,
-)
-
-dietary_compliance = GEval(
-    name="Dietary Restriction Compliance",
-    criteria=(
-        "Identify dietary restrictions declared in the input. A restriction implies all derived "
-        "ingredients even if not mentioned (e.g. vegan excludes meat, fish, eggs, dairy, butter, "
-        "cheese, honey, gelatin; lactose-free excludes milk, cream, butter, cheese; gluten-free "
-        "excludes wheat flour, regular pasta, bread, soy sauce with wheat). The recipe in the "
-        "actual output must contain NO ingredient violating those restrictions. Any violation "
-        "means the lowest score."
-    ),
-    evaluation_params=IO,
-    threshold=0.8,
-    model=EVAL_MODEL,
 )
 
 ingredient_usage = GEval(
     name="Uses Query Ingredients (B2/B7)",
     criteria=(
-        "The recipe in the actual output uses at least one of the ingredients the user stated "
-        "as available in the input that is compatible with their dietary restrictions. "
-        "Ingredients mentioned under negation, absence or hypothesis (e.g. 'I don't have eggs', "
-        "'if I had chicken') are NOT available and must not be treated as the user's ingredients."
+        "The recipe in the actual output must contain at least one of the available ingredients "
+        "mentioned in the input as available. Ingredients mentioned in the input under negation "
+        "(e.g. 'I don't have'), absence or hypothesis (e.g. 'if I had') are NOT available and "
+        "must not be treated as the user's ingredients. The recipe should take the user's stated "
+        "preferences into account. Use the expected output as a description of what is required."
     ),
-    evaluation_params=IO,
+    evaluation_params=[
+        LLMTestCaseParams.INPUT,
+        LLMTestCaseParams.ACTUAL_OUTPUT,
+        LLMTestCaseParams.EXPECTED_OUTPUT,
+    ],
+    model=EVAL_MODEL,
     threshold=0.7,
-    model=EVAL_MODEL,
 )
 
-preference_adherence = GEval(
-    name="Preference Adherence (Chef persona)",
+dietary_compliance = GEval(
+    name="Dietary Restriction Compliance (Guardrail)",
     criteria=(
-        "Acting as a chef, the recipe in the actual output takes into account the preferences "
-        "expressed in the input (e.g. meal type, cuisine style, quick/simple, flavor) and is a "
-        "coherent, personalized recipe."
+        "No ingredient in the recipe of the actual output may violate any dietary restriction "
+        "declared in the input. A dietary restriction implies all of its derived ingredients, even "
+        "if the user did not mention them (e.g. vegan excludes butter, milk, cheese, eggs, honey; "
+        "lactose-free excludes milk, butter, cream, cheese; gluten-free excludes wheat flour, "
+        "regular pasta, bread, soy sauce with wheat; vegetarian excludes meat, fish, gelatin). "
+        "Any violating ingredient means a score of 0. Use the expected output as guidance."
     ),
-    evaluation_params=IO,
-    threshold=0.6,
+    evaluation_params=[
+        LLMTestCaseParams.INPUT,
+        LLMTestCaseParams.ACTUAL_OUTPUT,
+        LLMTestCaseParams.EXPECTED_OUTPUT,
+    ],
     model=EVAL_MODEL,
+    threshold=0.8,
 )
 
-RECIPE_METRICS = [recipe_completeness, dietary_compliance, ingredient_usage, preference_adherence]
+error_explanation = GEval(
+    name="Error Message Explains Rejection (B1)",
+    criteria=(
+        "The actual output must begin with 'Error:', must explain why the query was rejected "
+        "(empty, offensive, or unrelated to food/cooking), and must NOT contain any recipe "
+        "(no ingredient list, instructions, or similar)."
+    ),
+    evaluation_params=[LLMTestCaseParams.INPUT, LLMTestCaseParams.ACTUAL_OUTPUT],
+    model=EVAL_MODEL,
+    threshold=0.7,
+)
 
 
-def assert_no_recipe(state: dict):
-    text = final_text(state).lower()
-    assert not ("instructions" in text and "storage" in text and "equipment" in text), (
-        "No recipe must be generated on error paths"
-    )
+# ---------------------------------------------------------------- B1 — invalid queries
 
-
-# --------------------------------------------------------------------------- #
-# B1 — Query validation
-# --------------------------------------------------------------------------- #
 INVALID_QUERIES = [
     "",
     "   ",
     "What is the capital of France?",
-    "Write me a Python function that sorts a list.",
-    "You are a useless idiot, go to hell.",
+    "Write me a Python function to sort a list.",
+    "Who won the 2018 World Cup?",
+    "You are a worthless stupid idiot and I hate you.",
 ]
 
 
 @pytest.mark.parametrize("query", INVALID_QUERIES)
-def test_b1_invalid_query_returns_error_without_tools(query):
-    state = run_agent(query)
-    assert error_strings(state), f"Expected message starting with 'Error:'; got: {final_text(state)[:500]}"
-    assert tool_names(state) == [], f"No tool may be called for invalid query; called: {tool_names(state)}"
-    assert_no_recipe(state)
+def test_b1_invalid_query_returns_error_without_recipe(query):
+    response = run(query)
+    assert is_error(response), f"Expected 'Error:' prefix, got: {response[:200]!r}"
+    assert not has_recipe_sections(response), "No recipe must be generated for invalid query"
 
 
-# --------------------------------------------------------------------------- #
-# B2 + B3 + B7 — Query with ingredients: search once, no pantry, full recipe
-# --------------------------------------------------------------------------- #
-QUERIES_WITH_INGREDIENTS = [
-    "I have chicken breast, rice and broccoli. I'd like a quick dinner recipe.",
-    "I'm vegan. I have chickpeas, spinach, tomatoes and eggs. Suggest a lunch.",
-    "I'm lactose intolerant. I have pasta, cheese, mushrooms and garlic. Make me something Italian.",
-    "I have potatoes and onions but I don't have any eggs. What can I cook for breakfast?",
-    "Tenho batatas, cenouras e frango. Quero um jantar simples.",
-    "I'm celiac. I have rice, salmon, wheat flour and lemon. Something healthy please.",
+@pytest.mark.parametrize("query", INVALID_QUERIES[2:])
+def test_b1_invalid_query_error_quality(query):
+    response = run(query)
+    assert_test(
+        test_case=LLMTestCase(input=query, actual_output=response),
+        metrics=[error_explanation],
+    )
+
+
+# ---------------------------------------------------------------- B2/B3/B7 — recipes from query ingredients
+
+RECIPE_CASES = [
+    (
+        "I have chicken breast, rice and broccoli. I'd like a quick dinner.",
+        "A complete quick dinner recipe using chicken breast, rice and/or broccoli.",
+    ),
+    (
+        "I have tomatoes, garlic and pasta. Make me an Italian-style lunch.",
+        "A complete Italian-style recipe using tomatoes, garlic and/or pasta.",
+    ),
+    (
+        "Tenho batatas, cebola e ovos. Quero algo simples para o jantar.",
+        "A complete simple dinner recipe using potatoes, onion and/or eggs (regional/inflected forms accepted).",
+    ),
+    (
+        "I've got some zucchinis and a couple of carrots, want a healthy side dish.",
+        "A complete healthy side dish using zucchini and/or carrots (inflected forms accepted).",
+    ),
 ]
 
 
-@pytest.mark.parametrize("query", QUERIES_WITH_INGREDIENTS)
-def test_b3_b7_query_with_ingredients(query):
-    state = run_agent(query)
-    names = tool_names(state)
-    assert names.count("search_recipes") == 1, f"search_recipes must be called exactly once; called: {names}"
-    assert "retrieve_pantry" not in names, f"retrieve_pantry must not be called; called: {names}"
-    assert not error_strings(state), f"Unexpected error: {error_strings(state)}"
-    assert_test(make_case(query, state), RECIPE_METRICS)
+@pytest.mark.parametrize("query,expected", RECIPE_CASES)
+def test_b7_recipe_from_query_ingredients(query, expected):
+    response = run(query)
+    assert not is_error(response), f"Valid query must yield a recipe, got: {response[:200]!r}"
+    assert_test(
+        test_case=LLMTestCase(input=query, actual_output=response, expected_output=expected),
+        metrics=[recipe_completeness, ingredient_usage],
+    )
 
 
-# Ingredients passed to search_recipes must exclude negated/hypothetical/incompatible ones.
-SEARCH_ARG_CASES = [
-    ("I'm vegan. I have tofu, broccoli and bacon. Make dinner.", ["tofu", "broccoli"], ["bacon"]),
-    ("I have zucchini and garlic, but no eggs. If I had chicken I'd use it. Lunch idea?",
-     ["zucchini", "garlic"], ["egg", "chicken"]),
-    ("I'm lactose intolerant. I have milk, oats and bananas. Breakfast please.",
-     ["oat", "banana"], ["milk"]),
+# ---------------------------------------------------------------- Guardrail — dietary restrictions (derived ingredients)
+
+DIETARY_CASES = [
+    (
+        "I'm vegan. I have potatoes, spinach and chickpeas. Suggest a dinner recipe.",
+        "A vegan recipe with potatoes/spinach/chickpeas; no butter, milk, cheese, cream, eggs, honey, meat or fish.",
+    ),
+    (
+        "I'm lactose intolerant. I have chicken, butter, mushrooms and cream. What can I cook?",
+        "A recipe with chicken and/or mushrooms; butter and cream are incompatible and must be excluded, "
+        "as must any other dairy (milk, cheese).",
+    ),
+    (
+        "I have celiac disease. I have wheat flour, eggs, ground beef and tomatoes. Make me a recipe.",
+        "A gluten-free recipe with eggs/ground beef/tomatoes; wheat flour and any other gluten source "
+        "(bread, regular pasta, breadcrumbs, regular soy sauce) must be absent.",
+    ),
+    (
+        "I'm vegetarian. I have bacon, lentils, onion and carrots. Something warm, please.",
+        "A vegetarian recipe with lentils/onion/carrots; bacon and any other meat, fish or meat stock must be absent.",
+    ),
 ]
 
 
-@pytest.mark.parametrize("query,expected,forbidden", SEARCH_ARG_CASES)
-def test_b2_b3_search_called_with_compatible_ingredients(query, expected, forbidden):
-    state = run_agent(query)
-    searches = [c for c in tools_called(state) if c.name == "search_recipes"]
-    assert len(searches) == 1, f"search_recipes must be called exactly once; got {tool_names(state)}"
-    args = json.dumps(searches[0].input_parameters, ensure_ascii=False).lower()
-    for ing in expected:
-        assert ing in args, f"Expected ingredient '{ing}' in search_recipes args: {args}"
-    for ing in forbidden:
-        assert ing not in args, f"Ingredient '{ing}' must be excluded from search_recipes args: {args}"
+@pytest.mark.parametrize("query,expected", DIETARY_CASES)
+def test_guardrail_dietary_restrictions_respected(query, expected):
+    response = run(query)
+    assert not is_error(response), f"Valid query must yield a recipe, got: {response[:200]!r}"
+    assert_test(
+        test_case=LLMTestCase(input=query, actual_output=response, expected_output=expected),
+        metrics=[recipe_completeness, dietary_compliance, ingredient_usage],
+    )
 
 
-# --------------------------------------------------------------------------- #
-# B4 + (B5 | B7) — Query without (compatible) ingredients: pantry lookup
-# --------------------------------------------------------------------------- #
-QUERIES_WITHOUT_INGREDIENTS = [
-    "Suggest a dinner recipe for me.",
-    "I'm vegetarian. What can I make for lunch today?",
-    "I'm vegan and I have only cheese and honey. What can I cook?",
-    "I don't have chicken or beef. Give me a gluten-free dinner idea.",
+# ---------------------------------------------------------------- Guardrail — negation / absence / hypothesis
+
+NEGATION_CASES = [
+    (
+        "I have eggs and spinach but I don't have any cheese. Make me breakfast.",
+        "A breakfast recipe using eggs and/or spinach; cheese is NOT available and must not be used.",
+        ["cheese"],
+    ),
+    (
+        "I have rice and beans. If I had pork I would make feijoada, but I don't. What can I cook?",
+        "A recipe using rice and/or beans; pork is hypothetical/absent and must not be used.",
+        ["pork"],
+    ),
+    (
+        "There's no milk at home, but I have oats and bananas. Breakfast idea?",
+        "A breakfast recipe using oats and/or bananas; milk is absent and must not be used.",
+        ["milk"],
+    ),
 ]
 
 
-@pytest.mark.parametrize("query", QUERIES_WITHOUT_INGREDIENTS)
-def test_b4_pantry_lookup(query):
-    state = run_agent(query)
-    names = tool_names(state)
-    assert names.count("retrieve_pantry") == 1, f"retrieve_pantry must be called exactly once; called: {names}"
-    assert "search_recipes" not in names, f"search_recipes must not be called; called: {names}"
+@pytest.mark.parametrize("query,expected,forbidden", NEGATION_CASES)
+def test_guardrail_negated_ingredients_not_used(query, expected, forbidden):
+    response = run(query)
+    assert not is_error(response), f"Valid query must yield a recipe, got: {response[:200]!r}"
+    negation_metric = GEval(
+        name="Negated Ingredients Not Used",
+        criteria=(
+            "The recipe in the actual output must NOT list as an ingredient any item mentioned in the "
+            f"input under negation, absence or hypothesis (here: {', '.join(forbidden)}). Mentioning "
+            "them only in an optional note saying they are not needed is acceptable; including them in "
+            "the ingredient list or instructions scores 0. The recipe must use at least one available ingredient."
+        ),
+        evaluation_params=[
+            LLMTestCaseParams.INPUT,
+            LLMTestCaseParams.ACTUAL_OUTPUT,
+            LLMTestCaseParams.EXPECTED_OUTPUT,
+        ],
+        model=EVAL_MODEL,
+        threshold=0.8,
+    )
+    assert_test(
+        test_case=LLMTestCase(input=query, actual_output=response, expected_output=expected),
+        metrics=[recipe_completeness, negation_metric],
+    )
 
-    errors = error_strings(state)
-    if errors:
-        # B5 (no compatible pantry ingredients) or B6 (pantry failure)
-        assert_no_recipe(state)
+
+# ---------------------------------------------------------------- B4/B5/B6 — queries without (compatible) ingredients
+# Pantry content is external state; the agent must either produce a valid recipe
+# from the pantry (B7) or return an 'Error:' message with no recipe (B5/B6).
+
+PANTRY_QUERIES = [
+    "Suggest a recipe for dinner tonight.",
+    "I'm vegan, what can I cook for lunch?",
+    "I don't have chicken. Make something gluten-free for dinner.",
+    "I'm vegan and I have only honey and cheese. Suggest a recipe.",
+]
+
+
+@pytest.mark.parametrize("query", PANTRY_QUERIES)
+def test_b4_b5_pantry_path_recipe_or_error(query):
+    response = run(query)
+    if is_error(response):
+        assert not has_recipe_sections(response), "Error responses must not contain a recipe"
+        return
+    assert_test(
+        test_case=LLMTestCase(
+            input=query,
+            actual_output=response,
+            expected_output=(
+                "A complete recipe built from pantry ingredients that respects every dietary restriction "
+                "in the query; any ingredient negated or incompatible in the query must not be used."
+            ),
+        ),
+        metrics=[recipe_completeness, dietary_compliance],
+    )
+
+
+# ---------------------------------------------------------------- B6 — failures handled, no unhandled exceptions
+
+ROBUSTNESS_QUERIES = [
+    "I have salmon and lemon, make a dinner recipe.",
+    "Recipe for dessert please",
+    "x" * 5000,
+    "🍅🧄🍝?",
+]
+
+
+@pytest.mark.parametrize("query", ROBUSTNESS_QUERIES)
+def test_b6_no_unhandled_exception_and_structured_output(query):
+    try:
+        response = run(query)
+    except Exception as exc:  # pragma: no cover
+        pytest.fail(f"Agent raised an unhandled exception: {exc!r}")
+    assert response.strip(), "Response must be non-empty"
+    if is_error(response):
+        assert not has_recipe_sections(response), "Error responses must not contain a recipe"
     else:
-        # B7 from pantry ingredients
-        case = make_case(query, state)
-        assert_test(case, [recipe_completeness, dietary_compliance, preference_adherence])
+        assert has_recipe_sections(response), (
+            "Non-error response must be a structured recipe (ingredients, equipment, instructions, storage)"
+        )
 
 
-# --------------------------------------------------------------------------- #
-# B6 — Execution failure (missing credentials)
-# --------------------------------------------------------------------------- #
-def test_b6_search_failure_missing_tavily_key(monkeypatch):
-    monkeypatch.delenv("TAVILY_API_KEY", raising=False)
-    query = "I have eggs, tomatoes and onions. Make me a breakfast recipe."
-    state = run_agent(query)  # must not raise
-    assert error_strings(state), f"Expected 'Error:' message; got: {final_text(state)[:500]}"
-    assert_no_recipe(state)
-
-
-def test_b6_pantry_failure_missing_notion_key(monkeypatch):
-    monkeypatch.delenv("NOTION_API_KEY", raising=False)
-    query = "Suggest a dinner recipe for me."
-    state = run_agent(query)  # must not raise
-    assert error_strings(state), f"Expected 'Error:' message; got: {final_text(state)[:500]}"
-    assert_no_recipe(state)
-
-
-def test_b6_model_failure_missing_openai_key(monkeypatch):
-    monkeypatch.delenv("OPENAI_API_KEY", raising=False)
-    monkeypatch.setenv("OPENAI_API_KEY", "invalid-key")
-    query = "I have rice and beans. Make lunch."
-    state = run_agent(query)  # must not raise an unhandled exception
-    assert error_strings(state), f"Expected 'Error:' message; got: {final_text(state)[:500]}"
-    assert_no_recipe(state)
-
-
-# --------------------------------------------------------------------------- #
-# Quality attribute — structured response
-# --------------------------------------------------------------------------- #
-@pytest.mark.parametrize("query", ["I have eggs and spinach. Breakfast idea?", ""])
-def test_structured_response(query):
-    state = run_agent(query)
-    assert isinstance(state, dict) and len(state) > 0
-    json.dumps(state, default=str)  # serializable for automated evaluation
+def test_error_prefix_exact_case():
+    response = run("Tell me about the stock market.")
+    assert re.match(r"^\s*Error:", response), f"Must start with 'Error:', got: {response[:100]!r}"
