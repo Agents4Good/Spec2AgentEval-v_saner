@@ -1,0 +1,8 @@
+services:
+  spec2agenteval:
+    build: .
+    container_name: spec2agenteval-pipeline
+    env_file:
+      - .env
+    working_dir: /app
+    tty: true
