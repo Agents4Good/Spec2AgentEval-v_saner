@@ -3,11 +3,12 @@ set -e
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PIPELINE_DIR="$SCRIPT_DIR/pipeline/"
+USE_DOCKER=${USE_DOCKER:-0} # Opt-in: USE_DOCKER=1 ./pipe_claude_versions.sh
 
 # Experimento "By Claude Version": compara 3 versões do Opus com effort low.
 llms=("claude-opus-5-5-low") #"claude-opus-4-6-low" "claude-opus-4-8-low" 
 
-agents=("011_list_issues")
+agents=("001_list_issues_agent")
 
 RUNS=${RUNS:-3}
 EXPERIMENT=${EXPERIMENT:-by_claude_version}
@@ -35,10 +36,10 @@ spinner() {
 }
 
 run_step() {
-    local cmd="$1"
-    local msg="$2"
+    local msg="$1"
+    shift
 
-    bash -c "$cmd" &
+    "$@" &
     local pid=$!
 
     spinner "$pid" "$msg"
@@ -55,7 +56,7 @@ run_step() {
 for run in $(seq "$RUNS_FROM" "$RUNS_TO"); do
 
 printf "\n############################################################\n"
-printf "EXPERIMENT %s · RUN %s / %s\n" "$EXPERIMENT" "$run" "$RUNS"
+printf "EXPERIMENT %s · RUN %s (selected %s..%s)\n" "$EXPERIMENT" "$run" "$RUNS_FROM" "$RUNS_TO"
 printf "############################################################\n"
 
 # ============================================================
@@ -69,7 +70,11 @@ labels=()
 for llm in "${llms[@]}"; do
     for agent in "${agents[@]}"; do
 
-        python3 "$PIPELINE_DIR/01_generate.py" \
+        gen_cmd=(python3 "$PIPELINE_DIR/01_generate.py")
+        if [ "$USE_DOCKER" = "1" ]; then
+            gen_cmd=(bash "$SCRIPT_DIR/docker/docker_run_gen.sh")
+        fi
+        "${gen_cmd[@]}" \
             --llm "$llm" \
             --agent "$agent" \
             --run "$run" \
@@ -115,33 +120,16 @@ for llm in "${llms[@]}"; do
         printf "RUN %s | VARIANTE: %s | AGENTE: %s\n" "$run" "$llm" "$agent"
         printf "============================================================\n"
 
-        run_step \
-            "python3 \"$PIPELINE_DIR/02_static_check.py\" --llm \"$llm\" --agent \"$agent\" --run \"$run\" --experiment \"$EXPERIMENT\"" \
-            "Executando 02_static_check.py para $llm / $agent (run $run)..."
-
-        run_step \
-            "python3 \"$PIPELINE_DIR/03_lints_check.py\" --llm \"$llm\" --agent \"$agent\" --run \"$run\" --experiment \"$EXPERIMENT\"" \
-            "Executando 03_lints_check.py para $llm / $agent (run $run)..."
-
-        run_step \
-            "python3 \"$PIPELINE_DIR/04_tests_check.py\" --llm \"$llm\" --agent \"$agent\" --run \"$run\" --experiment \"$EXPERIMENT\"" \
-            "Executando 04_tests_check.py para $llm / $agent (run $run)..."
-
-        run_step \
-            "python3 \"$PIPELINE_DIR/05_spec_llm_judge_check.py\" --llm \"$llm\" --agent \"$agent\" --run \"$run\" --experiment \"$EXPERIMENT\"" \
-            "Executando 05_spec_llm_judge_check.py para $llm / $agent (run $run)..."
-
-        run_step \
-            "python3 \"$PIPELINE_DIR/06_graph_eval_check.py\" --llm \"$llm\" --agent \"$agent\" --run \"$run\" --experiment \"$EXPERIMENT\"" \
-            "Executando 06_graph_eval_check.py para $llm / $agent (run $run)..."
-
-        run_step \
-            "python3 \"$PIPELINE_DIR/07_behavioral_check.py\" --llm \"$llm\" --agent \"$agent\" --run \"$run\" --experiment \"$EXPERIMENT\"" \
-            "Executando 07_behavioral_check.py para $llm / $agent (run $run)..."
-
-        run_step \
-            "python3 \"$PIPELINE_DIR/08_trace_check.py\" --llm \"$llm\" --agent \"$agent\" --run \"$run\" --experiment \"$EXPERIMENT\"" \
-            "Executando 08_trace_check.py para $llm / $agent (run $run)..."
+        for step in 02_static_check 03_lints_check 04_tests_check \
+            05_spec_llm_judge_check 06_graph_eval_check 07_behavioral_check 08_trace_check; do
+            eval_cmd=(python3 "$PIPELINE_DIR/$step.py")
+            if [ "$USE_DOCKER" = "1" ]; then
+                eval_cmd=(bash "$SCRIPT_DIR/docker/docker_run_eval.sh" --step "${step%%_*}")
+            fi
+            run_step "Executando $step.py para $llm / $agent (run $run)..." \
+                "${eval_cmd[@]}" --llm "$llm" --agent "$agent" \
+                --run "$run" --experiment "$EXPERIMENT"
+        done
 
     done
 done
