@@ -36,7 +36,7 @@
 | Name | Purpose | Inputs | Return | Failures |
 | --- | --- | --- | --- | --- |
 | retrieve\_pantry | Obtain the ingredients available in the user's pantry, through a Notion page. | None. | The complete list of pantry ingredients. An empty pantry returns an empty list. | Missing credentials, an inaccessible page, or a timeout must return a message beginning with `Error:` followed by a message explaining the failure. |
-| search\_recipes | Obtain recipes from the web, through **tavily**, as a preparation **reference** for the ingredients identified in the query. The recipes found are neither a source of base ingredients nor the final recipe. | Ingredients identified in the query. | Up to 5 results, each with title, URL, and content excerpt. No results returns an empty list. | Missing credentials, an inaccessible page, or a timeout must return a message beginning with `erro:` followed by a message explaining the failure. |
+| search\_recipes | Obtain recipes from the web, through **tavily**, as a preparation **reference** for the ingredients identified in the query. The recipes found are neither a source of base ingredients nor the final recipe. | Ingredients identified in the query. | Up to 5 results, each with title, URL, and content excerpt. No results returns an empty list. | Missing credentials, an inaccessible page, or a timeout must return a message beginning with `Error:` followed by a message explaining the failure. |
 
 **Behaviors:**
 
