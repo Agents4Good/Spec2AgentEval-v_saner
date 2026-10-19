@@ -12,7 +12,7 @@
 | Framework | LangGraph |
 | GenAI Tool | ChatOpenAI |
 | Tools | Every tool must be a LangChain tool (@tool, StructuredTool, or obtained from an MCP server via langchain-mcp-adapters) and must be executed exclusively through its interface (invoke/ainvoke, directly or via ToolNode), never by calling its implementation function directly. |
-| Entrypoint | agent(repository: str, user_request: str, github_token: str) |
+| Entrypoint | agent(repository: str, user_request: str) |
 | Output | { "status": "success \| failure", "message": "Response message", "result": { "action": "list_issues \| list_pull_requests", "repository": "owner/repository", "items": [ { "number": 0, "title": "Item title", "state": "open \| closed" } ] } } |
 
 **Requirements:**
@@ -21,8 +21,8 @@
 | --- | --- | --- | --- |
 | Goal | The agent's objective and main behavior, stated in the active voice | The agent must list pull requests or issues from a repository, depending on the user request | Does the main behavior state who acts, what they do, and the result? |
 | Persona (Optional) | The personality the agent assumes when performing its tasks | A developer specialist in github | Does the specification define a persona and its area of activity? Is the persona appropriate for and consistent with the Goal? |
-| Inputs | Information sent to the agent | - Repository: identifier on format owner/repository<br><br>- user_request: Natural language instruction describing what the user wants to retrieve and how results should be filtered (e.g., "List open pull requests waiting for review" or "Show me all closed bug issues")<br><br>- github_token: A GitHub token with READ permission | Does the specification define the expected input? |
-| Guardrails and Invariants | External rules or conditions the agent must always respect during execution. They may come from laws, regulations, company policies, or domain rules. An invariant must hold before and after any agent behavior. | The agent must invoke exactly one tool per execution — invoking both tools in a single run is not allowed | Does the specification state a relationship, property, or condition of the domain that is (or should be) always true, rather than a permitted/prohibited action? Is the invariant connected to an input, output, event, or piece of data the agent actually handles, rather than domain knowledge irrelevant to its scope? Can the invariant be checked at any point during execution? |
+| Inputs | Information sent to the agent | - Repository: identifier on format owner/repository<br><br>- user_request: Natural language instruction describing what the user wants to retrieve and how results should be filtered (e.g., "List open pull requests waiting for review" or "Show me all closed bug issues") | Does the specification define the expected input? |
+| Guardrails and Invariants | External rules or conditions the agent must always respect during execution. They may come from laws, regulations, company policies, or domain rules. An invariant must hold before and after any agent behavior. | - Data Scope Isolation: All items included in the final output must originate exclusively from the specified repository input.<br><br>- Environment Immutability: The execution must leave the target repository state completely unchanged before, during, and after any operation. | Does the specification state a relationship, property, or condition of the domain that is (or should be) always true, rather than a permitted/prohibited action? Is the invariant connected to an input, output, event, or piece of data the agent actually handles, rather than domain knowledge irrelevant to its scope? Can the invariant be checked at any point during execution? |
 | Quality attributes (non-functional requirements) | Observable characteristics of the agent's behavior during execution that describe neither what it does (Goal/Behavior Requirements) nor what it must never do (Constraints), but how well it does it: consistently, safely, efficiently, and reliably. They directly shape the trust and experience of those who depend on the agent. | Not applicable | Is the attribute described in observable/measurable behavioral terms, rather than as an implementation characteristic (for example, "use a cache" is an implementation constraint, not a quality attribute)? Is there a verifiable acceptance criterion (a threshold, rate, or test condition), rather than just a vague adjective (such as "must be fast" without defining how fast)? Where attributes involve a trade-off (for example, robustness versus performance), does the specification make the priority explicit? |
 
 **Tools:**
@@ -58,28 +58,28 @@
 
 ```mermaid
 flowchart TD
-    B1["B1: Listar issues"] 
-    B2["B2: Listar pull requests"]
-    B3["B3: Aplicar filtros"]
-    B4["B4: Tratar resultados vazios"]
-    B5["B5: Tratar repositório inválido"]
-    B6["B6: Retornar resposta estruturada"]
-    B7["B7: Rejeitar solicitações não suportadas"]
+    B1["B1: List Issues"]
+    B2["B2: List Pull Requests"]
+    B3["B3: Apply Filters"]
+    B4["B4: Handle Empty Results"]
+    B5["B5: Handle Invalid Repository"]
+    B6["B6: Return Structured Response"]
+    B7["B7: Reject Unsupported Requests"]
 
-    A([Solicitação]) --> B7
-    B7 -->|Não suportada| F([Rejeição])
-    B7 -->|Suportada| D{Tipo}
+    A([Request]) --> B7
+    B7 -->|Unsupported| F([Rejection])
+    B7 -->|Supported| D{Type}
     D -->|Issues| B1
-    D -->|Pull requests| B2
-    B1 -->|Sucesso| B3
-    B2 -->|Sucesso| B3
-    B1 -->|Erro| B5
-    B2 -->|Erro| B5
-    B3 -->|Com resultados| B6
-    B3 -->|Sem resultados| B4
+    D -->|Pull Requests| B2
+    B1 -->|Success| B3
+    B2 -->|Success| B3
+    B1 -->|Error| B5
+    B2 -->|Error| B5
+    B3 -->|Results Found| B6
+    B3 -->|No Results| B4
     B4 --> B6
     B5 --> B6
-    B6 --> E([Resposta final])
+    B6 --> E([Final Response])
 ```
 
 **Implementation details:**
