@@ -113,6 +113,47 @@ Docker forwards these controls only to their respective stages; it does not
 forward arbitrary host environment. Offline synthetic tests do not establish
 compatibility with real providers, Sonar services, Docker or SELinux.
 
+### Stage 08 managed tracing (phase 6)
+
+In synthetic or trusted synchronous tests, use the canonical helper:
+
+```python
+from trace_capture import traced
+
+def test_capture():
+    output, trace = traced(lambda: 42)()
+    assert output == 42
+```
+
+Only08 enables the internal `trace_enabled` runner option;07 is unchanged.
+The runner controls a private `TRACE_DIR`, managed-export mode and `PYTHONPATH`
+pointing only to the helper. Do not supply host output paths. Async functions
+and awaitables are rejected. `traced` returns `(output, trace)` even on agent
+failure; `run_traced` exports before rethrowing the agent exception. Capture or
+export failures propagate rather than masquerading as agent failures.
+LangSmith/LangChain tracing is forced off and DeepEval telemetry opted out.
+
+Schema1 trace JSON carries `run_id` (hex32), query, execution `status`, safe
+error, runs_collected, trajectory, tool_calls and `test_nodeid`. Each evaluated
+pytest call needs an exactly associated trace. Missing/corrupt traces are
+operational errors (`passed=null`), preserving pytest records. Valid all-skip
+needs no trace and is not approval. **Trace status is not a pytest verdict**:
+an expected agent error may be captured while the test passes.
+
+`results[].trace_artifacts` links `path`, `run_id`, `test_nodeid`, `capture_status`.
+Paths are relative to the report directory:
+`08_traces/<llm>/<agent>/<exec_uuid>/<filename>.json`. Runner and Docker staging
+validate identities, schema, regular files and symlink-free ancestors; staging
+publishes only manifest references for the exact job, traces before the report,
+without overwrite. No arbitrary tree or trace-supplied absolute path is copied.
+
+Exports are0600, temporary workspaces private; published results persist until
+explicit operator deletion. Set retention/access/backup policy accordingly.
+Known-secret redaction is limited: arbitrary tool data, legacy streams and judge
+payloads are **not guaranteed fully sanitized**. Local trusted code is not a
+sandbox. See [offline synthetic smoke](docker.md#smoke-reproduzível-offline-e-sintético)
+and [Docker publication details](../docker/README_MVP.md#fase-6--captura-e-publicação08).
+
 ### Stage 01 report contract (phase 2)
 
 Stage 01 reserves one fresh output directory per agent

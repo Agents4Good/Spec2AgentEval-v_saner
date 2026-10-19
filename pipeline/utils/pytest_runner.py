@@ -15,12 +15,15 @@ from __future__ import annotations
 import json
 import math
 import os
+import re
 import shutil
 import signal
+import stat
 import subprocess
 import sys
 import tempfile
 import time
+import uuid
 from datetime import datetime
 from pathlib import Path
 from typing import Any
@@ -155,6 +158,87 @@ def _classify(report, rc):
     return "ok", all(evaluated) if evaluated else None, None if evaluated else "no_evaluated_tests"
 
 
+def _trace_component(value):
+    if not isinstance(value, str) or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_-]{0,127}", value):
+        raise ValueError("invalid trace path component")
+    return value
+
+
+def _publish_traces(directory, report, results_root, llm, agent):
+    """Validate the complete private set before publishing any captured bytes."""
+    sources = sorted(_safe(directory).iterdir())
+    if not sources and not isinstance(report, dict):
+        return []
+    # Debug exports may survive cancellation: validate the report's own recorded
+    # exitcode, without replacing the actual process rc or its primary error.
+    _classify(report, report.get("exitcode") if isinstance(report, dict) else None)
+    nodes = {test["nodeid"] for test in report["tests"]}
+    required = {test["nodeid"] for test in report["tests"]
+                if test.get("call", {}).get("outcome") in ("passed", "failed")
+                and test["outcome"] not in ("xfailed", "xpassed")}
+    validated, run_ids, associated = [], set(), set()
+    for source in sources:
+        if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.-]{0,127}\.json", source.name):
+            raise ValueError("invalid trace filename")
+        info = _safe(source).stat()
+        if not stat.S_ISREG(info.st_mode) or info.st_nlink != 1:
+            raise ValueError("trace is not a private regular file")
+        with source.open("rb") as stream:
+            content = stream.read()
+        data = json.loads(content)
+        json.dumps(data, allow_nan=False)  # Reject non-standard NaN/Infinity JSON.
+        fields = {"schema_version", "run_id", "status", "query", "error", "runs_collected",
+                  "trajectory", "tool_calls", "test_nodeid"}
+        if (not isinstance(data, dict) or not fields.issubset(data)
+                or type(data["schema_version"]) is not int or data["schema_version"] != 1
+                or not isinstance(data["run_id"], str) or not re.fullmatch(r"[0-9a-f]{32}", data["run_id"])
+                or data["run_id"] in run_ids or data["status"] not in ("ok", "error")
+                or type(data["runs_collected"]) is not int or data["runs_collected"] < 0
+                or not isinstance(data["trajectory"], list) or not isinstance(data["tool_calls"], list)
+                or not isinstance(data["test_nodeid"], str) or data["test_nodeid"] not in nodes):
+            raise ValueError("invalid trace schema or association")
+        if (data["error"] is not None and not isinstance(data["error"], str)
+                or any(not isinstance(name, str) for name in data["trajectory"])):
+            raise ValueError("invalid trace error or trajectory")
+        for call in data["tool_calls"]:
+            if (not isinstance(call, dict) or not {"name", "input", "start", "end"}.issubset(call)
+                    or not isinstance(call["name"], str)
+                    or any(call[key] is not None and not isinstance(call[key], str) for key in ("start", "end"))
+                    or ("output" in call) == ("error" in call)
+                    or "error" in call and not isinstance(call["error"], str)):
+                raise ValueError("invalid trace tool call")
+        run_ids.add(data["run_id"])
+        associated.add(data["test_nodeid"])
+        validated.append((source.name, content, data))
+    if required - associated:
+        raise ValueError("missing trace for evaluated test")
+    if not validated:
+        return []
+    execution = uuid.uuid4().hex
+    if not isinstance(execution, str) or not re.fullmatch(r"[0-9a-f]{32}", execution):
+        raise ValueError("invalid trace execution identity")
+    relative = Path("08_traces") / _trace_component(llm) / _trace_component(agent) / execution
+    destination = _safe(results_root / relative)
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    _safe(destination.parent)
+    destination.mkdir(mode=0o700)  # An existing execution directory is never reused.
+    created, artifacts = [], []
+    try:
+        for name, content, data in validated:
+            path = _safe(destination / name)
+            fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)
+            created.append(path)
+            with os.fdopen(fd, "wb") as stream:
+                stream.write(content)
+            artifacts.append(dict(path=(relative / name).as_posix(), run_id=data["run_id"],
+                                  test_nodeid=data["test_nodeid"], capture_status=data["status"]))
+    except Exception:
+        for path in created:
+            path.unlink(missing_ok=True)
+        raise
+    return artifacts
+
+
 def run_pytest_for_agents(
     *,
     llm: str,
@@ -168,6 +252,7 @@ def run_pytest_for_agents(
     experiments_results: Path,
     run: int = 1,
     experiment: str = "by_tool",
+    trace_enabled: bool = False,
 ) -> dict[str, Any]:
     """Run ``test_filename`` for every agent generated by ``llm`` and build a report.
 
@@ -189,8 +274,15 @@ def run_pytest_for_agents(
         ``"trace_eval"``).
     """
 
+    if trace_enabled:
+        for value in (llm, experiment, *([agent_filter] if agent_filter is not None else [])):
+            _trace_component(value)
+        if type(run) is not int or run < 1:
+            raise ValueError("invalid trace run component")
     generated_root = generated_dir / experiment / f"run_{run}"
     experiments_root = experiments_results / experiment / f"run_{run}"
+    if trace_enabled:
+        experiments_root = _safe(experiments_root)
 
     model_folder = generated_root / llm
     results: list[dict[str, Any]] = []
@@ -224,8 +316,12 @@ def run_pytest_for_agents(
                 "status": "error",
                 "reason_code": None,
             }
+            if trace_enabled:
+                entry["trace_artifacts"] = []
             try:
                 entry["reason_code"] = "invalid_input"
+                if trace_enabled:
+                    _trace_component(agent_folder.name)
                 if Path(test_filename).name != test_filename or Path(test_filename).suffix != ".py":
                     raise ValueError("test filename must be a Python basename")
                 agent_file = _safe(agent_folder / "agent.py")
@@ -250,6 +346,11 @@ def run_pytest_for_agents(
                     for key in ("PYTEST_ADDOPTS", "PYTEST_PLUGINS"):
                         env.pop(key, None)
                     env.update(PYTEST_DISABLE_PLUGIN_AUTOLOAD="1", DEEPEVAL_TELEMETRY_OPT_OUT="1")
+                    if trace_enabled:
+                        (workspace / "traces").mkdir(mode=0o700)
+                        env.update(TRACE_DIR=str(workspace / "traces"), SPEC2AGENT_TRACE_MANAGED="1",
+                                   PYTHONPATH=str(Path(__file__).absolute().parent),
+                                   LANGSMITH_TRACING="false", LANGCHAIN_TRACING_V2="false")
                     args = [sys.executable, "-m", "pytest", str(target_test), "-v", "--tb=long", "-rN",
                             "-c", str(config), "--confcutdir", str(workspace), "--noconftest",
                             "--json-report", f"--json-report-file={report_path}",
@@ -264,14 +365,28 @@ def run_pytest_for_agents(
                     entry["pytest_report"] = report
                     if isinstance(report, dict):
                         entry["summary"] = report.get("summary")
-                    entry["reason_code"] = reason or ("pytest_exit" if rc not in (0, 1) else "pytest_report_invalid")
-                    if reason or rc not in (0, 1):
-                        raise ValueError(f"pytest did not complete normally ({entry['reason_code']}; rc={rc})")
-                    status, passed, reason = _classify(report, rc)
-                    entry.update(status=status, passed=passed, reason_code=reason)
-                    entry["tests"] = _normalize_tests(report)
-                    if status == "error":
-                        entry["error"] = "pytest setup or teardown failed"
+                    try:
+                        entry["reason_code"] = reason or ("pytest_exit" if rc not in (0, 1) else "pytest_report_invalid")
+                        if reason or rc not in (0, 1):
+                            raise ValueError(f"pytest did not complete normally ({entry['reason_code']}; rc={rc})")
+                        status, passed, reason = _classify(report, rc)
+                        entry.update(status=status, passed=passed, reason_code=reason)
+                        entry["tests"] = _normalize_tests(report)
+                        if status == "error":
+                            entry["error"] = "pytest setup or teardown failed"
+                    finally:
+                        if trace_enabled:
+                            primary_failure = sys.exc_info()[0] is not None
+                            try:
+                                entry["trace_artifacts"] = _publish_traces(
+                                    workspace / "traces", report, experiments_root, llm, agent_folder.name)
+                            except Exception as exc:
+                                diagnostic = f"trace validation/publication failed ({type(exc).__name__})"
+                                if primary_failure or entry["status"] == "error":
+                                    entry["trace_error"] = diagnostic
+                                else:
+                                    entry.update(status="error", passed=None, reason_code="trace_artifacts_invalid",
+                                                 error=diagnostic)
             except Exception as exc:
                 entry.update(status="error", passed=None)
                 entry["reason_code"] = entry["reason_code"] or "pytest_report_invalid"
@@ -303,6 +418,8 @@ def run_pytest_for_agents(
         final_report.update(reason_code="empty_targets", error=selection_error or "no agents selected")
     final_report["exit_code"] = 128 + interrupted if interrupted else int(final_report["status"] == "error")
 
+    if trace_enabled:
+        _safe(experiments_root)
     report_path = (
         experiments_root
         / f"{stage_prefix}_{report_name_stem}_{llm}_{run_id}.json"

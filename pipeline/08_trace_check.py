@@ -61,6 +61,7 @@ def main() -> int:
         experiments_results=EXPERIMENTS_RESULTS,
         run=args.run,
         experiment=args.experiment,
+        trace_enabled=True,
     )
     return report["exit_code"]
 

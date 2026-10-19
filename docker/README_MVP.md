@@ -56,6 +56,7 @@ ocorre **antes** da cópia; não se copia árvore para depois filtrar.
 Allowlist por job:
 - `/repo`: somente o script da etapa; 03 acrescenta
   `sonar_scripts/sonar_pipeline.py`; 07/08 acrescentam `utils/pytest_runner.py`.
+  Somente 08 acrescenta também `utils/trace_capture.py`.
 - `/bench/<agent>`: 05 recebe `spec.md` e `spec_adherence.py`; 06 recebe
   `eval_2_graph.py`; 07 recebe `test_deepeval.py`; 08 recebe `test_trace.py`.
   Arquivos de bench ausentes continuam ausentes, preservando o diagnóstico
@@ -163,6 +164,44 @@ PYTEST_TIMEOUT_SECONDS=300 bash docker/docker_run_eval.sh --step 07 --llm openco
 recursiva, forwarding genérico de ambiente ou mudança de rede/SELinux nesta
 fase. Evidência com Docker fake e etapas estagiadas locais não prova Docker,
 SELinux, Sonar ou providers reais. O código local confiado não é sandbox.
+
+## Fase 6 — captura e publicação08
+
+O import canônico é `from trace_capture import traced, run_traced`. Somente08
+ativa o parâmetro interno `trace_enabled`;07 permanece inalterado. O runner
+controla `TRACE_DIR` no workspace privado, `SPEC2AGENT_TRACE_MANAGED=1` e
+`PYTHONPATH` somente para o helper estagiado. Não herda esses paths do host.
+Força `LANGSMITH_TRACING=false`, `LANGCHAIN_TRACING_V2=false` e opt-out DeepEval.
+A API suporta somente sync; async/awaitables são rejeitados. `traced` devolve
+`(output, trace)` inclusive em falha do agente; `run_traced` exporta antes de
+relançar a exceção. Erros de instrumentação/exportação não são escondidos.
+
+O manifesto técnico é `results[].trace_artifacts`: cada item traz `path` relativo,
+`run_id`, `test_nodeid` e `capture_status`. Arquivos schema1 ficam em
+`EXPERIMENTS_RESULTS/<exp>/run_N/08_traces/<llm>/<agent>/<exec_uuid>/<filename>.json`.
+UUIDs são hex32; arquivos têm nomes ASCII seguros e criação exclusiva0600.
+Runner e staging revalidam identidade, schema, symlinks/ancestrais e destinos;
+staging copia somente os arquivos referenciados pelo manifesto do job, sem
+varrer árvores arbitrárias, e publica traces antes do relatório. Falha parcial
+remove apenas arquivos criados pela tentativa, nunca execuções anteriores.
+Teardown confirmado continua obrigatório antes de qualquer publicação.
+
+`trace.status` descreve execução capturada, **não** o veredicto pytest: uma falha
+esperada capturada pode acompanhar `passed=true`. Calls avaliáveis precisam de
+captura associada exatamente ao nodeid; trace ausente/corrompido é erro operacional
+com `passed=null`, preservando os resultados pytest. All-skip válido não exige
+trace nem significa aprovação. Artefatos válidos de debug sobrevivem à falha
+operacional quando a validação permite; nunca se infere aprovação da captura.
+
+Temporários são privados e removidos após cleanup confirmado; resultados
+publicados persistem até remoção explícita pelo operador. Restrinja acesso,
+backups e retenção: redação conhecida NÃO garante sanitização integral de dados
+arbitrários de tools, streams ou judge. Código confiado no host não é sandbox.
+Os diagnósticos legados listados acima continuam separados dos traces canônicos.
+
+Smoke offline reproduzível e limites da evidência: [docs/docker.md](../docs/docker.md).
+Port seletivo de origin/infra9b69772; infra local4096345 já ancestral, sem merge,
+mudança de aliases ou download de skills.
 
 ## Limitações assumidas
 - `docker_setup.log` contém apenas metadados/status após setup bem-sucedido.

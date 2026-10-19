@@ -1,5 +1,6 @@
 """Synthetic fake-Docker evidence; never contacts Docker or provider services."""
 import json
+import ast
 import importlib.util
 import os
 from pathlib import Path
@@ -70,8 +71,9 @@ if os.environ.get('EXECUTE_STAGED'):
     child_env.update({key: mounts.get(value, value) for key, value in forwarded.items()})
     index = args.index('python3')
     script = args[index + 1].replace('/repo/', mounts['/repo'] + '/', 1)
-    child = subprocess.run([sys.executable, script, *args[index + 2:]],
-                           env=child_env, capture_output=True, text=True, timeout=10)
+    prefix = [sys.executable, os.environ['TRACE_DRIVER']] if os.environ.get('TRACE_DRIVER') else [sys.executable]
+    child = subprocess.run([*prefix, script, *args[index + 2:]],
+                           env=child_env, capture_output=True, text=True, timeout=30)
     print(child.stdout, end='')
     print(child.stderr, end='', file=sys.stderr)
     products = list(pathlib.Path(mounts['/results']).rglob('*.json'))
@@ -91,6 +93,60 @@ elif attack == 'file':
     product.symlink_to(os.environ['OUTSIDE'] + '/secret')
 else:
     product.write_text('report')
+if os.environ.get('TRACE_CASE'):
+    case = os.environ['TRACE_CASE']
+    run_id, execution = 'a' * 32, 'b' * 32
+    link = pathlib.Path('08_traces/model/agent') / execution / (run_id + '.json')
+    trace = dict(schema_version=1, run_id=run_id, status='error', query='synthetic',
+                 error='Agent execution failed (ValueError)', runs_collected=0,
+                 trajectory=[], tool_calls=[], test_nodeid='test_trace.py::test_synthetic')
+    record = dict(path=str(link), run_id=run_id, capture_status='error', test_nodeid=trace['test_nodeid'])
+    source = out / link
+    source.parent.mkdir(parents=True)
+    source.write_text(json.dumps(trace))
+    if case in ('foreign_agent', 'foreign_llm', 'foreign_run', 'uuid', 'filename', 'absolute'):
+        record['path'] = {'foreign_agent': str(link).replace('/agent/', '/other/'),
+            'foreign_llm': str(link).replace('/model/', '/other/'),
+            'foreign_run': '../run_2/' + str(link), 'uuid': str(link).replace(execution, 'bad'),
+            'filename': str(link).replace(run_id + '.json', '_bad.json'),
+            'absolute': str(source)}[case]
+    elif case in ('symlink', 'dangling'):
+        source.unlink()
+        source.symlink_to(os.environ['OUTSIDE'] + ('/missing' if case == 'dangling' else '/secret'))
+    elif case == 'ancestor':
+        source.unlink(); source.parent.rmdir()
+        source.parent.symlink_to(os.environ['OUTSIDE'], target_is_directory=True)
+    elif case in ('schema', 'nodeid', 'run_id', 'status'):
+        trace[{'schema': 'schema_version', 'nodeid': 'test_nodeid', 'run_id': 'run_id', 'status': 'status'}[case]] = 'invalid'
+        source.write_text(json.dumps(trace))
+    elif case == 'hardlink':
+        source.unlink(); source.hardlink_to(pathlib.Path(os.environ['OUTSIDE']) / 'secret')
+    elif case == 'fifo':
+        source.unlink(); os.mkfifo(source)
+    elif case == 'directory':
+        source.unlink(); source.mkdir()
+    elif case.startswith('nested_'):
+        call = dict(name='synthetic', input=None, start=None, end=None, output={'arbitrary': [42]})
+        trace['trajectory'], trace['tool_calls'] = ['synthetic'], [call]
+        if case == 'nested_trajectory': trace['trajectory'] = [42]
+        elif case == 'nested_notdict': trace['tool_calls'] = [42]
+        elif case == 'nested_name': call['name'] = 42
+        elif case == 'nested_input': del call['input']
+        elif case == 'nested_startmissing': del call['start']
+        elif case == 'nested_endmissing': del call['end']
+        elif case == 'nested_start': call['start'] = 42
+        elif case == 'nested_end': call['end'] = {}
+        elif case == 'nested_both': call['error'] = 'failure'
+        elif case == 'nested_neither': del call['output']
+        elif case == 'nested_error': del call['output']; call['error'] = None
+        elif case == 'nested_traceerror': trace['error'] = 42
+        elif case == 'nested_validerror': del call['output']; call['error'] = 'failure'
+        elif case == 'nested_validoutput': call['start'] = 'synthetic-start'; call['end'] = 'synthetic-end'; trace['error'] = None
+        source.write_text(json.dumps(trace))
+    # An unreferenced orphan must never be copied, even if it looks valid.
+    (source.parent / 'orphan.json').write_text(json.dumps(trace))
+    product.write_text(json.dumps(dict(model='model', results=[dict(agent_folder='agent', model='model',
+        status='ok', passed=True, trace_artifacts=[] if case == 'orphan' else [record])], status='ok')))
 (pathlib.Path(mounts['/results']) / 'agent.py').write_text('evil')
 (pathlib.Path(mounts['/results']) / 'unapproved.json').write_text('evil')
 (out / '02_validation_other_20260101_010101.json').write_text('evil')
@@ -190,7 +246,13 @@ def test_allowlisted_mounts_env_network_and_products(harness, step):
     expected_bench = {'05': ['spec.md', 'spec_adherence.py'], '06': ['eval_2_graph.py'],
                       '07': ['test_deepeval.py'], '08': ['test_trace.py']}.get(step, [])
     assert files['/bench'] == sorted('agent/' + f for f in expected_bench)
-    assert len(files['/repo']) == (2 if step in ('03', '07', '08') else 1)
+    assert len(files['/repo']) == (3 if step == '08' else 2 if step in ('03', '07') else 1)
+    if step in ('07', '08'):
+        expected = {f'pipeline/{step}_' + ('behavioral_check.py' if step == '07' else 'trace_check.py'),
+                    'pipeline/utils/pytest_runner.py'}
+        if step == '08':
+            expected.add('pipeline/utils/trace_capture.py')
+        assert set(files['/repo']) == expected
     forwarded = snapshot['forwarded']
     secret_names = {k for k in forwarded if k in env and k not in ('GENERATED_DIR', 'BENCH_DIR',
                     'EXPERIMENTS_RESULTS', 'SPEC2AGENT_SKIP_DOTENV', 'PYTHON_DOTENV_DISABLED')}
@@ -580,3 +642,138 @@ def test_missing_optional_input_still_rejects_dangling_symlinks(harness, step, l
     assert result.returncode == 1 and snapshot is None
     assert 'symlink forbidden' in result.stderr
     assert target.is_symlink()
+
+
+@pytest.mark.parametrize('case', ['valid', 'orphan', 'nested_validoutput', 'nested_validerror',
+    'nested_trajectory', 'nested_notdict', 'nested_name', 'nested_input', 'nested_startmissing',
+    'nested_endmissing', 'nested_start', 'nested_end', 'nested_both', 'nested_neither', 'nested_error', 'nested_traceerror',
+    'foreign_agent', 'foreign_llm', 'foreign_run',
+    'uuid', 'filename', 'absolute', 'symlink', 'dangling', 'ancestor', 'schema', 'nodeid', 'run_id', 'status', 'hardlink', 'fifo', 'directory'])
+def test_manifest_trace_publication(harness, case):
+    directory, env = harness
+    env['TRACE_CASE'] = case
+    result, _ = run(harness, '08')
+    valid = case in ('valid', 'orphan', 'nested_validoutput', 'nested_validerror')
+    assert (result.returncode == 0) is valid, result.stderr
+    traces = list((directory / 'results').rglob('08_traces/**/*.json'))
+    assert len(traces) == (1 if valid and case != 'orphan' else 0)
+    reports = list((directory / 'results').rglob('08_trace_eval_*.json'))
+    assert len(reports) == int(valid)
+    if valid and case != 'orphan':
+        report = json.loads(reports[0].read_text())
+        record = report['results'][0]['trace_artifacts'][0]
+        trace = json.loads(traces[0].read_text())
+        assert traces[0] == reports[0].parent / record['path']
+        assert (trace['run_id'], trace['test_nodeid'], trace['status']) == (record['run_id'], record['test_nodeid'], record['capture_status'])
+        assert trace['status'] == 'error' and report['results'][0]['passed'] is True
+        assert traces[0].stat().st_mode & 0o777 == 0o600
+    assert (directory / 'outside/secret').read_text() == 'synthetic secret'
+
+
+def test_trace_failure_products_and_no_overwrite(harness):
+    directory, env = harness
+    env.update(TRACE_CASE='valid', EXIT_CODE='17')
+    result, _ = run(harness, '08')
+    assert result.returncode == 17
+    trace = next((directory / 'results').rglob('08_traces/**/*.json'))
+    previous = trace.read_bytes()
+    result, _ = run(harness, '08')
+    assert result.returncode == 1
+    assert trace.read_bytes() == previous
+
+
+@pytest.mark.parametrize('location', ['ancestor', 'file', 'dangling'])
+def test_trace_destination_symlinks_rejected(harness, location):
+    directory, env = harness
+    env['TRACE_CASE'] = 'valid'
+    target = directory / 'results/exp/run_1/08_traces'
+    if location != 'ancestor':
+        target = target / 'model/agent' / ('b' * 32) / ('a' * 32 + '.json')
+    target.parent.mkdir(parents=True)
+    target.symlink_to(directory / ('missing' if location == 'dangling' else 'outside'),
+                      target_is_directory=location == 'ancestor')
+    result, _ = run(harness, '08')
+    assert result.returncode == 1
+    assert target.is_symlink()
+    assert not list((directory / 'results').rglob('08_trace_eval_*.json'))
+    assert sorted(p.name for p in (directory / 'outside').iterdir()) == ['secret']
+
+
+def test_trace_unconfirmed_teardown_never_publishes(harness):
+    directory, env = harness
+    env.update(TRACE_CASE='valid', RM_FAIL='1')
+    result = subprocess.run(command(env, '08'), env=env, capture_output=True, text=True, timeout=10)
+    assert result.returncode == 1
+    assert not list((directory / 'results').rglob('08_traces/**/*.json'))
+
+
+def test_staged08_real_capture_guarded(harness):
+    directory, env = harness
+    tree = ast.parse((ROOT / 'tests/test_pytest_plugin_contract.py').read_text())
+    guard = next(ast.literal_eval(node.value) for node in tree.body if isinstance(node, ast.Assign)
+                 and any(isinstance(t, ast.Name) and t.id == 'BOOTSTRAP' for t in node.targets))
+    attempts = directory / 'blocked.jsonl'
+    driver = directory / 'trace_driver.py'
+    driver.write_text('import pathlib, runpy, subprocess, sys\n'
+        'script = sys.argv.pop(1)\nsys.argv[0] = script\n'
+        'sys.path.insert(0, str(pathlib.Path(script).parent))\n'
+        'actual = subprocess.Popen\n'
+        'def guarded(args, **kwargs):\n'
+        ' assert args[:3] == [sys.executable, "-m", "pytest"]\n'
+        ' assert kwargs["env"]["PYTHONPATH"] == str(pathlib.Path(script).parent / "utils")\n'
+        f' return actual([args[0], "-c", {guard!r}, {str(attempts)!r}, *args[3:]], **kwargs)\n'
+        'subprocess.Popen = guarded\nrunpy.run_path(script, run_name="__main__")\n')
+    (directory / 'generated/exp/run_1/model/agent/agent.py').write_text('def agent():\n raise ValueError("synthetic failure")\n')
+    (directory / 'bench/agent/test_trace.py').write_text(
+        'from trace_capture import traced\nfrom agent import agent\n'
+        'def test_expected_failure():\n output, trace = traced(agent)()\n'
+        ' assert output is None and trace["status"] == "error"\n')
+    env.update(EXECUTE_STAGED='1', TRACE_DRIVER=str(driver), EVAL_PROVIDER='none',
+               BEFORE_CLEANUP=str(directory / 'before-cleanup'))
+    result, snapshot = run(harness, '08')
+    assert result.returncode == 0, result.stdout + result.stderr
+    assert not attempts.exists(), attempts.read_text() if attempts.exists() else ''
+    report_path = next((directory / 'results').rglob('08_trace_eval_*.json'))
+    entry = json.loads(report_path.read_text())['results'][0]
+    assert entry['status'] == 'ok' and entry['passed'] is True
+    assert len(entry['trace_artifacts']) == 1
+    record = entry['trace_artifacts'][0]
+    trace = json.loads((report_path.parent / record['path']).read_text())
+    assert trace['status'] == record['capture_status'] == 'error'
+    assert trace['test_nodeid'] == record['test_nodeid']
+    assert trace['run_id'] == record['run_id']
+    assert snapshot['files']['/repo'] == ['pipeline/08_trace_check.py', 'pipeline/utils/pytest_runner.py', 'pipeline/utils/trace_capture.py']
+
+
+def test_trace_publication_rollback_only_owned_files(tmp_path, monkeypatch):
+    spec = importlib.util.spec_from_file_location('trace_staging_rollback', HELPER)
+    helper = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(helper)
+    source, destination = tmp_path / 'source', tmp_path / 'destination'
+    source.mkdir(); destination.mkdir()
+    sentinel = destination / 'sentinel.json'
+    sentinel.write_text('preexisting')
+    prior = destination / '08_traces/model/agent' / ('c' * 32) / 'previous.json'
+    prior.parent.mkdir(parents=True)
+    prior.write_text('previous execution')
+    relative = Path('08_traces/model/agent') / ('b' * 32) / 'trace.json'
+    trace = dict(schema_version=1, run_id='a' * 32, status='ok', query=None, error=None,
+                 runs_collected=0, trajectory=[], tool_calls=[], test_nodeid='test_synthetic')
+    (source / relative).parent.mkdir(parents=True)
+    (source / relative).write_text(json.dumps(trace))
+    report = source / '08_trace_eval_model_20260101_010101.json'
+    report.write_text(json.dumps(dict(model='model', results=[dict(model='model', agent_folder='agent',
+        trace_artifacts=[dict(path=str(relative), run_id=trace['run_id'], capture_status='ok', test_nodeid='test_synthetic')])])))
+    actual = os.open
+    def fail_report(path, *args, **kwargs):
+        if Path(path).name == report.name:
+            assert (destination / relative).exists()  # traces precede report
+            raise OSError('FAKE_SELECTED_KEY')
+        return actual(path, *args, **kwargs)
+    monkeypatch.setattr(helper.os, 'open', fail_report)
+    with pytest.raises(ValueError, match='^trace/report publication failed$'):
+        helper.publish_trace_reports([report], source, destination, 'model', 'agent')
+    assert sentinel.read_text() == 'preexisting'
+    assert list(destination.rglob('08_traces/**/*.json')) == [prior]
+    assert prior.read_text() == 'previous execution'
+    assert not (destination / report.name).exists()

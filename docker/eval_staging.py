@@ -1,5 +1,6 @@
 """Private allowlisted Docker evaluation staging."""
 import argparse
+import json
 import os
 from pathlib import Path
 import re
@@ -64,6 +65,89 @@ def publish_file(source, destination):
     except BaseException:
         destination.unlink(missing_ok=True)
         raise
+
+
+def publish_trace_reports(sources, source_root, destination_root, llm, agent):
+    """Revalidate only manifest-selected job traces; publish reports last."""
+    traces, reports, seen = [], [], set()
+    def read_regular(path):
+        path = safe(path)
+        info = path.stat()
+        if not stat.S_ISREG(info.st_mode) or info.st_nlink != 1:
+            raise ValueError('unsafe trace/report product')
+        with path.open('rb') as stream:
+            return stream.read()
+    def strict_json(raw):
+        return json.loads(raw, parse_constant=lambda value: (_ for _ in ()).throw(ValueError('invalid JSON constant')))
+    try:
+        for source in sources:
+            raw = read_regular(source)
+            reports.append((destination_root / source.name, raw))
+            try:
+                report = strict_json(raw)
+            except (ValueError, UnicodeError):
+                # Preserve legacy report publication; no manifest means no traces.
+                continue
+            for entry in report.get('results', []):
+                artifacts = entry.get('trace_artifacts', [])
+                if not isinstance(artifacts, list):
+                    raise ValueError('invalid trace manifest')
+                for record in artifacts:
+                    if (report.get('model') != llm or entry.get('agent_folder') != agent
+                            or entry.get('model') != llm or not isinstance(record, dict)):
+                        raise ValueError('foreign trace job')
+                    path = record.get('path')
+                    parts = path.split('/') if isinstance(path, str) else []
+                    if (len(parts) != 5 or parts[:3] != ['08_traces', llm, agent]
+                            or not re.fullmatch(r'[0-9a-f]{32}', parts[3])
+                            or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_.-]{0,127}\.json', parts[4])):
+                        raise ValueError('invalid trace path')
+                    relative = Path(*parts)
+                    payload = read_regular(source_root / relative)
+                    trace = strict_json(payload)
+                    if (not isinstance(trace, dict) or type(trace.get('schema_version')) is not int
+                            or trace['schema_version'] != 1
+                            or not isinstance(trace.get('run_id'), str)
+                            or not re.fullmatch(r'[0-9a-f]{32}', trace['run_id'])
+                            or trace['run_id'] != record.get('run_id')
+                            or trace.get('status') not in ('ok', 'error')
+                            or trace['status'] != record.get('capture_status')
+                            or not isinstance(trace.get('test_nodeid'), str)
+                            or trace['test_nodeid'] != record.get('test_nodeid')
+                            or not {'query', 'error', 'trajectory', 'tool_calls', 'runs_collected'} <= trace.keys()
+                            or trace['error'] is not None and not isinstance(trace['error'], str)
+                            or type(trace['runs_collected']) is not int or trace['runs_collected'] < 0
+                            or not isinstance(trace['trajectory'], list) or not isinstance(trace['tool_calls'], list)
+                            or not all(isinstance(name, str) for name in trace['trajectory'])
+                            or not all(isinstance(call, dict) and {'name', 'input', 'start', 'end'} <= call.keys()
+                                and isinstance(call['name'], str)
+                                and all(call[key] is None or isinstance(call[key], str) for key in ('start', 'end'))
+                                and (('output' in call) != ('error' in call))
+                                and ('error' not in call or isinstance(call['error'], str))
+                                for call in trace['tool_calls'])
+                            or path in seen):
+                        raise ValueError('invalid trace identity/schema')
+                    seen.add(path)
+                    traces.append((destination_root / relative, payload))
+        products = traces + reports
+        for destination, _ in products:
+            if safe(destination).exists():
+                raise ValueError('trace/report destination exists')
+    except (OSError, ValueError, TypeError, AttributeError, KeyError):
+        raise ValueError('trace/report validation failed') from None
+    created = []
+    try:
+        for destination, payload in products:
+            for directory in (*reversed(destination.parent.parents), destination.parent):
+                safe(directory).mkdir(mode=0o700, exist_ok=True)
+            fd = os.open(safe(destination), os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)
+            created.append(destination)
+            with os.fdopen(fd, 'wb') as stream:
+                stream.write(payload)
+    except BaseException:
+        for destination in reversed(created):
+            destination.unlink(missing_ok=True)
+        raise ValueError('trace/report publication failed') from None
 
 
 class ClientStillAlive(RuntimeError):
@@ -172,6 +256,9 @@ def main():
             if args.step in extra:
                 copy_file(ROOT / 'pipeline' / extra[args.step],
                           private / 'repo/pipeline' / extra[args.step], True)
+            if args.step == '08':
+                copy_file(ROOT / 'pipeline/utils/trace_capture.py',
+                          private / 'repo/pipeline/utils/trace_capture.py', True)
             (private / 'data' / job).mkdir(parents=True)
             copy_file(generated / job / 'agent.py', private / 'data' / job / 'agent.py')
             # Stage04 inventories generated tests: direct Python test files only.
@@ -245,8 +332,11 @@ def main():
             report_dir = safe(private / 'results' / relative)
             pattern = re.compile(rf'{args.step}_{stem}_{re.escape(args.llm)}_[0-9]{{8}}_[0-9]{{6}}\.json')
             if report_dir.exists():
-                for source in report_dir.iterdir():
-                    if pattern.fullmatch(source.name):
+                sources = [source for source in report_dir.iterdir() if pattern.fullmatch(source.name)]
+                if args.step == '08':
+                    publish_trace_reports(sources, report_dir, results / relative, args.llm, args.agent)
+                else:
+                    for source in sources:
                         publish_file(source, results / relative / source.name)
             # Known per-job diagnostics only, never arbitrary container files.
             # Pytest embeds stdout/stderr and its JSON report in stage reports.
