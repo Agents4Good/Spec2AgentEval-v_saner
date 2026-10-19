@@ -48,6 +48,16 @@ The runtime provides the human support flow used by escalate. The agent calls th
 | **B6 — Analysis failure** | The analysis call fails, does not determine whether the query is about customer support, or returns a support classification without exactly one allowed Category and one allowed Sentiment. | The original query and B1's error or invalid result. | Not applicable. | state: dict with response set to "Error: could not classify the query". | Not applicable. | The agent returns the error in state['response']. It must not retry the analysis, call either tool, or use a default Category or Sentiment to continue. |
 | **B7 — Tool failure** | A tool call raises an exception or returns a non-string, empty or whitespace-only value. | The failed tool's name and the exception or invalid return. | No further tool calls. | state: dict with response set to "Error: could not execute handle_support" if handle_support fails, or "Error: could not execute escalate" if escalate fails. | Not applicable to error reporting. | The agent returns the matching error in state['response']. It must not retry the failed call, follow B2, or call the other tool. |
 
+| Field | Correctness criterion |
+| --- | --- |
+| Behavior | Is each behavior specified as an individual, identifiable requirement, separate from the Goal? Is each requirement atomic enough to test in isolation (given X, the agent must do Y)? Does the specification explicitly cover invalid input, tool call failure, ambiguity, and missing required information? Together, are the requirements sufficient to achieve the declared Goal, with no essential behavior left implicit? |
+| Trigger | Is the condition or event that starts the behavior explicitly defined and observable? |
+| Input | Does the specification define the expected input? |
+| Tools | Are the required tools identified and their intended use defined? |
+| Expected Outcome | Does the specification define the expected change in the environment? Is that change observable and verifiable after the behavior runs? |
+| Environment effect | Does the specification define which environment the agent changes and how that change is made? |
+| Constraints | Do this behavior’s constraints state what the agent must, must not, or may only do under certain conditions? Are the responsible party and conditions clear? Are the constraints verifiable and consistent with this behavior’s other fields and the Goal? |
+
 **Behavioral graph:**
 
 ```mermaid
