@@ -1,13 +1,19 @@
+**Task:** You are an AI agent generator. Below is a design for an agent; please generate the agent accordingly. Note that the agent's tools should be generated alongside the agent's code.
+
+**Contexto:** An AI agent is an entity that utilizes an LLM and tools to perform specific tasks autonomously.
+
+**Output:** agent.py, requirements.txt, tests.py
+
 **Contrato de interface com o benchmark:**
 
 | Requisito de interface | Exemplo |
 | --- | --- |
-| Modelo |  |
-| Framework |  |
-| GenAI Tool |  |
+| Modelo | GPT-4o |
+| Framework | LangGraph |
+| GenAI Tool | ChatOpenAI |
 | Tools | Every tool must be a LangChain tool (@tool, StructuredTool, or obtained from an MCP server via langchain-mcp-adapters) and must be executed exclusively through its interface (invoke/ainvoke, directly or via ToolNode), never by calling its implementation function directly. |
-| Entrypoint |  |
-| Output |  |
+| Entrypoint | agent(user_request: str) -> dict |
+| Output | {"status": "success \\\| failure", "response": "string"} |
 
 **Requisitos:**
 
@@ -16,7 +22,6 @@
 | Goal | Objetivo e comportamento principal do agente na voz ativa | Assess the viability of a travel destination by combining real-time weather data and recent news. | O comportamento principal está declarado definindo quem faz, o que faz e o resultado? |
 | Persona (Opcional) | A personalidade que o agente assume ao realizar as tarefas | Act as a travel destination assistant that helps users evaluate a destination before traveling. | A especificação define uma persona e sua área de atuação?<br>A persona é adequada/coerente com o Goal? |
 | Inputs | Informação enviada para o agente | Receive a natural-language request through user_request: str and identify the target destination. | A especificação define qual é a entrada esperada? |
-| Constraints | Uma afirmação que restringe as ações que o agente (ou seus usuários/operadores) têm permissão de realizar. Descreve o que o agente deve, não deve, ou não pode fazer, ou define que apenas determinados papéis/condições autorizam uma certa ação. |  | A especificação declara explicitamente uma ação que o agente deve, não deve, ou só pode sob certas condições?<br>A restrição está expressa em termos de ação/comportamento permitido ou proibido — não em termos de tecnologia, ferramenta ou biblioteca usada para implementar o agente?<br>Quando a restrição envolve papel/autorização ("só X pode fazer Y"), a especificação define quem ou o que está autorizado?<br>A restrição é verificável: é possível observar, no comportamento do agente, se ela foi violada ou respeitada? |
 | Guardrails and Invariants | Regras externas ou condições que devem ser sempre respeitadas pelo agente durante sua execução. Podem vir de leis, regulamentações, políticas da empresa ou regras do domínio. Quando uma condição é um invariante, ela deve ser satisfeita antes e depois da execução de qualquer comportamento do agente. | - Do not fabricate weather data or news.<br><br>- Return failure for empty requests, timeouts, or unhandled exceptions.<br><br>- Always comply with the required output schema. | A especificação declara uma relação, propriedade ou condição do domínio que é (ou deve ser) sempre verdadeira, e não uma ação permitida/proibida?<br>O invariante está conectado a uma entrada, saída, evento ou dado que o agente efetivamente manipula (não é conhecimento de domínio irrelevante ao escopo do agente)?<br>É possível verificar, a qualquer momento durante a execução, se o invariante ainda é válido? |
 | Quality attributes (non-functional requirements) | Características observáveis do comportamento do agente durante a execução, que não descrevem o que ele faz (isso é Goal/Behavior Requirements) nem o que ele nunca deve fazer (Constraints), mas quão bem ele faz — de forma consistente, segura, eficiente e confiável. Moldam diretamente a confiança e a experiência de quem depende do agente. | Not applicable | O atributo está descrito de forma observável/mensurável no comportamento (não é uma característica de implementação, ex: "usar cache" não é quality attribute, é constraint de implementação)?<br>Existe um critério de aceitação verificável (limiar, taxa, ou condição de teste), e não apenas um adjetivo vago ("deve ser rápido" sem definir o quê é rápido)?<br>Havendo trade-off entre atributos (ex: robustez vs. performance), a especificação deixa explícita a prioridade? |
 
@@ -47,7 +52,7 @@
 | Tools | As ferramentas necessárias para o comportamento estão identificadas e seu propósito de uso está definido? |
 | Expected Outcome | A especificação define qual alteração deve ocorrer no ambiente? A alteração esperada é observável e verificável após a execução do comportamento? |
 | Efeito no ambiente | A especificação define qual ambiente o agente vai alterar?  A especificação define como será feita a alteração no ambiente? |
-| Constraints | As restrições do comportamento estão explícitas, são verificáveis e coerentes com as restrições gerais? |
+| Constraints | As restrições deste comportamento declaram o que o agente deve, não deve ou só pode fazer sob determinadas condições? O responsável e as condições estão claros? As restrições são verificáveis e coerentes com os demais campos deste comportamento e com o Goal? |
 
 **Grafo comportamental:**
 
