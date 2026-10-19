@@ -5,12 +5,12 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PIPELINE_DIR="$SCRIPT_DIR/pipeline/"
 
 
-llms=("claude" "codex" "opencode") #("claude" "codex" "opencode" "copilot" "gemini")
+llms=("codex" "opencode") #("claude" "codex" "opencode" "copilot" "gemini")
 
-agents=("011_list_issues")
+agents=("027_personal_high")
 
 RUNS=${RUNS:-3}
-EXPERIMENT=${EXPERIMENT:-by_tool}
+EXPERIMENT=${EXPERIMENT:-by_tool_$(date +%Y%m%d_%H%M%S)}
 # Optional overrides for partial reruns:
 #   RUN=3 ./pipe.sh            → runs only run 3
 #   RUNS_FROM=2 RUNS_TO=3 ...  → runs 2 and 3
@@ -121,7 +121,7 @@ if [ "$failed" -ne 0 ]; then
 fi
 
 # ============================================================
-# 02–08 — Executados depois que TODAS as gerações da run terminarem
+# 02–05, 07–08 — Executados depois que TODAS as gerações da run terminarem
 # ============================================================
 
 for llm in "${llms[@]}"; do
@@ -147,9 +147,10 @@ for llm in "${llms[@]}"; do
             "$(eval_cmd 05_spec_llm_judge_check.py "$llm" "$agent" "$run")" \
             "Executando 05_spec_llm_judge_check.py para $llm / $agent (run $run)..."
 
-        run_step \
-            "$(eval_cmd 06_graph_eval_check.py "$llm" "$agent" "$run")" \
-            "Executando 06_graph_eval_check.py para $llm / $agent (run $run)..."
+        # Etapa 06 desabilitada por solicitação do usuário; disponível manualmente.
+        # run_step \
+        #     "$(eval_cmd 06_graph_eval_check.py "$llm" "$agent" "$run")" \
+        #     "Executando 06_graph_eval_check.py para $llm / $agent (run $run)..."
 
         run_step \
             "$(eval_cmd 07_behavioral_check.py "$llm" "$agent" "$run")" \

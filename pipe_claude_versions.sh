@@ -8,10 +8,10 @@ USE_DOCKER=${USE_DOCKER:-0} # Opt-in: USE_DOCKER=1 ./pipe_claude_versions.sh
 # Experimento "By Claude Version": compara 3 versões do Opus com effort low.
 llms=("claude-opus-5-5-low") #"claude-opus-4-6-low" "claude-opus-4-8-low" 
 
-agents=("001_list_issues_agent")
+agents=("027_personal_high")
 
 RUNS=${RUNS:-3}
-EXPERIMENT=${EXPERIMENT:-by_claude_version}
+EXPERIMENT=${EXPERIMENT:-by_claude_version_$(date +%Y%m%d_%H%M%S)}
 # Optional overrides for partial reruns:
 #   RUN=3 ./pipe_claude_versions.sh            → runs only run 3
 #   RUNS_FROM=2 RUNS_TO=3 ...                  → runs 2 and 3
@@ -110,7 +110,7 @@ if [ "$failed" -ne 0 ]; then
 fi
 
 # ============================================================
-# 02–08 — Executados depois que TODAS as gerações da run terminarem
+# 02–05, 07–08 — Executados depois que TODAS as gerações da run terminarem
 # ============================================================
 
 for llm in "${llms[@]}"; do
@@ -120,8 +120,9 @@ for llm in "${llms[@]}"; do
         printf "RUN %s | VARIANTE: %s | AGENTE: %s\n" "$run" "$llm" "$agent"
         printf "============================================================\n"
 
+        # 06_graph_eval_check desabilitada por solicitação do usuário; disponível manualmente.
         for step in 02_static_check 03_lints_check 04_tests_check \
-            05_spec_llm_judge_check 06_graph_eval_check 07_behavioral_check 08_trace_check; do
+            05_spec_llm_judge_check 07_behavioral_check 08_trace_check; do
             eval_cmd=(python3 "$PIPELINE_DIR/$step.py")
             if [ "$USE_DOCKER" = "1" ]; then
                 eval_cmd=(bash "$SCRIPT_DIR/docker/docker_run_eval.sh" --step "${step%%_*}")
