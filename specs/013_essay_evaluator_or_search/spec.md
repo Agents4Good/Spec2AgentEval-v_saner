@@ -1,34 +1,92 @@
-**Task:** você é um gerador de agentes de IA e abaixo está uma especificação de um agente. Gere um agente conforme a especificação. Considere que as ferramentas do agente devem ser geradas junto ao código do agente.  
-**Contexto:** Um agente de IA é uma entidade que usa LLM e ferramentas para executar tarefas específicas de forma autônoma.  
-**Output:** agent.py, requirements.txt, tests.py  
-**Contrato de interface com o benchmark:**
+**Task:** You are an AI agent generator. Generate an agent according to this specification, including its tools.
+**Context:** The essay assistant interprets natural-language requests to evaluate public documents or research information on a topic related to essay writing.
+**Output:** `agent.py`, `requirements.txt`, `tests.py`
 
-| Requisito de interface | Exemplo |
+**Interface contract with the benchmark:**
+
+| Interface requirement | Specification |
 | --- | --- |
-| Modelo | GPT-4o |
-| Framework | LangGraph |
-| GenAI Tool | ChatOpenAI |
-| Entrypoint | agent(...) |
-| Output | state: dict |
+| Model | GPT-4o (`gpt-4o`). |
+| Framework | LangGraph. |
+| GenAI Tool | ChatOpenAI. |
+| Tools | Exactly two LangChain tools: `fetch_document` and `search_about_topic`, defined with `@tool` or `StructuredTool`. Execute them exclusively through `invoke`/`ainvoke`, directly or through `ToolNode`, never by directly calling their Python implementations. |
+| Entrypoint | `def agent(user_request: str) -> dict`. |
+| Output | A dictionary with exactly the keys `status`, `user_request` and `response`, all with string values. `status` accepts only `"success"` or `"failure"`. `user_request` contains the original string, including whitespace. `response` contains the natural-language answer or an explanation of the refusal or failure. |
 
-**Requisitos gerais:**
+**Implementation details:**
 
-| Requisito | Significado | Especificação do agente | Critério de Corretude |
+| Implementation detail | Specification |
+| --- | --- |
+| Graph | `build_graph()` returns a `CompiledStateGraph`. The graph uses ChatOpenAI with `gpt-4o` to interpret the request, choose between a tool and refusal, and determine the arguments. |
+| Semantic decision | The LLM receives the original text. Do not replace interpretation with regex, keyword lists or string matching. Code may detect an empty or whitespace-only string without changing the original. |
+| External access | `fetch_document` makes a real HTTP GET request to a directly accessible public URL, without an API key. `search_about_topic` uses `TavilyClient`, authenticated through `TAVILY_API_KEY`. Model access uses `OPENAI_API_KEY`. |
+| Execution control | Measure the global budget with a monotonic clock from entry into `agent()` until it returns. Include preparation, LLM, tools, network access and output composition. Limit each operation to the remaining time and reserve time to catch the failure and return the dictionary before 30 seconds. Separate 30-second timeouts for each operation do not meet the contract. Also limit automatic client retries; do not repeat the tool or execute another after a failure. |
+| Failure handling | Catch exceptions throughout execution, including initialization, graph, LLM, tools and response composition. Produce the failure explanation without another LLM or tool call. |
+| Tests | Unit tests may use mocks for isolated components. To prove integration with external services, tests must make real calls with configured credentials. No additional testing library is required. |
+
+**Requirements:**
+
+| Requirement | Meaning | Agent specification | Correctness criterion |
 | --- | --- | --- | --- |
-| Goal | Objetivo e comportamento principal do agente na voz ativa | Gerar um agente executável capaz de auxiliar os usuários na escrita de redações usando entrada em linguagem natural. O agente deve raciocinar sobre a intenção do usuário para decidir se deve buscar um documento a partir de uma URL ou pesquisar informações sobre um tópico, e deve ser avaliável por meio de execução funcional automatizada. | O comportamento principal está declarado definindo quem faz, o que faz e o resultado? |
-| Persona (Opcional) | A personalidade que o agente assume ao realizar as tarefas | Assistente de redação | A especificação define uma persona e sua área de atuação? A persona é adequada/coerente com o Goal? |
-| Inputs | Informação enviada para o agente | `user_request`: Solicitação em linguagem natural relacionada à escrita de redação. | A especificação define qual é a entrada esperada? |
-| Tools | Lista com as ferramentas disponíveis e para que elas servem |T1 — `fetch_document`: busca o conteúdo de texto de um documento público de uma URL de acesso direto usando uma requisição HTTP GET, sem necessidade de chave de API.<br><br> T2 — `search_about_topic`: pesquisa informações sobre um tópico específico usando o cliente da API de Pesquisa Tavily (`TavilyClient`), autenticado por meio da variável de ambiente `TAVILY_API_KEY`.| A especificação define a ferramenta, seus parâmetros, o retorno e o **propósito de uso** dela estão definidos? |
-| Constraints | Uma afirmação que restringe as ações que o agente (ou seus usuários/operadores) têm permissão de realizar. | - O agente deve usar raciocínio baseado em LLM para interpretar `user_request` e selecionar a ferramenta apropriada ou recusar a solicitação. <br><br>- Ambas as ferramentas devem realizar chamadas externas reais. <br><br>- O agente deve invocar no máximo uma ferramenta por execução. Tempo máximo de execução: 30 segundos; exceder o limite de tempo resulta em falha funcional automática. <br><br>- O agente não deve entrar em loops infinitos nem depender de tentativas indefinidas.<br><br>- Todas as exceções devem ser capturadas; a função `agent()` deve sempre retornar, nunca lançar exceções. | A especificação declara explicitamente uma ação que o agente deve, não deve, ou só pode sob certas condições? A restrição está expressa em termos de ação/comportamento permitido ou proibido — não em termos de tecnologia, ferramenta ou biblioteca usada para implementar o agente? Quando a restrição envolve papel/autorização ("só X pode fazer Y"), a especificação define quem ou o que está autorizado? A restrição é verificável: é possível observar, no comportamento do agente, se ela foi violada ou respeitada? |
-| Policies/Invariants | Afirmações que descrevem o que é verdadeiro sobre o domínio ou sobre o estado do agente em um dado momento | - A resposta retornada deve corresponder exatamente ao esquema: `{"status": "success / failure", "user_request": "string", "response": "string"}`.<br><br> - `status` é "success" em execução normal ou "failure" em solicitação vazia, timeout ou exceção não tratada.<br<br>- `user_request` é a string de entrada original.<br><br>- `response` é a resposta em linguagem natural do agente, incorporando o conteúdo buscado ou pesquisado quando uma ferramenta for invocada. | A especificação declara uma relação, propriedade ou condição do domínio que é (ou deve ser) sempre verdadeira, e não uma ação permitida/proibida? O invariante está conectado a uma entrada, saída, evento ou dado que o agente efetivamente manipula (não é conhecimento de domínio irrelevante ao escopo do agente)? É possível verificar, a qualquer momento durante a execução, se o invariante ainda é válido? |
-| Quality attributes (non-functional requirements) | Características observáveis do comportamento do agente durante a execução, que não descrevem o que ele faz nem o que ele nunca deve fazer, mas quão bem ele faz. | O agente deve concluir a execução e retornar uma resposta válida dentro do limite máximo de 30 segundos. O conteúdo do documento buscado deve refletir o conteúdo real da URL fornecida. Os resultados da pesquisa devem refletir informações reais sobre o tópico solicitado. O objeto de grafo LangGraph retornado por `build_graph` deve ser válido. | O atributo está descrito de forma observável/mensurável no comportamento? Existe um critério de aceitação verificável? Havendo trade-off entre atributos, a especificação deixa explícita a prioridade? |
+| Goal | Objective and main behavior of the agent in active voice | The essay assistant interprets the user's request, fetches a public document for reading, evaluation or feedback, or researches information on an essay topic, and responds based on the retrieved content. It refuses requests that cannot be fulfilled with a single available tool. | Does the agent interpret the request and produce a grounded answer or a refusal consistent with its scope? |
+| Persona (Optional) | Personality and area of activity | Essay assistant using clear, direct language. | Does the response remain within support for essay writing? |
+| Inputs | Information sent to the agent | `user_request` is a natural-language string. Document retrieval requires a directly accessible public URL; research requires an identifiable topic in the request. The LLM interprets this information. An empty or whitespace-only string results in `failure`. Ambiguity or a missing required URL or topic results in an explanatory refusal with `success`, without tools. The contract covers string inputs; it does not define conversion or normalization of other input types. | Are acceptance, input failure and refusal conditions distinguished? Does the original text remain intact? |
+| Guardrails and Invariants | Rules and conditions that hold throughout execution | Invoke at most one tool, once per execution, without chaining, parallel execution or fallback between tools. The LLM makes the semantic decision. Refusals neither execute tools nor answer the requested content. Requests requiring both tools are refused before any call. Functional calls use real services; do not invent documents, results or data to conceal failures. Output always follows the strict contract, including refusals and failures. Preserve `user_request` in full on every path. Do not enter infinite loops or depend on indefinite retries. | Is the number of invocations zero or one? Are decisions, sources and the three output fields verifiable? |
+| Quality attributes (non-functional requirements) | Observable characteristics of execution and results | Maximum total execution time of 30 seconds, including LLM and network access. Reserve a margin to return `failure` before the limit when there is insufficient time to finish. Exceeding 30 seconds is an automatic functional failure in the benchmark, even if a response is returned later. The response must reflect the actual document or search results obtained. Failures return an explanation instead of propagating exceptions. Prioritize the deadline and data integrity over task completion. | Does total time stay within the limit? Is the response traceable to the actual tool return? Do failures end execution without fabricated data? |
 
-**Comportamentos:**
+**Tools:**
 
-| Comportamento | Input | Tools | Saída | Efeito no Ambiente | Condição de Satisfação |
-| --- | --- | --- | --- | --- | --- |
-| **B1 — Buscar documento a partir de URL** | Solicitação em linguagem natural sobre a escrita de redações, em que o usuário fornece uma URL e pede ao agente para ler, avaliar ou dar feedback sobre um documento. | [T1] para buscar o conteúdo de texto do documento público via requisição HTTP GET. | Resposta contendo `"status": "success"`, o `user_request` original e a resposta em linguagem natural incorporando o conteúdo do documento buscado. | Chamada externa real (requisição HTTP GET). | O agente interpreta a solicitação, seleciona a ferramenta `fetch_document`, realiza a chamada externa real, e o conteúdo buscado reflete o conteúdo real da URL fornecida. |
-| **B2 — Pesquisar sobre um tópico** | Solicitação em linguagem natural sobre a escrita de redações, em que o usuário pede informações, definições, exemplos ou pesquisas sobre um tópico específico. | [T2] utilizando o `TavilyClient` autenticado por `TAVILY_API_KEY`. | Resposta contendo `"status": "success"`, o `user_request` original e a resposta em linguagem natural incorporando os resultados da pesquisa. | Chamada externa real (API de Pesquisa Tavily). | O agente interpreta a solicitação, seleciona a ferramenta `search_about_topic`, realiza a chamada externa real, e os resultados refletem informações reais sobre o tópico solicitado. |
-| **B3 — Tratar solicitação vazia ou em branco** | `user_request` vazio ou em branco. | Não se aplica. | Objeto com `"status": "failure"`, o `user_request` original e a resposta. | Não se aplica. | Quando `user_request` for vazio ou em branco, a execução retorna `"status": "failure"`. |
-| **B4 — Recusar solicitação fora do escopo ou que não exija ferramentas** | Solicitação que não requer claramente uma das ferramentas disponíveis (por exemplo, "Dê-me dicas de como escrever uma boa introdução"). | Não se aplica. | Resposta em linguagem natural recusando a solicitação, não tentando responder à pergunta, e declarando claramente que suporta apenas tarefas relacionadas a redação via avaliação de documento ou pesquisa de tópico. | Não se aplica. | O agente não tenta responder à pergunta, não invoca ferramentas e declara claramente suas limitações de suporte. |
-| **B5 — Retornar contrato de saída estrito e tratamento de exceções** | Invocação da função `agent()`. | Não se aplica. | Dicionário estruturado estritamente com as chaves `status`, `user_request` e `response`. | Não se aplica. | Todas as exceções são capturadas, a função `agent()` nunca lança exceções e sempre retorna um dicionário no formato exigido. |
+| Name | Purpose | Inputs | Return | Failures |
+| --- | --- | --- | --- | --- |
+| `fetch_document(url: str)` | Fetch the textual content of a public document through HTTP GET, without an API key, for essay reading, evaluation or feedback. | `url`: directly accessible public URL identified by the LLM in the request. | Textual content/document actually retrieved from the URL. No additional return schema is imposed. | HTTP errors, network failures, timeouts or exceptions while retrieving or reading the document lead to B8. Do not research as an alternative. |
+| `search_about_topic(topic: str)` | Research information, definitions or examples on an essay-related topic through `TavilyClient`. | `topic`: specific topic identified by the LLM in the request. Authentication through `TAVILY_API_KEY`. | Actual search results on the topic, without an additional mandatory schema. | Missing or invalid key, API error, network failure, timeout or another exception lead to B8. Do not fetch a document as an alternative. |
+
+**Behaviors:**
+
+| Behavior | Trigger | Input | Tools | Output | Environment effect | Constraints |
+| --- | --- | --- | --- | --- | --- | --- |
+| B1: Validate basic input. | Entry into `agent(user_request)`. | Original string. | None. | Route to B2 if empty or whitespace-only; otherwise, to B3. | Start the global budget and preserve the input. | Do not modify the original string. Do not call tools. |
+| B2: Reject empty input. | B1 identifies an empty or whitespace-only string. | Original string. | None. | Dictionary with `status="failure"` and an explanation of the invalid input. | Return to the caller. | Preserve every received character in `user_request`; end without tools. |
+| B3: Interpret intent and select a route. | B1 accepts nonempty input. | Original request and tool descriptions. | ChatOpenAI for reasoning; no LangChain tool at this stage. | Decision between B4, B5 and B6, with a sufficient argument for the selected tool. | Request to the LLM. | Use semantic decision-making. Resolve scope, ambiguity and required information before executing tools. LLM failure leads to B8. |
+| B4: Refuse the request. | B3 identifies an out-of-scope request, a task without tools, ambiguity, missing required information or the need for both tools. | Request and reason for refusal. | No tool. | Dictionary with `status="success"` and an explanatory refusal. State that support is limited to document reading/evaluation or topic research in the context of essays. Identify missing information or ambiguity when applicable; if the request requires both tools, explain the one-tool limit. | Return to the caller. | Do not answer the requested content or execute tools. Refuse, for example, generic introduction tips that do not require a tool. Refusal counts as normal execution. |
+| B5: Fetch a document. | B3 selects document reading, evaluation or feedback with a sufficient URL. | Identified `url` and original request. | `fetch_document` through the LangChain interface. | Actual document for B7 or failure for B8. | One real public HTTP GET request. | Execute a single invocation, without additional research, retries or simulated data. Respect the remaining budget. |
+| B6: Research a topic. | B3 selects research for information, definitions or examples with a sufficient topic. | Identified `topic` and original request. | `search_about_topic` through the LangChain interface, using `TavilyClient`. | Actual results for B7 or failure for B8. | Real query to the Tavily API. | Execute a single invocation, without fetching a document, repeating the tool or simulating results. Respect the remaining budget. |
+| B7: Respond based on the retrieved content. | B5 or B6 completes successfully. | Original request and actual return from the selected tool. | ChatOpenAI; no additional tool. | Dictionary with `status="success"`, original `user_request` and a natural-language `response` incorporating the retrieved content and addressing the request. | Return to the caller. | Do not invent document content or search results. Handle synthesis failures in B8. Do not execute another tool. |
+| B8: Handle technical failure or budget exhaustion. | Exception at any stage, HTTP/API/key/LLM failure, timeout or insufficient remaining time to finish and return within the deadline. | Affected operation and available reason. | No new LLM or tool call. | Dictionary with `status="failure"`, original input and a textual explanation of the failure. | End and return without propagating an exception. | Do not fabricate data, continue the task, repeat a tool or execute a fallback. Return before 30 seconds; a later return still counts as a benchmark failure. |
+
+**Behavior graph:**
+
+```mermaid
+flowchart TD
+    START([agent user_request]) --> B1[B1 validate basic input]
+    B1 -- empty or whitespace --> B2[B2 input failure]
+    B1 -- nonempty --> B3[B3 interpret with LLM]
+    B3 -- out of scope or no tool --> B4[B4 refuse with explanation]
+    B3 -- ambiguous or missing URL or topic --> B4
+    B3 -- requires both tools --> B4
+    B3 -- document with sufficient URL --> B5[B5 fetch_document]
+    B3 -- research with sufficient topic --> B6[B6 search_about_topic]
+    B5 -- success --> B7[B7 synthesize grounded response]
+    B6 -- success --> B7
+    B2 --> FAILURE([strict failure return])
+    B4 --> SUCCESS([strict success return])
+    B7 -- success --> SUCCESS
+    B1 -- exception or insufficient time --> B8[B8 catch failure and end]
+    B2 -- exception or insufficient time --> B8
+    B3 -- exception or insufficient time --> B8
+    B4 -- exception or insufficient time --> B8
+    B5 -- failure or timeout --> B8
+    B6 -- failure or timeout --> B8
+    B7 -- exception or insufficient time --> B8
+    B8 --> FAILURE
+```
+
+| Field | Correctness criterion |
+| --- | --- |
+| Behavior | Are B1 through B8 identifiable and independently testable? Do they cover empty input, interpretation, refusal, each tool, synthesis and failures? |
+| Trigger | Do the conditions distinguish technical failure from normal refusal and select only one tool path? |
+| Input | Does the original string remain intact, including whitespace? Are the required URL and topic identified before execution? |
+| Tools | Are there exactly the two specified tools? Does each execution invoke at most one of them through the LangChain interface? Do functional calls make real external requests? |
+| Expected Outcome | Do all returns have exactly three keys with string values? Does `success` cover grounded answers and refusals, and `failure` cover empty input and technical failures? |
+| Environment effect | Are the real GET or real Tavily query observable when selected, along with the absence of tools in refusals? |
+| Constraints | Does the LLM make the semantic decision? Does the total budget include LLM and network access, with a margin to return failure? Are there no indefinite loops, retries, fallbacks or invented data? Does `build_graph()` return `CompiledStateGraph` as specified in the implementation details? |
