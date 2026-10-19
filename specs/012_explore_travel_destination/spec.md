@@ -1,41 +1,40 @@
 **Task:** You are an AI agent generator. Below is a design for an agent; please generate the agent accordingly. Note that the agent's tools should be generated alongside the agent's code.
 
-**Contexto:** An AI agent is an entity that utilizes an LLM and tools to perform specific tasks autonomously.
+**Context:** An AI agent is an entity that utilizes an LLM and tools to perform specific tasks autonomously.
 
 **Output:** agent.py, requirements.txt, tests.py
 
-**Contrato de interface com o benchmark:**
+**Benchmark interface contract:**
 
-| Requisito de interface | Exemplo |
+| Interface requirement | Example |
 | --- | --- |
-| Modelo | GPT-4o |
+| Model | GPT-4o |
 | Framework | LangGraph |
 | GenAI Tool | ChatOpenAI |
 | Tools | Every tool must be a LangChain tool (@tool, StructuredTool, or obtained from an MCP server via langchain-mcp-adapters) and must be executed exclusively through its interface (invoke/ainvoke, directly or via ToolNode), never by calling its implementation function directly. |
 | Entrypoint | agent(user_request: str) |
 | Output | { "status": "success \| failure", "user_request": "Original user request", "response": "Natural-language response" } |
 
-**Requisitos:**
+**Requirements:**
 
-| Requisito | Significado | Especificação do agente | Critério de Corretude |
+| Requirement | Meaning | Agent specification | Correctness criterion |
 | --- | --- | --- | --- |
-| Goal | Objetivo e comportamento principal do agente na voz ativa | Answer natural-language questions about travel destinations by selecting the appropriate action based on the user's intent. | O comportamento principal está declarado definindo quem faz, o que faz e o resultado? |
-| Persona (Opcional) | A personalidade que o agente assume ao realizar as tarefas | Act as a travel destination assistant that helps users explore destinations before deciding to travel. | A especificação define uma persona e sua área de atuação?<br>A persona é adequada/coerente com o Goal? |
-| Inputs | Informação enviada para o agente | Receive a natural-language question about a travel destination through user_request: str. | A especificação define qual é a entrada esperada? |
-| Constraints | Uma afirmação que restringe as ações que o agente (ou seus usuários/operadores) têm permissão de realizar. Descreve o que o agente deve, não deve, ou não pode fazer, ou define que apenas determinados papéis/condições autorizam uma certa ação. |  | A especificação declara explicitamente uma ação que o agente deve, não deve, ou só pode sob certas condições?<br>A restrição está expressa em termos de ação/comportamento permitido ou proibido — não em termos de tecnologia, ferramenta ou biblioteca usada para implementar o agente?<br>Quando a restrição envolve papel/autorização ("só X pode fazer Y"), a especificação define quem ou o que está autorizado?<br>A restrição é verificável: é possível observar, no comportamento do agente, se ela foi violada ou respeitada? |
-| Guardrails and Invariants | Regras externas ou condições que devem ser sempre respeitadas pelo agente durante sua execução. Podem vir de leis, regulamentações, políticas da empresa ou regras do domínio. Quando uma condição é um invariante, ela deve ser satisfeita antes e depois da execução de qualquer comportamento do agente. | - Return failure for empty or blank requests, timeouts, and unhandled exceptions.<br><br>- Do not fabricate weather data or news results.<br><br>- Always return the required output schema. | A especificação declara uma relação, propriedade ou condição do domínio que é (ou deve ser) sempre verdadeira, e não uma ação permitida/proibida?<br>O invariante está conectado a uma entrada, saída, evento ou dado que o agente efetivamente manipula (não é conhecimento de domínio irrelevante ao escopo do agente)?<br>É possível verificar, a qualquer momento durante a execução, se o invariante ainda é válido? |
-| Quality attributes (non-functional requirements) | Características observáveis do comportamento do agente durante a execução, que não descrevem o que ele faz (isso é Goal/Behavior Requirements) nem o que ele nunca deve fazer (Constraints), mas quão bem ele faz — de forma consistente, segura, eficiente e confiável. Moldam diretamente a confiança e a experiência de quem depende do agente. | Not applicable | O atributo está descrito de forma observável/mensurável no comportamento (não é uma característica de implementação, ex: "usar cache" não é quality attribute, é constraint de implementação)?<br>Existe um critério de aceitação verificável (limiar, taxa, ou condição de teste), e não apenas um adjetivo vago ("deve ser rápido" sem definir o quê é rápido)?<br>Havendo trade-off entre atributos (ex: robustez vs. performance), a especificação deixa explícita a prioridade? |
+| Goal | The agent's objective and main behavior, stated in the active voice | Answer natural-language questions about travel destinations by selecting the appropriate action based on the user's intent. | Does the main behavior state who acts, what they do, and the result? |
+| Persona (Optional) | The personality the agent assumes when performing its tasks | Act as a travel destination assistant that helps users explore destinations before deciding to travel. | Does the specification define a persona and its area of activity? Is the persona appropriate for and consistent with the Goal? |
+| Inputs | Information sent to the agent | Receive a natural-language question about a travel destination through user_request: str. | Does the specification define the expected input? |
+| Guardrails and Invariants | External rules or conditions the agent must always respect during execution. They may come from laws, regulations, company policies, or domain rules. An invariant must hold before and after any agent behavior. | - Return failure for empty or blank requests, timeouts, and unhandled exceptions.<br><br>- Do not fabricate weather data or news results.<br><br>- Always return the required output schema. | Does the specification state a relationship, property, or condition of the domain that is (or should be) always true, rather than a permitted/prohibited action? Is the invariant connected to an input, output, event, or piece of data the agent actually handles, rather than domain knowledge irrelevant to its scope? Can the invariant be checked at any point during execution? |
+| Quality attributes (non-functional requirements) | Observable characteristics of the agent's behavior during execution that describe neither what it does (Goal/Behavior Requirements) nor what it must never do (Constraints), but how well it does it: consistently, safely, efficiently, and reliably. They directly shape the trust and experience of those who depend on the agent. | Not applicable | Is the attribute described in observable/measurable behavioral terms, rather than as an implementation characteristic (for example, "use a cache" is an implementation constraint, not a quality attribute)? Is there a verifiable acceptance criterion (a threshold, rate, or test condition), rather than just a vague adjective (such as "must be fast" without defining how fast)? Where attributes involve a trade-off (for example, robustness versus performance), does the specification make the priority explicit? |
 
 **Tools:**
 
-| Nome | Propósito | Entradas | Retorno | Falhas |
+| Name | Purpose | Inputs | Return | Failures |
 | --- | --- | --- | --- | --- |
 | get_weather | Retrieve real-time weather conditions for a destination. | City name | Current weather data from the wttr.in API. | API request failure, timeout, or invalid city. |
 | search_destination_news | Search for recent destination-related news, safety advisories, and current events. | Destination and search query | Recent search results from the Tavily Search API. | Missing or invalid API key, API request failure, or timeout. |
 
-**Comportamentos:**
+**Behaviors:**
 
-| Comportamento | Trigger | Input | Tools | Saída | Efeito no ambiente | Constraints |
+| Behavior | Trigger | Input | Tools | Output | Environment effect | Constraints |
 | --- | --- | --- | --- | --- | --- | --- |
 | B1 — Interpret Request | A non-empty request is received. | Natural-language question about a travel destination. | None | Identified intent: weather, news/safety, or travel tips. | None | Select the appropriate action based on the user's intent. |
 | B2 — Retrieve Weather | The user asks about current weather, temperature, or weather conditions. | User request and identified city. | `get_weather` | Answer based on real weather data. | External request to the wttr.in API. | Invoke at most one tool per execution. |
@@ -45,17 +44,17 @@
 | B6 — Handle Errors and Timeouts | An exception occurs or the execution time limit is exceeded. | Error during processing. | None | Response with status: "failure". | An external request may be interrupted. | Enforce the 30-second execution limit; do not propagate exceptions. |
 | B7 — Return Structured Response | An answer is produced or an error occurs. | Original input, result, or error. | None | Object containing status, user_request, and response. | Returns the result to the caller. | Strictly comply with the specified output schema. |
 
-| Campo | Critério de corretude |
+| Field | Correctness criterion |
 | --- | --- |
-| Comportamento | Cada comportamento está especificado como um requisito individual e identificável, separado do Goal? Cada requisito é atômico o suficiente para ser testado isoladamente (dá pra escrever um caso de teste "dado X, o agente deve fazer Y")? A especificação cobre explicitamente o comportamento esperado diante de: entrada inválida, falha de ferramenta/tool call, ambiguidade, ausência de informação necessária? Os requisitos, somados, são suficientes para realizar o Goal declarado (nada essencial ficou implícito)? |
-| Trigger | A condição ou evento que inicia o comportamento está explicitamente definido e é observável? |
-| Input | A especificação define qual é a entrada esperada? |
-| Tools | As ferramentas necessárias para o comportamento estão identificadas e seu propósito de uso está definido? |
-| Expected Outcome | A especificação define qual alteração deve ocorrer no ambiente? A alteração esperada é observável e verificável após a execução do comportamento? |
-| Efeito no ambiente | A especificação define qual ambiente o agente vai alterar?  A especificação define como será feita a alteração no ambiente? |
+| Behavior | Is each behavior specified as an individual, identifiable requirement, separate from the Goal? Is each requirement atomic enough to test in isolation (given X, the agent must do Y)? Does the specification explicitly cover invalid input, tool call failure, ambiguity, and missing required information? Together, are the requirements sufficient to achieve the declared Goal, with no essential behavior left implicit? |
+| Trigger | Is the condition or event that starts the behavior explicitly defined and observable? |
+| Input | Does the specification define the expected input? |
+| Tools | Are the required tools identified and their intended use defined? |
+| Expected Outcome | Does the specification define the expected change in the environment? Is that change observable and verifiable after the behavior runs? |
+| Environment effect | Does the specification define which environment the agent changes and how that change is made? |
 | Constraints | As restrições do comportamento estão explícitas, são verificáveis e coerentes com as restrições gerais? |
 
-**Grafo comportamental:**
+**Behavioral graph:**
 
 ```mermaid
 flowchart TD
@@ -75,7 +74,7 @@ flowchart TD
     B7 --> F([Final Response])
 ```
 
-**Detalhes de implementação:**
+**Implementation details:**
 
 | Item | Instruções |
 | --- | --- |
