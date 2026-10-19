@@ -13,7 +13,7 @@
 | GenAI Tool | ChatOpenAI |
 | Tools | Every tool must be a LangChain tool (@tool, StructuredTool, or obtained from an MCP server via langchain-mcp-adapters) and must be executed exclusively through its interface (invoke/ainvoke, either directly or via ToolNode), never by directly calling the function that implements it. |
 | Entrypoint | agent(query: str) |
-| Output | string |
+| Output | response: string |
 
 **Implementation details:**
 
