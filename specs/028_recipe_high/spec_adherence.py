@@ -62,7 +62,7 @@ Return this exact JSON structure:
         "handles_no_ingredients":      <0|1>
     }},
  "total_score": <int>,
- "max_score": 10,
+ "max_score": 12,
  "passed": <bool>,
  "summary": "<one paragraph describing the main implementation problems found in the code, or 'No problems found'>" 
 }}
