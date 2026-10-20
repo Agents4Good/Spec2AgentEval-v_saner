@@ -11,7 +11,7 @@
 | Model | GPT-4o |
 | Framework | LangGraph |
 | GenAI Tool | ChatOpenAI |
-| Tools |  |
+| Tools | Every tool must be a LangChain tool (@tool, StructuredTool, or obtained from an MCP server via langchain-mcp-adapters) and must be executed exclusively through its interface (invoke/ainvoke, directly or via ToolNode), never by calling its implementation function directly. |
 | Entrypoint | agent(query) |
 | Output | state: dict with a required response: str field |
 
