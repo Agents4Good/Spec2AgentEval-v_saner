@@ -11,7 +11,6 @@
 | Model | GPT-4o |
 | Framework | LangGraph |
 | GenAI Tool | ChatOpenAI |
-| Tools |  |
 | Entrypoint | agent(query) |
 | Output | state: dict with a required response: str field |
 
