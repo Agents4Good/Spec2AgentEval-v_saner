@@ -1,0 +1,12 @@
+
+| Field | Score (1-5) | Justification according to the correctness criteria |
+| --- | --- | --- |
+| **Behavior** | 5 | The specification explicitly defines behaviors B1 through B8 in a detailed table and a flowchart (Mermaid). They are clearly identifiable, independently testable and cover all required stages: empty input (B2), interpretation (B3), refusal (B4), each individual tool (B5, B6), response synthesis (B7) and failures (B8). |
+| **Trigger** | 5 | The triggers clearly distinguish technical failures and exceptions (B8) from normal refusals for out-of-scope or ambiguous requests (B4). The branches from the interpretation trigger (B3) also ensure that only one tool path is selected at a time. |
+| **Input** | 5 | The text explicitly states that the original string must remain intact, including whitespace (interface contract and B1 and B2 constraints). It also specifies that the LLM identifies the required URL and research topic in advance (in B3), before tools are invoked. |
+| **Tools** | 5 | The specification lists exactly two tools (`fetch_document` and `search_about_topic`). It explicitly requires functional calls to make real external requests (an HTTP GET without an API key or a query to the Tavily API) and allows at most one tool to be invoked through the LangChain interface per execution. |
+| **Expected Outcome** | 5 | The contract strictly defines the output as a dictionary with exactly three keys (`status`, `user_request`, `response`), all with *string* values. It makes clear that `status="success"` covers both grounded answers (B7) and refusals (B4), while `status="failure"` covers empty inputs (B2) and technical failures (B8). |
+| **Environment effect** | 5 | Direct, observable effects on the environment are documented when tools are selected: a real HTTP GET request for B5 and a real query to the Tavily API for B6. For refusal (B4), the effect is explicitly limited to returning without making any tool calls. |
+| **Constraints** | 5 | The text meets all constraints listed in the criterion: it assigns semantic decisions to the LLM (without regex/matching); limits total time to 30 seconds, including the LLM, network access and a safety margin; and explicitly prohibits infinite loops, indefinite retries, fallback between tools and simulated or fabricated data. It also explicitly states in "Implementation details" that `build_graph()` returns a `CompiledStateGraph`. |
+
+Status: Approved
