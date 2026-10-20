@@ -1,0 +1,16 @@
+| Field | Score | Justification |
+| :--- | :---: | :--- |
+| **Goal** | 5 | The specification explicitly defines who acts ("The agent"), the actions they perform ("interprets...", "resolves...", "presents..."), and the achieved result ("clear, contextualized answers grounded in institutional data"). |
+| **Persona** | 5 | It clearly defines the persona ("UFCG institutional virtual assistant"), its tone (objective, institutional, and accessible), and its restricted scope of activity. The persona is entirely appropriate and consistent with the Goal. |
+| **Inputs** | 5 | The expected input format is explicitly detailed (a natural-language user message), as well as the domain entities that may be included (course names, codes, curricula, periods, classes, and filters). |
+| **Guardrails and Invariants** | 5 | The specification lists strict properties that must always be true, not just actions (e.g., every fact must be traceable; every `get_schedules` call must contain a discipline code and a YYYY.1/YYYY.2 period; records remain unchanged). These are verifiable at any execution point and directly relate to the handled data. |
+| **Quality attributes** | 5 | The attributes are observable and independent of technical implementation details. They include verifiable acceptance criteria (using list items or Markdown tables, explicitly identifying limitations) and clearly resolve a critical trade-off ("fidelity to the institutional data takes priority over a complete-looking answer"). |
+| **Behavior (General Evaluation)** | 5 | The behaviors (B1 to B13) are atomic, testable in isolation, and well-defined. The specification provides explicit and sufficient flows to handle invalid inputs (B7), tool failures (B8), empty results (B6), and context ambiguities (B5, B9, B12), leaving no essential behavior implicit. |
+| **Trigger** | 5 | All events that initiate behaviors are explicitly and observably defined based on user intent or resolution flow states (e.g., "The user asks about...", "A discipline request has a course code..."). |
+| **Input (Behavior)** | 5 | The expected input for each specific behavior is perfectly bounded, identifying whether it requires the original message, applied filters, tool failures, or entities resolved in previous steps. |
+| **Tools** | 5 | For each behavior, the specification explicitly identifies which tool will be called and its purpose, or clearly states when no tool is required (None), such as in B6 and B7. |
+| **Expected Outcome** | 5 | The expected change is described concretely (e.g., "A returned state whose 'response' identifies..."). The modification to the returned state dictionary is observable and can be strictly validated after the behavior executes. |
+| **Environment effect** | 5 | It accurately defines that institutional data is only read and never altered ("Read-only access... no records are changed"). When internal changes occur, it is explicitly stated that they happen within the agent's execution state (as in B9 and B10). |
+| **Constraints** | 5 | The constraints unequivocally declare what the agent must or must not do ("The agent must not invent...", "The agent must pass..."). The responsible entity is clear, and the conditions are consistent and verifiable through testing without relying on internal implementation details. |
+
+Status: APPROVED

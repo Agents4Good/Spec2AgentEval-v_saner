@@ -3,14 +3,14 @@
 **Output:** agent.py, requirements.txt, tests.py  
 **Contrato de interface com o benchmark:**
 
-| Requisito de interface | Exemplo       |
-| ---------------------- | ------------- |
-| Modelo                 | GPT-4o        |
-| Framework              | LangGraph     |
-| GenAI Tool             | ChatOpenAI    |
-| Entrypoint             | `agent(...) - > output, trace`  |
-| Output                 | `output: dict` |
-| Trace                  | `trace: dict` |
+| Requisito de interface | Exemplo |
+| --- | --- |
+| Modelo | GPT-4o |
+| Framework | LangGraph |
+| GenAI Tool | ChatOpenAI |
+| Tools | Toda ferramenta deve ser uma ferramenta do LangChain (@tool, StructuredTool ou obtida de servidor MCP via langchain-mcp-adapters) e deve ser executada exclusivamente por sua interface (invoke/ainvoke, diretamente ou via ToolNode), nunca pela chamada direta da função que a implementa. |
+| Entrypoint | agent(...) |
+| Output | state: dict |
 
 **Detalhes de implementação**
 
@@ -48,27 +48,6 @@ Comportamentos
 
 **Grafo comportamental esperado:**
 
-> O grafo representa as transições comportamentais esperadas durante a execução. A trajetória observada pode conter eventos intermediários, desde que preserve as transições e condições definidas no grafo.
-
-
 ```mermaid
 flowchart TD
-
-    B1["B1 — Comportamento inicial"]
-
-    B2["B2 — Próximo comportamento"]
-
-    BF["BF — Comportamento de falha"]
-
-    BN["BN — Comportamento alternativo"]
-
-    BO["BO — Comportamento final"]
-
-    B1 -->|condição de sucesso| B2
-    B1 -->|condição de falha| BF
-
-    B2 -->|condição A| BO
-    B2 -->|condição B| BN
-
-    BN --> BO
-    BF --> BO
+```
