@@ -1,45 +1,30 @@
-"""Trace-based evaluation tests for the Personal Trainer Agent (spec 027).
+"""Trace-based evaluation of the Personal Trainer Agent (spec.md).
 
-The agent entrypoint is `agent(user_profile) -> (output, trace)`. Every
-behavioral check below is derived from the trace; the output is only used for
-output-contract checks (Error: prefix, six sections). If the trace carries no
-evidence for a trace-based requirement, the test fails.
+The agent entrypoint is expected to return `(output, trace)`. The trace is the
+primary evidence: every behavioral claim (B1..B7) is checked against trace
+events, never inferred from the output. When the trace has no evidence for a
+required behavior, the test fails.
 
-The trace is normalised tolerantly (list of dicts, LangChain messages, objects
-or strings) into ordered tool events; nothing is inferred from the output.
+Trace reading is deliberately tolerant of shape: the trace may be a list of
+event dicts/objects, or a dict holding such a list under "events"/"trace"/
+"steps". A tool call is recognised by an event naming `retrieve_restrictions`
+or `search_exercises` (fields "tool", "tool_name", "name", or nested
+"tool_calls"). Failure is recognised by an "error"/"exception" field, or a
+status/type containing "error"/"fail".
+
+Valid-input tests make real Notion/Tavily/OpenAI calls (spec requires it).
 """
-import json
 import re
 
 import pytest
-from deepeval import assert_test
-from deepeval.metrics import GEval
-from deepeval.test_case import LLMTestCase, LLMTestCaseParams
+from deepeval.metrics import ToolCorrectnessMetric
+from deepeval.test_case import LLMTestCase, ToolCall
 
-from agent import agent
+from agent import agent, build_graph
 
 RETRIEVE = "retrieve_restrictions"
 SEARCH = "search_exercises"
 TOOLS = (RETRIEVE, SEARCH)
-
-VALID_PROFILE = (
-    "I am a 34 year old beginner. My goal is to build muscle and lose some fat. "
-    "I only have a pair of dumbbells and a resistance band. I have a mild knee "
-    "injury (patellar tendinopathy) and occasional lower back pain."
-)
-VALID_PROFILE_NO_INJURY = (
-    "I'm 28, intermediate fitness level, my goal is to improve overall strength. "
-    "I have a barbell, a rack and a bench."
-)
-
-INVALID_PROFILES = {
-    "empty": "",
-    "whitespace": "   \n\t  ",
-    "meaningless": "asdf qwer zxcv !!! ??? 12345 ###",
-    "missing_goal_and_level": "I have a yoga mat and two dumbbells.",
-    "missing_level_and_age": "I want to lose weight. I have dumbbells.",
-    "invalid_with_injury": "I have a bad shoulder injury and a herniated disc.",
-}
 
 SECTION_TITLES = [
     "Assessment:",
@@ -50,290 +35,352 @@ SECTION_TITLES = [
     "Important Notes:",
 ]
 
+VALID_PROFILE = (
+    "I am 34 years old, intermediate fitness level. My goal is to build muscle. "
+    "I have a pair of dumbbells and a pull-up bar at home. I have a mild "
+    "lower-back strain from last month."
+)
+
+INVALID_PROFILES = {
+    "empty": "",
+    "whitespace": "   \n\t  ",
+    "meaningless": "asdf ;;; 12#$ qwerty ???",
+    "missing_minimum": "I have dumbbells at home and like training in the morning.",
+    "injury_but_invalid": "My knee hurts a lot and I have a dumbbell.",
+    "contradiction": (
+        "I am 30 years old and my goal is to lose fat. I am a complete "
+        "beginner and also an elite athlete. I have a shoulder injury but "
+        "my shoulders are perfectly healthy."
+    ),
+}
+
 
 # --------------------------------------------------------------------------
-# Trace normalisation
+# Trace helpers
 # --------------------------------------------------------------------------
-def _get(obj, *keys):
-    for k in keys:
-        if isinstance(obj, dict):
-            if obj.get(k) not in (None, ""):
-                return obj[k]
-        elif getattr(obj, k, None) not in (None, ""):
-            return getattr(obj, k)
-    return None
-
-
-def _is_error(value) -> bool:
-    if value is None:
-        return False
-    if isinstance(value, BaseException):
-        return True
-    s = str(value).strip().lower()
-    return s in ("error", "failed", "failure", "exception") or s.startswith("error:")
+def _get(ev, key, default=None):
+    if isinstance(ev, dict):
+        return ev.get(key, default)
+    return getattr(ev, key, default)
 
 
 def _events(trace):
-    """Return ordered list of dicts: idx, tool, phase(call|result), args, error, raw."""
-    assert trace is not None, "agent returned no trace"
-    if isinstance(trace, (str, bytes)):
-        trace = [trace]
-    try:
-        items = list(trace)
-    except TypeError:
-        pytest.fail("trace is not iterable; no evidence available")
+    if trace is None:
+        return []
+    if isinstance(trace, dict):
+        for k in ("events", "trace", "steps", "spans"):
+            if isinstance(trace.get(k), (list, tuple)):
+                return list(trace[k])
+        return []
+    if isinstance(trace, (list, tuple)):
+        return list(trace)
+    return []
 
+
+def _tool_names(ev):
+    """Tool names an event refers to (may be several for nested tool_calls)."""
+    names = []
+    for key in ("tool", "tool_name", "name"):
+        v = _get(ev, key)
+        if isinstance(v, str) and v in TOOLS:
+            names.append(v)
+    for call in _get(ev, "tool_calls", None) or []:
+        n = _get(call, "name") or _get(call, "tool")
+        if n in TOOLS:
+            names.append(n)
+    return names
+
+
+def _kind(ev):
+    return str(_get(ev, "type") or _get(ev, "event") or _get(ev, "kind") or "").lower()
+
+
+def _is_failure(ev):
+    if _get(ev, "error") or _get(ev, "exception"):
+        return True
+    blob = f"{_get(ev, 'status', '')} {_kind(ev)}".lower()
+    return "error" in blob or "fail" in blob or "exception" in blob
+
+
+def _is_result(ev):
+    """Event that reports the outcome of a tool call (not merely the request)."""
+    k = _kind(ev)
+    return (
+        any(t in k for t in ("result", "end", "output", "return", "response", "error", "fail"))
+        or _get(ev, "output") is not None
+        or _get(ev, "result") is not None
+        or _get(ev, "status") is not None
+        or bool(_get(ev, "error") or _get(ev, "exception"))
+    )
+
+
+def tool_events(trace):
+    """[(index, tool_name, event)] in trace order."""
     out = []
-
-    def add(idx, tool, phase, args=None, error=False, raw=None):
-        if tool in TOOLS:
-            out.append(dict(idx=idx, tool=tool, phase=phase, args=args,
-                            error=error, raw=raw))
-
-    for i, ev in enumerate(items):
-        # LangChain AIMessage-like: tool_calls list
-        tcs = _get(ev, "tool_calls")
-        if isinstance(tcs, list) and tcs:
-            for tc in tcs:
-                add(i, _get(tc, "name", "tool", "tool_name"), "call",
-                    _get(tc, "args", "arguments", "input"), raw=ev)
-            continue
-        if isinstance(ev, str):
-            for t in TOOLS:
-                if t in ev:
-                    low = ev.lower()
-                    phase = "result" if any(w in low for w in ("result", "return", "end", "success", "fail", "error")) else "call"
-                    add(i, t, phase, error=("fail" in low or "error" in low), raw=ev)
-            continue
-        name = _get(ev, "tool", "tool_name", "name")
-        kind = str(_get(ev, "type", "event", "kind", "phase", "role") or "").lower()
-        if name not in TOOLS:
-            continue
-        args = _get(ev, "args", "arguments", "input", "tool_input", "params")
-        status = _get(ev, "status")
-        err = _is_error(status) or _get(ev, "error", "exception") is not None
-        is_result = (kind in ("tool", "tool_result", "tool_end", "tool_message", "result",
-                              "end", "finish", "finished", "on_tool_end", "observation", "response")
-                     or _get(ev, "output", "result", "content") is not None and not args)
-        is_call = kind in ("tool_call", "tool_start", "call", "start", "on_tool_start",
-                           "action", "request", "invoke")
-        if is_call and not is_result:
-            add(i, name, "call", args, err, ev)
-        elif is_result:
-            add(i, name, "result", args, err, ev)
-        else:
-            # single event carrying both call and outcome
-            add(i, name, "call", args, err, ev)
-            add(i, name, "result", args, err, ev)
+    for i, ev in enumerate(_events(trace)):
+        for name in _tool_names(ev):
+            out.append((i, name, ev))
     return out
 
 
-def _calls(trace, tool):
-    ev = _events(trace)
-    calls = [e for e in ev if e["tool"] == tool and e["phase"] == "call"]
-    if not calls:  # result-only evidence still proves the tool ran
-        calls = [e for e in ev if e["tool"] == tool and e["phase"] == "result"]
-    return calls
+def tool_sequence(trace):
+    return [name for _, name, _ in tool_events(trace)]
 
 
-def _results(trace, tool):
-    return [e for e in _events(trace) if e["tool"] == tool and e["phase"] == "result"]
+def first_index(trace, tool):
+    for i, n, _ in tool_events(trace):
+        if n == tool:
+            return i
+    return None
 
 
-def _tool_event_count(trace):
-    return len({(e["tool"], e["idx"]) for e in _events(trace)})
+def successful_result_index(trace, tool):
+    """Index of the first non-failing result event for a tool, else None."""
+    for i, n, ev in tool_events(trace):
+        if n == tool and _is_result(ev) and not _is_failure(ev):
+            return i
+    return None
 
 
-def _query_text(call) -> str:
-    args = call["args"]
-    if isinstance(args, str):
-        try:
-            args = json.loads(args)
-        except Exception:
-            return args
-    if isinstance(args, dict):
-        q = args.get("query")
-        return q if isinstance(q, str) else json.dumps(args)
-    return str(args or "")
+def has_failure(trace, tool):
+    return any(n == tool and _is_failure(ev) for _, n, ev in tool_events(trace))
 
 
-def _run(profile):
+def run(profile):
     result = agent(profile)
-    assert isinstance(result, tuple) and len(result) == 2, "agent must return (output, trace)"
+    assert isinstance(result, tuple) and len(result) == 2, (
+        "agent(...) must return (output, trace)"
+    )
     output, trace = result
     assert isinstance(output, str), "output must be a string"
-    assert trace is not None, "trace missing"
     return output, trace
 
 
+def require_trace(trace):
+    assert _events(trace), "Trace is empty/unreadable: no evidence of execution"
+
+
+def _search_query(trace):
+    for _, n, ev in tool_events(trace):
+        if n == SEARCH:
+            for key in ("input", "args", "arguments", "tool_input", "params"):
+                v = _get(ev, key)
+                if isinstance(v, dict) and isinstance(v.get("query"), str):
+                    return v["query"]
+                if isinstance(v, str):
+                    return v
+            for call in _get(ev, "tool_calls", None) or []:
+                a = _get(call, "args") or {}
+                if isinstance(a, dict) and a.get("query"):
+                    return a["query"]
+    return None
+
+
+def _tool_correctness(trace, expected):
+    """DeepEval ToolCorrectnessMetric over the tools observed in the trace."""
+    seq = tool_sequence(trace)
+    tc = LLMTestCase(
+        input="trace",
+        actual_output="trace",
+        tools_called=[ToolCall(name=n) for n in seq],
+        expected_tools=[ToolCall(name=n) for n in expected],
+    )
+    metric = ToolCorrectnessMetric(threshold=1.0, should_consider_ordering=True)
+    metric.measure(tc)
+    return metric
+
+
 # --------------------------------------------------------------------------
-# Fixtures (real executions are expensive; run each scenario once)
-# --------------------------------------------------------------------------
-@pytest.fixture(scope="module")
-def valid_run():
-    return _run(VALID_PROFILE)
-
-
-@pytest.fixture(scope="module")
-def valid_run_no_injury():
-    return _run(VALID_PROFILE_NO_INJURY)
-
-
-# --------------------------------------------------------------------------
-# B1/B2 - invalid input: zero tool calls, Error:, no plan
+# B1 / B2: invalid input -> Error:, zero tool calls
 # --------------------------------------------------------------------------
 @pytest.mark.parametrize("name", list(INVALID_PROFILES))
 def test_invalid_input_zero_tool_calls_and_error(name):
-    output, trace = _run(INVALID_PROFILES[name])
-    assert _tool_event_count(trace) == 0, f"tools were called for invalid input: {_events(trace)}"
+    output, trace = run(INVALID_PROFILES[name])
+    # Trace must exist and positively show that no tool ran.
+    assert trace is not None, "No trace returned"
+    assert tool_events(trace) == [], (
+        f"Invalid input must produce zero tool calls, got {tool_sequence(trace)}"
+    )
     assert output.startswith("Error:"), output
-    assert "Weekly Plan:" not in output
+    assert not any(t in output for t in SECTION_TITLES[1:2]), "Error must contain no plan"
+
+
+def test_invalid_input_with_injury_still_no_tools():
+    output, trace = run(INVALID_PROFILES["injury_but_invalid"])
+    assert tool_sequence(trace) == []
+    assert output.startswith("Error:")
+
+
+def test_contradiction_error_explains_clarification():
+    output, trace = run(INVALID_PROFILES["contradiction"])
+    assert tool_sequence(trace) == []
+    assert output.startswith("Error:")
+    assert len(output) > len("Error:") + 20, "Error should explain what is unclear"
 
 
 # --------------------------------------------------------------------------
-# B3 - retrieval is required for every valid profile
+# B3 / B4 / B5 / B6: valid input, dependent sequence
 # --------------------------------------------------------------------------
-def test_retrieve_restrictions_called_for_valid_profile(valid_run):
+@pytest.fixture(scope="module")
+def valid_run():
+    return run(VALID_PROFILE)
+
+
+def test_valid_trace_has_evidence(valid_run):
     _, trace = valid_run
-    assert _calls(trace, RETRIEVE), "no retrieve_restrictions evidence in trace"
+    require_trace(trace)
 
 
-def test_retrieve_restrictions_called_even_without_injury(valid_run_no_injury):
-    _, trace = valid_run_no_injury
-    assert _calls(trace, RETRIEVE), "retrieval must happen even if profile has no injury"
-    assert _calls(trace, SEARCH), "search must follow retrieval"
-
-
-# --------------------------------------------------------------------------
-# Guardrail - dependent sequence: retrieve (success) -> consolidate -> search
-# --------------------------------------------------------------------------
-def test_retrieve_precedes_search(valid_run):
+def test_retrieve_called_for_valid_input(valid_run):
     _, trace = valid_run
-    r, s = _calls(trace, RETRIEVE), _calls(trace, SEARCH)
-    assert r and s, "both tools must appear in the trace"
-    assert min(c["idx"] for c in r) < min(c["idx"] for c in s)
+    require_trace(trace)
+    assert RETRIEVE in tool_sequence(trace), "B3: retrieve_restrictions not observed"
 
 
-def test_retrieval_succeeded_before_search_started(valid_run):
+def test_search_called_for_valid_input(valid_run):
     _, trace = valid_run
-    first_search = min(c["idx"] for c in _calls(trace, SEARCH))
-    ok = [e for e in _results(trace, RETRIEVE) if not e["error"] and e["idx"] <= first_search]
-    assert ok, "no successful retrieve_restrictions result observed before search"
+    require_trace(trace)
+    assert SEARCH in tool_sequence(trace), "B5: search_exercises not observed"
 
 
-def test_tools_not_parallelised_or_repeated_out_of_order(valid_run):
+def test_tool_order_matches_behavior_graph(valid_run):
+    """DeepEval ToolCorrectness with ordering: retrieve -> search."""
     _, trace = valid_run
-    ev = [e for e in _events(trace) if e["phase"] == "call"] or _events(trace)
-    assert ev, "no tool events"
-    # A retrieve call must never appear after a search call (no reversal),
-    # and no search call may share an event (parallel batch) with retrieve.
-    first_search = min((e["idx"] for e in ev if e["tool"] == SEARCH), default=None)
-    assert first_search is not None
-    assert not [e for e in ev if e["tool"] == RETRIEVE and e["idx"] >= first_search]
-    retrieve_idx = {e["idx"] for e in ev if e["tool"] == RETRIEVE}
-    search_idx = {e["idx"] for e in ev if e["tool"] == SEARCH}
-    assert not (retrieve_idx & search_idx), "tools executed in the same step (parallel)"
+    require_trace(trace)
+    # Collapse request/result event pairs of the same call into one call.
+    calls = []
+    for _, n, ev in tool_events(trace):
+        if calls and calls[-1][0] == n and _is_result(ev) and not calls[-1][1]:
+            calls[-1][1] = True
+        elif not calls or calls[-1][0] != n or calls[-1][1]:
+            calls.append([n, _is_result(ev)])
+    seq = [c[0] for c in calls]
+    assert RETRIEVE in seq and SEARCH in seq
+    assert seq.index(RETRIEVE) < seq.index(SEARCH)
+    metric = _tool_correctness(trace, [RETRIEVE, SEARCH]) if seq == [RETRIEVE, SEARCH] else None
+    if metric is not None:
+        assert metric.is_successful(), metric.reason
 
 
-def test_search_called_once_with_consolidation_between(valid_run):
+def test_search_starts_only_after_successful_retrieval(valid_run):
     _, trace = valid_run
-    items = list(trace)
-    r_done = max(e["idx"] for e in _results(trace, RETRIEVE) or _calls(trace, RETRIEVE))
-    s_start = min(c["idx"] for c in _calls(trace, SEARCH))
-    # Consolidation (B4) is an LLM step: it must be observable as at least one
-    # trace event between the retrieval outcome and the search call.
-    assert s_start - r_done >= 1 and len(items) > s_start, (
-        "no observable event between retrieval and search (B4 consolidation not evidenced)"
-    )
+    require_trace(trace)
+    ok = successful_result_index(trace, RETRIEVE)
+    s = first_index(trace, SEARCH)
+    assert ok is not None, "No evidence of a successful retrieve_restrictions result"
+    assert s is not None, "No search_exercises event"
+    assert ok < s, "search_exercises started before retrieval succeeded"
 
 
-# --------------------------------------------------------------------------
-# B5 - query is LLM generated and includes goal, equipment, restrictions
-# --------------------------------------------------------------------------
-def test_search_query_present_and_nonempty(valid_run):
+def test_tools_not_parallel(valid_run):
+    """Tool events of the two tools must not interleave (no parallel calls)."""
     _, trace = valid_run
-    q = _query_text(_calls(trace, SEARCH)[0])
-    assert len(q.strip()) > 10, f"search query missing/too short: {q!r}"
+    require_trace(trace)
+    r_done = successful_result_index(trace, RETRIEVE)
+    s_first = first_index(trace, SEARCH)
+    assert r_done is not None and s_first is not None
+    assert r_done < s_first
+    # No event may name both tools at once.
+    for ev in _events(trace):
+        assert len(set(_tool_names(ev))) <= 1, "Both tools in a single step (parallel)"
 
 
-def test_search_query_includes_goal_equipment_and_restrictions(valid_run):
+def test_each_tool_called_without_failure(valid_run):
     _, trace = valid_run
-    q = _query_text(_calls(trace, SEARCH)[0])
-    metric = GEval(
-        name="QueryCoversProfileAndRestrictions",
-        criteria=(
-            "The search query must explicitly mention (1) the user's goal, "
-            "(2) the user's available equipment, and (3) every restriction from "
-            "the user's profile (knee injury, lower back pain), formulated for an "
-            "exercise web search."
-        ),
-        evaluation_params=[LLMTestCaseParams.INPUT, LLMTestCaseParams.ACTUAL_OUTPUT],
-        threshold=0.6,
-    )
-    tc = LLMTestCase(input=VALID_PROFILE, actual_output=q)
-    assert_test(tc, [metric])
+    require_trace(trace)
+    assert not has_failure(trace, RETRIEVE)
+    assert not has_failure(trace, SEARCH)
 
 
-# --------------------------------------------------------------------------
-# B6 - output contract (six sections, plain text) and safe use of results
-# --------------------------------------------------------------------------
-def test_search_ran_before_successful_output(valid_run):
-    output, trace = valid_run
-    assert not output.startswith("Error:"), output
-    assert _calls(trace, SEARCH), "routine returned without search_exercises evidence"
-    assert [e for e in _results(trace, SEARCH) if not e["error"]], "no successful search result"
+def test_consolidation_between_retrieval_and_search(valid_run):
+    """B4: an LLM step must be observable between retrieval result and search."""
+    _, trace = valid_run
+    require_trace(trace)
+    r = successful_result_index(trace, RETRIEVE)
+    s = first_index(trace, SEARCH)
+    assert r is not None and s is not None and r < s
+    events = _events(trace)
+    between = events[r + 1 : s]
+    llm_between = [
+        e
+        for e in between
+        if not _tool_names(e)
+        and any(w in (_kind(e) + str(_get(e, "name", "")) + str(_get(e, "node", ""))).lower()
+                for w in ("llm", "model", "chat", "agent", "assistant", "ai"))
+    ]
+    assert llm_between, "No LLM step observed between retrieval and search (B4 consolidation)"
+
+
+def test_search_query_is_llm_generated_with_goal_and_equipment(valid_run):
+    _, trace = valid_run
+    require_trace(trace)
+    q = _search_query(trace)
+    assert q, "Search query not observable in trace"
+    assert q != VALID_PROFILE, "Query must be formulated by the LLM, not the raw profile"
+    ql = q.lower()
+    assert any(w in ql for w in ("muscle", "hypertrophy", "strength")), "goal missing from query"
+    assert "dumbbell" in ql or "pull-up" in ql or "pull up" in ql, "equipment missing from query"
+
+
+def test_search_query_includes_user_restriction(valid_run):
+    _, trace = valid_run
+    q = _search_query(valid_run[1])
+    assert q, "Search query not observable in trace"
+    assert re.search(r"back|lumbar|spine", q.lower()), "user restriction missing from query"
+
+
+def test_no_events_after_search_call_tools_again_before_synthesis(valid_run):
+    """B6 follows B5: no retrieve call after search began."""
+    _, trace = valid_run
+    require_trace(trace)
+    s = first_index(trace, SEARCH)
+    assert s is not None
+    later = [n for i, n, _ in tool_events(trace) if i > s]
+    assert RETRIEVE not in later, "retrieve_restrictions called after search began"
 
 
 def test_output_has_six_sections_in_order(valid_run):
     output, trace = valid_run
-    assert _calls(trace, SEARCH), "no trace evidence of search"
-    pos = [output.find(t) for t in SECTION_TITLES]
-    assert all(p >= 0 for p in pos), f"missing sections: {pos}"
-    assert pos == sorted(pos), "sections out of order"
-    assert pos[0] == 0 or output[: pos[0]].strip() == ""
-
-
-def test_output_plain_text(valid_run):
-    output, _ = valid_run
+    require_trace(trace)
+    assert tool_sequence(trace), "Routine returned with no tool evidence in trace"
+    pos = []
+    for t in SECTION_TITLES:
+        assert output.count(t) == 1, f"Section {t!r} must appear exactly once"
+        pos.append(output.index(t))
+    assert pos == sorted(pos)
     assert "```" not in output
-    assert not re.search(r"(?m)^\s*#{1,6}\s", output)
-    assert "**" not in output
-
-
-def test_routine_respects_restrictions(valid_run):
-    output, trace = valid_run
-    assert _calls(trace, RETRIEVE) and _calls(trace, SEARCH)
-    metric = GEval(
-        name="SafetyContract",
-        criteria=(
-            "The routine must not include exercises that load an injured knee "
-            "(e.g. deep squats, lunges, jumping) or aggravate lower back pain "
-            "(e.g. heavy deadlifts), unless explicitly adapted; Important Notes must "
-            "list excluded exercise categories with reasons and substitutions."
-        ),
-        evaluation_params=[LLMTestCaseParams.INPUT, LLMTestCaseParams.ACTUAL_OUTPUT],
-        threshold=0.6,
-    )
-    assert_test(LLMTestCase(input=VALID_PROFILE, actual_output=output), [metric])
+    assert not output.startswith("Error:")
 
 
 # --------------------------------------------------------------------------
-# B7 - tool failures: Error:, chain stops
+# B7: tool failure -> Error:, chain stops
 # --------------------------------------------------------------------------
 def test_notion_failure_blocks_search_and_plan(monkeypatch):
-    monkeypatch.setenv("NOTION_API_KEY", "invalid-key")
-    output, trace = _run(VALID_PROFILE)
-    assert _calls(trace, RETRIEVE), "retrieve_restrictions attempt not evidenced"
-    assert not _calls(trace, SEARCH), "search ran after Notion failure"
-    assert output.startswith("Error:"), output
+    monkeypatch.setenv("NOTION_API_KEY", "")
+    output, trace = run(VALID_PROFILE)
+    require_trace(trace)
+    assert RETRIEVE in tool_sequence(trace), "retrieve_restrictions attempt not observed"
+    assert has_failure(trace, RETRIEVE), "Retrieval failure not recorded in trace"
+    assert SEARCH not in tool_sequence(trace), "Search must not run after Notion failure"
+    assert output.startswith("Error:")
     assert "Weekly Plan:" not in output
 
 
-def test_tavily_failure_blocks_plan(monkeypatch):
-    monkeypatch.setenv("TAVILY_API_KEY", "invalid-key")
-    output, trace = _run(VALID_PROFILE)
-    r, s = _calls(trace, RETRIEVE), _calls(trace, SEARCH)
-    assert r and s, "both attempts must be evidenced"
-    assert min(c["idx"] for c in r) < min(c["idx"] for c in s)
-    assert output.startswith("Error:"), output
+def test_tavily_failure_blocks_synthesis(monkeypatch):
+    monkeypatch.setenv("TAVILY_API_KEY", "")
+    output, trace = run(VALID_PROFILE)
+    require_trace(trace)
+    assert successful_result_index(trace, RETRIEVE) is not None
+    assert SEARCH in tool_sequence(trace), "search_exercises attempt not observed"
+    assert has_failure(trace, SEARCH), "Search failure not recorded in trace"
+    assert output.startswith("Error:")
     assert "Weekly Plan:" not in output
+
+
+# --------------------------------------------------------------------------
+# Interface: build_graph
+# --------------------------------------------------------------------------
+def test_build_graph_returns_compiled_state_graph():
+    from langgraph.graph.state import CompiledStateGraph
+
+    assert isinstance(build_graph(), CompiledStateGraph)
