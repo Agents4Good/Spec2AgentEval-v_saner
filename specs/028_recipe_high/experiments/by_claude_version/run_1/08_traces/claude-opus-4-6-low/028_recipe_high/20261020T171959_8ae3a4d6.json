@@ -1,0 +1,66 @@
+{
+  "run_id": "8ae3a4d605bb4f1a8a1d1cf08e2f4b29",
+  "query": [
+    "I am vegan. I have chicken, tofu and broccoli, suggest a dinner recipe."
+  ],
+  "status": "ok",
+  "error": null,
+  "runs_collected": 1,
+  "trajectory": [
+    "validate_query",
+    "lookup_pantry",
+    "retrieve_pantry",
+    "identify_ingredients",
+    "search_recipes",
+    "search_recipes",
+    "generate_recipe"
+  ],
+  "tool_calls": [
+    {
+      "name": "retrieve_pantry",
+      "input": {},
+      "output": [
+        "corn",
+        "chicken",
+        "milk"
+      ],
+      "start": "2026-10-20T17:19:47.639787+00:00",
+      "end": "2026-10-20T17:19:48.733177+00:00"
+    },
+    {
+      "name": "search_recipes",
+      "input": {
+        "ingredients": "tofu, broccoli, corn"
+      },
+      "output": [
+        {
+          "title": "Tofu and Broccoli Recipe",
+          "url": "https://cooking.nytimes.com/recipes/758205344-tofu-and-broccoli",
+          "content": "Step 1\n\n  In a small bowl, whisk together soy sauce, sesame oil, brown sugar, 1 teaspoon cornstarch and ½ cup water. Set aside.\n Step 2\n\n  Cut the tofu into 1-inch cubes, spread the cubes onto a few layers of paper towels and pat them dry. In a medium bowl, toss the cubes with the remaining ¼ cup of cornstarch and fully coat the tofu.\n Step 3 [...] ## Ratings\n\nor to rate this recipe.\n\nor to mark this recipe as cooked.\n\n## Comments\n\nMix 1 T cornstarch, 1 T oil & 1 T soy sauce - add cubed tofu and toss. Put on sheet pan and roast at 400 for ~15 min. I put the broccoli on a separate pan with a little oil and S&P in case it cooks faster or slower. Then proceed to step 5 for making the sauce (add the broccoli with the tofu) [...] ## Ingredients\n\n ¼ cup light soy sauce\n 1 tablespoon toasted sesame oil\n 2 tablespoons light brown sugar\n 1 teaspoon plus ¼ cup cornstarch, divided\n 1 (14-ounce) block firm tofu, drained\n 4 tablespoons vegetable oil, divided\n Kosher salt\n 2 medium broccoli crowns, cut into florets\n 4 garlic cloves, finely chopped\n 1 (½-inch) piece fresh ginger, finely chopped (about 2 teaspoons)\n 3 scallions, finely chopped\n Toasted sesame seeds, for garnish\n Rice, for serving"
+        },
+        {
+          "title": "Tofu Broccoli Stir Fry Recipe | HIGH PROTEIN Vegetarian and Vegan Meals",
+          "url": "https://www.youtube.com/watch?v=IpvwUAu2rKE",
+          "content": "To a heated pan add the oil, tofu (coated with corn starch) and salt. Fry on medium-high heat for only 30 seconds and then right a way reduce the heat to medium low and then add the finely chopped garlic, ginger and chili flakes. Mix well and fry for 2 to 3 minutes on medium-low heat. Add the onion and broccoli and turn the heat to medium-high or high (depending on the heat of your stove) and fry for another 2 to 3 minutes until the onion is soft and the broccoli is slightly cooked. [...] ▶️ METHOD:\n\nDrain the tofu and cut it into 1 inch X 1 inch cubes and add corn starch. Mix well to coat the tofu with corn starch. \n\nTo a small bowl add the LOW SODIUM vegetable broth, soy sauce, DARK soy sauce, white vinegar, maple syrup, ground black pepper and corn starch. Mix it well and set it aside for later.\n\n✅👉 PLEASE NOTE: I have used LOW SODIUM VEGETABLE BROTH for the sauce. If you are using the regular type adjust the salt accordingly. [...] Add the sauce. Make sure to stir the sauce well before adding it that’s because the corn starch has a tendency to collect at the bottom of the bowl.\n\nCook the sauce along with the vegetables on medium-high heat for about 4 to 5 minutes or until the sauce thickens to desired consistency. ✅Cook the sauce to your desired consistency. \n\nServe hot with steamed jasmine rice.\n\n▶️ IMPORTANT NOTES:"
+        },
+        {
+          "title": "Sticky Tofu & Broccoli - This Savory Vegan",
+          "url": "https://www.thissavoryvegan.com/sticky-tofu-broccoli",
+          "content": "Break apart the tofu into bite-sized pieces and place them in a bowl. Toss with the corn starch until the pieces are all coated.\n Heat the oil in a skillet over medium heat. Add the tofu and cook until browned (approx. 8 minutes).\n While the tofu is cooking, combine the soy sauce, agave, sesame oil, sriracha, garlic & ginger in a bowl. Whisk to combine and set aside.\n Add the shallot & broccoli to the skillet with 1 tablespoon of water. Cover and allow to steam for 2-3 minutes. [...] Break apart the tofu into bite-sized pieces and place them in a bowl. Toss with the corn starch until the pieces are all coated.\n\nHeat the oil in a skillet over medium heat. Add the tofu and cook until browned – it should take about 8 minutes.\n\n### step 2: sauce it up\n\nWhile the tofu is cooking, we are going to whip up the sauce. I love making stir-fry sauces from scratch. They are super easy to make and they taste wayyyy better than the bottled stuff! [...] ### Ingredients\n\n 1 16-ounce block super firm tofu see notes\n 2 tablespoons corn starch\n 2 tablespoons neutral oil I used avocado\n 1/4 cup low sodium soy sauce\n 3 tablespoons agave or sub maple syrup\n 1 tablespoon sesame oil\n 1 tablespoon sriracha\n 2 cloves garlic minced\n 1 tablespoon fresh ginger minced\n 1 shallot thinly sliced\n 12 ounces broccoli florets\n rice, sesame seeds, green onion optional, for serving\n\n### Equipment\n\n skillet\n\n### Instructions"
+        },
+        {
+          "title": "Broccoli Tofu Stir Fry {Easy and Healthy!} – WellPlated.com",
+          "url": "https://www.wellplated.com/three-pea-ginger-tofu-stir-fry",
+          "content": "## Tip!\n\nFor a broccoli tofu stir fry with an Indian twist, try adding broccoli to this Tofu Curry.\n\n### The Directions\n\n1. Drain, dry, and cut the tofu.\n\n1. Toss the tofu cubes with cornstarch.\n\n1. Whisk the sauce ingredients together.\n\n1. Cook the broccoli in a skillet with oil, salt, and pepper. Remove it to a plate.\n\n1. Cook the tofu in the same skillet with oil.\n\n1. Stir the broccoli and sauce into the tofu. Add the sesame oil and green onion. Top with sesame seeds. DIG IN! [...] 1 (12- to 14-ounce) block extra-firm tofu\n 2 tablespoons (plus 1 teaspoon) cornstarch divided\n ⅓ cup low sodium soy sauce\n ¼ cup water\n 2 tablespoons hoisin\n 1 ½ tablespoons rice vinegar\n 1 tablespoon minced garlic about 3 cloves\n 1 tablespoon minced fresh ginger\n 3 tablespoons canola oil or grapeseed oil or another neutral oil, divided, plus additional as needed\n 2 broccoli crowns cut into florets (about 5 to 6 cups)\n ¼ teaspoon kosher salt\n ¼ teaspoon ground black pepper [...] Tofu. Don’t let prior experience scare you off! In this recipe, the tofu is delightfully crispy, tender, and bursting with flavor from the sauce.\n Cornstarch. Helps create a crust-like exterior on the tofu and thickens the sauce.\n Soy Sauce. For that beloved, umami bomb of flavor.\n Hoisin. A thick and luscious blend of salty and sweet flavors that helps create the perfect sauce. Making tofu broccoli stir fry with hoisin gives you big flavor bang in a single ingredient."
+        },
+        {
+          "title": "Best Sesame Tofu & Broccoli Recipe",
+          "url": "https://www.delish.com/cooking/recipe-ideas/a46092645/sesame-tofu-and-broccoli-recipe",
+          "content": "6. Step 6Reduce heat to medium. Whisk sauce to reincorporate cornstarch and pour into skillet. Bring to a simmer and cook, stirring occasionally, until slightly thickened, about 4 minutes. Add broccoli and tofu to skillet and toss to coat in sauce. Top with green scallion parts and sesame seeds. Serve over rice. [...] 3. Step 3Break tofu into rough 1\" pieces and transfer to a large bowl. Sprinkle with 1/2 teaspoon salt, drizzle with 1 tablespoon neutral oil, and gently toss tofu to coat. Sprinkle with remaining 1/3 cup cornstarch and gently toss until tofu is coated. Arrange on a parchment-lined baking sheet and drizzle with 2 tablespoons neutral oil.\n  4. Step 4Bake tofu, turning halfway through, until light brown and crisp, about 25 minutes. [...] 2. Step 2Meanwhile, preheat oven to 425°. Cut broccoli heads into florets. Thinly slice scallions and separate green and white parts. Into a medium bowl or large measuring cup, grate ginger and garlic. Add white scallion parts, broth, soy sauce, maple syrup, chili crisp, vinegar, sesame oil, and 1 tablespoon cornstarch and whisk to combine."
+        }
+      ],
+      "start": "2026-10-20T17:19:49.856032+00:00",
+      "end": "2026-10-20T17:19:55.367690+00:00"
+    }
+  ]
+}

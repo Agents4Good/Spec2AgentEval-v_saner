@@ -62,7 +62,7 @@ Return this exact JSON structure:
         "handles_no_ingredients":      <0|1>
     }},
  "total_score": <int>,
- "max_score": 10,
+ "max_score": 12,
  "passed": <bool>,
  "summary": "<one paragraph describing the main implementation problems found in the code, or 'No problems found'>" 
 }}
@@ -76,7 +76,7 @@ Criteria definitions:
   of search_recipes is derived from the output of retrieve_pantry (and the query).
 - tools_implemented: The code explicitly defines exactly two tools: retrieve_pantry (using Notion) and search_recipes (using Tavily).
 - correct_model:           the ChatOpenAI model is instantiated with model="gpt-4o".
-- output_structure_present: The logic attempts to format the final response containing ALL required sections: Title, Ingredients, Equipment, Instructions, Nutrition, Storage.
+- output_structure_present: The logic attempts to format the final response containing ALL required sections: Title, Ingredients, Equipment, Instructions, Storage.
 - handles_invalid_input:     the code explicitly handles empty orblank queries and returns a string starting with "Error:".
 - exception_handling:      The graph execution or tool calls are wrapped in try/except blocks to prevent unhandled crashes, returning "Error:" strings upon failure.
 - dietary_filtering: The workflow includes an LLM-based step that identifies the usable ingredients (from the query and the pantry output) and removes those incompatible with

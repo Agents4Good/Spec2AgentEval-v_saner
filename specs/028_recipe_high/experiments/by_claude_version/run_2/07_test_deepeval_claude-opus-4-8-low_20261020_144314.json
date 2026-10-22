@@ -1,0 +1,1009 @@
+{
+  "run_id": "20261020_144314",
+  "run": 2,
+  "experiment": "by_claude_version",
+  "stage": "evaluation",
+  "model": "claude-opus-4-8-low",
+  "test": "test_deepeval.py",
+  "agent_filter": "028_recipe_high",
+  "bench_dir": "specs",
+  "generated_dir": "generated_agents/by_claude_version/run_2",
+  "total_agents": 1,
+  "results": [
+    {
+      "model": "claude-opus-4-8-low",
+      "agent_folder": "028_recipe_high",
+      "agent_file": "agent.py",
+      "test_file": "test_deepeval.py",
+      "passed": true,
+      "returncode": 0,
+      "stdout": "============================= test session starts ==============================\nplatform linux -- Python 3.10.12, pytest-9.1.1, pluggy-1.7.0 -- /home/gabriellacabral/bench/Spec2AgentEval-v_saner/.venv/bin/python\ncachedir: .pytest_cache\nmetadata: {'Python': '3.10.12', 'Platform': 'Linux-6.8.0-138-generic-x86_64-with-glibc2.35', 'Packages': {'pytest': '9.1.1', 'pluggy': '1.7.0'}, 'Plugins': {'deepeval': '3.3.9', 'anyio': '4.15.1', 'metadata': '3.1.1', 'asyncio': '1.4.0', 'rerunfailures': '12.0', 'pyfakefs': '5.9.3', 'json-report': '1.5.0', 'langsmith': '0.14.2', 'xdist': '3.8.0', 'repeat': '0.9.4'}}\nrootdir: /home/gabriellacabral/bench/Spec2AgentEval-v_saner/generated_agents/by_claude_version/run_2/claude-opus-4-8-low/028_recipe_high\nplugins: deepeval-3.3.9, anyio-4.15.1, metadata-3.1.1, asyncio-1.4.0, rerunfailures-12.0, pyfakefs-5.9.3, json-report-1.5.0, langsmith-0.14.2, xdist-3.8.0, repeat-0.9.4\nasyncio: mode=strict, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function\ncollecting ... collected 24 items\n\ntest_deepeval.py::test_b1_invalid_query_rejected[empty] PASSED           [  4%]\ntest_deepeval.py::test_b1_invalid_query_rejected[whitespace-only] PASSED [  8%]\ntest_deepeval.py::test_b1_invalid_query_rejected[unrelated-geography] PASSED [ 12%]\ntest_deepeval.py::test_b1_invalid_query_rejected[unrelated-code] PASSED  [ 16%]\ntest_deepeval.py::test_b1_invalid_query_rejected[unrelated-sports] PASSED [ 20%]\ntest_deepeval.py::test_b1_invalid_query_rejected[offensive] PASSED       [ 25%]\ntest_deepeval.py::test_b7_valid_query_generates_complete_recipe[simple-ingredients] PASSED [ 29%]\ntest_deepeval.py::test_b7_valid_query_generates_complete_recipe[dessert] PASSED [ 33%]\ntest_deepeval.py::test_b7_valid_query_generates_complete_recipe[cuisine-preference] PASSED [ 37%]\ntest_deepeval.py::test_b7_valid_query_generates_complete_recipe[breakfast] PASSED [ 41%]\ntest_deepeval.py::test_dietary_restrictions_respected[vegan] PASSED      [ 45%]\ntest_deepeval.py::test_dietary_restrictions_respected[lactose-free] PASSED [ 50%]\ntest_deepeval.py::test_dietary_restrictions_respected[gluten-free] PASSED [ 54%]\ntest_deepeval.py::test_dietary_restrictions_respected[vegetarian-peanut-allergy] PASSED [ 58%]\ntest_deepeval.py::test_negated_ingredients_not_used[negation] PASSED     [ 62%]\ntest_deepeval.py::test_negated_ingredients_not_used[absence] PASSED      [ 66%]\ntest_deepeval.py::test_negated_ingredients_not_used[hypothesis] PASSED   [ 70%]\ntest_deepeval.py::test_b5_only_incompatible_query_ingredients PASSED     [ 75%]\ntest_deepeval.py::test_b6_missing_credentials_handled[NOTION_API_KEY] PASSED [ 79%]\ntest_deepeval.py::test_b6_missing_credentials_handled[NOTION_PAGE_ID] PASSED [ 83%]\ntest_deepeval.py::test_b6_missing_credentials_handled[TAVILY_API_KEY] PASSED [ 87%]\ntest_deepeval.py::test_b6_missing_credentials_handled[OPENAI_API_KEY] PASSED [ 91%]\ntest_deepeval.py::test_b6_invalid_notion_page_handled PASSED             [ 95%]\ntest_deepeval.py::test_error_message_has_explanation PASSED              [100%]Running teardown with pytest sessionfinish...\n\n\n--------------------------------- JSON report ----------------------------------\nreport saved to: .pytest_report.json\n======================== 24 passed in 204.92s (0:03:24) ========================\n",
+      "stderr": "",
+      "error": null,
+      "summary": {
+        "passed": 24,
+        "total": 24,
+        "collected": 24
+      },
+      "tests": [
+        {
+          "name": "test_b1_invalid_query_rejected[empty]",
+          "qualified_name": "test_deepeval.py::test_b1_invalid_query_rejected[empty]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b1_invalid_query_rejected[whitespace-only]",
+          "qualified_name": "test_deepeval.py::test_b1_invalid_query_rejected[whitespace-only]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b1_invalid_query_rejected[unrelated-geography]",
+          "qualified_name": "test_deepeval.py::test_b1_invalid_query_rejected[unrelated-geography]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b1_invalid_query_rejected[unrelated-code]",
+          "qualified_name": "test_deepeval.py::test_b1_invalid_query_rejected[unrelated-code]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b1_invalid_query_rejected[unrelated-sports]",
+          "qualified_name": "test_deepeval.py::test_b1_invalid_query_rejected[unrelated-sports]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b1_invalid_query_rejected[offensive]",
+          "qualified_name": "test_deepeval.py::test_b1_invalid_query_rejected[offensive]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b7_valid_query_generates_complete_recipe[simple-ingredients]",
+          "qualified_name": "test_deepeval.py::test_b7_valid_query_generates_complete_recipe[simple-ingredients]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b7_valid_query_generates_complete_recipe[dessert]",
+          "qualified_name": "test_deepeval.py::test_b7_valid_query_generates_complete_recipe[dessert]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b7_valid_query_generates_complete_recipe[cuisine-preference]",
+          "qualified_name": "test_deepeval.py::test_b7_valid_query_generates_complete_recipe[cuisine-preference]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b7_valid_query_generates_complete_recipe[breakfast]",
+          "qualified_name": "test_deepeval.py::test_b7_valid_query_generates_complete_recipe[breakfast]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_dietary_restrictions_respected[vegan]",
+          "qualified_name": "test_deepeval.py::test_dietary_restrictions_respected[vegan]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_dietary_restrictions_respected[lactose-free]",
+          "qualified_name": "test_deepeval.py::test_dietary_restrictions_respected[lactose-free]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_dietary_restrictions_respected[gluten-free]",
+          "qualified_name": "test_deepeval.py::test_dietary_restrictions_respected[gluten-free]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_dietary_restrictions_respected[vegetarian-peanut-allergy]",
+          "qualified_name": "test_deepeval.py::test_dietary_restrictions_respected[vegetarian-peanut-allergy]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_negated_ingredients_not_used[negation]",
+          "qualified_name": "test_deepeval.py::test_negated_ingredients_not_used[negation]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_negated_ingredients_not_used[absence]",
+          "qualified_name": "test_deepeval.py::test_negated_ingredients_not_used[absence]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_negated_ingredients_not_used[hypothesis]",
+          "qualified_name": "test_deepeval.py::test_negated_ingredients_not_used[hypothesis]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b5_only_incompatible_query_ingredients",
+          "qualified_name": "test_deepeval.py::test_b5_only_incompatible_query_ingredients",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b6_missing_credentials_handled[NOTION_API_KEY]",
+          "qualified_name": "test_deepeval.py::test_b6_missing_credentials_handled[NOTION_API_KEY]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b6_missing_credentials_handled[NOTION_PAGE_ID]",
+          "qualified_name": "test_deepeval.py::test_b6_missing_credentials_handled[NOTION_PAGE_ID]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b6_missing_credentials_handled[TAVILY_API_KEY]",
+          "qualified_name": "test_deepeval.py::test_b6_missing_credentials_handled[TAVILY_API_KEY]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b6_missing_credentials_handled[OPENAI_API_KEY]",
+          "qualified_name": "test_deepeval.py::test_b6_missing_credentials_handled[OPENAI_API_KEY]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b6_invalid_notion_page_handled",
+          "qualified_name": "test_deepeval.py::test_b6_invalid_notion_page_handled",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_error_message_has_explanation",
+          "qualified_name": "test_deepeval.py::test_error_message_has_explanation",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        }
+      ],
+      "pytest_report": {
+        "created": 1792518185.7732952,
+        "duration": 204.91939067840576,
+        "exitcode": 0,
+        "root": "/home/gabriellacabral/bench/Spec2AgentEval-v_saner/generated_agents/by_claude_version/run_2/claude-opus-4-8-low/028_recipe_high",
+        "environment": {},
+        "summary": {
+          "passed": 24,
+          "total": 24,
+          "collected": 24
+        },
+        "collectors": [
+          {
+            "nodeid": "",
+            "outcome": "passed",
+            "result": [
+              {
+                "nodeid": "test_deepeval.py",
+                "type": "Module"
+              }
+            ]
+          },
+          {
+            "nodeid": "test_deepeval.py",
+            "outcome": "passed",
+            "result": [
+              {
+                "nodeid": "test_deepeval.py::test_b1_invalid_query_rejected[empty]",
+                "type": "Function",
+                "lineno": 157
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b1_invalid_query_rejected[whitespace-only]",
+                "type": "Function",
+                "lineno": 157
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b1_invalid_query_rejected[unrelated-geography]",
+                "type": "Function",
+                "lineno": 157
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b1_invalid_query_rejected[unrelated-code]",
+                "type": "Function",
+                "lineno": 157
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b1_invalid_query_rejected[unrelated-sports]",
+                "type": "Function",
+                "lineno": 157
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b1_invalid_query_rejected[offensive]",
+                "type": "Function",
+                "lineno": 157
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b7_valid_query_generates_complete_recipe[simple-ingredients]",
+                "type": "Function",
+                "lineno": 193
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b7_valid_query_generates_complete_recipe[dessert]",
+                "type": "Function",
+                "lineno": 193
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b7_valid_query_generates_complete_recipe[cuisine-preference]",
+                "type": "Function",
+                "lineno": 193
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b7_valid_query_generates_complete_recipe[breakfast]",
+                "type": "Function",
+                "lineno": 193
+              },
+              {
+                "nodeid": "test_deepeval.py::test_dietary_restrictions_respected[vegan]",
+                "type": "Function",
+                "lineno": 227
+              },
+              {
+                "nodeid": "test_deepeval.py::test_dietary_restrictions_respected[lactose-free]",
+                "type": "Function",
+                "lineno": 227
+              },
+              {
+                "nodeid": "test_deepeval.py::test_dietary_restrictions_respected[gluten-free]",
+                "type": "Function",
+                "lineno": 227
+              },
+              {
+                "nodeid": "test_deepeval.py::test_dietary_restrictions_respected[vegetarian-peanut-allergy]",
+                "type": "Function",
+                "lineno": 227
+              },
+              {
+                "nodeid": "test_deepeval.py::test_negated_ingredients_not_used[negation]",
+                "type": "Function",
+                "lineno": 257
+              },
+              {
+                "nodeid": "test_deepeval.py::test_negated_ingredients_not_used[absence]",
+                "type": "Function",
+                "lineno": 257
+              },
+              {
+                "nodeid": "test_deepeval.py::test_negated_ingredients_not_used[hypothesis]",
+                "type": "Function",
+                "lineno": 257
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b5_only_incompatible_query_ingredients",
+                "type": "Function",
+                "lineno": 272
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b6_missing_credentials_handled[NOTION_API_KEY]",
+                "type": "Function",
+                "lineno": 289
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b6_missing_credentials_handled[NOTION_PAGE_ID]",
+                "type": "Function",
+                "lineno": 289
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b6_missing_credentials_handled[TAVILY_API_KEY]",
+                "type": "Function",
+                "lineno": 289
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b6_missing_credentials_handled[OPENAI_API_KEY]",
+                "type": "Function",
+                "lineno": 289
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b6_invalid_notion_page_handled",
+                "type": "Function",
+                "lineno": 308
+              },
+              {
+                "nodeid": "test_deepeval.py::test_error_message_has_explanation",
+                "type": "Function",
+                "lineno": 319
+              }
+            ]
+          }
+        ],
+        "tests": [
+          {
+            "nodeid": "test_deepeval.py::test_b1_invalid_query_rejected[empty]",
+            "lineno": 157,
+            "outcome": "passed",
+            "keywords": [
+              "test_b1_invalid_query_rejected[empty]",
+              "parametrize",
+              "pytestmark",
+              "empty",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0003269580010965001,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 0.003256173000409035,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.0001433809993613977,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b1_invalid_query_rejected[whitespace-only]",
+            "lineno": 157,
+            "outcome": "passed",
+            "keywords": [
+              "test_b1_invalid_query_rejected[whitespace-only]",
+              "parametrize",
+              "pytestmark",
+              "whitespace-only",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0001906990000861697,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 0.0006993540009716526,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.00012245600009919144,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b1_invalid_query_rejected[unrelated-geography]",
+            "lineno": 157,
+            "outcome": "passed",
+            "keywords": [
+              "test_b1_invalid_query_rejected[unrelated-geography]",
+              "parametrize",
+              "pytestmark",
+              "unrelated-geography",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.00017487999866716564,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 5.7600510330012185,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.0007757089988444932,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b1_invalid_query_rejected[unrelated-code]",
+            "lineno": 157,
+            "outcome": "passed",
+            "keywords": [
+              "test_b1_invalid_query_rejected[unrelated-code]",
+              "parametrize",
+              "pytestmark",
+              "unrelated-code",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.000985124999715481,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 5.667901891996735,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.0009397640023962595,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b1_invalid_query_rejected[unrelated-sports]",
+            "lineno": 157,
+            "outcome": "passed",
+            "keywords": [
+              "test_b1_invalid_query_rejected[unrelated-sports]",
+              "parametrize",
+              "pytestmark",
+              "unrelated-sports",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.001115942999604158,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 6.741260666996823,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.0003454019970376976,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b1_invalid_query_rejected[offensive]",
+            "lineno": 157,
+            "outcome": "passed",
+            "keywords": [
+              "test_b1_invalid_query_rejected[offensive]",
+              "parametrize",
+              "pytestmark",
+              "offensive",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0002887740010919515,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 7.542711499001598,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.0004956670018145815,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b7_valid_query_generates_complete_recipe[simple-ingredients]",
+            "lineno": 193,
+            "outcome": "passed",
+            "keywords": [
+              "test_b7_valid_query_generates_complete_recipe[simple-ingredients]",
+              "parametrize",
+              "pytestmark",
+              "simple-ingredients",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0007529920003435109,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 16.124319369999284,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.00039846300205681473,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b7_valid_query_generates_complete_recipe[dessert]",
+            "lineno": 193,
+            "outcome": "passed",
+            "keywords": [
+              "test_b7_valid_query_generates_complete_recipe[dessert]",
+              "parametrize",
+              "pytestmark",
+              "dessert",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0004657399986172095,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 18.231626228000096,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.0003063199983444065,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b7_valid_query_generates_complete_recipe[cuisine-preference]",
+            "lineno": 193,
+            "outcome": "passed",
+            "keywords": [
+              "test_b7_valid_query_generates_complete_recipe[cuisine-preference]",
+              "parametrize",
+              "pytestmark",
+              "cuisine-preference",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0002831679994415026,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 12.561740821001877,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.0005189059993426781,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b7_valid_query_generates_complete_recipe[breakfast]",
+            "lineno": 193,
+            "outcome": "passed",
+            "keywords": [
+              "test_b7_valid_query_generates_complete_recipe[breakfast]",
+              "parametrize",
+              "pytestmark",
+              "breakfast",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0003830659989034757,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 15.14044135199947,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.0004839850007556379,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_dietary_restrictions_respected[vegan]",
+            "lineno": 227,
+            "outcome": "passed",
+            "keywords": [
+              "test_dietary_restrictions_respected[vegan]",
+              "parametrize",
+              "pytestmark",
+              "vegan",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.00057011300305021,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 13.813339552998514,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.00036330800139694475,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_dietary_restrictions_respected[lactose-free]",
+            "lineno": 227,
+            "outcome": "passed",
+            "keywords": [
+              "test_dietary_restrictions_respected[lactose-free]",
+              "parametrize",
+              "pytestmark",
+              "lactose-free",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.00042589700024109334,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 10.70530379200136,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.00031987799957278185,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_dietary_restrictions_respected[gluten-free]",
+            "lineno": 227,
+            "outcome": "passed",
+            "keywords": [
+              "test_dietary_restrictions_respected[gluten-free]",
+              "parametrize",
+              "pytestmark",
+              "gluten-free",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.00035191899951314554,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 12.886460423000244,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.000515902996994555,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_dietary_restrictions_respected[vegetarian-peanut-allergy]",
+            "lineno": 227,
+            "outcome": "passed",
+            "keywords": [
+              "test_dietary_restrictions_respected[vegetarian-peanut-allergy]",
+              "parametrize",
+              "pytestmark",
+              "vegetarian-peanut-allergy",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0005993739978293888,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 14.056150876000174,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.00038355500146280974,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_negated_ingredients_not_used[negation]",
+            "lineno": 257,
+            "outcome": "passed",
+            "keywords": [
+              "test_negated_ingredients_not_used[negation]",
+              "parametrize",
+              "pytestmark",
+              "negation",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0004973800023435615,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 19.856545836002624,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.00023748300009174272,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_negated_ingredients_not_used[absence]",
+            "lineno": 257,
+            "outcome": "passed",
+            "keywords": [
+              "test_negated_ingredients_not_used[absence]",
+              "parametrize",
+              "pytestmark",
+              "absence",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0003059800001210533,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 9.043038330000854,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.0004193540007690899,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_negated_ingredients_not_used[hypothesis]",
+            "lineno": 257,
+            "outcome": "passed",
+            "keywords": [
+              "test_negated_ingredients_not_used[hypothesis]",
+              "parametrize",
+              "pytestmark",
+              "hypothesis",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.000518722998094745,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 11.640629166999133,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.0003428939999139402,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b5_only_incompatible_query_ingredients",
+            "lineno": 272,
+            "outcome": "passed",
+            "keywords": [
+              "test_b5_only_incompatible_query_ingredients",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.00022700099725625478,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 2.687710310001421,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.0005506220004463103,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b6_missing_credentials_handled[NOTION_API_KEY]",
+            "lineno": 289,
+            "outcome": "passed",
+            "keywords": [
+              "test_b6_missing_credentials_handled[NOTION_API_KEY]",
+              "parametrize",
+              "pytestmark",
+              "NOTION_API_KEY",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.00046466100320685655,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 4.714052036000794,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.0004274970015103463,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b6_missing_credentials_handled[NOTION_PAGE_ID]",
+            "lineno": 289,
+            "outcome": "passed",
+            "keywords": [
+              "test_b6_missing_credentials_handled[NOTION_PAGE_ID]",
+              "parametrize",
+              "pytestmark",
+              "NOTION_PAGE_ID",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0008052810007939115,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 5.80109854300099,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.0005847549982718192,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b6_missing_credentials_handled[TAVILY_API_KEY]",
+            "lineno": 289,
+            "outcome": "passed",
+            "keywords": [
+              "test_b6_missing_credentials_handled[TAVILY_API_KEY]",
+              "parametrize",
+              "pytestmark",
+              "TAVILY_API_KEY",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0008522860007360578,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 7.983105210998474,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.000363839997589821,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b6_missing_credentials_handled[OPENAI_API_KEY]",
+            "lineno": 289,
+            "outcome": "passed",
+            "keywords": [
+              "test_b6_missing_credentials_handled[OPENAI_API_KEY]",
+              "parametrize",
+              "pytestmark",
+              "OPENAI_API_KEY",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.00046920800014049746,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 0.00181867500214139,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.00032385099984821863,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b6_invalid_notion_page_handled",
+            "lineno": 308,
+            "outcome": "passed",
+            "keywords": [
+              "test_b6_invalid_notion_page_handled",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0004165800019109156,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 2.9037210429996776,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.0005292479982017539,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_error_message_has_explanation",
+            "lineno": 319,
+            "outcome": "passed",
+            "keywords": [
+              "test_error_message_has_explanation",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0003910979976353701,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 0.816409515999112,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.0005720059998566285,
+              "outcome": "passed"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

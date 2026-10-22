@@ -1,0 +1,72 @@
+{
+  "run_id": "988f53d826fd463fbba45608877738d1",
+  "query": [
+    "I want a lunch recipe with potatoes and carrots. I don't have eggs, and if I had mushrooms I would use them, but I don't."
+  ],
+  "status": "ok",
+  "error": null,
+  "runs_collected": 1,
+  "trajectory": [
+    "validate",
+    "pantry",
+    "retrieve_pantry",
+    "identify",
+    "search",
+    "search_recipes",
+    "generate"
+  ],
+  "tool_calls": [
+    {
+      "name": "retrieve_pantry",
+      "input": {},
+      "output": [
+        "corn",
+        "chicken",
+        "milk"
+      ],
+      "start": "2026-10-20T17:32:36.807913+00:00",
+      "end": "2026-10-20T17:32:37.415471+00:00"
+    },
+    {
+      "name": "search_recipes",
+      "input": {
+        "ingredients": [
+          "potatoes",
+          "carrots",
+          "corn",
+          "chicken",
+          "milk"
+        ]
+      },
+      "output": [
+        {
+          "title": "Chicken Corn Chowder (creamy, filling, delicious!)",
+          "url": "https://www.apinchofhealthy.com/chicken-and-corn-chowder",
+          "content": "Chicken corn chowder is creamy and delicious! Chicken, corn, potatoes, carrots, celery, onion, garlic in creamy broth, topped with bacon and cheese."
+        },
+        {
+          "title": "This creamy chicken corn chowder is a tasty combination ...",
+          "url": "https://www.facebook.com/77RecipesAndCookingGuide/posts/this-creamy-chicken-corn-chowder-is-a-tasty-combination-of-onion-celery-carrots-/1255308093293905",
+          "content": "This creamy chicken corn chowder is a tasty combination of onion, celery, carrots, potatoes, corn, and tender chicken in a creamy broth"
+        },
+        {
+          "title": "Chicken, Corn & Potato Chowder Recipe",
+          "url": "https://www.cookincanuck.com/chicken-corn-potato-chowder-recipe-with",
+          "content": "This rich and creamy chicken corn potato chowder is flavored with green chiles and Cheddar cheese. Comfort food at its best!"
+        },
+        {
+          "title": "Creamy Chicken Potato Soup (with added veggies) - The Natural Nurturer",
+          "url": "https://thenaturalnurturer.com/creamy-chicken-potato-soup-with-added-veggies",
+          "content": "This creamy chicken potato soup recipe makes 6 hearty servings in 1-pot, with each portion (about 1.5 cups each) rocking peas, carrots, bits of cooked chicken thigh and (of course) chunks of perfectly tender Yukon gold potatoes. The potatoes add a lovely heartiness to the soup and, after the veggies + chicken simmer to to perfection in the broth, you scoop out some of those lovely buttery potatoes and blend them with some Greek yogurt. This simple step makes the soup even creamier while keeping [...] 1 Tablespoon olive oil\n 1 Tablespoon butter, or additional oil\n 1 medium onion, chopped\n 4 cloves garlic, minced\n 1½ teaspoons salt, divided\n ½ teaspoon ground black pepper, divided\n ½ teaspoon dried rosemary\n ½ teaspoon dried oregano\n 2 large carrots, peeled and cut into ½-inch dice\n 1 pound Yukon gold potatoes, peeled and cut into ½-inch dice\n 4 cups low sodium chicken broth\n 1 pound boneless, skinless chicken thighs\n ½ cup plain whole milk Greek yogurt , or sour cream [...] Add oil and butter to a large soup pot or Dutch oven over medium heat. Add the onion, garlic, ½ tsp of salt, and ¼ tsp of pepper. Sauté for 2 minutes to soften the onions.\n Stir in the rosemary, oregano, carrots, potatoes, and chicken broth. Nestle the chicken thighs in the soup, making sure they are fully covered by the broth.\n Bring the soup up to a low simmer and cook until the chicken thighs are cooked through, 10 to 12 minutes."
+        },
+        {
+          "title": "Recipe for homemade chicken stew with potatoes and corn",
+          "url": "https://www.facebook.com/groups/2059059674256586/posts/2807422132753666",
+          "content": "Chicken stew the way my Mama taught me! First I use bone in chicken breasts and make my own broth. Shred the chicken and return to the pot. Add about"
+        }
+      ],
+      "start": "2026-10-20T17:32:38.280510+00:00",
+      "end": "2026-10-20T17:32:39.612056+00:00"
+    }
+  ]
+}

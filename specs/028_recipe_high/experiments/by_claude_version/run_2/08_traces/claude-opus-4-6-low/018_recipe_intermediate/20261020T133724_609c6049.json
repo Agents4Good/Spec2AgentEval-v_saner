@@ -1,0 +1,28 @@
+{
+  "run_id": "609c60496dc54499a014ac86a8931692",
+  "query": [
+    "I'm vegetarian. I have tomatoes, zucchini and pasta. Suggest a lunch recipe."
+  ],
+  "status": "ok",
+  "error": null,
+  "runs_collected": 1,
+  "trajectory": [
+    "validate_query",
+    "identify_ingredients",
+    "search_recipes_node",
+    "search_recipes",
+    "generate_recipe",
+    "format_output"
+  ],
+  "tool_calls": [
+    {
+      "name": "search_recipes",
+      "input": {
+        "ingredients": "tomatoes, zucchini, pasta"
+      },
+      "output": "[{'title': 'Pasta with Zucchini and Tomatoes Recipe | Cooked by Sarah', 'url': 'https://cookedbysarah.com/pasta-with-zucchini-and-tomatoes-recipe', 'content': 'Title: Pasta with Zucchini and Tomatoes Recipe | Cooked by Sarah\\n# Pasta with Zucchini and Tomatoes Recipe. Pasta with Zucchini and Tomatoes Recipe. The tender zucchini and juicy tomatoes blend beautifully with al dente pasta and a touch of garlic, creating a delicious harmony that’s quick to prepare and always leaves me feeling happy and nourished. ## Why You’ll Love This Pasta with Zucchini and Tomatoes Recipe. The sweetness of the tomatoes combined with the subtle earthiness of the zucchini, '}, {'title': 'Pasta with Zucchini and Tomatoes Recipe | healthyGFfamily.com', 'url': 'https://www.healthygffamily.com/recipe/sauteed-zucchini-tomatoes-gluten-free-spaghetti', 'content': \"Title: Pasta with Zucchini and Tomatoes Recipe | healthyGFfamily.com\\n# Pasta with Zucchini and Tomatoes. A simple gluten-free pasta dinner recipe that showcases some of the best of Summer produce. With minimal ingredients, it's bursting with flavor and literally tastes like Summer! gluten free spaghetti with zucchini and tomatoes #glutenfree #glutenfreerecipes gluten-free pasta www.healthygffamily.com. Pasta with Zucchini and Tomatoes. For Zucchini Bread Coffee Cake, click here. For Crispy Zucch\"}, {'title': 'Pasta with Zucchini and Tomatoes (20 Minutes) - iFoodReal.com', 'url': 'https://ifoodreal.com/pasta-with-zucchini-and-tomatoes', 'content': 'By: Olena Osipov\\n\\nPasta with Zucchini and Tomatoes is a 20 minute vegetarian pasta recipe with zucchini, tomatoes, fresh garlic, basil and parmesan.\\n\\nPrep: 10 minutes mins\\n\\nCook: 10 minutes mins\\n\\nTotal: 20 minutes mins\\n\\nServings: 4 servings\\n\\nSaveSaved  Pin  Rate  Print\\n\\n### Equipment\\n\\n Ceramic skillet\\n\\n### Ingredients [...] Return skillet to the stove and swirl 1 tbsp of oil to coat, add tomatoes and cook for 3 minutes, stirring occasionally. Add garlic and cook for 1 minute, stirring a few time'}, {'title': 'Paccheri Pasta with Fish, Tomatoes, and Zucchini Recipe', 'url': 'https://skinnyms.com/paccheri-pasta-with-sword-fish-tomatoes-and-zucchini-recipe', 'content': 'Title: Paccheri Pasta with Fish, Tomatoes, and Zucchini Recipe\\nHome » Recipes » Meal Type » Dinner » Pasta with White Fish, Tomatoes, and Zucchini. # Pasta with White Fish, Tomatoes, and Zucchini. Seafood and veggies make for a Mediterranean delight! **A hearty\\xa0fish needs a hearty vegetable dressing! This recipe forgoes cream**\\xa0and dishes up healthy, Mediterranean vegetables. Heavy cream isn’t necessary to make a pasta dish scrumptious, when you have flavorful, fresh tomatoes and zucchini for a '}, {'title': 'Light Italian Pasta with Zucchini and Tomatoes Recipe', 'url': 'https://www.dailytastekitchen.com/light-italian-pasta-zucchini-tomatoes-recipe', 'content': 'Title: Light Italian Pasta with Zucchini and Tomatoes Recipe\\nPlate of Italian Pasta with Zucchini and Spaghetti alla Nerano. # Light Italian Pasta with Zucchini and Tomatoes Recipe. Italian Pasta with Zucchini is my go to dinner for those nights when I want something light but still really satisfying. You know the feeling, you are hungry, you want pasta, but you do not want a heavy sauce or a huge sink full of dishes. This recipe hits that sweet spot with fresh zucchini, juicy tomatoes, and just'}]",
+      "start": "2026-10-20T13:37:21.226463+00:00",
+      "end": "2026-10-20T13:37:21.593287+00:00"
+    }
+  ]
+}

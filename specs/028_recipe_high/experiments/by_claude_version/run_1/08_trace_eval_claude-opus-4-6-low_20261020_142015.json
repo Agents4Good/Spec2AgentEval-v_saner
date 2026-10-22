@@ -1,0 +1,1384 @@
+{
+  "run_id": "20261020_142015",
+  "run": 1,
+  "experiment": "by_claude_version",
+  "stage": "trace_evaluation",
+  "model": "claude-opus-4-6-low",
+  "test": "test_trace.py",
+  "agent_filter": "028_recipe_high",
+  "bench_dir": "specs",
+  "generated_dir": "generated_agents/by_claude_version/run_1",
+  "total_agents": 1,
+  "results": [
+    {
+      "model": "claude-opus-4-6-low",
+      "agent_folder": "028_recipe_high",
+      "agent_file": "agent.py",
+      "test_file": "test_trace.py",
+      "passed": true,
+      "returncode": 0,
+      "stdout": "============================= test session starts ==============================\nplatform linux -- Python 3.10.12, pytest-9.1.1, pluggy-1.7.0 -- /home/gabriellacabral/bench/Spec2AgentEval-v_saner/.venv/bin/python\ncachedir: .pytest_cache\nmetadata: {'Python': '3.10.12', 'Platform': 'Linux-6.8.0-138-generic-x86_64-with-glibc2.35', 'Packages': {'pytest': '9.1.1', 'pluggy': '1.7.0'}, 'Plugins': {'deepeval': '3.3.9', 'anyio': '4.15.1', 'metadata': '3.1.1', 'asyncio': '1.4.0', 'rerunfailures': '12.0', 'pyfakefs': '5.9.3', 'json-report': '1.5.0', 'langsmith': '0.14.2', 'xdist': '3.8.0', 'repeat': '0.9.4'}}\nrootdir: /home/gabriellacabral/bench/Spec2AgentEval-v_saner/generated_agents/by_claude_version/run_1/claude-opus-4-6-low/028_recipe_high\nplugins: deepeval-3.3.9, anyio-4.15.1, metadata-3.1.1, asyncio-1.4.0, rerunfailures-12.0, pyfakefs-5.9.3, json-report-1.5.0, langsmith-0.14.2, xdist-3.8.0, repeat-0.9.4\nasyncio: mode=strict, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function\ncollecting ... collected 34 items\n\ntest_trace.py::test_no_unhandled_exception[run_empty] PASSED             [  2%]\ntest_trace.py::test_no_unhandled_exception[run_unrelated] PASSED         [  5%]\ntest_trace.py::test_no_unhandled_exception[run_offensive] PASSED         [  8%]\ntest_trace.py::test_no_unhandled_exception[run_valid] PASSED             [ 11%]\ntest_trace.py::test_no_unhandled_exception[run_vegan] PASSED             [ 14%]\ntest_trace.py::test_no_unhandled_exception[run_negation] PASSED          [ 17%]\ntest_trace.py::test_only_specified_tools_are_called[run_empty] PASSED    [ 20%]\ntest_trace.py::test_only_specified_tools_are_called[run_unrelated] PASSED [ 23%]\ntest_trace.py::test_only_specified_tools_are_called[run_offensive] PASSED [ 26%]\ntest_trace.py::test_only_specified_tools_are_called[run_valid] PASSED    [ 29%]\ntest_trace.py::test_only_specified_tools_are_called[run_vegan] PASSED    [ 32%]\ntest_trace.py::test_only_specified_tools_are_called[run_negation] PASSED [ 35%]\ntest_trace.py::test_invalid_query_calls_no_tool[run_empty] PASSED        [ 38%]\ntest_trace.py::test_invalid_query_calls_no_tool[run_unrelated] PASSED    [ 41%]\ntest_trace.py::test_invalid_query_calls_no_tool[run_offensive] PASSED    [ 44%]\ntest_trace.py::test_pantry_called_exactly_once[run_valid] PASSED         [ 47%]\ntest_trace.py::test_pantry_called_exactly_once[run_vegan] PASSED         [ 50%]\ntest_trace.py::test_pantry_called_exactly_once[run_negation] PASSED      [ 52%]\ntest_trace.py::test_pantry_is_first_tool[run_valid] PASSED               [ 55%]\ntest_trace.py::test_pantry_is_first_tool[run_vegan] PASSED               [ 58%]\ntest_trace.py::test_pantry_is_first_tool[run_negation] PASSED            [ 61%]\ntest_trace.py::test_search_not_called_after_pantry_error[run_valid] SKIPPED [ 64%]\ntest_trace.py::test_search_not_called_after_pantry_error[run_vegan] SKIPPED [ 67%]\ntest_trace.py::test_search_not_called_after_pantry_error[run_negation] SKIPPED [ 70%]\ntest_trace.py::test_search_called_at_most_once[run_valid] PASSED         [ 73%]\ntest_trace.py::test_search_called_at_most_once[run_vegan] PASSED         [ 76%]\ntest_trace.py::test_search_called_at_most_once[run_negation] PASSED      [ 79%]\ntest_trace.py::test_search_starts_after_pantry_completes[run_valid] PASSED [ 82%]\ntest_trace.py::test_search_starts_after_pantry_completes[run_vegan] PASSED [ 85%]\ntest_trace.py::test_search_starts_after_pantry_completes[run_negation] PASSED [ 88%]\ntest_trace.py::test_valid_query_with_ingredients_follows_b2_b4_path PASSED [ 91%]\ntest_trace.py::test_search_input_contains_query_ingredients PASSED       [ 94%]\ntest_trace.py::test_search_input_excludes_restricted_ingredients PASSED  [ 97%]\ntest_trace.py::test_search_input_excludes_negated_or_hypothetical PASSED [100%]Running teardown with pytest sessionfinish...\n\n\n--------------------------------- JSON report ----------------------------------\nreport saved to: .pytest_report.json\nTest test_trace.py::test_search_not_called_after_pantry_error was skipped. \nReason: \n('/home/gabriellacabral/bench/Spec2AgentEval-v_saner/generated_agents/by_claude_\nversion/run_1/claude-opus-4-6-low/028_recipe_high/test_trace.py', 179, 'Skipped:\nretrieve_pantry succeeded; B2 -> B6 transition not exercised')\nTest test_trace.py::test_search_not_called_after_pantry_error was skipped. \nReason: \n('/home/gabriellacabral/bench/Spec2AgentEval-v_saner/generated_agents/by_claude_\nversion/run_1/claude-opus-4-6-low/028_recipe_high/test_trace.py', 179, 'Skipped:\nretrieve_pantry succeeded; B2 -> B6 transition not exercised')\nTest test_trace.py::test_search_not_called_after_pantry_error was skipped. \nReason: \n('/home/gabriellacabral/bench/Spec2AgentEval-v_saner/generated_agents/by_claude_\nversion/run_1/claude-opus-4-6-low/028_recipe_high/test_trace.py', 179, 'Skipped:\nretrieve_pantry succeeded; B2 -> B6 transition not exercised')\n======================== 31 passed, 3 skipped in 30.31s ========================\n",
+      "stderr": "",
+      "error": null,
+      "summary": {
+        "passed": 31,
+        "skipped": 3,
+        "total": 34,
+        "collected": 34
+      },
+      "tests": [
+        {
+          "name": "test_no_unhandled_exception[run_empty]",
+          "qualified_name": "test_trace.py::test_no_unhandled_exception[run_empty]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_no_unhandled_exception[run_unrelated]",
+          "qualified_name": "test_trace.py::test_no_unhandled_exception[run_unrelated]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_no_unhandled_exception[run_offensive]",
+          "qualified_name": "test_trace.py::test_no_unhandled_exception[run_offensive]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_no_unhandled_exception[run_valid]",
+          "qualified_name": "test_trace.py::test_no_unhandled_exception[run_valid]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_no_unhandled_exception[run_vegan]",
+          "qualified_name": "test_trace.py::test_no_unhandled_exception[run_vegan]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_no_unhandled_exception[run_negation]",
+          "qualified_name": "test_trace.py::test_no_unhandled_exception[run_negation]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_only_specified_tools_are_called[run_empty]",
+          "qualified_name": "test_trace.py::test_only_specified_tools_are_called[run_empty]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_only_specified_tools_are_called[run_unrelated]",
+          "qualified_name": "test_trace.py::test_only_specified_tools_are_called[run_unrelated]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_only_specified_tools_are_called[run_offensive]",
+          "qualified_name": "test_trace.py::test_only_specified_tools_are_called[run_offensive]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_only_specified_tools_are_called[run_valid]",
+          "qualified_name": "test_trace.py::test_only_specified_tools_are_called[run_valid]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_only_specified_tools_are_called[run_vegan]",
+          "qualified_name": "test_trace.py::test_only_specified_tools_are_called[run_vegan]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_only_specified_tools_are_called[run_negation]",
+          "qualified_name": "test_trace.py::test_only_specified_tools_are_called[run_negation]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_invalid_query_calls_no_tool[run_empty]",
+          "qualified_name": "test_trace.py::test_invalid_query_calls_no_tool[run_empty]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_invalid_query_calls_no_tool[run_unrelated]",
+          "qualified_name": "test_trace.py::test_invalid_query_calls_no_tool[run_unrelated]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_invalid_query_calls_no_tool[run_offensive]",
+          "qualified_name": "test_trace.py::test_invalid_query_calls_no_tool[run_offensive]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_pantry_called_exactly_once[run_valid]",
+          "qualified_name": "test_trace.py::test_pantry_called_exactly_once[run_valid]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_pantry_called_exactly_once[run_vegan]",
+          "qualified_name": "test_trace.py::test_pantry_called_exactly_once[run_vegan]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_pantry_called_exactly_once[run_negation]",
+          "qualified_name": "test_trace.py::test_pantry_called_exactly_once[run_negation]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_pantry_is_first_tool[run_valid]",
+          "qualified_name": "test_trace.py::test_pantry_is_first_tool[run_valid]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_pantry_is_first_tool[run_vegan]",
+          "qualified_name": "test_trace.py::test_pantry_is_first_tool[run_vegan]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_pantry_is_first_tool[run_negation]",
+          "qualified_name": "test_trace.py::test_pantry_is_first_tool[run_negation]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_search_not_called_after_pantry_error[run_valid]",
+          "qualified_name": "test_trace.py::test_search_not_called_after_pantry_error[run_valid]",
+          "status": "skipped",
+          "passed": false,
+          "reason": "('/home/gabriellacabral/bench/Spec2AgentEval-v_saner/generated_agents/by_claude_version/run_1/claude-opus-4-6-low/028_recipe_high/test_trace.py', 179, 'Skipped: retrieve_pantry succeeded; B2 -> B6 transition not exercised')",
+          "duration": null
+        },
+        {
+          "name": "test_search_not_called_after_pantry_error[run_vegan]",
+          "qualified_name": "test_trace.py::test_search_not_called_after_pantry_error[run_vegan]",
+          "status": "skipped",
+          "passed": false,
+          "reason": "('/home/gabriellacabral/bench/Spec2AgentEval-v_saner/generated_agents/by_claude_version/run_1/claude-opus-4-6-low/028_recipe_high/test_trace.py', 179, 'Skipped: retrieve_pantry succeeded; B2 -> B6 transition not exercised')",
+          "duration": null
+        },
+        {
+          "name": "test_search_not_called_after_pantry_error[run_negation]",
+          "qualified_name": "test_trace.py::test_search_not_called_after_pantry_error[run_negation]",
+          "status": "skipped",
+          "passed": false,
+          "reason": "('/home/gabriellacabral/bench/Spec2AgentEval-v_saner/generated_agents/by_claude_version/run_1/claude-opus-4-6-low/028_recipe_high/test_trace.py', 179, 'Skipped: retrieve_pantry succeeded; B2 -> B6 transition not exercised')",
+          "duration": null
+        },
+        {
+          "name": "test_search_called_at_most_once[run_valid]",
+          "qualified_name": "test_trace.py::test_search_called_at_most_once[run_valid]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_search_called_at_most_once[run_vegan]",
+          "qualified_name": "test_trace.py::test_search_called_at_most_once[run_vegan]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_search_called_at_most_once[run_negation]",
+          "qualified_name": "test_trace.py::test_search_called_at_most_once[run_negation]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_search_starts_after_pantry_completes[run_valid]",
+          "qualified_name": "test_trace.py::test_search_starts_after_pantry_completes[run_valid]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_search_starts_after_pantry_completes[run_vegan]",
+          "qualified_name": "test_trace.py::test_search_starts_after_pantry_completes[run_vegan]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_search_starts_after_pantry_completes[run_negation]",
+          "qualified_name": "test_trace.py::test_search_starts_after_pantry_completes[run_negation]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_valid_query_with_ingredients_follows_b2_b4_path",
+          "qualified_name": "test_trace.py::test_valid_query_with_ingredients_follows_b2_b4_path",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_search_input_contains_query_ingredients",
+          "qualified_name": "test_trace.py::test_search_input_contains_query_ingredients",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_search_input_excludes_restricted_ingredients",
+          "qualified_name": "test_trace.py::test_search_input_excludes_restricted_ingredients",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_search_input_excludes_negated_or_hypothetical",
+          "qualified_name": "test_trace.py::test_search_input_excludes_negated_or_hypothetical",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        }
+      ],
+      "pytest_report": {
+        "created": 1792516806.393827,
+        "duration": 30.312726974487305,
+        "exitcode": 0,
+        "root": "/home/gabriellacabral/bench/Spec2AgentEval-v_saner/generated_agents/by_claude_version/run_1/claude-opus-4-6-low/028_recipe_high",
+        "environment": {},
+        "summary": {
+          "passed": 31,
+          "skipped": 3,
+          "total": 34,
+          "collected": 34
+        },
+        "collectors": [
+          {
+            "nodeid": "",
+            "outcome": "passed",
+            "result": [
+              {
+                "nodeid": "test_trace.py",
+                "type": "Module"
+              }
+            ]
+          },
+          {
+            "nodeid": "test_trace.py",
+            "outcome": "passed",
+            "result": [
+              {
+                "nodeid": "test_trace.py::test_no_unhandled_exception[run_empty]",
+                "type": "Function",
+                "lineno": 131
+              },
+              {
+                "nodeid": "test_trace.py::test_no_unhandled_exception[run_unrelated]",
+                "type": "Function",
+                "lineno": 131
+              },
+              {
+                "nodeid": "test_trace.py::test_no_unhandled_exception[run_offensive]",
+                "type": "Function",
+                "lineno": 131
+              },
+              {
+                "nodeid": "test_trace.py::test_no_unhandled_exception[run_valid]",
+                "type": "Function",
+                "lineno": 131
+              },
+              {
+                "nodeid": "test_trace.py::test_no_unhandled_exception[run_vegan]",
+                "type": "Function",
+                "lineno": 131
+              },
+              {
+                "nodeid": "test_trace.py::test_no_unhandled_exception[run_negation]",
+                "type": "Function",
+                "lineno": 131
+              },
+              {
+                "nodeid": "test_trace.py::test_only_specified_tools_are_called[run_empty]",
+                "type": "Function",
+                "lineno": 137
+              },
+              {
+                "nodeid": "test_trace.py::test_only_specified_tools_are_called[run_unrelated]",
+                "type": "Function",
+                "lineno": 137
+              },
+              {
+                "nodeid": "test_trace.py::test_only_specified_tools_are_called[run_offensive]",
+                "type": "Function",
+                "lineno": 137
+              },
+              {
+                "nodeid": "test_trace.py::test_only_specified_tools_are_called[run_valid]",
+                "type": "Function",
+                "lineno": 137
+              },
+              {
+                "nodeid": "test_trace.py::test_only_specified_tools_are_called[run_vegan]",
+                "type": "Function",
+                "lineno": 137
+              },
+              {
+                "nodeid": "test_trace.py::test_only_specified_tools_are_called[run_negation]",
+                "type": "Function",
+                "lineno": 137
+              },
+              {
+                "nodeid": "test_trace.py::test_invalid_query_calls_no_tool[run_empty]",
+                "type": "Function",
+                "lineno": 147
+              },
+              {
+                "nodeid": "test_trace.py::test_invalid_query_calls_no_tool[run_unrelated]",
+                "type": "Function",
+                "lineno": 147
+              },
+              {
+                "nodeid": "test_trace.py::test_invalid_query_calls_no_tool[run_offensive]",
+                "type": "Function",
+                "lineno": 147
+              },
+              {
+                "nodeid": "test_trace.py::test_pantry_called_exactly_once[run_valid]",
+                "type": "Function",
+                "lineno": 157
+              },
+              {
+                "nodeid": "test_trace.py::test_pantry_called_exactly_once[run_vegan]",
+                "type": "Function",
+                "lineno": 157
+              },
+              {
+                "nodeid": "test_trace.py::test_pantry_called_exactly_once[run_negation]",
+                "type": "Function",
+                "lineno": 157
+              },
+              {
+                "nodeid": "test_trace.py::test_pantry_is_first_tool[run_valid]",
+                "type": "Function",
+                "lineno": 163
+              },
+              {
+                "nodeid": "test_trace.py::test_pantry_is_first_tool[run_vegan]",
+                "type": "Function",
+                "lineno": 163
+              },
+              {
+                "nodeid": "test_trace.py::test_pantry_is_first_tool[run_negation]",
+                "type": "Function",
+                "lineno": 163
+              },
+              {
+                "nodeid": "test_trace.py::test_search_not_called_after_pantry_error[run_valid]",
+                "type": "Function",
+                "lineno": 174
+              },
+              {
+                "nodeid": "test_trace.py::test_search_not_called_after_pantry_error[run_vegan]",
+                "type": "Function",
+                "lineno": 174
+              },
+              {
+                "nodeid": "test_trace.py::test_search_not_called_after_pantry_error[run_negation]",
+                "type": "Function",
+                "lineno": 174
+              },
+              {
+                "nodeid": "test_trace.py::test_search_called_at_most_once[run_valid]",
+                "type": "Function",
+                "lineno": 182
+              },
+              {
+                "nodeid": "test_trace.py::test_search_called_at_most_once[run_vegan]",
+                "type": "Function",
+                "lineno": 182
+              },
+              {
+                "nodeid": "test_trace.py::test_search_called_at_most_once[run_negation]",
+                "type": "Function",
+                "lineno": 182
+              },
+              {
+                "nodeid": "test_trace.py::test_search_starts_after_pantry_completes[run_valid]",
+                "type": "Function",
+                "lineno": 187
+              },
+              {
+                "nodeid": "test_trace.py::test_search_starts_after_pantry_completes[run_vegan]",
+                "type": "Function",
+                "lineno": 187
+              },
+              {
+                "nodeid": "test_trace.py::test_search_starts_after_pantry_completes[run_negation]",
+                "type": "Function",
+                "lineno": 187
+              },
+              {
+                "nodeid": "test_trace.py::test_valid_query_with_ingredients_follows_b2_b4_path",
+                "type": "Function",
+                "lineno": 201
+              },
+              {
+                "nodeid": "test_trace.py::test_search_input_contains_query_ingredients",
+                "type": "Function",
+                "lineno": 221
+              },
+              {
+                "nodeid": "test_trace.py::test_search_input_excludes_restricted_ingredients",
+                "type": "Function",
+                "lineno": 233
+              },
+              {
+                "nodeid": "test_trace.py::test_search_input_excludes_negated_or_hypothetical",
+                "type": "Function",
+                "lineno": 246
+              }
+            ]
+          }
+        ],
+        "tests": [
+          {
+            "nodeid": "test_trace.py::test_no_unhandled_exception[run_empty]",
+            "lineno": 131,
+            "outcome": "passed",
+            "keywords": [
+              "test_no_unhandled_exception[run_empty]",
+              "parametrize",
+              "pytestmark",
+              "run_empty",
+              "test_trace.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.00033760899896151386,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 0.006077139001718024,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.0001467260008212179,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_trace.py::test_no_unhandled_exception[run_unrelated]",
+            "lineno": 131,
+            "outcome": "passed",
+            "keywords": [
+              "test_no_unhandled_exception[run_unrelated]",
+              "parametrize",
+              "pytestmark",
+              "run_unrelated",
+              "test_trace.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.00019877399972756393,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 1.2556381819995295,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.00017474899868830107,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_trace.py::test_no_unhandled_exception[run_offensive]",
+            "lineno": 131,
+            "outcome": "passed",
+            "keywords": [
+              "test_no_unhandled_exception[run_offensive]",
+              "parametrize",
+              "pytestmark",
+              "run_offensive",
+              "test_trace.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.00021522400129470043,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 1.0309306509989256,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.0002941780003311578,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_trace.py::test_no_unhandled_exception[run_valid]",
+            "lineno": 131,
+            "outcome": "passed",
+            "keywords": [
+              "test_no_unhandled_exception[run_valid]",
+              "parametrize",
+              "pytestmark",
+              "run_valid",
+              "test_trace.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.00036595599885913543,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 8.302147633999994,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.0005278969983919524,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_trace.py::test_no_unhandled_exception[run_vegan]",
+            "lineno": 131,
+            "outcome": "passed",
+            "keywords": [
+              "test_no_unhandled_exception[run_vegan]",
+              "parametrize",
+              "pytestmark",
+              "run_vegan",
+              "test_trace.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0007332880013564136,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 12.630705013998522,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.0005122020011185668,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_trace.py::test_no_unhandled_exception[run_negation]",
+            "lineno": 131,
+            "outcome": "passed",
+            "keywords": [
+              "test_no_unhandled_exception[run_negation]",
+              "parametrize",
+              "pytestmark",
+              "run_negation",
+              "test_trace.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0006483479992311914,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 6.803942333997838,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.0006362319982144982,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_trace.py::test_only_specified_tools_are_called[run_empty]",
+            "lineno": 137,
+            "outcome": "passed",
+            "keywords": [
+              "test_only_specified_tools_are_called[run_empty]",
+              "parametrize",
+              "pytestmark",
+              "run_empty",
+              "test_trace.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0008618890024081338,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 0.0005729229997086804,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.0004566690004139673,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_trace.py::test_only_specified_tools_are_called[run_unrelated]",
+            "lineno": 137,
+            "outcome": "passed",
+            "keywords": [
+              "test_only_specified_tools_are_called[run_unrelated]",
+              "parametrize",
+              "pytestmark",
+              "run_unrelated",
+              "test_trace.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0007335650007007644,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 0.0005168190000404138,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.00044780800089938566,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_trace.py::test_only_specified_tools_are_called[run_offensive]",
+            "lineno": 137,
+            "outcome": "passed",
+            "keywords": [
+              "test_only_specified_tools_are_called[run_offensive]",
+              "parametrize",
+              "pytestmark",
+              "run_offensive",
+              "test_trace.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0007166819996200502,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 0.0005122189977555536,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.00043642300079227425,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_trace.py::test_only_specified_tools_are_called[run_valid]",
+            "lineno": 137,
+            "outcome": "passed",
+            "keywords": [
+              "test_only_specified_tools_are_called[run_valid]",
+              "parametrize",
+              "pytestmark",
+              "run_valid",
+              "test_trace.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0006719399971188977,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 0.00045864799903938547,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.00038771300023654476,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_trace.py::test_only_specified_tools_are_called[run_vegan]",
+            "lineno": 137,
+            "outcome": "passed",
+            "keywords": [
+              "test_only_specified_tools_are_called[run_vegan]",
+              "parametrize",
+              "pytestmark",
+              "run_vegan",
+              "test_trace.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0005783790002169553,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 0.0003862799967464525,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.00033384599737473764,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_trace.py::test_only_specified_tools_are_called[run_negation]",
+            "lineno": 137,
+            "outcome": "passed",
+            "keywords": [
+              "test_only_specified_tools_are_called[run_negation]",
+              "parametrize",
+              "pytestmark",
+              "run_negation",
+              "test_trace.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0004998010008421261,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 0.0003152860008412972,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.00026227899797959253,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_trace.py::test_invalid_query_calls_no_tool[run_empty]",
+            "lineno": 147,
+            "outcome": "passed",
+            "keywords": [
+              "test_invalid_query_calls_no_tool[run_empty]",
+              "parametrize",
+              "pytestmark",
+              "run_empty",
+              "test_trace.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.00038540099922101945,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 0.00025677399753476493,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.0002173590000893455,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_trace.py::test_invalid_query_calls_no_tool[run_unrelated]",
+            "lineno": 147,
+            "outcome": "passed",
+            "keywords": [
+              "test_invalid_query_calls_no_tool[run_unrelated]",
+              "parametrize",
+              "pytestmark",
+              "run_unrelated",
+              "test_trace.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0003367589997651521,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 0.00023774700093781576,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.00019197500296286307,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_trace.py::test_invalid_query_calls_no_tool[run_offensive]",
+            "lineno": 147,
+            "outcome": "passed",
+            "keywords": [
+              "test_invalid_query_calls_no_tool[run_offensive]",
+              "parametrize",
+              "pytestmark",
+              "run_offensive",
+              "test_trace.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.00030089700157986954,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 0.00019517200053087436,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.00016774799951235764,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_trace.py::test_pantry_called_exactly_once[run_valid]",
+            "lineno": 157,
+            "outcome": "passed",
+            "keywords": [
+              "test_pantry_called_exactly_once[run_valid]",
+              "parametrize",
+              "pytestmark",
+              "run_valid",
+              "test_trace.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0002572559969848953,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 0.00017484300042269751,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.0001505130021541845,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_trace.py::test_pantry_called_exactly_once[run_vegan]",
+            "lineno": 157,
+            "outcome": "passed",
+            "keywords": [
+              "test_pantry_called_exactly_once[run_vegan]",
+              "parametrize",
+              "pytestmark",
+              "run_vegan",
+              "test_trace.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.00024033600129769184,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 0.0001550779998069629,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.00012486099876696244,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_trace.py::test_pantry_called_exactly_once[run_negation]",
+            "lineno": 157,
+            "outcome": "passed",
+            "keywords": [
+              "test_pantry_called_exactly_once[run_negation]",
+              "parametrize",
+              "pytestmark",
+              "run_negation",
+              "test_trace.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.00020481499814195558,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 0.00014032200124347582,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.00012953999976161867,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_trace.py::test_pantry_is_first_tool[run_valid]",
+            "lineno": 163,
+            "outcome": "passed",
+            "keywords": [
+              "test_pantry_is_first_tool[run_valid]",
+              "parametrize",
+              "pytestmark",
+              "run_valid",
+              "test_trace.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.00019827800133498386,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 0.0001478099984524306,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.00011344000085955486,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_trace.py::test_pantry_is_first_tool[run_vegan]",
+            "lineno": 163,
+            "outcome": "passed",
+            "keywords": [
+              "test_pantry_is_first_tool[run_vegan]",
+              "parametrize",
+              "pytestmark",
+              "run_vegan",
+              "test_trace.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0001792719995137304,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 0.0001308979990426451,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.00011571899813134223,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_trace.py::test_pantry_is_first_tool[run_negation]",
+            "lineno": 163,
+            "outcome": "passed",
+            "keywords": [
+              "test_pantry_is_first_tool[run_negation]",
+              "parametrize",
+              "pytestmark",
+              "run_negation",
+              "test_trace.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.00017590599964023568,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 0.00013356799900066108,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.00011253199772909284,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_trace.py::test_search_not_called_after_pantry_error[run_valid]",
+            "lineno": 174,
+            "outcome": "skipped",
+            "keywords": [
+              "test_search_not_called_after_pantry_error[run_valid]",
+              "parametrize",
+              "pytestmark",
+              "run_valid",
+              "test_trace.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.00020189899805700406,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 0.00015891899965936318,
+              "outcome": "skipped",
+              "longrepr": "('/home/gabriellacabral/bench/Spec2AgentEval-v_saner/generated_agents/by_claude_version/run_1/claude-opus-4-6-low/028_recipe_high/test_trace.py', 179, 'Skipped: retrieve_pantry succeeded; B2 -> B6 transition not exercised')"
+            },
+            "teardown": {
+              "duration": 0.00012140600301790982,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_trace.py::test_search_not_called_after_pantry_error[run_vegan]",
+            "lineno": 174,
+            "outcome": "skipped",
+            "keywords": [
+              "test_search_not_called_after_pantry_error[run_vegan]",
+              "parametrize",
+              "pytestmark",
+              "run_vegan",
+              "test_trace.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.00019677499949466437,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 0.00015378000171040185,
+              "outcome": "skipped",
+              "longrepr": "('/home/gabriellacabral/bench/Spec2AgentEval-v_saner/generated_agents/by_claude_version/run_1/claude-opus-4-6-low/028_recipe_high/test_trace.py', 179, 'Skipped: retrieve_pantry succeeded; B2 -> B6 transition not exercised')"
+            },
+            "teardown": {
+              "duration": 0.00013565900007961318,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_trace.py::test_search_not_called_after_pantry_error[run_negation]",
+            "lineno": 174,
+            "outcome": "skipped",
+            "keywords": [
+              "test_search_not_called_after_pantry_error[run_negation]",
+              "parametrize",
+              "pytestmark",
+              "run_negation",
+              "test_trace.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.00019324899767525494,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 0.00015412900029332377,
+              "outcome": "skipped",
+              "longrepr": "('/home/gabriellacabral/bench/Spec2AgentEval-v_saner/generated_agents/by_claude_version/run_1/claude-opus-4-6-low/028_recipe_high/test_trace.py', 179, 'Skipped: retrieve_pantry succeeded; B2 -> B6 transition not exercised')"
+            },
+            "teardown": {
+              "duration": 0.00011648099825833924,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_trace.py::test_search_called_at_most_once[run_valid]",
+            "lineno": 182,
+            "outcome": "passed",
+            "keywords": [
+              "test_search_called_at_most_once[run_valid]",
+              "parametrize",
+              "pytestmark",
+              "run_valid",
+              "test_trace.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.00019077300021308474,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 0.00013917500109528191,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.00012788799722329713,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_trace.py::test_search_called_at_most_once[run_vegan]",
+            "lineno": 182,
+            "outcome": "passed",
+            "keywords": [
+              "test_search_called_at_most_once[run_vegan]",
+              "parametrize",
+              "pytestmark",
+              "run_vegan",
+              "test_trace.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.00018917300258181058,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 0.0001309569997829385,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.000106004998087883,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_trace.py::test_search_called_at_most_once[run_negation]",
+            "lineno": 182,
+            "outcome": "passed",
+            "keywords": [
+              "test_search_called_at_most_once[run_negation]",
+              "parametrize",
+              "pytestmark",
+              "run_negation",
+              "test_trace.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.00017196199769387022,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 0.0001292569977522362,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.0001018290022329893,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_trace.py::test_search_starts_after_pantry_completes[run_valid]",
+            "lineno": 187,
+            "outcome": "passed",
+            "keywords": [
+              "test_search_starts_after_pantry_completes[run_valid]",
+              "parametrize",
+              "pytestmark",
+              "run_valid",
+              "test_trace.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.00016426300135208294,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 0.00012568799866130576,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.0001112850004574284,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_trace.py::test_search_starts_after_pantry_completes[run_vegan]",
+            "lineno": 187,
+            "outcome": "passed",
+            "keywords": [
+              "test_search_starts_after_pantry_completes[run_vegan]",
+              "parametrize",
+              "pytestmark",
+              "run_vegan",
+              "test_trace.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.00016831399989314377,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 0.00012158400204498321,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.00010006100274040364,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_trace.py::test_search_starts_after_pantry_completes[run_negation]",
+            "lineno": 187,
+            "outcome": "passed",
+            "keywords": [
+              "test_search_starts_after_pantry_completes[run_negation]",
+              "parametrize",
+              "pytestmark",
+              "run_negation",
+              "test_trace.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0001628339996386785,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 0.0001428479990863707,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.00010045799717772752,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_trace.py::test_valid_query_with_ingredients_follows_b2_b4_path",
+            "lineno": 201,
+            "outcome": "passed",
+            "keywords": [
+              "test_valid_query_with_ingredients_follows_b2_b4_path",
+              "test_trace.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.00011563900261535309,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 0.048099913001351524,
+              "outcome": "passed",
+              "stderr": "\n"
+            },
+            "teardown": {
+              "duration": 0.000327722002111841,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_trace.py::test_search_input_contains_query_ingredients",
+            "lineno": 221,
+            "outcome": "passed",
+            "keywords": [
+              "test_search_input_contains_query_ingredients",
+              "test_trace.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.00027130200032843277,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 0.00026973900094162673,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.00020689300072262995,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_trace.py::test_search_input_excludes_restricted_ingredients",
+            "lineno": 233,
+            "outcome": "passed",
+            "keywords": [
+              "test_search_input_excludes_restricted_ingredients",
+              "test_trace.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.00022741499924450181,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 0.000229236000450328,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.00018388800162938423,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_trace.py::test_search_input_excludes_negated_or_hypothetical",
+            "lineno": 246,
+            "outcome": "passed",
+            "keywords": [
+              "test_search_input_excludes_negated_or_hypothetical",
+              "test_trace.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.00022849299784866162,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 0.00023417299962602556,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.000272971999947913,
+              "outcome": "passed"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

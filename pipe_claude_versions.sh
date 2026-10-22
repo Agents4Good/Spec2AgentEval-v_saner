@@ -7,7 +7,7 @@ PIPELINE_DIR="$SCRIPT_DIR/pipeline/"
 # Experimento "By Claude Version": compara 3 versões do Opus com effort low.
 llms=("claude-opus-5-5-low" "claude-opus-4-6-low" "claude-opus-4-8-low")
 
-agents=("011_list_issues")
+agents=("028_recipe_high")
 
 RUNS=${RUNS:-3}
 EXPERIMENT=${EXPERIMENT:-by_claude_version}

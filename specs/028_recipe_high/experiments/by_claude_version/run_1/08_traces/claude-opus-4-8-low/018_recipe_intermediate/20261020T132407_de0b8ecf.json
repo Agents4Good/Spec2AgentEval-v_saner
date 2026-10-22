@@ -1,0 +1,37 @@
+{
+  "run_id": "de0b8ecf26ba4fe596cc8b9613401d77",
+  "query": [
+    "I'm vegetarian. I have tomatoes, zucchini and pasta. Suggest a lunch recipe."
+  ],
+  "status": "ok",
+  "error": null,
+  "runs_collected": 1,
+  "trajectory": [
+    "b1",
+    "b2",
+    "b3",
+    "search_recipes",
+    "b7"
+  ],
+  "tool_calls": [
+    {
+      "name": "search_recipes",
+      "input": {
+        "ingredients": [
+          "tomatoes",
+          "zucchini",
+          "pasta"
+        ]
+      },
+      "output": [
+        {
+          "title": "Spaghetti with Zucchini, Tomatoes, Olives and Basil — Meike Peters | eat in my kitchen",
+          "url": "https://www.meikepeters.com/blog/spaghetti-with-zucchini-tomatoes-olives-and-basil",
+          "content": "In a large heavy pan, heat a splash of olive oil, add the anchovies, garlic and capers and cook for 1 minute on a medium heat. Add the zucchini and a little more oil and cook for 5 minutes on high-medium temperature, stirring every now and then. Season with pepper (no salt!) and mix into the spaghetti, add a tiny bit of olive oil if the pasta is too dry. Stir in the tomatoes, olives, basil and mint and serve immediately. There should be enough saltiness from the anchovies and capers, I didn't [...] Skip to Content \n\nMeike Peters | eat in my kitchen\n\nMeike Peters | eat in my kitchen\n\n# Spaghetti with Zucchini, Tomatoes, Olives and Basil\n\nMAINSTARTERTO COOKVEGETARIANPASTA AND GRAINS\n\nWritten By\n\n 8\n fresh basil leaves 10\n optionally: fresh mint, chopped, 5 leaves\n black pepper\n olive oil\n\nCook the pasta in lots of salted water al dente. [...] [](\n\n[](\n\n[](\n\nanchoviesbasilcapersmintolivesspaghettitomatoeszucchini\n\nPrevious\n\nPrevious\n\n## Roasted Apricots on Turmeric Bread  Next\n\n## Gattò di Patate, Potato Cake with Orange and Oregano"
+        }
+      ],
+      "start": "2026-10-20T13:24:00.786096+00:00",
+      "end": "2026-10-20T13:24:03.238064+00:00"
+    }
+  ]
+}

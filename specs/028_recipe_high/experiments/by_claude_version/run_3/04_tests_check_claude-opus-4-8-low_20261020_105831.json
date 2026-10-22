@@ -1,0 +1,23 @@
+{
+  "run_id": "20261020_105831",
+  "run": 3,
+  "experiment": "by_claude_version",
+  "model": "claude-opus-4-8-low",
+  "agent_filter": "018_recipe_intermediate",
+  "generated_dir": "generated_agents/by_claude_version/run_3",
+  "total_agents": 1,
+  "results": [
+    {
+      "model": "claude-opus-4-8-low",
+      "agent_folder": "018_recipe_intermediate",
+      "agent_file": "agent.py",
+      "tests": {
+        "exists": true,
+        "count": 1,
+        "files": [
+          "tests.py"
+        ]
+      }
+    }
+  ]
+}

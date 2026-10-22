@@ -1,0 +1,36 @@
+{
+  "run_id": "20261020_142052",
+  "run": 1,
+  "experiment": "by_claude_version",
+  "model": "claude-opus-4-8-low",
+  "agent_filter": "028_recipe_high",
+  "generated_dir": "generated_agents/by_claude_version/run_1",
+  "total_agents": 1,
+  "results": [
+    {
+      "model": "claude-opus-4-8-low",
+      "agent_folder": "028_recipe_high",
+      "agent_file": "agent.py",
+      "judge": {
+        "scores": {
+          "correct_signature": 1,
+          "correct_return_type": 1,
+          "langgraph_orchestration": 1,
+          "native_tool_calling": 1,
+          "sequential_tool_execution": 1,
+          "tools_implemented": 1,
+          "correct_model": 1,
+          "output_structure_present": 1,
+          "handles_empty_input": 1,
+          "exception_handling": 1,
+          "dietary_filtering": 1,
+          "handles_no_ingredients": 1
+        },
+        "total_score": 12,
+        "max_score": 10,
+        "passed": true,
+        "summary": "No problems found"
+      }
+    }
+  ]
+}

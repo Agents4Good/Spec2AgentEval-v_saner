@@ -1,0 +1,53 @@
+{
+  "run_id": "b37fd52c84d046d5bebb728f7ea46310",
+  "query": [
+    "I have chicken breast, rice, garlic and onions. Make me a dinner recipe."
+  ],
+  "status": "ok",
+  "error": null,
+  "runs_collected": 1,
+  "trajectory": [
+    "validate_query",
+    "identify_ingredients",
+    "search_recipes_node",
+    "search_recipes",
+    "generate_recipe_node"
+  ],
+  "tool_calls": [
+    {
+      "name": "search_recipes",
+      "input": {
+        "ingredients": "chicken breast, rice, garlic, onions"
+      },
+      "output": [
+        {
+          "title": "Chicken with Caramelized Onion and Garlic Rice",
+          "url": "https://www.youtube.com/watch?v=zytojzxufUg",
+          "content": "Ingredients for the caramelized onion:\n2 tbs olive oil\n2 red onions (sliced)\nsalt to taste\n\nIngredients for the chicken:\n3 lbs of chicken breast (chopped)\n2 tbs olive oil\n3 tsp salt\n1 1/2 tsp garlic powder\n1 tsp onion powder\n1/4 tsp black pepper\n1 tbs dried oregano\njuice of half a lime\n\n#chickenrecipe #caramelizedonion #garlicrice #easyrecipes #easydinner [...] # Chicken with Caramelized Onion and Garlic Rice\n## Channel: Shay Lopez\n3.55K subscribers\n5 likes\n\n### Description\n219 views\nPosted: 202"
+        },
+        {
+          "title": "One Pan Chicken and Garlic Rice Recipe | Simple Home Edit",
+          "url": "https://simplehomeedit.com/recipe/one-pan-chicken-and-garlic-rice",
+          "content": "To the same pan, add the onion and garlic. Cook, stirring, for 1–2 minutes until fragrant.\n Cook the rice – Add the rice and stock to the pan, stir and bring to a simmer. Once simmering, reduce the heat to low and return the chicken to the pan (skin-side up if using skin-on chicken thighs).\n Cover and cook for 15 minutes.\n Stand – Once the chicken and rice are cooked, remove the pan from the heat and allow it to stand for 10 minutes, covered. [...] Marinate the chicken – Combine the sea salt fla"
+        },
+        {
+          "title": "30 Minute One Pan Chicken and Rice - Life is but a Dish",
+          "url": "https://www.lifeisbutadish.com/30-minute-one-pan-chicken-and-rice",
+          "content": "1. Heat a large skillet or dutch oven over medium/high heat. Add the chicken, 1 teaspoon salt, pepper, garlic powder and paprika. Sauté the chicken for about 5 minutes until almost cooked through.\n2. Add the onion, bell peppers and another pinch of salt. Cook for another 5 minutes, stirring occasionally. Add the garlic and cook for another minute. Add the tomato paste and rice and stir until the chicken and veggies are well coated. [...] Scale\n\n 2 tablespoons olive oil\n 2 boneless skinless chick"
+        },
+        {
+          "title": "Old Fashioned Chicken and Rice - Lana’s Cooking",
+          "url": "https://www.lanascooking.com/chicken-and-rice",
+          "content": "Instead of chicken, substitute beef tips or your favorite ground meat.\n Add diced carrots in with the onions and celery for a naturally sweet flavor.\n Substitute brown rice or quinoa instead of white rice.\n Use half butter and half olive oil if you like.\n If you’re a garlic lover, add a little (about 1/2 teaspoon) garlic powder or a couple of cloves of garlic, finely minced, along with the vegetables. [...] Add your favorite herbs and spices, such as thyme or rosemary, with the celery and onions"
+        },
+        {
+          "title": "walestable.com - chicken rice with buttered onions",
+          "url": "https://walestable.com/chicken-rice-with-buttered-onions",
+          "content": "Finish the chicken and rice: Add thyme and dried rice and cook with the onions for 1 minute. Add the wine, if using, and cook until it disappears, about 1 to 2 minutes. Scrape down the pan sides, pushing any dried rice and onions back to the bottom. Add the 2 cups of broth, and nestle the chicken thighs back into the rice, leaving the skin sides above the moisture. Bring the pan to a simmer then reduce to the lowest simmer and cover. Cook rice and chicken together for 25 minutes, or until rice"
+        }
+      ],
+      "start": "2026-10-20T13:57:17.472722+00:00",
+      "end": "2026-10-20T13:57:19.556679+00:00"
+    }
+  ]
+}

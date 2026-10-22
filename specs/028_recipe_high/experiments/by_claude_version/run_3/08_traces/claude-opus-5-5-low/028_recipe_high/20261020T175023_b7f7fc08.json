@@ -1,0 +1,70 @@
+{
+  "run_id": "b7f7fc08277a406982d78f296b50998f",
+  "query": [
+    "I am vegan. I have chicken, tofu and broccoli, suggest a dinner recipe."
+  ],
+  "status": "ok",
+  "error": null,
+  "runs_collected": 1,
+  "trajectory": [
+    "validate",
+    "pantry",
+    "retrieve_pantry",
+    "identify",
+    "search",
+    "search_recipes",
+    "recipe"
+  ],
+  "tool_calls": [
+    {
+      "name": "retrieve_pantry",
+      "input": {},
+      "output": [
+        "corn",
+        "chicken",
+        "milk"
+      ],
+      "start": "2026-10-20T17:50:17.212667+00:00",
+      "end": "2026-10-20T17:50:18.869037+00:00"
+    },
+    {
+      "name": "search_recipes",
+      "input": {
+        "ingredients": [
+          "tofu",
+          "broccoli",
+          "corn"
+        ]
+      },
+      "output": [
+        {
+          "title": "Buttery Gochujang Tofu and Broccoli  Recipe",
+          "url": "https://cooking.nytimes.com/recipes/766421145-buttery-gochujang-tofu-and-broccoli?unlocked_article_code=1.DFA.nLd_.XMtl1rxSH5kW&amp%3Bsmid=share-url",
+          "content": "Title: Buttery Gochujang Tofu and Broccoli  Recipe\n# Buttery Gochujang Tofu and Broccoli. Awaken the palate with this boldly seasoned, gochujang-spiked tofu and broccoli dish. Working in two batches, add half the tofu in a single layer, and cook until golden, 2 to 3 minutes per side. Add the remaining 2 tablespoons oil and cook the remaining tofu. Add the tofu and broccoli and gently toss until lightly coated. Chilled Tofu With Gochujang Sauce. Baked Tofu With Peanut Sauce and Coconut-Lime Rice. One-Pot Tofu and Broccoli Rice. Tofu and Broccoli Fried Rice. Lemon-Miso Tofu With Broccoli. Sheet-Pan Tofu With Corn and Chiles. Two white bowls hold cooked grains topeed with marinated cherry tomatoes and roasted sweet chile tofu and cabbage. Crispy Baked Tofu With Sugar Snap Peas. Miso-Chile Asp"
+        },
+        {
+          "title": "Buttery Gochujang Tofu and Broccoli  Recipe",
+          "url": "https://cooking.nytimes.com/recipes/766421145-buttery-gochujang-tofu-and-broccoli?unlocked_article_code=1.DFA.nLd_.XMtl1rxSH5kW&smid=share-url",
+          "content": "Title: Buttery Gochujang Tofu and Broccoli  Recipe\n# Buttery Gochujang Tofu and Broccoli. Awaken the palate with this boldly seasoned, gochujang-spiked tofu and broccoli dish. Working in two batches, add half the tofu in a single layer, and cook until golden, 2 to 3 minutes per side. Add the remaining 2 tablespoons oil and cook the remaining tofu. Add the tofu and broccoli and gently toss until lightly coated. Chilled Tofu With Gochujang Sauce. Baked Tofu With Peanut Sauce and Coconut-Lime Rice. One-Pot Tofu and Broccoli Rice. Tofu and Broccoli Fried Rice. Lemon-Miso Tofu With Broccoli. Sheet-Pan Tofu With Corn and Chiles. Two white bowls hold cooked grains topeed with marinated cherry tomatoes and roasted sweet chile tofu and cabbage. Crispy Baked Tofu With Sugar Snap Peas. Miso-Chile Asp"
+        },
+        {
+          "title": "Tamari Tofu and Broccoli Recipe - Food.com",
+          "url": "https://www.food.com/recipe/tamari-tofu-and-broccoli-516783",
+          "content": "Title: Tamari Tofu and Broccoli Recipe - Food.com\nPREV PREVIOUS RECIPE   NEXT NEXT RECIPE. # Tamari Tofu and Broccoli. \"This is just fantastic, and so healthy, My husband and I practically inhaled this - and he is not a \"tofu\" kind of guy.\". photo by a food.com user photo by a food.com user. ## ingredients. * 1  (12 ounce) package extra firm tofu, drained, pressed, and cut into cubes. * 1 1⁄2  lbs broccoli florets, cut into bite size florets. * 2   tablespoons coconut oil (for cooking). * 1⁄2  cup organic tamari (or soy sauce). * 3   tablespoons maple syrup (or honey). * red pepper flakes (to taste). ## directions. * Whisk together tamari, vinegar, syrup, garlic, olive oil, and red pepper flakes, taste and correct to your liking with additional vinegar, syrup, etc. * Pour marinade over tof"
+        },
+        {
+          "title": "Tofu and Broccoli Stir Fry with Peppers Recipe - Tofu Recipes",
+          "url": "https://www.tofuideas.com/tofu/tofu_and_broccoli_stir_fry_with_peppers_5206280189.shtml",
+          "content": "Title: Tofu and Broccoli Stir Fry with Peppers Recipe - Tofu Recipes\n# Tofu and Broccoli Stir Fry with Peppers. Sesame Oil, Red Bell Pepper, Broccoli Florets, Vegetable Oil, Soy Sauce, Garlic Powder, Cornstarch, Ginger Powder, Yellow Bell Pepper, Block Tofu. Tofu and Broccoli Stir Fry with Peppers. Remove Water From Your Tofu Blocks In Just 10 Minutes. This Tofu and Broccoli Stir Fry with Peppers is a delicious and nutritious vegetarian dish that is ideal for busy weeknights. Tofu, broccoli, and bell peppers are a flavorful and nutritious combination. The dish is also gluten-free and vegan. * 1 red bell pepper, sliced. * 1/4 cup soy sauce. * 1 yellow bell pepper, sliced. * Whisk together soy sauce, cornstarch, sesame oil, garlic powder, and ginger powder in a small bowl until smooth. * Hea"
+        },
+        {
+          "title": "Tofu and Broccoli in Garlic Sauce Recipe Recipe - Food.com",
+          "url": "https://www.food.com/recipe/tofu-and-broccoli-in-garlic-sauce-recipe-341245",
+          "content": "Title: Tofu and Broccoli in Garlic Sauce Recipe Recipe - Food.com\nTofu and Broccoli in Garlic Sauce Recipe. * 1   lb firm tofu or 1 lb extra firm tofu, pressed. * 1 1⁄2  teaspoons ginger powder. * 1⁄4  teaspoon cayenne pepper. * 1⁄4  cup soy sauce. * in a large skillet, sautee onions and garlic in olive oil until onions turn clear, about 3-5 minutes. * Add the tofu, ginger, cayenne and broccoli to the pan and continue to cook until broccoli is done, another 6-8 minutes. * In a separate small bowl, mix together the corn starch, soy sauce and water, then add this mixture to the broccoli and tofu. By entering your email address, you agree to our Terms of Use and acknowledge the Privacy Policy. To withdraw your consent or to learn more about your rights, see the Privacy Policy. Very nice one a"
+        }
+      ],
+      "start": "2026-10-20T17:50:19.874376+00:00",
+      "end": "2026-10-20T17:50:20.623020+00:00"
+    }
+  ]
+}

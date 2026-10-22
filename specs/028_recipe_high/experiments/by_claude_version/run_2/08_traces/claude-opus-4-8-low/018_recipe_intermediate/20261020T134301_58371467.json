@@ -1,0 +1,57 @@
+{
+  "run_id": "583714679e6145fab660753340de8220",
+  "query": [
+    "I'm vegetarian. I have tomatoes, zucchini and pasta. Suggest a lunch recipe."
+  ],
+  "status": "ok",
+  "error": null,
+  "runs_collected": 1,
+  "trajectory": [
+    "b1",
+    "b2",
+    "b3",
+    "search_recipes",
+    "b7"
+  ],
+  "tool_calls": [
+    {
+      "name": "search_recipes",
+      "input": {
+        "ingredients": [
+          "tomatoes",
+          "zucchini",
+          "pasta"
+        ]
+      },
+      "output": [
+        {
+          "title": "Creamy Pasta with Zucchini and Tomatoes Recipe - Wyse Guide",
+          "url": "https://www.wyseguide.com/tomato-zucchini-summer-pasta",
+          "content": "1 pound cherry tomatoes, ½ teaspoon kosher salt, 5 cloves garlic, ¼ teaspoon red pepper flakes\n Combine: Pour the tomatoes and zucchini into the pasta in the stock pot. Add the cream and ½ cup of the pasta water. Turn the heat to medium-low and cook the pasta with the sauce until the mixture is hot and bubbling, 3-4 minutes. Turn off the heat. [...] Step 4: Combine everything – Add the cooked tomatoes and browned zucchini to the pot with the pasta. Pour in the heavy cream and some reserved pasta water. Set over medium-low heat to cook.\n\nStep 5: Finish and serve – Turn off the heat and stir in the lemon zest, Parmesan cheese, and basil. Add more pasta water as needed to loosen the sauce, then serve immediately.\n\n## Recipe Tips [...] Step 2: Brown the zucchini – While the pasta cooks, melt the ghee in a 12-inch skillet over medium heat. Add the zucchini in an even layer and sauté until browned on one side, then flip and brown on the other side. Remove the zucchini from the skillet and set aside.\n\nStep 3: Cook the tomatoes – In the same skillet over medium heat, add the cherry tomatoes, and cook until they begin to burst and break down. Add the garlic, red pepper flakes, and salt, then cook until the garlic is fragrant."
+        },
+        {
+          "title": "Pasta with zucchini and tomatoes - The clever meal",
+          "url": "https://theclevermeal.com/pasta-with-tomatoes-and-zucchini",
+          "content": "Add zucchini, chili flakes, salt, and pepper to the pan and cook for 10 minutes. I love this pan! There’s no need to add a ton of olive oil or butter because it’s non-stick perfection without harmful chemicals and easy to clean.\n When the zucchini cubes start to caramelize, add the tomatoes.\n\n Cook until the skins burst, taste, and adjust the seasoning.\n Add pasta and fresh parsley, toss until well combined, and add a bit of pasta water. [...] Add the zucchini, chili flakes, about ¼ tsp of salt, and freshly ground black pepper. Give it a good stir and cook over medium-high heat for about 10 minutes, or until the zucchini are cooked but still crisp, not mushy.\n Add the tomatoes, stir, and cook until the skins burst and the tomatoes begin to release their juices, for about 4 minutes. Taste and adjust the seasoning according to your taste. [...] This quick pasta with tomatoes and zucchini is bursting with flavor, juicy, and packed with fresh vegetables. It makes a terrific vegan family meal ready in about 20 minutes!\n\nPrep Time5 minutes mins\n\nCook Time25 minutes mins\n\nTotal Time30 minutes mins\n\nCourse: pasta\n\nCuisine: Italian\n\nKeyword: Pasta with tomatoes and zucchini\n\nServings: 4\n\nCalories: 269kcal\n\nAuthor: Katia\n\n### Ingredients\n\n#### PASTA\n\n 8 oz  (220 grams) pasta (penne, fusilli, spaghetti…)\n\n#### TOMATOES AND ZUCCHINI"
+        },
+        {
+          "title": "Tomato Zucchini Summer Pasta | Easy Weeknight Dinner",
+          "url": "https://www.youtube.com/watch?v=J1SyCfzn0qg",
+          "content": "In the same skillet over medium heat, add the prepared tomatoes. Cook until the tomatoes begin to burst and break down, 4-6 minutes. Add the garlic, red pepper flakes, and salt. Cook until the garlic is fragrant, 1 minute.\n\nPour the tomatoes and zucchini into the pasta in the stock pot. Add the cream, red pepper flakes, and 1/2 cup of the pasta water. Turn the heat to medium-low and cook the pasta with the sauce until the mixture is hot and bubbling, 3-4 minutes. Turn off the heat. [...] INGREDIENTS\n\n1 lb pasta (penne works well)\n2 tbsp ghee (or neutral oil)\n1 medium zucchini, sliced in half moons\n1 lb cherry tomatoes, sliced in half\n1/2 tsp salt\n5 cloves garlic, minced\n1/4 tsp red pepper flakes\n1/2 cup cream\n1 tbsp lemon zest\n3/4 cup shredded Parmesan cheese\n1/2 cup chopped basil\n\nINSTRUCTIONS"
+        },
+        {
+          "title": "Pasta with Zucchini and Tomatoes (20 Minutes) - iFoodReal.com",
+          "url": "https://ifoodreal.com/pasta-with-zucchini-and-tomatoes",
+          "content": "By: Olena Osipov\n\nPasta with Zucchini and Tomatoes is a 20 minute vegetarian pasta recipe with zucchini, tomatoes, fresh garlic, basil and parmesan.\n\nPrep: 10 minutes mins\n\nCook: 10 minutes mins\n\nTotal: 20 minutes mins\n\nServings: 4 servings\n\nSaveSaved  Pin  Rate  Print\n\n### Equipment\n\n Ceramic skillet\n\n### Ingredients [...] Return skillet to the stove and swirl 1 tbsp of oil to coat, add tomatoes and cook for 3 minutes, stirring occasionally. Add garlic and cook for 1 minute, stirring a few times.\n Turn off heat and add cooked pasta and zucchini, remaining 1 tbsp of oil, salt, pepper, cheese and parsley or basil; stir and serve. Adjust any seasonings to taste and enjoy this 20 minute amazingness! [...] Use fresh ingredients: Since this zucchini pasta recipe uses only a few simple ingredients, it’s important to strive to use the best quality for each one. Using a good quality extra virgin olive oil, in season tomatoes and fresh zucchini is highly recommended. That’s why this pasta dish is a perfect summer recipe!\n Grate parmesan from a block: Using pre-grated parmesan from a shaker comes with a slew of additives, anti-clumping agents and unnecessary things we don’t need to be tasting."
+        },
+        {
+          "title": "Summer Tomato and Zucchini Pasta - Fork Knife Swoon",
+          "url": "https://www.forkknifeswoon.com/summer-tomato-and-zucchini-pasta",
+          "content": "Author: Laura Bolton – Fork Knife Swoon\n Prep Time: 15\n Cook Time: 20\n Total Time: 35 minutes\n Yield: 4 Servings\n Category: Savory, Pasta\n Method: Roasting, Saute\n Cuisine: Italian-inspired\n Diet: Vegetarian\n\nPrint Recipe\n\nPin Recipe\n\n### Description\n\nA simple, delicious summer pasta with zucchini and tomatoes. Quick and easy to make, but packed with flavor from roasted, peak-season cherry tomatoes, tender zucchini, zesty lemon, and lots of garlic. Vegan and gluten-free friendly. [...] 1. Roast your vegetables: Toss your tomatoes in just enough olive oil to coat, season generously, and roast until tender. Bonus points for popping on the broiler for a minute or two at the end to add some extra bits of caramelization.\n2. Start your pasta: Bring a large pot of water to a boil, salt generously, and cook until the pasta is perfectly al dente.\n3. Make a quick sauce: Add some more olive oil and butter to a large skillet, and cook your garlic, shallots, and zucchini until golden. [...] ### Ingredients\n\n 1 pint cherry or grape tomatoes, whole or halved\n 1 medium zucchini, thinly-sliced\n 1/2 cup extra-virgin olive oil, divided\n Kosher salt and freshly-ground black pepper, to taste\n 1/2 lb pasta (such as bucatini, spaghetti etc.)\n 2 Tbsp unsalted butter\n 2 cloves garlic, minced\n 1 large shallot, thinly sliced\n 1 Tbsp fresh lemon juice, or to taste\n 1 cup Pecorino cheese, plus more for serving\n handful of fresh basil, for serving\n\n### Instructions"
+        }
+      ],
+      "start": "2026-10-20T13:42:53.916113+00:00",
+      "end": "2026-10-20T13:42:56.981262+00:00"
+    }
+  ]
+}

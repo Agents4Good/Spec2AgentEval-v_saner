@@ -1,0 +1,1171 @@
+{
+  "run_id": "20261020_131941",
+  "run": 1,
+  "experiment": "by_claude_version",
+  "stage": "static_analysis",
+  "model": "claude-opus-4-8-low",
+  "timestamp": "2026-10-20T13:19:41.345295",
+  "total_agents": 1,
+  "results": [
+    {
+      "agent": "018_recipe_intermediate",
+      "target_dir": "/home/gabriellacabral/bench/Spec2AgentEval-v_saner/generated_agents/by_claude_version/run_1/claude-opus-4-8-low/018_recipe_intermediate",
+      "passed": false,
+      "tools": {
+        "ruff": {
+          "command": "ruff check generated_agents/by_claude_version/run_1/claude-opus-4-8-low/018_recipe_intermediate --output-format=json",
+          "exit_code": 0,
+          "stdout": [],
+          "stderr": ""
+        },
+        "pylint": {
+          "command": "pylint generated_agents/by_claude_version/run_1/claude-opus-4-8-low/018_recipe_intermediate --output-format=json",
+          "exit_code": 28,
+          "stdout": [
+            {
+              "type": "convention",
+              "module": "tests",
+              "obj": "",
+              "line": 79,
+              "column": 0,
+              "endLine": null,
+              "endColumn": null,
+              "path": "generated_agents/by_claude_version/run_1/claude-opus-4-8-low/018_recipe_intermediate/tests.py",
+              "symbol": "line-too-long",
+              "message": "Line too long (112/100)",
+              "message-id": "C0301"
+            },
+            {
+              "type": "convention",
+              "module": "tests",
+              "obj": "",
+              "line": 118,
+              "column": 0,
+              "endLine": null,
+              "endColumn": null,
+              "path": "generated_agents/by_claude_version/run_1/claude-opus-4-8-low/018_recipe_intermediate/tests.py",
+              "symbol": "line-too-long",
+              "message": "Line too long (120/100)",
+              "message-id": "C0301"
+            },
+            {
+              "type": "convention",
+              "module": "tests",
+              "obj": "",
+              "line": 130,
+              "column": 0,
+              "endLine": null,
+              "endColumn": null,
+              "path": "generated_agents/by_claude_version/run_1/claude-opus-4-8-low/018_recipe_intermediate/tests.py",
+              "symbol": "line-too-long",
+              "message": "Line too long (103/100)",
+              "message-id": "C0301"
+            },
+            {
+              "type": "convention",
+              "module": "tests",
+              "obj": "",
+              "line": 141,
+              "column": 0,
+              "endLine": null,
+              "endColumn": null,
+              "path": "generated_agents/by_claude_version/run_1/claude-opus-4-8-low/018_recipe_intermediate/tests.py",
+              "symbol": "line-too-long",
+              "message": "Line too long (144/100)",
+              "message-id": "C0301"
+            },
+            {
+              "type": "convention",
+              "module": "tests",
+              "obj": "FakeMessage",
+              "line": 14,
+              "column": 0,
+              "endLine": 14,
+              "endColumn": 17,
+              "path": "generated_agents/by_claude_version/run_1/claude-opus-4-8-low/018_recipe_intermediate/tests.py",
+              "symbol": "missing-class-docstring",
+              "message": "Missing class docstring",
+              "message-id": "C0115"
+            },
+            {
+              "type": "refactor",
+              "module": "tests",
+              "obj": "FakeMessage",
+              "line": 14,
+              "column": 0,
+              "endLine": 14,
+              "endColumn": 17,
+              "path": "generated_agents/by_claude_version/run_1/claude-opus-4-8-low/018_recipe_intermediate/tests.py",
+              "symbol": "too-few-public-methods",
+              "message": "Too few public methods (0/2)",
+              "message-id": "R0903"
+            },
+            {
+              "type": "convention",
+              "module": "tests",
+              "obj": "FakeLLM.invoke",
+              "line": 25,
+              "column": 4,
+              "endLine": 25,
+              "endColumn": 14,
+              "path": "generated_agents/by_claude_version/run_1/claude-opus-4-8-low/018_recipe_intermediate/tests.py",
+              "symbol": "missing-function-docstring",
+              "message": "Missing function or method docstring",
+              "message-id": "C0116"
+            },
+            {
+              "type": "refactor",
+              "module": "tests",
+              "obj": "FakeLLM",
+              "line": 19,
+              "column": 0,
+              "endLine": 19,
+              "endColumn": 13,
+              "path": "generated_agents/by_claude_version/run_1/claude-opus-4-8-low/018_recipe_intermediate/tests.py",
+              "symbol": "too-few-public-methods",
+              "message": "Too few public methods (1/2)",
+              "message-id": "R0903"
+            },
+            {
+              "type": "convention",
+              "module": "tests",
+              "obj": "make_llm",
+              "line": 29,
+              "column": 0,
+              "endLine": 29,
+              "endColumn": 12,
+              "path": "generated_agents/by_claude_version/run_1/claude-opus-4-8-low/018_recipe_intermediate/tests.py",
+              "symbol": "missing-function-docstring",
+              "message": "Missing function or method docstring",
+              "message-id": "C0116"
+            },
+            {
+              "type": "convention",
+              "module": "tests",
+              "obj": "ToolInterfaceTest",
+              "line": 38,
+              "column": 0,
+              "endLine": 38,
+              "endColumn": 23,
+              "path": "generated_agents/by_claude_version/run_1/claude-opus-4-8-low/018_recipe_intermediate/tests.py",
+              "symbol": "missing-class-docstring",
+              "message": "Missing class docstring",
+              "message-id": "C0115"
+            },
+            {
+              "type": "convention",
+              "module": "tests",
+              "obj": "ToolInterfaceTest.test_tools_are_langchain_tools",
+              "line": 39,
+              "column": 4,
+              "endLine": 39,
+              "endColumn": 38,
+              "path": "generated_agents/by_claude_version/run_1/claude-opus-4-8-low/018_recipe_intermediate/tests.py",
+              "symbol": "missing-function-docstring",
+              "message": "Missing function or method docstring",
+              "message-id": "C0116"
+            },
+            {
+              "type": "convention",
+              "module": "tests",
+              "obj": "ToolInterfaceTest.test_tools_are_langchain_tools",
+              "line": 40,
+              "column": 8,
+              "endLine": 40,
+              "endColumn": 49,
+              "path": "generated_agents/by_claude_version/run_1/claude-opus-4-8-low/018_recipe_intermediate/tests.py",
+              "symbol": "import-outside-toplevel",
+              "message": "Import outside toplevel (langchain_core.tools.BaseTool)",
+              "message-id": "C0415"
+            },
+            {
+              "type": "convention",
+              "module": "tests",
+              "obj": "B1ValidationTest",
+              "line": 46,
+              "column": 0,
+              "endLine": 46,
+              "endColumn": 22,
+              "path": "generated_agents/by_claude_version/run_1/claude-opus-4-8-low/018_recipe_intermediate/tests.py",
+              "symbol": "missing-class-docstring",
+              "message": "Missing class docstring",
+              "message-id": "C0115"
+            },
+            {
+              "type": "convention",
+              "module": "tests",
+              "obj": "B1ValidationTest.test_empty_query_is_invalid",
+              "line": 47,
+              "column": 4,
+              "endLine": 47,
+              "endColumn": 35,
+              "path": "generated_agents/by_claude_version/run_1/claude-opus-4-8-low/018_recipe_intermediate/tests.py",
+              "symbol": "missing-function-docstring",
+              "message": "Missing function or method docstring",
+              "message-id": "C0116"
+            },
+            {
+              "type": "convention",
+              "module": "tests",
+              "obj": "B1ValidationTest.test_offensive_or_unrelated_query_stops",
+              "line": 51,
+              "column": 4,
+              "endLine": 51,
+              "endColumn": 47,
+              "path": "generated_agents/by_claude_version/run_1/claude-opus-4-8-low/018_recipe_intermediate/tests.py",
+              "symbol": "missing-function-docstring",
+              "message": "Missing function or method docstring",
+              "message-id": "C0116"
+            },
+            {
+              "type": "convention",
+              "module": "tests",
+              "obj": "B3SearchPathTest",
+              "line": 64,
+              "column": 0,
+              "endLine": 64,
+              "endColumn": 22,
+              "path": "generated_agents/by_claude_version/run_1/claude-opus-4-8-low/018_recipe_intermediate/tests.py",
+              "symbol": "missing-class-docstring",
+              "message": "Missing class docstring",
+              "message-id": "C0115"
+            },
+            {
+              "type": "convention",
+              "module": "tests",
+              "obj": "B3SearchPathTest.test_valid_with_ingredients_calls_search_only",
+              "line": 65,
+              "column": 4,
+              "endLine": 65,
+              "endColumn": 53,
+              "path": "generated_agents/by_claude_version/run_1/claude-opus-4-8-low/018_recipe_intermediate/tests.py",
+              "symbol": "missing-function-docstring",
+              "message": "Missing function or method docstring",
+              "message-id": "C0116"
+            },
+            {
+              "type": "convention",
+              "module": "tests",
+              "obj": "B3SearchPathTest.test_search_error_goes_to_b6",
+              "line": 90,
+              "column": 4,
+              "endLine": 90,
+              "endColumn": 36,
+              "path": "generated_agents/by_claude_version/run_1/claude-opus-4-8-low/018_recipe_intermediate/tests.py",
+              "symbol": "missing-function-docstring",
+              "message": "Missing function or method docstring",
+              "message-id": "C0116"
+            },
+            {
+              "type": "convention",
+              "module": "tests",
+              "obj": "B4PantryPathTest",
+              "line": 103,
+              "column": 0,
+              "endLine": 103,
+              "endColumn": 22,
+              "path": "generated_agents/by_claude_version/run_1/claude-opus-4-8-low/018_recipe_intermediate/tests.py",
+              "symbol": "missing-class-docstring",
+              "message": "Missing class docstring",
+              "message-id": "C0115"
+            },
+            {
+              "type": "convention",
+              "module": "tests",
+              "obj": "B4PantryPathTest.test_no_ingredients_uses_pantry",
+              "line": 104,
+              "column": 4,
+              "endLine": 104,
+              "endColumn": 39,
+              "path": "generated_agents/by_claude_version/run_1/claude-opus-4-8-low/018_recipe_intermediate/tests.py",
+              "symbol": "missing-function-docstring",
+              "message": "Missing function or method docstring",
+              "message-id": "C0116"
+            },
+            {
+              "type": "convention",
+              "module": "tests",
+              "obj": "B4PantryPathTest.test_empty_pantry_stops_b5",
+              "line": 124,
+              "column": 4,
+              "endLine": 124,
+              "endColumn": 34,
+              "path": "generated_agents/by_claude_version/run_1/claude-opus-4-8-low/018_recipe_intermediate/tests.py",
+              "symbol": "missing-function-docstring",
+              "message": "Missing function or method docstring",
+              "message-id": "C0116"
+            },
+            {
+              "type": "convention",
+              "module": "tests",
+              "obj": "B4PantryPathTest.test_pantry_error_goes_to_b6",
+              "line": 135,
+              "column": 4,
+              "endLine": 135,
+              "endColumn": 36,
+              "path": "generated_agents/by_claude_version/run_1/claude-opus-4-8-low/018_recipe_intermediate/tests.py",
+              "symbol": "missing-function-docstring",
+              "message": "Missing function or method docstring",
+              "message-id": "C0116"
+            },
+            {
+              "type": "convention",
+              "module": "tests",
+              "obj": "ToolFailureTest",
+              "line": 146,
+              "column": 0,
+              "endLine": 146,
+              "endColumn": 21,
+              "path": "generated_agents/by_claude_version/run_1/claude-opus-4-8-low/018_recipe_intermediate/tests.py",
+              "symbol": "missing-class-docstring",
+              "message": "Missing class docstring",
+              "message-id": "C0115"
+            },
+            {
+              "type": "convention",
+              "module": "tests",
+              "obj": "ToolFailureTest.test_retrieve_pantry_missing_credentials",
+              "line": 147,
+              "column": 4,
+              "endLine": 147,
+              "endColumn": 48,
+              "path": "generated_agents/by_claude_version/run_1/claude-opus-4-8-low/018_recipe_intermediate/tests.py",
+              "symbol": "missing-function-docstring",
+              "message": "Missing function or method docstring",
+              "message-id": "C0116"
+            },
+            {
+              "type": "convention",
+              "module": "tests",
+              "obj": "ToolFailureTest.test_search_recipes_missing_credentials",
+              "line": 152,
+              "column": 4,
+              "endLine": 152,
+              "endColumn": 47,
+              "path": "generated_agents/by_claude_version/run_1/claude-opus-4-8-low/018_recipe_intermediate/tests.py",
+              "symbol": "missing-function-docstring",
+              "message": "Missing function or method docstring",
+              "message-id": "C0116"
+            },
+            {
+              "type": "warning",
+              "module": "agent",
+              "obj": "retrieve_pantry",
+              "line": 79,
+              "column": 11,
+              "endLine": 79,
+              "endColumn": 20,
+              "path": "generated_agents/by_claude_version/run_1/claude-opus-4-8-low/018_recipe_intermediate/agent.py",
+              "symbol": "broad-exception-caught",
+              "message": "Catching too general exception Exception",
+              "message-id": "W0718"
+            },
+            {
+              "type": "warning",
+              "module": "agent",
+              "obj": "search_recipes",
+              "line": 123,
+              "column": 11,
+              "endLine": 123,
+              "endColumn": 20,
+              "path": "generated_agents/by_claude_version/run_1/claude-opus-4-8-low/018_recipe_intermediate/agent.py",
+              "symbol": "broad-exception-caught",
+              "message": "Catching too general exception Exception",
+              "message-id": "W0718"
+            },
+            {
+              "type": "convention",
+              "module": "agent",
+              "obj": "RecipeState",
+              "line": 143,
+              "column": 0,
+              "endLine": 143,
+              "endColumn": 17,
+              "path": "generated_agents/by_claude_version/run_1/claude-opus-4-8-low/018_recipe_intermediate/agent.py",
+              "symbol": "missing-class-docstring",
+              "message": "Missing class docstring",
+              "message-id": "C0115"
+            },
+            {
+              "type": "warning",
+              "module": "agent",
+              "obj": "b1_validate",
+              "line": 180,
+              "column": 11,
+              "endLine": 180,
+              "endColumn": 20,
+              "path": "generated_agents/by_claude_version/run_1/claude-opus-4-8-low/018_recipe_intermediate/agent.py",
+              "symbol": "broad-exception-caught",
+              "message": "Catching too general exception Exception",
+              "message-id": "W0718"
+            },
+            {
+              "type": "warning",
+              "module": "agent",
+              "obj": "b2_identify_ingredients",
+              "line": 208,
+              "column": 11,
+              "endLine": 208,
+              "endColumn": 20,
+              "path": "generated_agents/by_claude_version/run_1/claude-opus-4-8-low/018_recipe_intermediate/agent.py",
+              "symbol": "broad-exception-caught",
+              "message": "Catching too general exception Exception",
+              "message-id": "W0718"
+            },
+            {
+              "type": "warning",
+              "module": "agent",
+              "obj": "b3_search",
+              "line": 216,
+              "column": 11,
+              "endLine": 216,
+              "endColumn": 20,
+              "path": "generated_agents/by_claude_version/run_1/claude-opus-4-8-low/018_recipe_intermediate/agent.py",
+              "symbol": "broad-exception-caught",
+              "message": "Catching too general exception Exception",
+              "message-id": "W0718"
+            },
+            {
+              "type": "warning",
+              "module": "agent",
+              "obj": "b4_pantry",
+              "line": 227,
+              "column": 11,
+              "endLine": 227,
+              "endColumn": 20,
+              "path": "generated_agents/by_claude_version/run_1/claude-opus-4-8-low/018_recipe_intermediate/agent.py",
+              "symbol": "broad-exception-caught",
+              "message": "Catching too general exception Exception",
+              "message-id": "W0718"
+            },
+            {
+              "type": "warning",
+              "module": "agent",
+              "obj": "b4_pantry",
+              "line": 252,
+              "column": 11,
+              "endLine": 252,
+              "endColumn": 20,
+              "path": "generated_agents/by_claude_version/run_1/claude-opus-4-8-low/018_recipe_intermediate/agent.py",
+              "symbol": "broad-exception-caught",
+              "message": "Catching too general exception Exception",
+              "message-id": "W0718"
+            },
+            {
+              "type": "warning",
+              "module": "agent",
+              "obj": "b5_lack",
+              "line": 256,
+              "column": 12,
+              "endLine": 256,
+              "endColumn": 30,
+              "path": "generated_agents/by_claude_version/run_1/claude-opus-4-8-low/018_recipe_intermediate/agent.py",
+              "symbol": "unused-argument",
+              "message": "Unused argument 'state'",
+              "message-id": "W0613"
+            },
+            {
+              "type": "warning",
+              "module": "agent",
+              "obj": "b7_generate",
+              "line": 293,
+              "column": 11,
+              "endLine": 293,
+              "endColumn": 20,
+              "path": "generated_agents/by_claude_version/run_1/claude-opus-4-8-low/018_recipe_intermediate/agent.py",
+              "symbol": "broad-exception-caught",
+              "message": "Catching too general exception Exception",
+              "message-id": "W0718"
+            },
+            {
+              "type": "warning",
+              "module": "agent",
+              "obj": "_app",
+              "line": 378,
+              "column": 4,
+              "endLine": 378,
+              "endColumn": 15,
+              "path": "generated_agents/by_claude_version/run_1/claude-opus-4-8-low/018_recipe_intermediate/agent.py",
+              "symbol": "global-statement",
+              "message": "Using the global statement",
+              "message-id": "W0603"
+            },
+            {
+              "type": "warning",
+              "module": "agent",
+              "obj": "agent",
+              "line": 391,
+              "column": 11,
+              "endLine": 391,
+              "endColumn": 20,
+              "path": "generated_agents/by_claude_version/run_1/claude-opus-4-8-low/018_recipe_intermediate/agent.py",
+              "symbol": "broad-exception-caught",
+              "message": "Catching too general exception Exception",
+              "message-id": "W0718"
+            },
+            {
+              "type": "convention",
+              "module": "agent",
+              "obj": "",
+              "line": 404,
+              "column": 4,
+              "endLine": 404,
+              "endColumn": 14,
+              "path": "generated_agents/by_claude_version/run_1/claude-opus-4-8-low/018_recipe_intermediate/agent.py",
+              "symbol": "invalid-name",
+              "message": "Constant name \"user_query\" doesn't conform to UPPER_CASE naming style",
+              "message-id": "C0103"
+            }
+          ],
+          "stderr": ""
+        },
+        "radon_cc": {
+          "command": "radon cc generated_agents/by_claude_version/run_1/claude-opus-4-8-low/018_recipe_intermediate -a -j",
+          "exit_code": 0,
+          "stdout": {
+            "generated_agents/by_claude_version/run_1/claude-opus-4-8-low/018_recipe_intermediate/tests.py": [
+              {
+                "type": "class",
+                "rank": "A",
+                "endline": 16,
+                "lineno": 14,
+                "col_offset": 0,
+                "name": "FakeMessage",
+                "complexity": 2,
+                "methods": [
+                  {
+                    "type": "method",
+                    "rank": "A",
+                    "endline": 16,
+                    "lineno": 15,
+                    "col_offset": 4,
+                    "classname": "FakeMessage",
+                    "name": "__init__",
+                    "complexity": 1,
+                    "closures": []
+                  }
+                ]
+              },
+              {
+                "type": "class",
+                "rank": "A",
+                "endline": 26,
+                "lineno": 19,
+                "col_offset": 0,
+                "name": "FakeLLM",
+                "complexity": 2,
+                "methods": [
+                  {
+                    "type": "method",
+                    "rank": "A",
+                    "endline": 23,
+                    "lineno": 22,
+                    "col_offset": 4,
+                    "classname": "FakeLLM",
+                    "name": "__init__",
+                    "complexity": 1,
+                    "closures": []
+                  },
+                  {
+                    "type": "method",
+                    "rank": "A",
+                    "endline": 26,
+                    "lineno": 25,
+                    "col_offset": 4,
+                    "classname": "FakeLLM",
+                    "name": "invoke",
+                    "complexity": 1,
+                    "closures": []
+                  }
+                ]
+              },
+              {
+                "type": "class",
+                "rank": "A",
+                "endline": 43,
+                "lineno": 38,
+                "col_offset": 0,
+                "name": "ToolInterfaceTest",
+                "complexity": 2,
+                "methods": [
+                  {
+                    "type": "method",
+                    "rank": "A",
+                    "endline": 43,
+                    "lineno": 39,
+                    "col_offset": 4,
+                    "classname": "ToolInterfaceTest",
+                    "name": "test_tools_are_langchain_tools",
+                    "complexity": 1,
+                    "closures": []
+                  }
+                ]
+              },
+              {
+                "type": "class",
+                "rank": "A",
+                "endline": 61,
+                "lineno": 46,
+                "col_offset": 0,
+                "name": "B1ValidationTest",
+                "complexity": 2,
+                "methods": [
+                  {
+                    "type": "method",
+                    "rank": "A",
+                    "endline": 49,
+                    "lineno": 47,
+                    "col_offset": 4,
+                    "classname": "B1ValidationTest",
+                    "name": "test_empty_query_is_invalid",
+                    "complexity": 1,
+                    "closures": []
+                  },
+                  {
+                    "type": "method",
+                    "rank": "A",
+                    "endline": 61,
+                    "lineno": 51,
+                    "col_offset": 4,
+                    "classname": "B1ValidationTest",
+                    "name": "test_offensive_or_unrelated_query_stops",
+                    "complexity": 1,
+                    "closures": []
+                  }
+                ]
+              },
+              {
+                "type": "class",
+                "rank": "A",
+                "endline": 100,
+                "lineno": 64,
+                "col_offset": 0,
+                "name": "B3SearchPathTest",
+                "complexity": 2,
+                "methods": [
+                  {
+                    "type": "method",
+                    "rank": "A",
+                    "endline": 88,
+                    "lineno": 65,
+                    "col_offset": 4,
+                    "classname": "B3SearchPathTest",
+                    "name": "test_valid_with_ingredients_calls_search_only",
+                    "complexity": 1,
+                    "closures": []
+                  },
+                  {
+                    "type": "method",
+                    "rank": "A",
+                    "endline": 100,
+                    "lineno": 90,
+                    "col_offset": 4,
+                    "classname": "B3SearchPathTest",
+                    "name": "test_search_error_goes_to_b6",
+                    "complexity": 1,
+                    "closures": []
+                  }
+                ]
+              },
+              {
+                "type": "class",
+                "rank": "A",
+                "endline": 143,
+                "lineno": 103,
+                "col_offset": 0,
+                "name": "B4PantryPathTest",
+                "complexity": 2,
+                "methods": [
+                  {
+                    "type": "method",
+                    "rank": "A",
+                    "endline": 122,
+                    "lineno": 104,
+                    "col_offset": 4,
+                    "classname": "B4PantryPathTest",
+                    "name": "test_no_ingredients_uses_pantry",
+                    "complexity": 1,
+                    "closures": []
+                  },
+                  {
+                    "type": "method",
+                    "rank": "A",
+                    "endline": 133,
+                    "lineno": 124,
+                    "col_offset": 4,
+                    "classname": "B4PantryPathTest",
+                    "name": "test_empty_pantry_stops_b5",
+                    "complexity": 1,
+                    "closures": []
+                  },
+                  {
+                    "type": "method",
+                    "rank": "A",
+                    "endline": 143,
+                    "lineno": 135,
+                    "col_offset": 4,
+                    "classname": "B4PantryPathTest",
+                    "name": "test_pantry_error_goes_to_b6",
+                    "complexity": 1,
+                    "closures": []
+                  }
+                ]
+              },
+              {
+                "type": "class",
+                "rank": "A",
+                "endline": 155,
+                "lineno": 146,
+                "col_offset": 0,
+                "name": "ToolFailureTest",
+                "complexity": 2,
+                "methods": [
+                  {
+                    "type": "method",
+                    "rank": "A",
+                    "endline": 150,
+                    "lineno": 147,
+                    "col_offset": 4,
+                    "classname": "ToolFailureTest",
+                    "name": "test_retrieve_pantry_missing_credentials",
+                    "complexity": 1,
+                    "closures": []
+                  },
+                  {
+                    "type": "method",
+                    "rank": "A",
+                    "endline": 155,
+                    "lineno": 152,
+                    "col_offset": 4,
+                    "classname": "ToolFailureTest",
+                    "name": "test_search_recipes_missing_credentials",
+                    "complexity": 1,
+                    "closures": []
+                  }
+                ]
+              },
+              {
+                "type": "function",
+                "rank": "A",
+                "endline": 35,
+                "lineno": 29,
+                "col_offset": 0,
+                "name": "make_llm",
+                "complexity": 1,
+                "closures": [
+                  {
+                    "type": "function",
+                    "rank": "A",
+                    "endline": 33,
+                    "lineno": 32,
+                    "col_offset": 4,
+                    "name": "factory",
+                    "complexity": 1,
+                    "closures": []
+                  }
+                ]
+              },
+              {
+                "type": "method",
+                "rank": "A",
+                "endline": 16,
+                "lineno": 15,
+                "col_offset": 4,
+                "classname": "FakeMessage",
+                "name": "__init__",
+                "complexity": 1,
+                "closures": []
+              },
+              {
+                "type": "method",
+                "rank": "A",
+                "endline": 23,
+                "lineno": 22,
+                "col_offset": 4,
+                "classname": "FakeLLM",
+                "name": "__init__",
+                "complexity": 1,
+                "closures": []
+              },
+              {
+                "type": "method",
+                "rank": "A",
+                "endline": 26,
+                "lineno": 25,
+                "col_offset": 4,
+                "classname": "FakeLLM",
+                "name": "invoke",
+                "complexity": 1,
+                "closures": []
+              },
+              {
+                "type": "method",
+                "rank": "A",
+                "endline": 43,
+                "lineno": 39,
+                "col_offset": 4,
+                "classname": "ToolInterfaceTest",
+                "name": "test_tools_are_langchain_tools",
+                "complexity": 1,
+                "closures": []
+              },
+              {
+                "type": "method",
+                "rank": "A",
+                "endline": 49,
+                "lineno": 47,
+                "col_offset": 4,
+                "classname": "B1ValidationTest",
+                "name": "test_empty_query_is_invalid",
+                "complexity": 1,
+                "closures": []
+              },
+              {
+                "type": "method",
+                "rank": "A",
+                "endline": 61,
+                "lineno": 51,
+                "col_offset": 4,
+                "classname": "B1ValidationTest",
+                "name": "test_offensive_or_unrelated_query_stops",
+                "complexity": 1,
+                "closures": []
+              },
+              {
+                "type": "method",
+                "rank": "A",
+                "endline": 88,
+                "lineno": 65,
+                "col_offset": 4,
+                "classname": "B3SearchPathTest",
+                "name": "test_valid_with_ingredients_calls_search_only",
+                "complexity": 1,
+                "closures": []
+              },
+              {
+                "type": "method",
+                "rank": "A",
+                "endline": 100,
+                "lineno": 90,
+                "col_offset": 4,
+                "classname": "B3SearchPathTest",
+                "name": "test_search_error_goes_to_b6",
+                "complexity": 1,
+                "closures": []
+              },
+              {
+                "type": "method",
+                "rank": "A",
+                "endline": 122,
+                "lineno": 104,
+                "col_offset": 4,
+                "classname": "B4PantryPathTest",
+                "name": "test_no_ingredients_uses_pantry",
+                "complexity": 1,
+                "closures": []
+              },
+              {
+                "type": "method",
+                "rank": "A",
+                "endline": 133,
+                "lineno": 124,
+                "col_offset": 4,
+                "classname": "B4PantryPathTest",
+                "name": "test_empty_pantry_stops_b5",
+                "complexity": 1,
+                "closures": []
+              },
+              {
+                "type": "method",
+                "rank": "A",
+                "endline": 143,
+                "lineno": 135,
+                "col_offset": 4,
+                "classname": "B4PantryPathTest",
+                "name": "test_pantry_error_goes_to_b6",
+                "complexity": 1,
+                "closures": []
+              },
+              {
+                "type": "method",
+                "rank": "A",
+                "endline": 150,
+                "lineno": 147,
+                "col_offset": 4,
+                "classname": "ToolFailureTest",
+                "name": "test_retrieve_pantry_missing_credentials",
+                "complexity": 1,
+                "closures": []
+              },
+              {
+                "type": "method",
+                "rank": "A",
+                "endline": 155,
+                "lineno": 152,
+                "col_offset": 4,
+                "classname": "ToolFailureTest",
+                "name": "test_search_recipes_missing_credentials",
+                "complexity": 1,
+                "closures": []
+              }
+            ],
+            "generated_agents/by_claude_version/run_1/claude-opus-4-8-low/018_recipe_intermediate/agent.py": [
+              {
+                "type": "function",
+                "rank": "C",
+                "endline": 80,
+                "lineno": 31,
+                "col_offset": 0,
+                "name": "retrieve_pantry",
+                "complexity": 13,
+                "closures": []
+              },
+              {
+                "type": "function",
+                "rank": "B",
+                "endline": 253,
+                "lineno": 223,
+                "col_offset": 0,
+                "name": "b4_pantry",
+                "complexity": 8,
+                "closures": []
+              },
+              {
+                "type": "function",
+                "rank": "B",
+                "endline": 124,
+                "lineno": 84,
+                "col_offset": 0,
+                "name": "search_recipes",
+                "complexity": 6,
+                "closures": []
+              },
+              {
+                "type": "function",
+                "rank": "B",
+                "endline": 181,
+                "lineno": 156,
+                "col_offset": 0,
+                "name": "b1_validate",
+                "complexity": 6,
+                "closures": []
+              },
+              {
+                "type": "function",
+                "rank": "B",
+                "endline": 311,
+                "lineno": 300,
+                "col_offset": 0,
+                "name": "_parse_json",
+                "complexity": 6,
+                "closures": []
+              },
+              {
+                "type": "function",
+                "rank": "A",
+                "endline": 209,
+                "lineno": 184,
+                "col_offset": 0,
+                "name": "b2_identify_ingredients",
+                "complexity": 5,
+                "closures": []
+              },
+              {
+                "type": "function",
+                "rank": "A",
+                "endline": 294,
+                "lineno": 264,
+                "col_offset": 0,
+                "name": "b7_generate",
+                "complexity": 5,
+                "closures": []
+              },
+              {
+                "type": "function",
+                "rank": "A",
+                "endline": 398,
+                "lineno": 387,
+                "col_offset": 0,
+                "name": "agent",
+                "complexity": 4,
+                "closures": []
+              },
+              {
+                "type": "function",
+                "rank": "A",
+                "endline": 136,
+                "lineno": 134,
+                "col_offset": 0,
+                "name": "_is_error",
+                "complexity": 3,
+                "closures": []
+              },
+              {
+                "type": "function",
+                "rank": "A",
+                "endline": 220,
+                "lineno": 212,
+                "col_offset": 0,
+                "name": "b3_search",
+                "complexity": 3,
+                "closures": []
+              },
+              {
+                "type": "function",
+                "rank": "A",
+                "endline": 339,
+                "lineno": 336,
+                "col_offset": 0,
+                "name": "_route_after_b2",
+                "complexity": 3,
+                "closures": []
+              },
+              {
+                "type": "function",
+                "rank": "A",
+                "endline": 349,
+                "lineno": 346,
+                "col_offset": 0,
+                "name": "_route_after_b4",
+                "complexity": 3,
+                "closures": []
+              },
+              {
+                "type": "function",
+                "rank": "A",
+                "endline": 333,
+                "lineno": 332,
+                "col_offset": 0,
+                "name": "_route_after_b1",
+                "complexity": 2,
+                "closures": []
+              },
+              {
+                "type": "function",
+                "rank": "A",
+                "endline": 343,
+                "lineno": 342,
+                "col_offset": 0,
+                "name": "_route_after_b3",
+                "complexity": 2,
+                "closures": []
+              },
+              {
+                "type": "function",
+                "rank": "A",
+                "endline": 381,
+                "lineno": 377,
+                "col_offset": 0,
+                "name": "_app",
+                "complexity": 2,
+                "closures": []
+              },
+              {
+                "type": "function",
+                "rank": "A",
+                "endline": 131,
+                "lineno": 130,
+                "col_offset": 0,
+                "name": "_get_llm",
+                "complexity": 1,
+                "closures": []
+              },
+              {
+                "type": "function",
+                "rank": "A",
+                "endline": 259,
+                "lineno": 256,
+                "col_offset": 0,
+                "name": "b5_lack",
+                "complexity": 1,
+                "closures": []
+              },
+              {
+                "type": "function",
+                "rank": "A",
+                "endline": 325,
+                "lineno": 314,
+                "col_offset": 0,
+                "name": "_format_recipe",
+                "complexity": 1,
+                "closures": [
+                  {
+                    "type": "function",
+                    "rank": "A",
+                    "endline": 318,
+                    "lineno": 315,
+                    "col_offset": 4,
+                    "name": "as_lines",
+                    "complexity": 3,
+                    "closures": []
+                  }
+                ]
+              },
+              {
+                "type": "function",
+                "rank": "A",
+                "endline": 371,
+                "lineno": 355,
+                "col_offset": 0,
+                "name": "_build_graph",
+                "complexity": 1,
+                "closures": []
+              },
+              {
+                "type": "class",
+                "rank": "A",
+                "endline": 150,
+                "lineno": 143,
+                "col_offset": 0,
+                "name": "RecipeState",
+                "complexity": 1,
+                "methods": []
+              }
+            ]
+          },
+          "stderr": ""
+        },
+        "radon_mi": {
+          "command": "radon mi generated_agents/by_claude_version/run_1/claude-opus-4-8-low/018_recipe_intermediate -j",
+          "exit_code": 0,
+          "stdout": {
+            "generated_agents/by_claude_version/run_1/claude-opus-4-8-low/018_recipe_intermediate/tests.py": {
+              "mi": 68.73418185901784,
+              "rank": "A"
+            },
+            "generated_agents/by_claude_version/run_1/claude-opus-4-8-low/018_recipe_intermediate/agent.py": {
+              "mi": 42.96907474874816,
+              "rank": "A"
+            }
+          },
+          "stderr": ""
+        },
+        "sonarqube": {
+          "exit_code": 0,
+          "metrics": {
+            "complexity": "81",
+            "reliability_rating": "1.0",
+            "code_smells": "10",
+            "duplicated_lines_density": "0.0",
+            "functions": "35",
+            "security_rating": "1.0",
+            "classes": "8",
+            "sqale_debt_ratio": "0.4",
+            "statements": "282",
+            "comment_lines_density": "12.6",
+            "security_hotspots": "0",
+            "sqale_index": "53",
+            "sqale_rating": "1.0",
+            "bugs": "0",
+            "cognitive_complexity": "64",
+            "duplicated_blocks": "0",
+            "ncloc": "410",
+            "reliability_remediation_effort": "0",
+            "vulnerabilities": "0",
+            "lines": "566"
+          }
+        }
+      }
+    }
+  ]
+}

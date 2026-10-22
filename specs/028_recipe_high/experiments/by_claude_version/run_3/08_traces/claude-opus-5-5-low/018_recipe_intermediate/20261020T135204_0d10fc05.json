@@ -1,0 +1,29 @@
+{
+  "run_id": "0d10fc05864d4e4f87c3545c26c92a04",
+  "query": [
+    "I don't have eggs or milk. What dessert could I cook?"
+  ],
+  "status": "ok",
+  "error": null,
+  "runs_collected": 1,
+  "trajectory": [
+    "validate",
+    "identify",
+    "pantry",
+    "retrieve_pantry",
+    "generate"
+  ],
+  "tool_calls": [
+    {
+      "name": "retrieve_pantry",
+      "input": {},
+      "output": [
+        "corn",
+        "chicken",
+        "milk"
+      ],
+      "start": "2026-10-20T13:51:59.693556+00:00",
+      "end": "2026-10-20T13:52:00.677292+00:00"
+    }
+  ]
+}

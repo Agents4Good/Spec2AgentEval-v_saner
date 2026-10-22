@@ -1,0 +1,33 @@
+{
+  "run_id": "20261020_150153",
+  "run": 3,
+  "experiment": "by_claude_version",
+  "model": "claude-opus-4-8-low",
+  "agent_filter": "028_recipe_high",
+  "generated_dir": "generated_agents/by_claude_version/run_3",
+  "total_agents": 1,
+  "results": [
+    {
+      "model": "claude-opus-4-8-low",
+      "agent_folder": "028_recipe_high",
+      "checks": {
+        "file_exists": {
+          "passed": true
+        },
+        "syntax_valid": {
+          "passed": true
+        },
+        "dependency_error": {
+          "passed": true
+        },
+        "has_entrypoint": {
+          "passed": true
+        },
+        "entrypoint_callable": {
+          "passed": true
+        }
+      },
+      "final_status": "SUCCESS"
+    }
+  ]
+}

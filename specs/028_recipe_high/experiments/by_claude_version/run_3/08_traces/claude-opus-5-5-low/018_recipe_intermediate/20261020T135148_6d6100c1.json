@@ -1,0 +1,57 @@
+{
+  "run_id": "6d6100c11610498a8288b739821a0b2d",
+  "query": [
+    "I'm vegetarian. I have tomatoes, zucchini and pasta. Suggest a lunch recipe."
+  ],
+  "status": "ok",
+  "error": null,
+  "runs_collected": 1,
+  "trajectory": [
+    "validate",
+    "identify",
+    "search",
+    "search_recipes",
+    "generate"
+  ],
+  "tool_calls": [
+    {
+      "name": "search_recipes",
+      "input": {
+        "ingredients": [
+          "tomato",
+          "zucchini",
+          "pasta"
+        ]
+      },
+      "output": [
+        {
+          "title": "Zucchini Tomato Pasta Recipe | Easy Vegetarian and Vegan Recipes | Italian Tomato Pasta",
+          "url": "https://www.youtube.com/watch?v=BFP1s1ASBuE",
+          "content": "Now reduce the heat to low and add garlic and chili flakes. Cook on low to medium-low heat for about 1 minute or until fragrant. Then add the tomato paste. Mix well. Now add the zucchini. Turn the heat to medium-high and fry the zucchini along with the tomato paste for about 2 minutes, to cook out the raw flavour of the tomato paste.\n\n ✅ 👉 NOTE: If you like your pasta more zesty, you can slightly increase the quantity of tomato paste [...] Mix well and cook on medium heat for another 2 minutes o"
+        },
+        {
+          "title": "Pasta with zucchini and tomatoes - The clever meal",
+          "url": "https://theclevermeal.com/pasta-with-tomatoes-and-zucchini",
+          "content": "Add zucchini, chili flakes, salt, and pepper to the pan and cook for 10 minutes. I love this pan! There’s no need to add a ton of olive oil or butter because it’s non-stick perfection without harmful chemicals and easy to clean.\n When the zucchini cubes start to caramelize, add the tomatoes.\n\n Cook until the skins burst, taste, and adjust the seasoning.\n Add pasta and fresh parsley, toss until well combined, and add a bit of pasta water. [...] Add the zucchini, chili flakes, about ¼ tsp of salt,"
+        },
+        {
+          "title": "Summery tomato zucchini pasta",
+          "url": "https://food52.com/recipes/11812-summery-tomato-zucchini-pasta",
+          "content": "Heat the olive oil in a medium saute pan over medium heat. Add tomatoes, zucchini, and garlic, and saute until the zucchini is cooked through and just barely beginning to color. Turn off the heat. [...] ## Ingredients\n\n## Directions\n\nBring a large pot of salted water to a boil.\n\nMeanwhile, cut zucchini into a small dice. Halve the tomatoes and de-seed them, then cut them into the same size dice as the zucchini (just leave the skin on--it saves tons of time, and I think it adds to the texture and"
+        },
+        {
+          "title": "Cherry Tomato Zucchini Butter Linguine | Natalie Cooks",
+          "url": "https://nataliecooks.com/recipes/cherry-tomato-zucchini-butter-linguine",
+          "content": "Bring a large pot with about 3 quarts of water to a boil and salt generously (about 2 tablespoons). Cook pasta according to the package instructions to al dente. Reserve 1 cup of the pasta water before draining. Drain and transfer back to the pot.\n While the water comes to a boil and pasta cooks, make the tomato zucchini mixture. [...] Bring a large pot with about 3 quarts of water to a boil and salt generously (about 2 tablespoons). Cook pasta according to the package instructions to al dente. "
+        },
+        {
+          "title": "Pasta With Corn, Zucchini And Tomatoes Recipe",
+          "url": "https://cooking.nytimes.com/recipes/11305-pasta-with-corn-zucchini-and-tomatoes",
+          "content": "Add onion or shallots and garlic if you are using it. Cook, stirring occasionally, until onion softens, about 5 minutes. Add tarragon and cook for 30 seconds, then tomatoes. Put pasta in boiling water and cook until tender but not mushy, 10 to 15 minutes.\n Step 3 [...] ## Ingredients\n\n Salt and pepper\n 3 tablespoons extra virgin olive oil, or 2 tablespoons oil and 1 tablespoon butter\n 1 cup corn kernels (from 2 or 3 ears)\n 1 cup diced zucchini or summer squash (from 2 or 3 small vegetables)\n 1 m"
+        }
+      ],
+      "start": "2026-10-20T13:51:44.047679+00:00",
+      "end": "2026-10-20T13:51:45.790579+00:00"
+    }
+  ]
+}

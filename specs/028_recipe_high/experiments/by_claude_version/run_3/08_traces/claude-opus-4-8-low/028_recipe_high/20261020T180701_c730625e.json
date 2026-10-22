@@ -1,0 +1,70 @@
+{
+  "run_id": "c730625e4db3442b9ee278a99425dfcd",
+  "query": [
+    "I am vegan. I have chicken, tofu and broccoli, suggest a dinner recipe."
+  ],
+  "status": "ok",
+  "error": null,
+  "runs_collected": 1,
+  "trajectory": [
+    "b1",
+    "b2",
+    "retrieve_pantry",
+    "b3",
+    "b4",
+    "search_recipes",
+    "b7"
+  ],
+  "tool_calls": [
+    {
+      "name": "retrieve_pantry",
+      "input": {},
+      "output": [
+        "corn",
+        "chicken",
+        "milk"
+      ],
+      "start": "2026-10-20T18:06:51.392769+00:00",
+      "end": "2026-10-20T18:06:53.229576+00:00"
+    },
+    {
+      "name": "search_recipes",
+      "input": {
+        "ingredients": [
+          "tofu",
+          "broccoli",
+          "corn"
+        ]
+      },
+      "output": [
+        {
+          "title": "Buttery Gochujang Tofu and Broccoli  Recipe",
+          "url": "https://cooking.nytimes.com/recipes/766421145-buttery-gochujang-tofu-and-broccoli?unlocked_article_code=1.DFA.nLd_.XMtl1rxSH5kW&amp%3Bsmid=share-url",
+          "content": "Title: Buttery Gochujang Tofu and Broccoli  Recipe\n# Buttery Gochujang Tofu and Broccoli. Awaken the palate with this boldly seasoned, gochujang-spiked tofu and broccoli dish. Working in two batches, add half the tofu in a single layer, and cook until golden, 2 to 3 minutes per side. Add the remaining 2 tablespoons oil and cook the remaining tofu. Add the tofu and broccoli and gently toss until lightly coated. Chilled Tofu With Gochujang Sauce. Baked Tofu With Peanut Sauce and Coconut-Lime Rice. One-Pot Tofu and Broccoli Rice. Tofu and Broccoli Fried Rice. Lemon-Miso Tofu With Broccoli. Sheet-Pan Tofu With Corn and Chiles. Two white bowls hold cooked grains topeed with marinated cherry tomatoes and roasted sweet chile tofu and cabbage. Crispy Baked Tofu With Sugar Snap Peas. Miso-Chile Asparagus With Tofu. Stir-fried Broccoli Stalks and Flowers, Red Peppers, Peanuts and Tofu. Vietnamese-Inspired Cabbage Salad With Tofu. Black Pepper Stir-Fried Tofu and Asparagus. I used my usual method to cook the tofu: I tear it into bite-size pieces, toss them with some potato or corn starch, then with a tablespoon of oil, and bake at 385 on a cookie sheet for about 30 min. I would skip the cornstarch step - you get just as good a crust on tofu when you pan fry without it and once you add the sauce the cornstarch makes the crust soggy. Roast the broccoli and tofu. Make the sauce in a medium frying pan and dump the broccoli and tofu in to coat. It's just me, so I only used 1 block of tofu. ### More From Our Best Tofu Recipes. ### Miso Broiled Tofu. ### One-Pot Tofu and Broccoli Rice. ### Mapo Tofu. ### Roasted Broccoli and Whipped Tofu With Chile Crisp Crunch. ### Kung Pao Tofu. ### Crispy Tofu and Cheesy Bean Burritos. ### Sesame-Soy Tofu Bowls. ### Tofu and Sweet Potato Peanut Butter Curry. ### Crispy Tofu Nuggets. ### Tofu Scramble With Black Beans and Corn. ### Whipped Tofu Ricotta. ### Shira-ae (Smashed Tofu Salad With Green Beans). ### Crispy Tofu Shawarma. ### Basil Tofu. ### Sheet-Pan Coconut Curry With Squash and Tofu. ### Asparagus and Tofu With Black Bean Sauce. ### Kale, Couscous and Tofu Salad With Carrot-Ginger Dressing. ### Recipes."
+        },
+        {
+          "title": "Buttery Gochujang Tofu and Broccoli  Recipe",
+          "url": "https://cooking.nytimes.com/recipes/766421145-buttery-gochujang-tofu-and-broccoli?unlocked_article_code=1.DFA.nLd_.XMtl1rxSH5kW&smid=share-url",
+          "content": "Title: Buttery Gochujang Tofu and Broccoli  Recipe\n# Buttery Gochujang Tofu and Broccoli. Awaken the palate with this boldly seasoned, gochujang-spiked tofu and broccoli dish. Working in two batches, add half the tofu in a single layer, and cook until golden, 2 to 3 minutes per side. Add the remaining 2 tablespoons oil and cook the remaining tofu. Add the tofu and broccoli and gently toss until lightly coated. Chilled Tofu With Gochujang Sauce. Baked Tofu With Peanut Sauce and Coconut-Lime Rice. One-Pot Tofu and Broccoli Rice. Tofu and Broccoli Fried Rice. Lemon-Miso Tofu With Broccoli. Sheet-Pan Tofu With Corn and Chiles. Two white bowls hold cooked grains topeed with marinated cherry tomatoes and roasted sweet chile tofu and cabbage. Crispy Baked Tofu With Sugar Snap Peas. Miso-Chile Asparagus With Tofu. Stir-fried Broccoli Stalks and Flowers, Red Peppers, Peanuts and Tofu. Vietnamese-Inspired Cabbage Salad With Tofu. Black Pepper Stir-Fried Tofu and Asparagus. I used my usual method to cook the tofu: I tear it into bite-size pieces, toss them with some potato or corn starch, then with a tablespoon of oil, and bake at 385 on a cookie sheet for about 30 min. I would skip the cornstarch step - you get just as good a crust on tofu when you pan fry without it and once you add the sauce the cornstarch makes the crust soggy. Roast the broccoli and tofu. Make the sauce in a medium frying pan and dump the broccoli and tofu in to coat. It's just me, so I only used 1 block of tofu. ### More From Our Best Tofu Recipes. ### Miso Broiled Tofu. ### One-Pot Tofu and Broccoli Rice. ### Mapo Tofu. ### Roasted Broccoli and Whipped Tofu With Chile Crisp Crunch. ### Kung Pao Tofu. ### Crispy Tofu and Cheesy Bean Burritos. ### Sesame-Soy Tofu Bowls. ### Tofu and Sweet Potato Peanut Butter Curry. ### Crispy Tofu Nuggets. ### Tofu Scramble With Black Beans and Corn. ### Whipped Tofu Ricotta. ### Shira-ae (Smashed Tofu Salad With Green Beans). ### Crispy Tofu Shawarma. ### Basil Tofu. ### Sheet-Pan Coconut Curry With Squash and Tofu. ### Asparagus and Tofu With Black Bean Sauce. ### Kale, Couscous and Tofu Salad With Carrot-Ginger Dressing. ### Recipes."
+        },
+        {
+          "title": "Tamari Tofu and Broccoli Recipe - Food.com",
+          "url": "https://www.food.com/recipe/tamari-tofu-and-broccoli-516783",
+          "content": "Title: Tamari Tofu and Broccoli Recipe - Food.com\nPREV PREVIOUS RECIPE   NEXT NEXT RECIPE. # Tamari Tofu and Broccoli. \"This is just fantastic, and so healthy, My husband and I practically inhaled this - and he is not a \"tofu\" kind of guy.\". photo by a food.com user photo by a food.com user. ## ingredients. * 1  (12 ounce) package extra firm tofu, drained, pressed, and cut into cubes. * 1 1⁄2  lbs broccoli florets, cut into bite size florets. * 2   tablespoons coconut oil (for cooking). * 1⁄2  cup organic tamari (or soy sauce). * 3   tablespoons maple syrup (or honey). * red pepper flakes (to taste). ## directions. * Whisk together tamari, vinegar, syrup, garlic, olive oil, and red pepper flakes, taste and correct to your liking with additional vinegar, syrup, etc. * Pour marinade over tofu, coat completely, then let marinate for at least 30 minutes. * Toast sesame seeds in large skillet; set aside. * In same skillet over medium/high heat, melt coconut oil. * Drain and add tofu (reserve marinade) and cook for 5 minutes on each side, until crisp and browned; set aside in bowl with sesame seeds (mix them together). * Place marinade in skillet and heat to a simmer, add corn starch to ¼ c water, then stir into marinade. Simmer for a minute to thicken. * Toss broccoli in thickened marinade (now your sauce). * To serve: place brown rice (or quinoa, rice noodles, etc.) in bowl, top with broccoli, scooping up some extra sauce as well; spoon on tofu mixed with sesame seeds; top with green onions. Add Sriracha or Sambal Oelek as desired. ## Questions & Replies. Sign up for our newsletter to get recipes, easy dinner ideas, tasty treats and more delivered straight to your inbox. By entering your email address, you agree to our Terms of Use and acknowledge the Privacy Policy. Food.com and its affiliates may use your email address to provide updates, ads, and offers. To withdraw your consent or to learn more about your rights, see the Privacy Policy. Have any thoughts about this recipe? ## RECIPE SUBMITTED BY. How to Cook Perfect Tofu. How to Cook Perfect Tofu. ## Find More Recipes."
+        },
+        {
+          "title": "Tofu and Broccoli Stir Fry with Peppers Recipe - Tofu Recipes",
+          "url": "https://www.tofuideas.com/tofu/tofu_and_broccoli_stir_fry_with_peppers_5206280189.shtml",
+          "content": "Title: Tofu and Broccoli Stir Fry with Peppers Recipe - Tofu Recipes\n# Tofu and Broccoli Stir Fry with Peppers. Sesame Oil, Red Bell Pepper, Broccoli Florets, Vegetable Oil, Soy Sauce, Garlic Powder, Cornstarch, Ginger Powder, Yellow Bell Pepper, Block Tofu. Tofu and Broccoli Stir Fry with Peppers. Remove Water From Your Tofu Blocks In Just 10 Minutes. This Tofu and Broccoli Stir Fry with Peppers is a delicious and nutritious vegetarian dish that is ideal for busy weeknights. Tofu, broccoli, and bell peppers are a flavorful and nutritious combination. The dish is also gluten-free and vegan. * 1 red bell pepper, sliced. * 1/4 cup soy sauce. * 1 yellow bell pepper, sliced. * Whisk together soy sauce, cornstarch, sesame oil, garlic powder, and ginger powder in a small bowl until smooth. * Heat the vegetable oil in a large skillet or wok over high heat. * Stir in the diced tofu for 3-4 minutes, or until golden brown. * Stir in the broccoli florets and sliced bell peppers for another 3-4 minutes, or until the vegetables are tender-crisp. * Pour the soy sauce mixture over the tofu and vegetable mixture and continue to stir-fry for 1-2 minutes, or until the sauce thickens and coats the vegetables. Stainless Steel Tofu Shredding And Pressing Mold. Tofu Salad with Olives and Pine Nuts Recipe. Tofu (Paneer) Pizza Recipe Pizza\"). Tofu Salad with Cherry Tomatoes, Olives and Arugula Recipe. Sesame Ginger Tofu with Corn, Spring Onions and Stir Fry Rice Recipe. Tofu and Broccoli Stir Fry with Peppers Chinese Gourmet Tofu with Onion and Chili Peppers Sweet and Sour Tofu with Sticky Rice Tofu Poke Bowl with Avocado, Corn and Raddish. Crispy Tofu Cutlets Crispy Tofu with Pork and Red Onions Tofu and Brussels Sprouts Spinach and Tofu Soup. > Looking for more Tofu ideas? Check out Amazing Tofu Recipes. > Tofu Accessories for your Home - Tofu Press."
+        },
+        {
+          "title": "Tofu and Broccoli in Garlic Sauce Recipe Recipe - Food.com",
+          "url": "https://www.food.com/recipe/tofu-and-broccoli-in-garlic-sauce-recipe-341245",
+          "content": "Title: Tofu and Broccoli in Garlic Sauce Recipe Recipe - Food.com\nTofu and Broccoli in Garlic Sauce Recipe. * 1   lb firm tofu or 1 lb extra firm tofu, pressed. * 1 1⁄2  teaspoons ginger powder. * 1⁄4  teaspoon cayenne pepper. * 1⁄4  cup soy sauce. * in a large skillet, sautee onions and garlic in olive oil until onions turn clear, about 3-5 minutes. * Add the tofu, ginger, cayenne and broccoli to the pan and continue to cook until broccoli is done, another 6-8 minutes. * In a separate small bowl, mix together the corn starch, soy sauce and water, then add this mixture to the broccoli and tofu. By entering your email address, you agree to our Terms of Use and acknowledge the Privacy Policy. To withdraw your consent or to learn more about your rights, see the Privacy Policy. Very nice one and, best of all, can be prepared in a matter of minutes! I replaced tofu by [cottage cheese + butter beans, and ginger powder by [ground coriander + a hint of ground mace + a few dops of lemon juice at the end] purely because I didn't have the original ingredients. I also added black onion seeds and pomegranade seeds along with the garlic, which I must say added a nice twist. I froze, thawed, pressed, then diced my tofu to give it a nice texture, then coated it in a mixture of flour, salt & pepper and then fried it in oil before adding it to this recipe. It had a nice texture and feel to it like that. I didn't serve this with rice, but will try that next time, as well as maybe increasing the quantity of sauce mixture also. I gave this recipe 4 stars but I did change a few things. I left out the tofu, used more broccoli 1 carrot sliced, decreased ginger to 1/2 tsp., added 1/4 C. I also added 1/8 tsp more garlic and served it over brown rice. I will probably use the tofu next time or increase the broccoli, I used 2 heads of broccoli, but I will make this again. Sorry, I didn't like this, it didn't have much flavor, just a tartness from all the soy sauce."
+        }
+      ],
+      "start": "2026-10-20T18:06:54.152731+00:00",
+      "end": "2026-10-20T18:06:55.572457+00:00"
+    }
+  ]
+}

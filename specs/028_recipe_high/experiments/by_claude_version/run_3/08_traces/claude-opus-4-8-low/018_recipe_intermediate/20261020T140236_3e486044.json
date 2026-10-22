@@ -1,0 +1,58 @@
+{
+  "run_id": "3e4860445b20449baa796832a2eece82",
+  "query": [
+    "I have chicken breast, rice, garlic and onions. Make me a dinner recipe."
+  ],
+  "status": "ok",
+  "error": null,
+  "runs_collected": 1,
+  "trajectory": [
+    "b1",
+    "b2",
+    "b3",
+    "search_recipes",
+    "b7"
+  ],
+  "tool_calls": [
+    {
+      "name": "search_recipes",
+      "input": {
+        "ingredients": [
+          "chicken breast",
+          "rice",
+          "garlic",
+          "onion"
+        ]
+      },
+      "output": [
+        {
+          "title": "This Addictive Rice Cooker Garlic Chicken & Onion Rice is My New Obsession!",
+          "url": "https://www.youtube.com/watch?v=GUF6rkYIVQI",
+          "content": "### Transcript\n[0:00] The laziest rice cooker hack. Garlic chicken and onion rice.\n[0:15] 150 g of rice. (Japanese short grain.) Wash the rice until the water runs clear.\n[0:23] Soak it in water until ready to cook later. One teaspoon of garlic.\n[0:35] Grate the garlic well. One teaspoon of ginger.\n[0:44] Grate the ginger. Well, 130 g of onion.\n[0:54] Cut the onion into quarters.\n[1:09] 150 g of chicken thigh.  (Chicken breast is also fine.) Cut into small bite-sized pieces. [...] [2:53] Add the washed and well drained  rice to the rice cooker pot. 200 ml of water.\n[3:06] Add the sauce mixture made earlier. Mix well. Add the marinated chicken.\n[3:22] Add the cut onion. Spread the ingredients evenly. Keep the total amount of ingredients  below half of the rice cooker pot.\n[3:33] Never mix the ingredients with  the rice. Place them on top. These prevent the rice cooker  sensor from malfunctioning. [...] Master the art of Japanese comfort food with this nutritious, effortless Takikomi Gohan (mixed rice) packed with tender chicken and sweet onions. The secret to this dish is an incredibly savory, addictive garlic-ginger sauce that elevates the entire meal. Best of all, it features a foolproof 'dump-and-go' method—just add the ingredients to your rice cooker and press start—making it the ultimate authentic recipe for busy weeknights and beginner cooks alike."
+        },
+        {
+          "title": "One Pan Chicken and Garlic Rice Recipe | Simple Home Edit",
+          "url": "https://simplehomeedit.com/recipe/one-pan-chicken-and-garlic-rice",
+          "content": "To the same pan, add the onion and garlic. Cook, stirring, for 1–2 minutes until fragrant.\n Cook the rice – Add the rice and stock to the pan, stir and bring to a simmer. Once simmering, reduce the heat to low and return the chicken to the pan (skin-side up if using skin-on chicken thighs).\n Cover and cook for 15 minutes.\n Stand – Once the chicken and rice are cooked, remove the pan from the heat and allow it to stand for 10 minutes, covered. [...] Marinate the chicken – Combine the sea salt flakes, onion powder, garlic powder, paprika, thyme, pepper and olive oil in a shallow bowl. Add the chicken and use tongs or your hands to ensure it is evenly coated in the marinade. [...] Total 25 minutes mins\n\nServings: 4\n\n### Ingredients\n\n 1 tsp  sea salt flakes\n 1 tsp  onion powder\n 1 tsp  garlic powder\n 1 tsp  sweet paprika\n 1 tsp  dried thyme\n ½ tsp  freshly cracked black pepper\n 60 ml  (¼ cup) extra-virgin olive oil\n 5  boneless chicken thighs, skin on or off, skin-on pictured (see note 1)\n 60 ml  (¼ cup) water\n 1  onion, finely diced\n 1 tsp  freshly minced garlic\n 200 g  (1 cup) jasmine rice\n 375 ml  (1½ cups) chicken stock\n\nTO SERVE"
+        },
+        {
+          "title": "30 Minute One Pan Chicken and Rice - Life is but a Dish",
+          "url": "https://www.lifeisbutadish.com/30-minute-one-pan-chicken-and-rice",
+          "content": "1. Heat a large skillet or dutch oven over medium/high heat. Add the chicken, 1 teaspoon salt, pepper, garlic powder and paprika. Sauté the chicken for about 5 minutes until almost cooked through.\n2. Add the onion, bell peppers and another pinch of salt. Cook for another 5 minutes, stirring occasionally. Add the garlic and cook for another minute. Add the tomato paste and rice and stir until the chicken and veggies are well coated. [...] Scale\n\n 2 tablespoons olive oil\n 2 boneless skinless chicken breasts, cut into bite sized pieces\n 2 teaspoons salt, divided\n ¼ teaspoon pepper\n ½ teaspoon garlic powder\n ½ teaspoon paprika\n 1 onion, thinly sliced\n 2 red bell peppers, thinly sliced\n 4 garlic cloves, minced\n 3 tablespoons tomato paste\n 2 cups low sodium chicken broth\n 1 cup jasmine rice, rinsed\n\n### Instructions [...] Serve and enjoy!\n\nHere’s the breakdown:  \nYou’ll start by sautéing bite-sized pieces of chicken with a little olive oil and some pantry spices—garlic powder, paprika, salt, and pepper. It’s a classic combo I use all the time. Then throw in some thinly sliced onion and bell peppers (I love using red for that pop of color, but use whatever you have)."
+        },
+        {
+          "title": "Old Fashioned Chicken and Rice - Lana’s Cooking",
+          "url": "https://www.lanascooking.com/chicken-and-rice",
+          "content": "Instead of chicken, substitute beef tips or your favorite ground meat.\n Add diced carrots in with the onions and celery for a naturally sweet flavor.\n Substitute brown rice or quinoa instead of white rice.\n Use half butter and half olive oil if you like.\n If you’re a garlic lover, add a little (about 1/2 teaspoon) garlic powder or a couple of cloves of garlic, finely minced, along with the vegetables. [...] Add your favorite herbs and spices, such as thyme or rosemary, with the celery and onions for a delicious herbed flavor.\n Turn it into a chicken and rice casserole— make the recipe through step 4, then stir in a can of cream of chicken soup, cream of celery soup, or cream of mushroom soup. Pour the mixture into a greased casserole dish. Cover tightly with aluminum foil and bake at 350°F for 30 minutes or until the rice is done. [...] ### You’ll also find this recipe in my cookbook!\n\nYou can see this recipe on page 216 of my cookbook, My Southern Table! Get your signed copy today.\n\nBUY NOW!\n\n## How to Make One Pot Chicken and Rice\n\nSTEP 1. Start by melting half a stick of butter (that’s 4 tablespoons) over medium heat in a deep sided skillet.\n\nSTEP 2. When the butter has melted, add the diced celery and onion. Let it cook slowly, giving it a stir every once in a while until it has softened but hasn’t started to brown."
+        },
+        {
+          "title": "Creamy GARLIC Chicken & Rice | Quick & EASY 30-Minute Recipe",
+          "url": "https://www.youtube.com/watch?v=K5ppGKLH3AM",
+          "content": "[3:55] now using the same pan with the same heat let's  make the creamy garlic sauce I'm going to add in one small onion that's been finely  chopped and eight cloves of garlic that have\n[4:05] been roughly chopped and we'll mix the ingredients around continuously that way they evenly sauté\n[4:17] after 2 to 3 minutes and the onions are  slightly translucent and that garlic is beautifully fragrant I'm going to add  in 1 1/2 tbsp of all-purpose flour [...] [1:08] I'm going to add two boneless chicken breast  over some paper towels and pat them completely dry size of the breast that I'm using are 10 oz which is 300 grams each and as you can see I'm using\n[1:17] skinless chicken breast but you can also use  chicken breast with skins chicken thighs or a\n[1:21] combination of both then we'll cut each chicken  breast into 2 inch pieces which is about 5 cm\n[1:33] and then season the chicken with sea  salt and freshly cracked black pepper [...] [5:59] and then we'll lower it to a low heat and  simmer it between 2 to 3 minutes or until the chicken is heated through in the meantime  let's move back to the rice after 18 minutes\n[6:08] and it's perfectly cooked through I'm  going to remove the saucepan from the heat\n[6:13] add in 2 tablebspoons of chopped  chives over the rice which is 5 grams\n[6:20] and using a fork we'll gently fluff the  rice this is to help separate the grains\n[6:27] and we'll add some of the  rice into a shallow bowl"
+        }
+      ],
+      "start": "2026-10-20T14:02:30.295243+00:00",
+      "end": "2026-10-20T14:02:30.912703+00:00"
+    }
+  ]
+}

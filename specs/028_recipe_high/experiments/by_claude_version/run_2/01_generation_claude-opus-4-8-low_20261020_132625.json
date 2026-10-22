@@ -1,0 +1,28 @@
+{
+  "run_id": "20261020_132625",
+  "run": 2,
+  "experiment": "by_claude_version",
+  "stage": "generation",
+  "model": "claude-opus-4-8-low",
+  "bench_dir": "/home/gabriellacabral/bench/Spec2AgentEval-v_saner/specs",
+  "generated_dir": "/home/gabriellacabral/bench/Spec2AgentEval-v_saner/generated_agents/by_claude_version/run_2",
+  "total_agents": 1,
+  "results": [
+    {
+      "agent": "018_recipe_intermediate",
+      "llm": "claude-opus-4-8-low",
+      "spec_file": "/home/gabriellacabral/bench/Spec2AgentEval-v_saner/specs/018_recipe_intermediate/spec.md",
+      "output_dir": "/home/gabriellacabral/bench/Spec2AgentEval-v_saner/generated_agents/by_claude_version/run_2/claude-opus-4-8-low/018_recipe_intermediate",
+      "generated_file": "/home/gabriellacabral/bench/Spec2AgentEval-v_saner/generated_agents/by_claude_version/run_2/claude-opus-4-8-low/018_recipe_intermediate",
+      "status": "ok",
+      "usage": {
+        "requests": 9,
+        "time_spent": "104.95s",
+        "models_breakdown": {
+          "claude-opus-4-8": "18 in, 10.5k out, 264.7k cache read, 33.1k cache created (Cost: $0.72 - 9 requests)"
+        },
+        "effort": "low"
+      }
+    }
+  ]
+}

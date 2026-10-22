@@ -1,0 +1,13 @@
+{
+  "run_id": "0f167eb063f3433d83818a9d7ba89e32",
+  "query": [
+    "I'm vegan. I have bacon and cheese. Create a recipe for me."
+  ],
+  "status": "ok",
+  "error": null,
+  "runs_collected": 1,
+  "trajectory": [
+    "b1"
+  ],
+  "tool_calls": []
+}

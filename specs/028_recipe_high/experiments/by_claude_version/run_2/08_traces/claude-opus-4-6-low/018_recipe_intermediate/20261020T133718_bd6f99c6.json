@@ -1,0 +1,28 @@
+{
+  "run_id": "bd6f99c6d9884adfbab78d7b5952131d",
+  "query": [
+    "I have chicken breast, rice, garlic and onions. Make me a dinner recipe."
+  ],
+  "status": "ok",
+  "error": null,
+  "runs_collected": 1,
+  "trajectory": [
+    "validate_query",
+    "identify_ingredients",
+    "search_recipes_node",
+    "search_recipes",
+    "generate_recipe",
+    "format_output"
+  ],
+  "tool_calls": [
+    {
+      "name": "search_recipes",
+      "input": {
+        "ingredients": "chicken breast, rice, garlic, onions"
+      },
+      "output": "[{'title': \"Don't Lift the Foil — Garlic Parmesan Chicken and Rice\", 'url': 'https://www.youtube.com/watch?v=dIa_9214f9o', 'content': 'INGREDIENTS:\\n\\nFor the chicken and rub:\\n2 pounds boneless skinless chicken thighs (or chicken breasts)\\n1/2 teaspoon salt\\n1/2 teaspoon black pepper\\n1 teaspoon garlic powder\\n1 teaspoon Italian seasoning\\n1 teaspoon smoked paprika\\n1 teaspoon onion powder\\n2 tablespoons olive oil, divided\\n\\nFor the creamy rice:\\n1 small sweet onion, diced\\n2 1/2 cups chicken broth\\n1/2 cup parmesan garlic sauce\\n1 1/2 cups long grain rice\\n1 tablespoon minced garlic\\n4 ounces cream cheese, cubed [...] [4:02] to give us those '}, {'title': 'One Pan Chicken and Garlic Rice Recipe | Simple Home Edit', 'url': 'https://simplehomeedit.com/recipe/one-pan-chicken-and-garlic-rice', 'content': 'To the same pan, add the onion and garlic. Cook, stirring, for 1–2 minutes until fragrant.\\n Cook the rice – Add the rice and stock to the pan, stir and bring to a simmer. Once simmering, reduce the heat to low and return the chicken to the pan (skin-side up if using skin-on chicken thighs).\\n Cover and cook for 15 minutes.\\n Stand – Once the chicken and rice are cooked, remove the pan from the heat and allow it to stand for 10 minutes, covered. [...] Marinate the chicken – Combine the sea salt fla'}, {'title': 'Old Fashioned Chicken and Rice - Lana’s Cooking', 'url': 'https://www.lanascooking.com/chicken-and-rice', 'content': 'Instead of chicken, substitute beef tips or your favorite ground meat.\\n Add diced carrots in with the onions and celery for a naturally sweet flavor.\\n Substitute brown rice or quinoa instead of white rice.\\n Use half butter and half olive oil if you like.\\n If you’re a garlic lover, add a little (about 1/2 teaspoon) garlic powder or a couple of cloves of garlic, finely minced, along with the vegetables. [...] Add your favorite herbs and spices, such as thyme or rosemary, with the celery and onions'}, {'title': 'chicken rice with buttered onions – smitten kitchen', 'url': 'https://smittenkitchen.com/2023/09/chicken-rice-with-buttered-onions', 'content': 'I took a few liberties with it. I browned the chicken breasts in bacon fat and accidentally added 1/2c of wine instead of 1/4 c. When the rice was just about done, I tasted a bit of onion and decided to add a little garlic powder, some really good balsamic, and some dried parsley. I must caution anyone who makes it not to skip the acid in the recipe, whether it’s the wine or the substitute with vinegar. [...] I made this for the first time back when the recipe was posted- it did not work out. I '}, {'title': 'French Onion Chicken and Rice Recipe (So Creamy) | The Kitchn', 'url': 'https://www.thekitchn.com/french-onion-chicken-and-rice-recipe-23692027', 'content': 'unsalted butter\\n\\nyellow onions (about 2 large or 4 medium), sliced about 1/4-inch thick (about 7 cups)\\n\\nfresh thyme leaves (from 1/4 medium bunch), plus more for garnish\\n\\nkosher salt, divided, plus more as needed\\n\\nfreshly ground black pepper, plus more as needed\\n\\ndry white wine\\n\\nlong-grain white rice\\n\\nlow-sodium chicken broth\\n\\nwhole or 2% milk\\n\\nboneless, skinless chicken breasts or thighs, cut into bite-size pieces\\n\\nGruyère cheese, shredded (about 1 1/2 cups), divided\\n\\n### Instructions [...] Add'}]",
+      "start": "2026-10-20T13:37:14.271860+00:00",
+      "end": "2026-10-20T13:37:14.641822+00:00"
+    }
+  ]
+}

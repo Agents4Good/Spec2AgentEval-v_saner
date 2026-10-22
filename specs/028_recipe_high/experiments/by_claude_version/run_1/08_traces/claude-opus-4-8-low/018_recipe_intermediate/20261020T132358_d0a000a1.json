@@ -1,0 +1,58 @@
+{
+  "run_id": "d0a000a17de8491b8e91d6af90090511",
+  "query": [
+    "I have chicken breast, rice, garlic and onions. Make me a dinner recipe."
+  ],
+  "status": "ok",
+  "error": null,
+  "runs_collected": 1,
+  "trajectory": [
+    "b1",
+    "b2",
+    "b3",
+    "search_recipes",
+    "b7"
+  ],
+  "tool_calls": [
+    {
+      "name": "search_recipes",
+      "input": {
+        "ingredients": [
+          "chicken breast",
+          "rice",
+          "garlic",
+          "onions"
+        ]
+      },
+      "output": [
+        {
+          "title": "Don't Lift the Foil — Garlic Parmesan Chicken and Rice",
+          "url": "https://www.youtube.com/watch?v=dIa_9214f9o",
+          "content": "INGREDIENTS:\n\nFor the chicken and rub:\n2 pounds boneless skinless chicken thighs (or chicken breasts)\n1/2 teaspoon salt\n1/2 teaspoon black pepper\n1 teaspoon garlic powder\n1 teaspoon Italian seasoning\n1 teaspoon smoked paprika\n1 teaspoon onion powder\n2 tablespoons olive oil, divided\n\nFor the creamy rice:\n1 small sweet onion, diced\n2 1/2 cups chicken broth\n1/2 cup parmesan garlic sauce\n1 1/2 cups long grain rice\n1 tablespoon minced garlic\n4 ounces cream cheese, cubed [...] [4:02] to give us those nice quick dices of our onion.\n[4:10] [snorts]\n[4:11] All right. So, now we've got our onion ready, too. All right. I have turned my skillet on medium high. So, we're letting it get hot. And I'm going to go\n[4:19] ahead and I'm just going to put this rub all over our chicken thighs. And I'm going to turn them over. Get some all\n[4:28] around. What you want is about 2 lbs of chicken thighs or chicken breast, whatever you want to use. This was [...] [14:08] Okay, now let's trace the chicken. It feels really tender.\n[14:17] It's still really hot, too.\n[14:30] That's good.\n[14:33] That is really good. There is a lot of flavor going on. You definitely get the garlic, but you get some of those cheeses coming in too with that flavor.\n[14:42] And then, of course, the chicken broth adds lots of flavor to the rice as it cooked. And of course, the onion in there. It's really a good dish. It's"
+        },
+        {
+          "title": "One Pan Chicken and Garlic Rice Recipe | Simple Home Edit",
+          "url": "https://simplehomeedit.com/recipe/one-pan-chicken-and-garlic-rice",
+          "content": "To the same pan, add the onion and garlic. Cook, stirring, for 1–2 minutes until fragrant.\n Cook the rice – Add the rice and stock to the pan, stir and bring to a simmer. Once simmering, reduce the heat to low and return the chicken to the pan (skin-side up if using skin-on chicken thighs).\n Cover and cook for 15 minutes.\n Stand – Once the chicken and rice are cooked, remove the pan from the heat and allow it to stand for 10 minutes, covered. [...] Marinate the chicken – Combine the sea salt flakes, onion powder, garlic powder, paprika, thyme, pepper and olive oil in a shallow bowl. Add the chicken and use tongs or your hands to ensure it is evenly coated in the marinade. [...] Total 25 minutes mins\n\nServings: 4\n\n### Ingredients\n\n 1 tsp  sea salt flakes\n 1 tsp  onion powder\n 1 tsp  garlic powder\n 1 tsp  sweet paprika\n 1 tsp  dried thyme\n ½ tsp  freshly cracked black pepper\n 60 ml  (¼ cup) extra-virgin olive oil\n 5  boneless chicken thighs, skin on or off, skin-on pictured (see note 1)\n 60 ml  (¼ cup) water\n 1  onion, finely diced\n 1 tsp  freshly minced garlic\n 200 g  (1 cup) jasmine rice\n 375 ml  (1½ cups) chicken stock\n\nTO SERVE"
+        },
+        {
+          "title": "Old Fashioned Chicken and Rice - Lana’s Cooking",
+          "url": "https://www.lanascooking.com/chicken-and-rice",
+          "content": "Add your favorite herbs and spices, such as thyme or rosemary, with the celery and onions for a delicious herbed flavor.\n Turn it into a chicken and rice casserole— make the recipe through step 4, then stir in a can of cream of chicken soup, cream of celery soup, or cream of mushroom soup. Pour the mixture into a greased casserole dish. Cover tightly with aluminum foil and bake at 350°F for 30 minutes or until the rice is done. [...] Instead of chicken, substitute beef tips or your favorite ground meat.\n Add diced carrots in with the onions and celery for a naturally sweet flavor.\n Substitute brown rice or quinoa instead of white rice.\n Use half butter and half olive oil if you like.\n If you’re a garlic lover, add a little (about 1/2 teaspoon) garlic powder or a couple of cloves of garlic, finely minced, along with the vegetables. [...] ### You’ll also find this recipe in my cookbook!\n\nYou can see this recipe on page 216 of my cookbook, My Southern Table! Get your signed copy today.\n\nBUY NOW!\n\n## How to Make One Pot Chicken and Rice\n\nSTEP 1. Start by melting half a stick of butter (that’s 4 tablespoons) over medium heat in a deep sided skillet.\n\nSTEP 2. When the butter has melted, add the diced celery and onion. Let it cook slowly, giving it a stir every once in a while until it has softened but hasn’t started to brown."
+        },
+        {
+          "title": "chicken rice with buttered onions – smitten kitchen",
+          "url": "https://smittenkitchen.com/2023/09/chicken-rice-with-buttered-onions",
+          "content": "I took a few liberties with it. I browned the chicken breasts in bacon fat and accidentally added 1/2c of wine instead of 1/4 c. When the rice was just about done, I tasted a bit of onion and decided to add a little garlic powder, some really good balsamic, and some dried parsley. I must caution anyone who makes it not to skip the acid in the recipe, whether it’s the wine or the substitute with vinegar. [...] I made this for the first time back when the recipe was posted- it did not work out. I made it again tonight, and it is the best chicken and rice dish I’ve ever tasted. I added some mushrooms and garlic, and a bit more wine. I really let the onions get good color, I think that is the step that makes this dish. I used one cup of jasmine rice with two cups of broth. I also added a dash of cream at the end. [...] First thought–wow this is like Here Today Chicken Rotisserie –upscale divine chicken. 2nd thought–woah, NO GARLIC gonna be bland & salty as is. Out came the garlic boost we use for crawfish boils, French herbs, bay, etc. I infused the chix stock for a few hours w these additions. Added chopped garlic w the rice (Carolina Gold) garlic powder, more pepper. 1/2 the amount of salt. I also finished it in the oven @convect bake 325. 15 mins for rice alone, added chicken for another 20. it was"
+        },
+        {
+          "title": "walestable.com - chicken rice with buttered onions",
+          "url": "https://walestable.com/chicken-rice-with-buttered-onions",
+          "content": "Finish the chicken and rice: Add thyme and dried rice and cook with the onions for 1 minute. Add the wine, if using, and cook until it disappears, about 1 to 2 minutes. Scrape down the pan sides, pushing any dried rice and onions back to the bottom. Add the 2 cups of broth, and nestle the chicken thighs back into the rice, leaving the skin sides above the moisture. Bring the pan to a simmer then reduce to the lowest simmer and cover. Cook rice and chicken together for 25 minutes, or until rice"
+        }
+      ],
+      "start": "2026-10-20T13:23:52.498988+00:00",
+      "end": "2026-10-20T13:23:54.024816+00:00"
+    }
+  ]
+}

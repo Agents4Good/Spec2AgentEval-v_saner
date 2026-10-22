@@ -1,0 +1,13 @@
+{
+  "run_id": "57e9972643bf4cacba6666b784c56fef",
+  "query": [
+    ""
+  ],
+  "status": "ok",
+  "error": null,
+  "runs_collected": 1,
+  "trajectory": [
+    "validate_query"
+  ],
+  "tool_calls": []
+}

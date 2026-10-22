@@ -1,0 +1,70 @@
+{
+  "run_id": "70f62ab4e4824ba593702940d8127c41",
+  "query": [
+    "I'd like a quick dinner recipe. I have chicken and rice."
+  ],
+  "status": "ok",
+  "error": null,
+  "runs_collected": 1,
+  "trajectory": [
+    "b1",
+    "b2",
+    "retrieve_pantry",
+    "b3",
+    "b4",
+    "search_recipes",
+    "b7"
+  ],
+  "tool_calls": [
+    {
+      "name": "retrieve_pantry",
+      "input": {},
+      "output": [
+        "corn",
+        "chicken",
+        "milk"
+      ],
+      "start": "2026-10-20T17:24:43.392368+00:00",
+      "end": "2026-10-20T17:24:44.623485+00:00"
+    },
+    {
+      "name": "search_recipes",
+      "input": {
+        "ingredients": [
+          "chicken",
+          "rice",
+          "corn"
+        ]
+      },
+      "output": [
+        {
+          "title": "One Pot Chicken and Rice | One Pot Recipes",
+          "url": "https://onepotrecipes.com/one-pot-chicken-and-rice-recipe",
+          "content": "Heat oil in a nonstick pot over medium high heat.\n Add onion and cook until slightly soft and translucent.\n Add ginger, garlic, chicken and cook until chicken is golden brown.\n Add broth, Cajun seasoning, salt, pepper, rice, green pepper, red pepper, corn and mix everything together.\n Cover and cook on medium heat for 20 to 25 minutes or until rice is fully cooked and liquid is absorbed into the rice.\n Sprinkle cilantro and mix again. [...] ## How to make easy chicken and rice recipe?\n\n1. Saute- Onions in oil.\n2. Add in- Chicken, ginger, garlic and cook for a few minutes.\n3. Pour in- The broth then add spices, peppers, rice, and corn.\n4. Cover and cook- Until rice is cooked.\n5. Mix in- Cilantro and you are done.\n\n## What to serve with healthy chicken and rice? [...] ### Ingredients\n\n 3 tablespoon Oil\n ¼ cup Onion Finely chopped\n 1 pound Boneless chicken  Cut into strips or cubes\n 1 teaspoon Ginger Finely minced\n 1 teaspoon Garlic Finely minced\n 2 ¼ cups Chicken broth Low sodium\n 4  teaspoon Cajun seasoning\n Salt To taste\n Pepper To taste\n 1 cup Rice Uncooked\n ⅓ cup Green pepper Cut into small strips\n ⅓ cup Red pepper Cut into small strips\n ⅓ cup Corn Frozen\n 2 tablespoon Cilantro Roughly chopped\n\n### Instructions"
+        },
+        {
+          "title": "Chicken and Corn Fried Rice - Roti n Rice",
+          "url": "https://www.rotinrice.com/chicken-and-corn-fried-rice",
+          "content": "### Instructions\n\n In a large non-stick fry pan, heat vegetable oil.\n Fry onion for about 2 minutes until softened. Stir in garlic followed by roasted chicken meat. Fry for 2 to 3 minutes.\n Add cooked corn and green peas. Fry for another 3 to 4 minutes.\n Add cooked rice. Stir to combine all ingredients.\n Add soy sauce, salt, and pepper. Stir to get everything well mixed and cook until rice is dry and fluffy. This will take 4 to 5 minutes. [...] ### Ingredients\n\n 2 tbsp vegetable oil\n 1 onion (diced)\n 2 cloves garlic (minced)\n 1 cup roasted chicken meat (diced) (150g)\n 1 cup cooked corn kernels (150g)\n 1 cup frozen green peas (150g)\n 3 cups cooked white rice (preferably kept overnight)\n 2 tbsp soy sauce\n Salt and pepper to taste\n\n### Instructions [...] Chicken and Corn Fried Rice - a quick, simple, and tasty fried rice made with left-over grilled chicken and fresh seasonal corn.\n\nAuthor : Linda Ooi\n\nCourse : Main Dish\n\nCuisine : Chinese\n\nKeyword : chicken and corn fried rice\n\nPrint Recipe  Pin Recipe  Rate this Recipe\n\nPrep Time 10 minutes mins\n\nCook Time 15 minutes mins\n\nTotal Time 25 minutes mins\n\nServings : 2\n\nCalories : 795kcal\n\n### Ingredients"
+        },
+        {
+          "title": "Try this easy Chicken and Rice Bowl Street Corn recipe",
+          "url": "https://www.youtube.com/watch?v=i1k96KAU3HQ",
+          "content": "[5:05] whatever your choice be all right now let's build a bowl all right y'all we got the bowl\n[5:12] check now let's add the rice check now let add that sliced\n[5:20] chicken check and finally we going to top with that beautiful street corn mixture and I'm going to meet y'all at the plate and for another taste this\n[5:29] approved situation all right y'all let's\n[5:35] go there you have it people there you have it street corn chicken rice done righteously as we always do right here [...] # Try this easy Chicken and Rice Bowl Street Corn recipe\n## Channel: TasteDis\n12.9K subscribers\n42 likes\n\n### Description\n1,296 views\nPosted: 2025-02-20\nMake the great taste of street corn at home with this chicken and rice bowl recipe. This easy recipe combines fresh corn, mayo, and spices to create this much loved dish, enjoy. [...] [4:22] street corn in the lote they use this chili Chile pecan\n[4:31] this stuff right here all right about a teaspoon of that M just like so give it another mix\n[4:40] Let It Go for another minute or so oh and also get you some rice going\n[4:48] meanwhile get you I should have told y'all that before this is a rice bowl street corn chicken and rice bows so get you\n[4:57] some rice going whether it be some uh white rice yellow rice Spanish rice"
+        },
+        {
+          "title": "Street Corn Chicken Rice Bowls",
+          "url": "https://theskinnyishdish.com/street-corn-chicken-rice-bowls",
+          "content": "1. Combine chicken with smoked paprika, garlic powder, chili powder, kosher salt, oregano, lime juice, and olive oil.\n2. Heat a large skillet over medium high heat.\n3. Add chicken and cook 6-8 minutes. Turning pieces and stirring occasionally, until browned and cooked through. Temp @ 165 to ensure cooked properly.\n4. Avoid overcrowding. Cook in batched if needed to prevent steaming.\n\n### Save this recipe!\n\nI'll email this post to you, so you can come back to it later [...] Heat the corn in a small pan on the stove over medium heat or in microwave safe bowl in the microwave.\n Stir in mayo, sour cream, cotija, lime juice, chili powder, and salt + pepper, to taste. Add hot sauce, if desired.\n\n#### Assemble Street Corn Chicken Bowls\n\n Start with a warm base of fluffy rice. Add cooked chicken on top, then top with your creamy street corn. Finish it off with all your favorite toppings! Enjoy!\n\n### Notes [...] These Street Corn Chicken Rice Bowls are an easy, high protein weeknight dinner made with seasoned chicken, creamy Mexican street corn, and fluffy cilantro lime rice. They are bright, cozy, smoky, and so delicious, totally customizable, and perfect for meal prep or quick weeknight meals. This healthy chicken rice bowl recipe comes together in just 30 minutes and always hits the spot.\n\n5 from 13 votes\n\n Print  Pin  Rate\n\n\\Prevent your screen from going dark\n\nCourse: Main Course"
+        },
+        {
+          "title": "One-Pot Garlic Parmesan Chicken, Rice & Corn Skillet",
+          "url": "https://badbatchbaking.com/parmesan-chicken-rice",
+          "content": "Tender rice is braised in white wine, butter and garlic then topped with buttery corn, parmesan, diced chicken and drizzled with a garlic"
+        }
+      ],
+      "start": "2026-10-20T17:24:45.550621+00:00",
+      "end": "2026-10-20T17:24:48.453849+00:00"
+    }
+  ]
+}

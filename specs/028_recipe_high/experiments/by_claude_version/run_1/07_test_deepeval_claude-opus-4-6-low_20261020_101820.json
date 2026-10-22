@@ -1,0 +1,1246 @@
+{
+  "run_id": "20261020_101820",
+  "run": 1,
+  "experiment": "by_claude_version",
+  "stage": "evaluation",
+  "model": "claude-opus-4-6-low",
+  "test": "test_deepeval.py",
+  "agent_filter": "018_recipe_intermediate",
+  "bench_dir": "specs",
+  "generated_dir": "generated_agents/by_claude_version/run_1",
+  "total_agents": 1,
+  "results": [
+    {
+      "model": "claude-opus-4-6-low",
+      "agent_folder": "018_recipe_intermediate",
+      "agent_file": "agent.py",
+      "test_file": "test_deepeval.py",
+      "passed": true,
+      "returncode": 0,
+      "stdout": "============================= test session starts ==============================\nplatform linux -- Python 3.10.12, pytest-9.1.1, pluggy-1.7.0 -- /home/gabriellacabral/bench/Spec2AgentEval-v_saner/.venv/bin/python\ncachedir: .pytest_cache\nmetadata: {'Python': '3.10.12', 'Platform': 'Linux-6.8.0-138-generic-x86_64-with-glibc2.35', 'Packages': {'pytest': '9.1.1', 'pluggy': '1.7.0'}, 'Plugins': {'deepeval': '3.3.9', 'anyio': '4.15.1', 'metadata': '3.1.1', 'asyncio': '1.4.0', 'rerunfailures': '12.0', 'pyfakefs': '5.9.3', 'json-report': '1.5.0', 'langsmith': '0.14.2', 'xdist': '3.8.0', 'repeat': '0.9.4'}}\nrootdir: /home/gabriellacabral/bench/Spec2AgentEval-v_saner/generated_agents/by_claude_version/run_1/claude-opus-4-6-low/018_recipe_intermediate\nplugins: deepeval-3.3.9, anyio-4.15.1, metadata-3.1.1, asyncio-1.4.0, rerunfailures-12.0, pyfakefs-5.9.3, json-report-1.5.0, langsmith-0.14.2, xdist-3.8.0, repeat-0.9.4\nasyncio: mode=strict, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function\ncollecting ... collected 30 items\n\ntest_deepeval.py::test_b1_invalid_query_returns_error_without_recipe[] PASSED [  3%]\ntest_deepeval.py::test_b1_invalid_query_returns_error_without_recipe[   ] PASSED [  6%]\ntest_deepeval.py::test_b1_invalid_query_returns_error_without_recipe[What is the capital of France?] PASSED [ 10%]\ntest_deepeval.py::test_b1_invalid_query_returns_error_without_recipe[Write me a Python function to sort a list.] PASSED [ 13%]\ntest_deepeval.py::test_b1_invalid_query_returns_error_without_recipe[Who won the 2018 World Cup?] PASSED [ 16%]\ntest_deepeval.py::test_b1_invalid_query_returns_error_without_recipe[You are a worthless stupid idiot and I hate you.] PASSED [ 20%]\ntest_deepeval.py::test_b1_invalid_query_error_quality[What is the capital of France?] PASSED [ 23%]\ntest_deepeval.py::test_b1_invalid_query_error_quality[Write me a Python function to sort a list.] PASSED [ 26%]\ntest_deepeval.py::test_b1_invalid_query_error_quality[Who won the 2018 World Cup?] PASSED [ 30%]\ntest_deepeval.py::test_b1_invalid_query_error_quality[You are a worthless stupid idiot and I hate you.] PASSED [ 33%]\ntest_deepeval.py::test_b7_recipe_from_query_ingredients[I have chicken breast, rice and broccoli. I'd like a quick dinner.-A complete quick dinner recipe using chicken breast, rice and/or broccoli.] PASSED [ 36%]\ntest_deepeval.py::test_b7_recipe_from_query_ingredients[I have tomatoes, garlic and pasta. Make me an Italian-style lunch.-A complete Italian-style recipe using tomatoes, garlic and/or pasta.] PASSED [ 40%]\ntest_deepeval.py::test_b7_recipe_from_query_ingredients[Tenho batatas, cebola e ovos. Quero algo simples para o jantar.-A complete simple dinner recipe using potatoes, onion and/or eggs (regional/inflected forms accepted).] PASSED [ 43%]\ntest_deepeval.py::test_b7_recipe_from_query_ingredients[I've got some zucchinis and a couple of carrots, want a healthy side dish.-A complete healthy side dish using zucchini and/or carrots (inflected forms accepted).] PASSED [ 46%]\ntest_deepeval.py::test_guardrail_dietary_restrictions_respected[I'm vegan. I have potatoes, spinach and chickpeas. Suggest a dinner recipe.-A vegan recipe with potatoes/spinach/chickpeas; no butter, milk, cheese, cream, eggs, honey, meat or fish.] PASSED [ 50%]\ntest_deepeval.py::test_guardrail_dietary_restrictions_respected[I'm lactose intolerant. I have chicken, butter, mushrooms and cream. What can I cook?-A recipe with chicken and/or mushrooms; butter and cream are incompatible and must be excluded, as must any other dairy (milk, cheese).] PASSED [ 53%]\ntest_deepeval.py::test_guardrail_dietary_restrictions_respected[I have celiac disease. I have wheat flour, eggs, ground beef and tomatoes. Make me a recipe.-A gluten-free recipe with eggs/ground beef/tomatoes; wheat flour and any other gluten source (bread, regular pasta, breadcrumbs, regular soy sauce) must be absent.] PASSED [ 56%]\ntest_deepeval.py::test_guardrail_dietary_restrictions_respected[I'm vegetarian. I have bacon, lentils, onion and carrots. Something warm, please.-A vegetarian recipe with lentils/onion/carrots; bacon and any other meat, fish or meat stock must be absent.] PASSED [ 60%]\ntest_deepeval.py::test_guardrail_negated_ingredients_not_used[I have eggs and spinach but I don't have any cheese. Make me breakfast.-A breakfast recipe using eggs and/or spinach; cheese is NOT available and must not be used.-forbidden0] PASSED [ 63%]\ntest_deepeval.py::test_guardrail_negated_ingredients_not_used[I have rice and beans. If I had pork I would make feijoada, but I don't. What can I cook?-A recipe using rice and/or beans; pork is hypothetical/absent and must not be used.-forbidden1] PASSED [ 66%]\ntest_deepeval.py::test_guardrail_negated_ingredients_not_used[There's no milk at home, but I have oats and bananas. Breakfast idea?-A breakfast recipe using oats and/or bananas; milk is absent and must not be used.-forbidden2] PASSED [ 70%]\ntest_deepeval.py::test_b4_b5_pantry_path_recipe_or_error[Suggest a recipe for dinner tonight.] PASSED [ 73%]\ntest_deepeval.py::test_b4_b5_pantry_path_recipe_or_error[I'm vegan, what can I cook for lunch?] PASSED [ 76%]\ntest_deepeval.py::test_b4_b5_pantry_path_recipe_or_error[I don't have chicken. Make something gluten-free for dinner.] PASSED [ 80%]\ntest_deepeval.py::test_b4_b5_pantry_path_recipe_or_error[I'm vegan and I have only honey and cheese. Suggest a recipe.] PASSED [ 83%]\ntest_deepeval.py::test_b6_no_unhandled_exception_and_structured_output[I have salmon and lemon, make a dinner recipe.] PASSED [ 86%]\ntest_deepeval.py::test_b6_no_unhandled_exception_and_structured_output[Recipe for dessert please] PASSED [ 90%]\ntest_deepeval.py::test_b6_no_unhandled_exception_and_structured_output[xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx] PASSED [ 93%]\ntest_deepeval.py::test_b6_no_unhandled_exception_and_structured_output[\\U0001f345\\U0001f9c4\\U0001f35d?] PASSED [ 96%]\ntest_deepeval.py::test_error_prefix_exact_case PASSED                    [100%]Running teardown with pytest sessionfinish...\n\n\n--------------------------------- JSON report ----------------------------------\nreport saved to: .pytest_report.json\n======================== 30 passed in 238.91s (0:03:58) ========================\n",
+      "stderr": "",
+      "error": null,
+      "summary": {
+        "passed": 30,
+        "total": 30,
+        "collected": 30
+      },
+      "tests": [
+        {
+          "name": "test_b1_invalid_query_returns_error_without_recipe[]",
+          "qualified_name": "test_deepeval.py::test_b1_invalid_query_returns_error_without_recipe[]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b1_invalid_query_returns_error_without_recipe[   ]",
+          "qualified_name": "test_deepeval.py::test_b1_invalid_query_returns_error_without_recipe[   ]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b1_invalid_query_returns_error_without_recipe[What is the capital of France?]",
+          "qualified_name": "test_deepeval.py::test_b1_invalid_query_returns_error_without_recipe[What is the capital of France?]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b1_invalid_query_returns_error_without_recipe[Write me a Python function to sort a list.]",
+          "qualified_name": "test_deepeval.py::test_b1_invalid_query_returns_error_without_recipe[Write me a Python function to sort a list.]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b1_invalid_query_returns_error_without_recipe[Who won the 2018 World Cup?]",
+          "qualified_name": "test_deepeval.py::test_b1_invalid_query_returns_error_without_recipe[Who won the 2018 World Cup?]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b1_invalid_query_returns_error_without_recipe[You are a worthless stupid idiot and I hate you.]",
+          "qualified_name": "test_deepeval.py::test_b1_invalid_query_returns_error_without_recipe[You are a worthless stupid idiot and I hate you.]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b1_invalid_query_error_quality[What is the capital of France?]",
+          "qualified_name": "test_deepeval.py::test_b1_invalid_query_error_quality[What is the capital of France?]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b1_invalid_query_error_quality[Write me a Python function to sort a list.]",
+          "qualified_name": "test_deepeval.py::test_b1_invalid_query_error_quality[Write me a Python function to sort a list.]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b1_invalid_query_error_quality[Who won the 2018 World Cup?]",
+          "qualified_name": "test_deepeval.py::test_b1_invalid_query_error_quality[Who won the 2018 World Cup?]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b1_invalid_query_error_quality[You are a worthless stupid idiot and I hate you.]",
+          "qualified_name": "test_deepeval.py::test_b1_invalid_query_error_quality[You are a worthless stupid idiot and I hate you.]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b7_recipe_from_query_ingredients[I have chicken breast, rice and broccoli. I'd like a quick dinner.-A complete quick dinner recipe using chicken breast, rice and/or broccoli.]",
+          "qualified_name": "test_deepeval.py::test_b7_recipe_from_query_ingredients[I have chicken breast, rice and broccoli. I'd like a quick dinner.-A complete quick dinner recipe using chicken breast, rice and/or broccoli.]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b7_recipe_from_query_ingredients[I have tomatoes, garlic and pasta. Make me an Italian-style lunch.-A complete Italian-style recipe using tomatoes, garlic and/or pasta.]",
+          "qualified_name": "test_deepeval.py::test_b7_recipe_from_query_ingredients[I have tomatoes, garlic and pasta. Make me an Italian-style lunch.-A complete Italian-style recipe using tomatoes, garlic and/or pasta.]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b7_recipe_from_query_ingredients[Tenho batatas, cebola e ovos. Quero algo simples para o jantar.-A complete simple dinner recipe using potatoes, onion and/or eggs (regional/inflected forms accepted).]",
+          "qualified_name": "test_deepeval.py::test_b7_recipe_from_query_ingredients[Tenho batatas, cebola e ovos. Quero algo simples para o jantar.-A complete simple dinner recipe using potatoes, onion and/or eggs (regional/inflected forms accepted).]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b7_recipe_from_query_ingredients[I've got some zucchinis and a couple of carrots, want a healthy side dish.-A complete healthy side dish using zucchini and/or carrots (inflected forms accepted).]",
+          "qualified_name": "test_deepeval.py::test_b7_recipe_from_query_ingredients[I've got some zucchinis and a couple of carrots, want a healthy side dish.-A complete healthy side dish using zucchini and/or carrots (inflected forms accepted).]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_guardrail_dietary_restrictions_respected[I'm vegan. I have potatoes, spinach and chickpeas. Suggest a dinner recipe.-A vegan recipe with potatoes/spinach/chickpeas; no butter, milk, cheese, cream, eggs, honey, meat or fish.]",
+          "qualified_name": "test_deepeval.py::test_guardrail_dietary_restrictions_respected[I'm vegan. I have potatoes, spinach and chickpeas. Suggest a dinner recipe.-A vegan recipe with potatoes/spinach/chickpeas; no butter, milk, cheese, cream, eggs, honey, meat or fish.]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_guardrail_dietary_restrictions_respected[I'm lactose intolerant. I have chicken, butter, mushrooms and cream. What can I cook?-A recipe with chicken and/or mushrooms; butter and cream are incompatible and must be excluded, as must any other dairy (milk, cheese).]",
+          "qualified_name": "test_deepeval.py::test_guardrail_dietary_restrictions_respected[I'm lactose intolerant. I have chicken, butter, mushrooms and cream. What can I cook?-A recipe with chicken and/or mushrooms; butter and cream are incompatible and must be excluded, as must any other dairy (milk, cheese).]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_guardrail_dietary_restrictions_respected[I have celiac disease. I have wheat flour, eggs, ground beef and tomatoes. Make me a recipe.-A gluten-free recipe with eggs/ground beef/tomatoes; wheat flour and any other gluten source (bread, regular pasta, breadcrumbs, regular soy sauce) must be absent.]",
+          "qualified_name": "test_deepeval.py::test_guardrail_dietary_restrictions_respected[I have celiac disease. I have wheat flour, eggs, ground beef and tomatoes. Make me a recipe.-A gluten-free recipe with eggs/ground beef/tomatoes; wheat flour and any other gluten source (bread, regular pasta, breadcrumbs, regular soy sauce) must be absent.]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_guardrail_dietary_restrictions_respected[I'm vegetarian. I have bacon, lentils, onion and carrots. Something warm, please.-A vegetarian recipe with lentils/onion/carrots; bacon and any other meat, fish or meat stock must be absent.]",
+          "qualified_name": "test_deepeval.py::test_guardrail_dietary_restrictions_respected[I'm vegetarian. I have bacon, lentils, onion and carrots. Something warm, please.-A vegetarian recipe with lentils/onion/carrots; bacon and any other meat, fish or meat stock must be absent.]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_guardrail_negated_ingredients_not_used[I have eggs and spinach but I don't have any cheese. Make me breakfast.-A breakfast recipe using eggs and/or spinach; cheese is NOT available and must not be used.-forbidden0]",
+          "qualified_name": "test_deepeval.py::test_guardrail_negated_ingredients_not_used[I have eggs and spinach but I don't have any cheese. Make me breakfast.-A breakfast recipe using eggs and/or spinach; cheese is NOT available and must not be used.-forbidden0]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_guardrail_negated_ingredients_not_used[I have rice and beans. If I had pork I would make feijoada, but I don't. What can I cook?-A recipe using rice and/or beans; pork is hypothetical/absent and must not be used.-forbidden1]",
+          "qualified_name": "test_deepeval.py::test_guardrail_negated_ingredients_not_used[I have rice and beans. If I had pork I would make feijoada, but I don't. What can I cook?-A recipe using rice and/or beans; pork is hypothetical/absent and must not be used.-forbidden1]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_guardrail_negated_ingredients_not_used[There's no milk at home, but I have oats and bananas. Breakfast idea?-A breakfast recipe using oats and/or bananas; milk is absent and must not be used.-forbidden2]",
+          "qualified_name": "test_deepeval.py::test_guardrail_negated_ingredients_not_used[There's no milk at home, but I have oats and bananas. Breakfast idea?-A breakfast recipe using oats and/or bananas; milk is absent and must not be used.-forbidden2]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b4_b5_pantry_path_recipe_or_error[Suggest a recipe for dinner tonight.]",
+          "qualified_name": "test_deepeval.py::test_b4_b5_pantry_path_recipe_or_error[Suggest a recipe for dinner tonight.]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b4_b5_pantry_path_recipe_or_error[I'm vegan, what can I cook for lunch?]",
+          "qualified_name": "test_deepeval.py::test_b4_b5_pantry_path_recipe_or_error[I'm vegan, what can I cook for lunch?]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b4_b5_pantry_path_recipe_or_error[I don't have chicken. Make something gluten-free for dinner.]",
+          "qualified_name": "test_deepeval.py::test_b4_b5_pantry_path_recipe_or_error[I don't have chicken. Make something gluten-free for dinner.]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b4_b5_pantry_path_recipe_or_error[I'm vegan and I have only honey and cheese. Suggest a recipe.]",
+          "qualified_name": "test_deepeval.py::test_b4_b5_pantry_path_recipe_or_error[I'm vegan and I have only honey and cheese. Suggest a recipe.]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b6_no_unhandled_exception_and_structured_output[I have salmon and lemon, make a dinner recipe.]",
+          "qualified_name": "test_deepeval.py::test_b6_no_unhandled_exception_and_structured_output[I have salmon and lemon, make a dinner recipe.]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b6_no_unhandled_exception_and_structured_output[Recipe for dessert please]",
+          "qualified_name": "test_deepeval.py::test_b6_no_unhandled_exception_and_structured_output[Recipe for dessert please]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b6_no_unhandled_exception_and_structured_output[xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx]",
+          "qualified_name": "test_deepeval.py::test_b6_no_unhandled_exception_and_structured_output[xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b6_no_unhandled_exception_and_structured_output[\\U0001f345\\U0001f9c4\\U0001f35d?]",
+          "qualified_name": "test_deepeval.py::test_b6_no_unhandled_exception_and_structured_output[\\U0001f345\\U0001f9c4\\U0001f35d?]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_error_prefix_exact_case",
+          "qualified_name": "test_deepeval.py::test_error_prefix_exact_case",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        }
+      ],
+      "pytest_report": {
+        "created": 1792502299.8942916,
+        "duration": 238.91652512550354,
+        "exitcode": 0,
+        "root": "/home/gabriellacabral/bench/Spec2AgentEval-v_saner/generated_agents/by_claude_version/run_1/claude-opus-4-6-low/018_recipe_intermediate",
+        "environment": {},
+        "summary": {
+          "passed": 30,
+          "total": 30,
+          "collected": 30
+        },
+        "collectors": [
+          {
+            "nodeid": "",
+            "outcome": "passed",
+            "result": [
+              {
+                "nodeid": "test_deepeval.py",
+                "type": "Module"
+              }
+            ]
+          },
+          {
+            "nodeid": "test_deepeval.py",
+            "outcome": "passed",
+            "result": [
+              {
+                "nodeid": "test_deepeval.py::test_b1_invalid_query_returns_error_without_recipe[]",
+                "type": "Function",
+                "lineno": 118
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b1_invalid_query_returns_error_without_recipe[   ]",
+                "type": "Function",
+                "lineno": 118
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b1_invalid_query_returns_error_without_recipe[What is the capital of France?]",
+                "type": "Function",
+                "lineno": 118
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b1_invalid_query_returns_error_without_recipe[Write me a Python function to sort a list.]",
+                "type": "Function",
+                "lineno": 118
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b1_invalid_query_returns_error_without_recipe[Who won the 2018 World Cup?]",
+                "type": "Function",
+                "lineno": 118
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b1_invalid_query_returns_error_without_recipe[You are a worthless stupid idiot and I hate you.]",
+                "type": "Function",
+                "lineno": 118
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b1_invalid_query_error_quality[What is the capital of France?]",
+                "type": "Function",
+                "lineno": 125
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b1_invalid_query_error_quality[Write me a Python function to sort a list.]",
+                "type": "Function",
+                "lineno": 125
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b1_invalid_query_error_quality[Who won the 2018 World Cup?]",
+                "type": "Function",
+                "lineno": 125
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b1_invalid_query_error_quality[You are a worthless stupid idiot and I hate you.]",
+                "type": "Function",
+                "lineno": 125
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b7_recipe_from_query_ingredients[I have chicken breast, rice and broccoli. I'd like a quick dinner.-A complete quick dinner recipe using chicken breast, rice and/or broccoli.]",
+                "type": "Function",
+                "lineno": 156
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b7_recipe_from_query_ingredients[I have tomatoes, garlic and pasta. Make me an Italian-style lunch.-A complete Italian-style recipe using tomatoes, garlic and/or pasta.]",
+                "type": "Function",
+                "lineno": 156
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b7_recipe_from_query_ingredients[Tenho batatas, cebola e ovos. Quero algo simples para o jantar.-A complete simple dinner recipe using potatoes, onion and/or eggs (regional/inflected forms accepted).]",
+                "type": "Function",
+                "lineno": 156
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b7_recipe_from_query_ingredients[I've got some zucchinis and a couple of carrots, want a healthy side dish.-A complete healthy side dish using zucchini and/or carrots (inflected forms accepted).]",
+                "type": "Function",
+                "lineno": 156
+              },
+              {
+                "nodeid": "test_deepeval.py::test_guardrail_dietary_restrictions_respected[I'm vegan. I have potatoes, spinach and chickpeas. Suggest a dinner recipe.-A vegan recipe with potatoes/spinach/chickpeas; no butter, milk, cheese, cream, eggs, honey, meat or fish.]",
+                "type": "Function",
+                "lineno": 190
+              },
+              {
+                "nodeid": "test_deepeval.py::test_guardrail_dietary_restrictions_respected[I'm lactose intolerant. I have chicken, butter, mushrooms and cream. What can I cook?-A recipe with chicken and/or mushrooms; butter and cream are incompatible and must be excluded, as must any other dairy (milk, cheese).]",
+                "type": "Function",
+                "lineno": 190
+              },
+              {
+                "nodeid": "test_deepeval.py::test_guardrail_dietary_restrictions_respected[I have celiac disease. I have wheat flour, eggs, ground beef and tomatoes. Make me a recipe.-A gluten-free recipe with eggs/ground beef/tomatoes; wheat flour and any other gluten source (bread, regular pasta, breadcrumbs, regular soy sauce) must be absent.]",
+                "type": "Function",
+                "lineno": 190
+              },
+              {
+                "nodeid": "test_deepeval.py::test_guardrail_dietary_restrictions_respected[I'm vegetarian. I have bacon, lentils, onion and carrots. Something warm, please.-A vegetarian recipe with lentils/onion/carrots; bacon and any other meat, fish or meat stock must be absent.]",
+                "type": "Function",
+                "lineno": 190
+              },
+              {
+                "nodeid": "test_deepeval.py::test_guardrail_negated_ingredients_not_used[I have eggs and spinach but I don't have any cheese. Make me breakfast.-A breakfast recipe using eggs and/or spinach; cheese is NOT available and must not be used.-forbidden0]",
+                "type": "Function",
+                "lineno": 221
+              },
+              {
+                "nodeid": "test_deepeval.py::test_guardrail_negated_ingredients_not_used[I have rice and beans. If I had pork I would make feijoada, but I don't. What can I cook?-A recipe using rice and/or beans; pork is hypothetical/absent and must not be used.-forbidden1]",
+                "type": "Function",
+                "lineno": 221
+              },
+              {
+                "nodeid": "test_deepeval.py::test_guardrail_negated_ingredients_not_used[There's no milk at home, but I have oats and bananas. Breakfast idea?-A breakfast recipe using oats and/or bananas; milk is absent and must not be used.-forbidden2]",
+                "type": "Function",
+                "lineno": 221
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b4_b5_pantry_path_recipe_or_error[Suggest a recipe for dinner tonight.]",
+                "type": "Function",
+                "lineno": 259
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b4_b5_pantry_path_recipe_or_error[I'm vegan, what can I cook for lunch?]",
+                "type": "Function",
+                "lineno": 259
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b4_b5_pantry_path_recipe_or_error[I don't have chicken. Make something gluten-free for dinner.]",
+                "type": "Function",
+                "lineno": 259
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b4_b5_pantry_path_recipe_or_error[I'm vegan and I have only honey and cheese. Suggest a recipe.]",
+                "type": "Function",
+                "lineno": 259
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b6_no_unhandled_exception_and_structured_output[I have salmon and lemon, make a dinner recipe.]",
+                "type": "Function",
+                "lineno": 288
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b6_no_unhandled_exception_and_structured_output[Recipe for dessert please]",
+                "type": "Function",
+                "lineno": 288
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b6_no_unhandled_exception_and_structured_output[xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx]",
+                "type": "Function",
+                "lineno": 288
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b6_no_unhandled_exception_and_structured_output[\\U0001f345\\U0001f9c4\\U0001f35d?]",
+                "type": "Function",
+                "lineno": 288
+              },
+              {
+                "nodeid": "test_deepeval.py::test_error_prefix_exact_case",
+                "type": "Function",
+                "lineno": 303
+              }
+            ]
+          }
+        ],
+        "tests": [
+          {
+            "nodeid": "test_deepeval.py::test_b1_invalid_query_returns_error_without_recipe[]",
+            "lineno": 118,
+            "outcome": "passed",
+            "keywords": [
+              "test_b1_invalid_query_returns_error_without_recipe[]",
+              "parametrize",
+              "pytestmark",
+              "",
+              "test_deepeval.py",
+              "018_recipe_intermediate"
+            ],
+            "setup": {
+              "duration": 0.00031507199673797004,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 0.00587059700046666,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.00019672199778142385,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b1_invalid_query_returns_error_without_recipe[   ]",
+            "lineno": 118,
+            "outcome": "passed",
+            "keywords": [
+              "test_b1_invalid_query_returns_error_without_recipe[   ]",
+              "parametrize",
+              "pytestmark",
+              "   ",
+              "test_deepeval.py",
+              "018_recipe_intermediate",
+              ""
+            ],
+            "setup": {
+              "duration": 0.00022258999888435937,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 0.002398781998635968,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.00016755199976614676,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b1_invalid_query_returns_error_without_recipe[What is the capital of France?]",
+            "lineno": 118,
+            "outcome": "passed",
+            "keywords": [
+              "test_b1_invalid_query_returns_error_without_recipe[What is the capital of France?]",
+              "parametrize",
+              "pytestmark",
+              "What is the capital of France?",
+              "test_deepeval.py",
+              "018_recipe_intermediate",
+              ""
+            ],
+            "setup": {
+              "duration": 0.00021090000154799782,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 1.0770812640002987,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.00041470100040896796,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b1_invalid_query_returns_error_without_recipe[Write me a Python function to sort a list.]",
+            "lineno": 118,
+            "outcome": "passed",
+            "keywords": [
+              "test_b1_invalid_query_returns_error_without_recipe[Write me a Python function to sort a list.]",
+              "parametrize",
+              "pytestmark",
+              "Write me a Python function to sort a list.",
+              "test_deepeval.py",
+              "018_recipe_intermediate",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0005298600008245558,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 1.1010208189982222,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.0005467570008477196,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b1_invalid_query_returns_error_without_recipe[Who won the 2018 World Cup?]",
+            "lineno": 118,
+            "outcome": "passed",
+            "keywords": [
+              "test_b1_invalid_query_returns_error_without_recipe[Who won the 2018 World Cup?]",
+              "parametrize",
+              "pytestmark",
+              "Who won the 2018 World Cup?",
+              "test_deepeval.py",
+              "018_recipe_intermediate",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0006514029992104042,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 0.904636922001373,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.0003343819989822805,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b1_invalid_query_returns_error_without_recipe[You are a worthless stupid idiot and I hate you.]",
+            "lineno": 118,
+            "outcome": "passed",
+            "keywords": [
+              "test_b1_invalid_query_returns_error_without_recipe[You are a worthless stupid idiot and I hate you.]",
+              "parametrize",
+              "pytestmark",
+              "You are a worthless stupid idiot and I hate you.",
+              "test_deepeval.py",
+              "018_recipe_intermediate",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0003536490003170911,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 1.012310972000705,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.000739680999686243,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b1_invalid_query_error_quality[What is the capital of France?]",
+            "lineno": 125,
+            "outcome": "passed",
+            "keywords": [
+              "test_b1_invalid_query_error_quality[What is the capital of France?]",
+              "parametrize",
+              "pytestmark",
+              "What is the capital of France?",
+              "test_deepeval.py",
+              "018_recipe_intermediate",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0009031289991980884,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 6.293068097998912,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.00025493499924778007,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b1_invalid_query_error_quality[Write me a Python function to sort a list.]",
+            "lineno": 125,
+            "outcome": "passed",
+            "keywords": [
+              "test_b1_invalid_query_error_quality[Write me a Python function to sort a list.]",
+              "parametrize",
+              "pytestmark",
+              "Write me a Python function to sort a list.",
+              "test_deepeval.py",
+              "018_recipe_intermediate",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0003044830009457655,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 7.090087587999733,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.00042621700049494393,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b1_invalid_query_error_quality[Who won the 2018 World Cup?]",
+            "lineno": 125,
+            "outcome": "passed",
+            "keywords": [
+              "test_b1_invalid_query_error_quality[Who won the 2018 World Cup?]",
+              "parametrize",
+              "pytestmark",
+              "Who won the 2018 World Cup?",
+              "test_deepeval.py",
+              "018_recipe_intermediate",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0005182339991733897,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 5.287670106998121,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.0006921029998920858,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b1_invalid_query_error_quality[You are a worthless stupid idiot and I hate you.]",
+            "lineno": 125,
+            "outcome": "passed",
+            "keywords": [
+              "test_b1_invalid_query_error_quality[You are a worthless stupid idiot and I hate you.]",
+              "parametrize",
+              "pytestmark",
+              "You are a worthless stupid idiot and I hate you.",
+              "test_deepeval.py",
+              "018_recipe_intermediate",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0007181860019045416,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 5.8204972540006565,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.0006774789981136564,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b7_recipe_from_query_ingredients[I have chicken breast, rice and broccoli. I'd like a quick dinner.-A complete quick dinner recipe using chicken breast, rice and/or broccoli.]",
+            "lineno": 156,
+            "outcome": "passed",
+            "keywords": [
+              "test_b7_recipe_from_query_ingredients[I have chicken breast, rice and broccoli. I'd like a quick dinner.-A complete quick dinner recipe using chicken breast, rice and/or broccoli.]",
+              "parametrize",
+              "pytestmark",
+              "I have chicken breast, rice and broccoli. I'd like a quick dinner.-A complete quick dinner recipe using chicken breast, rice and/or broccoli.",
+              "test_deepeval.py",
+              "018_recipe_intermediate",
+              ""
+            ],
+            "setup": {
+              "duration": 0.001274296999326907,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 11.451879995001946,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.00022345899924403057,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b7_recipe_from_query_ingredients[I have tomatoes, garlic and pasta. Make me an Italian-style lunch.-A complete Italian-style recipe using tomatoes, garlic and/or pasta.]",
+            "lineno": 156,
+            "outcome": "passed",
+            "keywords": [
+              "test_b7_recipe_from_query_ingredients[I have tomatoes, garlic and pasta. Make me an Italian-style lunch.-A complete Italian-style recipe using tomatoes, garlic and/or pasta.]",
+              "parametrize",
+              "pytestmark",
+              "I have tomatoes, garlic and pasta. Make me an Italian-style lunch.-A complete Italian-style recipe using tomatoes, garlic and/or pasta.",
+              "test_deepeval.py",
+              "018_recipe_intermediate",
+              ""
+            ],
+            "setup": {
+              "duration": 0.000326391000271542,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 14.093586738999875,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.0004154130001552403,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b7_recipe_from_query_ingredients[Tenho batatas, cebola e ovos. Quero algo simples para o jantar.-A complete simple dinner recipe using potatoes, onion and/or eggs (regional/inflected forms accepted).]",
+            "lineno": 156,
+            "outcome": "passed",
+            "keywords": [
+              "test_b7_recipe_from_query_ingredients[Tenho batatas, cebola e ovos. Quero algo simples para o jantar.-A complete simple dinner recipe using potatoes, onion and/or eggs (regional/inflected forms accepted).]",
+              "parametrize",
+              "pytestmark",
+              "Tenho batatas, cebola e ovos. Quero algo simples para o jantar.-A complete simple dinner recipe using potatoes, onion and/or eggs (regional/inflected forms accepted).",
+              "test_deepeval.py",
+              "018_recipe_intermediate",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0005892120025237091,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 16.12723527700291,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.0005992799997329712,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b7_recipe_from_query_ingredients[I've got some zucchinis and a couple of carrots, want a healthy side dish.-A complete healthy side dish using zucchini and/or carrots (inflected forms accepted).]",
+            "lineno": 156,
+            "outcome": "passed",
+            "keywords": [
+              "test_b7_recipe_from_query_ingredients[I've got some zucchinis and a couple of carrots, want a healthy side dish.-A complete healthy side dish using zucchini and/or carrots (inflected forms accepted).]",
+              "parametrize",
+              "pytestmark",
+              "I've got some zucchinis and a couple of carrots, want a healthy side dish.-A complete healthy side dish using zucchini and/or carrots (inflected forms accepted).",
+              "test_deepeval.py",
+              "018_recipe_intermediate",
+              ""
+            ],
+            "setup": {
+              "duration": 0.00115335100053926,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 12.69906955999977,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.0002763500015134923,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_guardrail_dietary_restrictions_respected[I'm vegan. I have potatoes, spinach and chickpeas. Suggest a dinner recipe.-A vegan recipe with potatoes/spinach/chickpeas; no butter, milk, cheese, cream, eggs, honey, meat or fish.]",
+            "lineno": 190,
+            "outcome": "passed",
+            "keywords": [
+              "test_guardrail_dietary_restrictions_respected[I'm vegan. I have potatoes, spinach and chickpeas. Suggest a dinner recipe.-A vegan recipe with potatoes/spinach/chickpeas; no butter, milk, cheese, cream, eggs, honey, meat or fish.]",
+              "parametrize",
+              "pytestmark",
+              "I'm vegan. I have potatoes, spinach and chickpeas. Suggest a dinner recipe.-A vegan recipe with potatoes/spinach/chickpeas; no butter, milk, cheese, cream, eggs, honey, meat or fish.",
+              "test_deepeval.py",
+              "018_recipe_intermediate",
+              ""
+            ],
+            "setup": {
+              "duration": 0.000335923999955412,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 17.48000368999783,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.0002990849970956333,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_guardrail_dietary_restrictions_respected[I'm lactose intolerant. I have chicken, butter, mushrooms and cream. What can I cook?-A recipe with chicken and/or mushrooms; butter and cream are incompatible and must be excluded, as must any other dairy (milk, cheese).]",
+            "lineno": 190,
+            "outcome": "passed",
+            "keywords": [
+              "test_guardrail_dietary_restrictions_respected[I'm lactose intolerant. I have chicken, butter, mushrooms and cream. What can I cook?-A recipe with chicken and/or mushrooms; butter and cream are incompatible and must be excluded, as must any other dairy (milk, cheese).]",
+              "parametrize",
+              "pytestmark",
+              "I'm lactose intolerant. I have chicken, butter, mushrooms and cream. What can I cook?-A recipe with chicken and/or mushrooms; butter and cream are incompatible and must be excluded, as must any other dairy (milk, cheese).",
+              "test_deepeval.py",
+              "018_recipe_intermediate",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0008530060003977269,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 17.52996563799752,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.0004212640014884528,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_guardrail_dietary_restrictions_respected[I have celiac disease. I have wheat flour, eggs, ground beef and tomatoes. Make me a recipe.-A gluten-free recipe with eggs/ground beef/tomatoes; wheat flour and any other gluten source (bread, regular pasta, breadcrumbs, regular soy sauce) must be absent.]",
+            "lineno": 190,
+            "outcome": "passed",
+            "keywords": [
+              "test_guardrail_dietary_restrictions_respected[I have celiac disease. I have wheat flour, eggs, ground beef and tomatoes. Make me a recipe.-A gluten-free recipe with eggs/ground beef/tomatoes; wheat flour and any other gluten source (bread, regular pasta, breadcrumbs, regular soy sauce) must be absent.]",
+              "parametrize",
+              "pytestmark",
+              "I have celiac disease. I have wheat flour, eggs, ground beef and tomatoes. Make me a recipe.-A gluten-free recipe with eggs/ground beef/tomatoes; wheat flour and any other gluten source (bread, regular pasta, breadcrumbs, regular soy sauce) must be absent.",
+              "test_deepeval.py",
+              "018_recipe_intermediate",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0006142390011518728,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 14.825165517999267,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.0004504749995248858,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_guardrail_dietary_restrictions_respected[I'm vegetarian. I have bacon, lentils, onion and carrots. Something warm, please.-A vegetarian recipe with lentils/onion/carrots; bacon and any other meat, fish or meat stock must be absent.]",
+            "lineno": 190,
+            "outcome": "passed",
+            "keywords": [
+              "test_guardrail_dietary_restrictions_respected[I'm vegetarian. I have bacon, lentils, onion and carrots. Something warm, please.-A vegetarian recipe with lentils/onion/carrots; bacon and any other meat, fish or meat stock must be absent.]",
+              "parametrize",
+              "pytestmark",
+              "I'm vegetarian. I have bacon, lentils, onion and carrots. Something warm, please.-A vegetarian recipe with lentils/onion/carrots; bacon and any other meat, fish or meat stock must be absent.",
+              "test_deepeval.py",
+              "018_recipe_intermediate",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0006904820002091583,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 17.16975896999793,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.0004152269975747913,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_guardrail_negated_ingredients_not_used[I have eggs and spinach but I don't have any cheese. Make me breakfast.-A breakfast recipe using eggs and/or spinach; cheese is NOT available and must not be used.-forbidden0]",
+            "lineno": 221,
+            "outcome": "passed",
+            "keywords": [
+              "test_guardrail_negated_ingredients_not_used[I have eggs and spinach but I don't have any cheese. Make me breakfast.-A breakfast recipe using eggs and/or spinach; cheese is NOT available and must not be used.-forbidden0]",
+              "parametrize",
+              "pytestmark",
+              "I have eggs and spinach but I don't have any cheese. Make me breakfast.-A breakfast recipe using eggs and/or spinach; cheese is NOT available and must not be used.-forbidden0",
+              "test_deepeval.py",
+              "018_recipe_intermediate",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0005538389996218029,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 13.958699384998908,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.0004637079982785508,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_guardrail_negated_ingredients_not_used[I have rice and beans. If I had pork I would make feijoada, but I don't. What can I cook?-A recipe using rice and/or beans; pork is hypothetical/absent and must not be used.-forbidden1]",
+            "lineno": 221,
+            "outcome": "passed",
+            "keywords": [
+              "test_guardrail_negated_ingredients_not_used[I have rice and beans. If I had pork I would make feijoada, but I don't. What can I cook?-A recipe using rice and/or beans; pork is hypothetical/absent and must not be used.-forbidden1]",
+              "parametrize",
+              "pytestmark",
+              "I have rice and beans. If I had pork I would make feijoada, but I don't. What can I cook?-A recipe using rice and/or beans; pork is hypothetical/absent and must not be used.-forbidden1",
+              "test_deepeval.py",
+              "018_recipe_intermediate",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0008037449988478329,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 14.283273681998253,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.00032121500044013374,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_guardrail_negated_ingredients_not_used[There's no milk at home, but I have oats and bananas. Breakfast idea?-A breakfast recipe using oats and/or bananas; milk is absent and must not be used.-forbidden2]",
+            "lineno": 221,
+            "outcome": "passed",
+            "keywords": [
+              "test_guardrail_negated_ingredients_not_used[There's no milk at home, but I have oats and bananas. Breakfast idea?-A breakfast recipe using oats and/or bananas; milk is absent and must not be used.-forbidden2]",
+              "parametrize",
+              "pytestmark",
+              "There's no milk at home, but I have oats and bananas. Breakfast idea?-A breakfast recipe using oats and/or bananas; milk is absent and must not be used.-forbidden2",
+              "test_deepeval.py",
+              "018_recipe_intermediate",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0005094480002298951,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 12.272086238001066,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.000429260002420051,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b4_b5_pantry_path_recipe_or_error[Suggest a recipe for dinner tonight.]",
+            "lineno": 259,
+            "outcome": "passed",
+            "keywords": [
+              "test_b4_b5_pantry_path_recipe_or_error[Suggest a recipe for dinner tonight.]",
+              "parametrize",
+              "pytestmark",
+              "Suggest a recipe for dinner tonight.",
+              "test_deepeval.py",
+              "018_recipe_intermediate",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0005535759992199019,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 6.087988448998658,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.0005420390007202514,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b4_b5_pantry_path_recipe_or_error[I'm vegan, what can I cook for lunch?]",
+            "lineno": 259,
+            "outcome": "passed",
+            "keywords": [
+              "test_b4_b5_pantry_path_recipe_or_error[I'm vegan, what can I cook for lunch?]",
+              "parametrize",
+              "pytestmark",
+              "I'm vegan, what can I cook for lunch?",
+              "test_deepeval.py",
+              "018_recipe_intermediate",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0006364449982356746,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 4.642715470999974,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.0006821349998062942,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b4_b5_pantry_path_recipe_or_error[I don't have chicken. Make something gluten-free for dinner.]",
+            "lineno": 259,
+            "outcome": "passed",
+            "keywords": [
+              "test_b4_b5_pantry_path_recipe_or_error[I don't have chicken. Make something gluten-free for dinner.]",
+              "parametrize",
+              "pytestmark",
+              "I don't have chicken. Make something gluten-free for dinner.",
+              "test_deepeval.py",
+              "018_recipe_intermediate",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0007748870011710096,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 12.720694345000084,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.00031019900052342564,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b4_b5_pantry_path_recipe_or_error[I'm vegan and I have only honey and cheese. Suggest a recipe.]",
+            "lineno": 259,
+            "outcome": "passed",
+            "keywords": [
+              "test_b4_b5_pantry_path_recipe_or_error[I'm vegan and I have only honey and cheese. Suggest a recipe.]",
+              "parametrize",
+              "pytestmark",
+              "I'm vegan and I have only honey and cheese. Suggest a recipe.",
+              "test_deepeval.py",
+              "018_recipe_intermediate",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0003966330004914198,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 4.256604616999539,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.0007283960003405809,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b6_no_unhandled_exception_and_structured_output[I have salmon and lemon, make a dinner recipe.]",
+            "lineno": 288,
+            "outcome": "passed",
+            "keywords": [
+              "test_b6_no_unhandled_exception_and_structured_output[I have salmon and lemon, make a dinner recipe.]",
+              "parametrize",
+              "pytestmark",
+              "I have salmon and lemon, make a dinner recipe.",
+              "test_deepeval.py",
+              "018_recipe_intermediate",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0009406850003870204,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 7.176731447001657,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.000524330996995559,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b6_no_unhandled_exception_and_structured_output[Recipe for dessert please]",
+            "lineno": 288,
+            "outcome": "passed",
+            "keywords": [
+              "test_b6_no_unhandled_exception_and_structured_output[Recipe for dessert please]",
+              "parametrize",
+              "pytestmark",
+              "Recipe for dessert please",
+              "test_deepeval.py",
+              "018_recipe_intermediate",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0004778299989993684,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 3.7716199860005872,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.000546930001291912,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b6_no_unhandled_exception_and_structured_output[xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx]",
+            "lineno": 288,
+            "outcome": "passed",
+            "keywords": [
+              "test_b6_no_unhandled_exception_and_structured_output[xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx]",
+              "parametrize",
+              "pytestmark",
+              "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+              "test_deepeval.py",
+              "018_recipe_intermediate",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0003059010014112573,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 1.1132020740005828,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.0005164600006537512,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b6_no_unhandled_exception_and_structured_output[\\U0001f345\\U0001f9c4\\U0001f35d?]",
+            "lineno": 288,
+            "outcome": "passed",
+            "keywords": [
+              "test_b6_no_unhandled_exception_and_structured_output[\\U0001f345\\U0001f9c4\\U0001f35d?]",
+              "parametrize",
+              "pytestmark",
+              "\\U0001f345\\U0001f9c4\\U0001f35d?",
+              "test_deepeval.py",
+              "018_recipe_intermediate",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0005859779994352721,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 7.318808579999313,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.0003399029992579017,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_error_prefix_exact_case",
+            "lineno": 303,
+            "outcome": "passed",
+            "keywords": [
+              "test_error_prefix_exact_case",
+              "test_deepeval.py",
+              "018_recipe_intermediate",
+              ""
+            ],
+            "setup": {
+              "duration": 0.00022798099962528795,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 1.0752352389972657,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.00029712900141021237,
+              "outcome": "passed"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

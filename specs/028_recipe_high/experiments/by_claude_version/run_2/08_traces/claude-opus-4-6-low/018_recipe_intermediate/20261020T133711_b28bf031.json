@@ -1,0 +1,14 @@
+{
+  "run_id": "b28bf031e71b4570a59b4f4e9ad905e5",
+  "query": [
+    "Explain how to configure a BGP router on a Cisco switch."
+  ],
+  "status": "ok",
+  "error": null,
+  "runs_collected": 1,
+  "trajectory": [
+    "validate_query",
+    "format_output"
+  ],
+  "tool_calls": []
+}

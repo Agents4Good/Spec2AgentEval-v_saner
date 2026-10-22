@@ -1,0 +1,1318 @@
+{
+  "run_id": "20261020_132704",
+  "run": 2,
+  "experiment": "by_claude_version",
+  "stage": "static_analysis",
+  "model": "claude-opus-5-5-low",
+  "timestamp": "2026-10-20T13:27:04.964362",
+  "total_agents": 1,
+  "results": [
+    {
+      "agent": "018_recipe_intermediate",
+      "target_dir": "/home/gabriellacabral/bench/Spec2AgentEval-v_saner/generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate",
+      "passed": false,
+      "tools": {
+        "ruff": {
+          "command": "ruff check generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate --output-format=json",
+          "exit_code": 1,
+          "stdout": [
+            {
+              "cell": null,
+              "code": "F401",
+              "end_location": {
+                "column": 34,
+                "row": 4
+              },
+              "filename": "/home/gabriellacabral/bench/Spec2AgentEval-v_saner/generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/agent.py",
+              "fix": {
+                "applicability": "safe",
+                "edits": [
+                  {
+                    "content": "from typing import List, TypedDict",
+                    "end_location": {
+                      "column": 45,
+                      "row": 4
+                    },
+                    "location": {
+                      "column": 1,
+                      "row": 4
+                    }
+                  }
+                ],
+                "message": "Remove unused import: `typing.Optional`"
+              },
+              "location": {
+                "column": 26,
+                "row": 4
+              },
+              "message": "`typing.Optional` imported but unused",
+              "noqa_row": 4,
+              "url": "https://docs.astral.sh/ruff/rules/unused-import"
+            },
+            {
+              "cell": null,
+              "code": "E702",
+              "end_location": {
+                "column": 27,
+                "row": 44
+              },
+              "filename": "/home/gabriellacabral/bench/Spec2AgentEval-v_saner/generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/tests.py",
+              "fix": null,
+              "location": {
+                "column": 26,
+                "row": 44
+              },
+              "message": "Multiple statements on one line (semicolon)",
+              "noqa_row": 44,
+              "url": "https://docs.astral.sh/ruff/rules/multiple-statements-on-one-line-semicolon"
+            },
+            {
+              "cell": null,
+              "code": "E702",
+              "end_location": {
+                "column": 30,
+                "row": 92
+              },
+              "filename": "/home/gabriellacabral/bench/Spec2AgentEval-v_saner/generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/tests.py",
+              "fix": null,
+              "location": {
+                "column": 29,
+                "row": 92
+              },
+              "message": "Multiple statements on one line (semicolon)",
+              "noqa_row": 92,
+              "url": "https://docs.astral.sh/ruff/rules/multiple-statements-on-one-line-semicolon"
+            }
+          ],
+          "stderr": ""
+        },
+        "pylint": {
+          "command": "pylint generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate --output-format=json",
+          "exit_code": 28,
+          "stdout": [
+            {
+              "type": "convention",
+              "module": "tests",
+              "obj": "",
+              "line": 64,
+              "column": 0,
+              "endLine": null,
+              "endColumn": null,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/tests.py",
+              "symbol": "line-too-long",
+              "message": "Line too long (101/100)",
+              "message-id": "C0301"
+            },
+            {
+              "type": "convention",
+              "module": "tests",
+              "obj": "",
+              "line": 71,
+              "column": 0,
+              "endLine": null,
+              "endColumn": null,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/tests.py",
+              "symbol": "line-too-long",
+              "message": "Line too long (101/100)",
+              "message-id": "C0301"
+            },
+            {
+              "type": "convention",
+              "module": "tests",
+              "obj": "",
+              "line": 81,
+              "column": 0,
+              "endLine": null,
+              "endColumn": null,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/tests.py",
+              "symbol": "line-too-long",
+              "message": "Line too long (113/100)",
+              "message-id": "C0301"
+            },
+            {
+              "type": "convention",
+              "module": "tests",
+              "obj": "",
+              "line": 87,
+              "column": 0,
+              "endLine": null,
+              "endColumn": null,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/tests.py",
+              "symbol": "line-too-long",
+              "message": "Line too long (105/100)",
+              "message-id": "C0301"
+            },
+            {
+              "type": "convention",
+              "module": "tests",
+              "obj": "test_b1_empty_query",
+              "line": 35,
+              "column": 0,
+              "endLine": 35,
+              "endColumn": 23,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/tests.py",
+              "symbol": "missing-function-docstring",
+              "message": "Missing function or method docstring",
+              "message-id": "C0116"
+            },
+            {
+              "type": "convention",
+              "module": "tests",
+              "obj": "test_b1_invalid_query_no_tools",
+              "line": 39,
+              "column": 0,
+              "endLine": 39,
+              "endColumn": 34,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/tests.py",
+              "symbol": "missing-function-docstring",
+              "message": "Missing function or method docstring",
+              "message-id": "C0116"
+            },
+            {
+              "type": "convention",
+              "module": "tests",
+              "obj": "test_b1_invalid_query_no_tools",
+              "line": 44,
+              "column": 27,
+              "endLine": 44,
+              "endColumn": 48,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/tests.py",
+              "symbol": "multiple-statements",
+              "message": "More than one statement on a single line",
+              "message-id": "C0321"
+            },
+            {
+              "type": "convention",
+              "module": "tests",
+              "obj": "test_b3_b7_search_path",
+              "line": 47,
+              "column": 0,
+              "endLine": 47,
+              "endColumn": 26,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/tests.py",
+              "symbol": "missing-function-docstring",
+              "message": "Missing function or method docstring",
+              "message-id": "C0116"
+            },
+            {
+              "type": "convention",
+              "module": "tests",
+              "obj": "test_b6_search_failure",
+              "line": 63,
+              "column": 0,
+              "endLine": 63,
+              "endColumn": 26,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/tests.py",
+              "symbol": "missing-function-docstring",
+              "message": "Missing function or method docstring",
+              "message-id": "C0116"
+            },
+            {
+              "type": "convention",
+              "module": "tests",
+              "obj": "test_b6_search_timeout",
+              "line": 70,
+              "column": 0,
+              "endLine": 70,
+              "endColumn": 26,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/tests.py",
+              "symbol": "missing-function-docstring",
+              "message": "Missing function or method docstring",
+              "message-id": "C0116"
+            },
+            {
+              "type": "convention",
+              "module": "tests",
+              "obj": "test_b4_b7_pantry_path",
+              "line": 85,
+              "column": 0,
+              "endLine": 85,
+              "endColumn": 26,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/tests.py",
+              "symbol": "missing-function-docstring",
+              "message": "Missing function or method docstring",
+              "message-id": "C0116"
+            },
+            {
+              "type": "convention",
+              "module": "tests",
+              "obj": "test_b4_b7_pantry_path",
+              "line": 92,
+              "column": 30,
+              "endLine": 92,
+              "endColumn": 51,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/tests.py",
+              "symbol": "multiple-statements",
+              "message": "More than one statement on a single line",
+              "message-id": "C0321"
+            },
+            {
+              "type": "convention",
+              "module": "tests",
+              "obj": "test_b5_empty_pantry",
+              "line": 96,
+              "column": 0,
+              "endLine": 96,
+              "endColumn": 24,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/tests.py",
+              "symbol": "missing-function-docstring",
+              "message": "Missing function or method docstring",
+              "message-id": "C0116"
+            },
+            {
+              "type": "convention",
+              "module": "tests",
+              "obj": "test_b5_no_compatible",
+              "line": 103,
+              "column": 0,
+              "endLine": 103,
+              "endColumn": 25,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/tests.py",
+              "symbol": "missing-function-docstring",
+              "message": "Missing function or method docstring",
+              "message-id": "C0116"
+            },
+            {
+              "type": "convention",
+              "module": "tests",
+              "obj": "test_b6_pantry_missing_credentials",
+              "line": 111,
+              "column": 0,
+              "endLine": 111,
+              "endColumn": 38,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/tests.py",
+              "symbol": "missing-function-docstring",
+              "message": "Missing function or method docstring",
+              "message-id": "C0116"
+            },
+            {
+              "type": "convention",
+              "module": "tests",
+              "obj": "test_b6_model_failure",
+              "line": 117,
+              "column": 0,
+              "endLine": 117,
+              "endColumn": 25,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/tests.py",
+              "symbol": "missing-function-docstring",
+              "message": "Missing function or method docstring",
+              "message-id": "C0116"
+            },
+            {
+              "type": "convention",
+              "module": "tests",
+              "obj": "test_tools_are_langchain_tools",
+              "line": 122,
+              "column": 0,
+              "endLine": 122,
+              "endColumn": 34,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/tests.py",
+              "symbol": "missing-function-docstring",
+              "message": "Missing function or method docstring",
+              "message-id": "C0116"
+            },
+            {
+              "type": "convention",
+              "module": "tests",
+              "obj": "test_tools_are_langchain_tools",
+              "line": 123,
+              "column": 4,
+              "endLine": 123,
+              "endColumn": 45,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/tests.py",
+              "symbol": "import-outside-toplevel",
+              "message": "Import outside toplevel (langchain_core.tools.BaseTool)",
+              "message-id": "C0415"
+            },
+            {
+              "type": "convention",
+              "module": "tests",
+              "obj": "test_live",
+              "line": 128,
+              "column": 0,
+              "endLine": 128,
+              "endColumn": 13,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/tests.py",
+              "symbol": "missing-function-docstring",
+              "message": "Missing function or method docstring",
+              "message-id": "C0116"
+            },
+            {
+              "type": "convention",
+              "module": "agent",
+              "obj": "",
+              "line": 23,
+              "column": 0,
+              "endLine": null,
+              "endColumn": null,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/agent.py",
+              "symbol": "line-too-long",
+              "message": "Line too long (103/100)",
+              "message-id": "C0301"
+            },
+            {
+              "type": "convention",
+              "module": "agent",
+              "obj": "",
+              "line": 24,
+              "column": 0,
+              "endLine": null,
+              "endColumn": null,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/agent.py",
+              "symbol": "line-too-long",
+              "message": "Line too long (108/100)",
+              "message-id": "C0301"
+            },
+            {
+              "type": "convention",
+              "module": "agent",
+              "obj": "",
+              "line": 26,
+              "column": 0,
+              "endLine": null,
+              "endColumn": null,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/agent.py",
+              "symbol": "line-too-long",
+              "message": "Line too long (114/100)",
+              "message-id": "C0301"
+            },
+            {
+              "type": "convention",
+              "module": "agent",
+              "obj": "",
+              "line": 38,
+              "column": 0,
+              "endLine": null,
+              "endColumn": null,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/agent.py",
+              "symbol": "line-too-long",
+              "message": "Line too long (102/100)",
+              "message-id": "C0301"
+            },
+            {
+              "type": "convention",
+              "module": "agent",
+              "obj": "",
+              "line": 56,
+              "column": 0,
+              "endLine": null,
+              "endColumn": null,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/agent.py",
+              "symbol": "line-too-long",
+              "message": "Line too long (102/100)",
+              "message-id": "C0301"
+            },
+            {
+              "type": "convention",
+              "module": "agent",
+              "obj": "",
+              "line": 81,
+              "column": 0,
+              "endLine": null,
+              "endColumn": null,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/agent.py",
+              "symbol": "line-too-long",
+              "message": "Line too long (109/100)",
+              "message-id": "C0301"
+            },
+            {
+              "type": "convention",
+              "module": "agent",
+              "obj": "",
+              "line": 101,
+              "column": 0,
+              "endLine": null,
+              "endColumn": null,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/agent.py",
+              "symbol": "line-too-long",
+              "message": "Line too long (105/100)",
+              "message-id": "C0301"
+            },
+            {
+              "type": "convention",
+              "module": "agent",
+              "obj": "",
+              "line": 108,
+              "column": 0,
+              "endLine": null,
+              "endColumn": null,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/agent.py",
+              "symbol": "line-too-long",
+              "message": "Line too long (111/100)",
+              "message-id": "C0301"
+            },
+            {
+              "type": "convention",
+              "module": "agent",
+              "obj": "",
+              "line": 158,
+              "column": 0,
+              "endLine": null,
+              "endColumn": null,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/agent.py",
+              "symbol": "line-too-long",
+              "message": "Line too long (108/100)",
+              "message-id": "C0301"
+            },
+            {
+              "type": "convention",
+              "module": "agent",
+              "obj": "",
+              "line": 159,
+              "column": 0,
+              "endLine": null,
+              "endColumn": null,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/agent.py",
+              "symbol": "line-too-long",
+              "message": "Line too long (112/100)",
+              "message-id": "C0301"
+            },
+            {
+              "type": "convention",
+              "module": "agent",
+              "obj": "",
+              "line": 171,
+              "column": 0,
+              "endLine": null,
+              "endColumn": null,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/agent.py",
+              "symbol": "line-too-long",
+              "message": "Line too long (106/100)",
+              "message-id": "C0301"
+            },
+            {
+              "type": "convention",
+              "module": "agent",
+              "obj": "",
+              "line": 173,
+              "column": 0,
+              "endLine": null,
+              "endColumn": null,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/agent.py",
+              "symbol": "line-too-long",
+              "message": "Line too long (118/100)",
+              "message-id": "C0301"
+            },
+            {
+              "type": "convention",
+              "module": "agent",
+              "obj": "",
+              "line": 174,
+              "column": 0,
+              "endLine": null,
+              "endColumn": null,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/agent.py",
+              "symbol": "line-too-long",
+              "message": "Line too long (111/100)",
+              "message-id": "C0301"
+            },
+            {
+              "type": "convention",
+              "module": "agent",
+              "obj": "",
+              "line": 177,
+              "column": 0,
+              "endLine": null,
+              "endColumn": null,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/agent.py",
+              "symbol": "line-too-long",
+              "message": "Line too long (115/100)",
+              "message-id": "C0301"
+            },
+            {
+              "type": "convention",
+              "module": "agent",
+              "obj": "",
+              "line": 198,
+              "column": 0,
+              "endLine": null,
+              "endColumn": null,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/agent.py",
+              "symbol": "line-too-long",
+              "message": "Line too long (106/100)",
+              "message-id": "C0301"
+            },
+            {
+              "type": "convention",
+              "module": "agent",
+              "obj": "",
+              "line": 204,
+              "column": 0,
+              "endLine": null,
+              "endColumn": null,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/agent.py",
+              "symbol": "line-too-long",
+              "message": "Line too long (108/100)",
+              "message-id": "C0301"
+            },
+            {
+              "type": "convention",
+              "module": "agent",
+              "obj": "",
+              "line": 205,
+              "column": 0,
+              "endLine": null,
+              "endColumn": null,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/agent.py",
+              "symbol": "line-too-long",
+              "message": "Line too long (108/100)",
+              "message-id": "C0301"
+            },
+            {
+              "type": "convention",
+              "module": "agent",
+              "obj": "",
+              "line": 208,
+              "column": 0,
+              "endLine": null,
+              "endColumn": null,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/agent.py",
+              "symbol": "line-too-long",
+              "message": "Line too long (112/100)",
+              "message-id": "C0301"
+            },
+            {
+              "type": "convention",
+              "module": "agent",
+              "obj": "",
+              "line": 213,
+              "column": 0,
+              "endLine": null,
+              "endColumn": null,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/agent.py",
+              "symbol": "line-too-long",
+              "message": "Line too long (118/100)",
+              "message-id": "C0301"
+            },
+            {
+              "type": "convention",
+              "module": "agent",
+              "obj": "",
+              "line": 223,
+              "column": 0,
+              "endLine": null,
+              "endColumn": null,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/agent.py",
+              "symbol": "line-too-long",
+              "message": "Line too long (111/100)",
+              "message-id": "C0301"
+            },
+            {
+              "type": "convention",
+              "module": "agent",
+              "obj": "",
+              "line": 224,
+              "column": 0,
+              "endLine": null,
+              "endColumn": null,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/agent.py",
+              "symbol": "line-too-long",
+              "message": "Line too long (113/100)",
+              "message-id": "C0301"
+            },
+            {
+              "type": "convention",
+              "module": "agent",
+              "obj": "",
+              "line": 225,
+              "column": 0,
+              "endLine": null,
+              "endColumn": null,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/agent.py",
+              "symbol": "line-too-long",
+              "message": "Line too long (110/100)",
+              "message-id": "C0301"
+            },
+            {
+              "type": "convention",
+              "module": "agent",
+              "obj": "",
+              "line": 226,
+              "column": 0,
+              "endLine": null,
+              "endColumn": null,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/agent.py",
+              "symbol": "line-too-long",
+              "message": "Line too long (112/100)",
+              "message-id": "C0301"
+            },
+            {
+              "type": "convention",
+              "module": "agent",
+              "obj": "",
+              "line": 227,
+              "column": 0,
+              "endLine": null,
+              "endColumn": null,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/agent.py",
+              "symbol": "line-too-long",
+              "message": "Line too long (111/100)",
+              "message-id": "C0301"
+            },
+            {
+              "type": "convention",
+              "module": "agent",
+              "obj": "",
+              "line": 237,
+              "column": 0,
+              "endLine": null,
+              "endColumn": null,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/agent.py",
+              "symbol": "line-too-long",
+              "message": "Line too long (113/100)",
+              "message-id": "C0301"
+            },
+            {
+              "type": "warning",
+              "module": "agent",
+              "obj": "retrieve_pantry",
+              "line": 74,
+              "column": 11,
+              "endLine": 74,
+              "endColumn": 20,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/agent.py",
+              "symbol": "broad-exception-caught",
+              "message": "Catching too general exception Exception",
+              "message-id": "W0718"
+            },
+            {
+              "type": "refactor",
+              "module": "agent",
+              "obj": "retrieve_pantry",
+              "line": 46,
+              "column": 4,
+              "endLine": 75,
+              "endColumn": 64,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/agent.py",
+              "symbol": "too-many-nested-blocks",
+              "message": "Too many nested blocks (6/5)",
+              "message-id": "R1702"
+            },
+            {
+              "type": "refactor",
+              "module": "agent",
+              "obj": "retrieve_pantry",
+              "line": 37,
+              "column": 0,
+              "endLine": 37,
+              "endColumn": 19,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/agent.py",
+              "symbol": "too-many-branches",
+              "message": "Too many branches (13/12)",
+              "message-id": "R0912"
+            },
+            {
+              "type": "warning",
+              "module": "agent",
+              "obj": "search_recipes",
+              "line": 98,
+              "column": 11,
+              "endLine": 98,
+              "endColumn": 20,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/agent.py",
+              "symbol": "broad-exception-caught",
+              "message": "Catching too general exception Exception",
+              "message-id": "W0718"
+            },
+            {
+              "type": "convention",
+              "module": "agent",
+              "obj": "Validation",
+              "line": 107,
+              "column": 0,
+              "endLine": 107,
+              "endColumn": 16,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/agent.py",
+              "symbol": "missing-class-docstring",
+              "message": "Missing class docstring",
+              "message-id": "C0115"
+            },
+            {
+              "type": "convention",
+              "module": "agent",
+              "obj": "Identification",
+              "line": 112,
+              "column": 0,
+              "endLine": 112,
+              "endColumn": 20,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/agent.py",
+              "symbol": "missing-class-docstring",
+              "message": "Missing class docstring",
+              "message-id": "C0115"
+            },
+            {
+              "type": "convention",
+              "module": "agent",
+              "obj": "PantryFilter",
+              "line": 120,
+              "column": 0,
+              "endLine": 120,
+              "endColumn": 18,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/agent.py",
+              "symbol": "missing-class-docstring",
+              "message": "Missing class docstring",
+              "message-id": "C0115"
+            },
+            {
+              "type": "convention",
+              "module": "agent",
+              "obj": "RecipeIngredient",
+              "line": 124,
+              "column": 0,
+              "endLine": 124,
+              "endColumn": 22,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/agent.py",
+              "symbol": "missing-class-docstring",
+              "message": "Missing class docstring",
+              "message-id": "C0115"
+            },
+            {
+              "type": "convention",
+              "module": "agent",
+              "obj": "Recipe",
+              "line": 129,
+              "column": 0,
+              "endLine": 129,
+              "endColumn": 12,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/agent.py",
+              "symbol": "missing-class-docstring",
+              "message": "Missing class docstring",
+              "message-id": "C0115"
+            },
+            {
+              "type": "convention",
+              "module": "agent",
+              "obj": "State",
+              "line": 137,
+              "column": 0,
+              "endLine": 137,
+              "endColumn": 11,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/agent.py",
+              "symbol": "missing-class-docstring",
+              "message": "Missing class docstring",
+              "message-id": "C0115"
+            },
+            {
+              "type": "convention",
+              "module": "agent",
+              "obj": "validate_node",
+              "line": 152,
+              "column": 0,
+              "endLine": 152,
+              "endColumn": 17,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/agent.py",
+              "symbol": "missing-function-docstring",
+              "message": "Missing function or method docstring",
+              "message-id": "C0116"
+            },
+            {
+              "type": "convention",
+              "module": "agent",
+              "obj": "identify_node",
+              "line": 168,
+              "column": 0,
+              "endLine": 168,
+              "endColumn": 17,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/agent.py",
+              "symbol": "missing-function-docstring",
+              "message": "Missing function or method docstring",
+              "message-id": "C0116"
+            },
+            {
+              "type": "convention",
+              "module": "agent",
+              "obj": "search_node",
+              "line": 188,
+              "column": 0,
+              "endLine": 188,
+              "endColumn": 15,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/agent.py",
+              "symbol": "missing-function-docstring",
+              "message": "Missing function or method docstring",
+              "message-id": "C0116"
+            },
+            {
+              "type": "convention",
+              "module": "agent",
+              "obj": "pantry_node",
+              "line": 195,
+              "column": 0,
+              "endLine": 195,
+              "endColumn": 15,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/agent.py",
+              "symbol": "missing-function-docstring",
+              "message": "Missing function or method docstring",
+              "message-id": "C0116"
+            },
+            {
+              "type": "convention",
+              "module": "agent",
+              "obj": "generate_node",
+              "line": 218,
+              "column": 0,
+              "endLine": 218,
+              "endColumn": 17,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/agent.py",
+              "symbol": "missing-function-docstring",
+              "message": "Missing function or method docstring",
+              "message-id": "C0116"
+            },
+            {
+              "type": "convention",
+              "module": "agent",
+              "obj": "build_graph",
+              "line": 260,
+              "column": 0,
+              "endLine": 260,
+              "endColumn": 15,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/agent.py",
+              "symbol": "missing-function-docstring",
+              "message": "Missing function or method docstring",
+              "message-id": "C0116"
+            },
+            {
+              "type": "warning",
+              "module": "agent",
+              "obj": "agent",
+              "line": 283,
+              "column": 11,
+              "endLine": 283,
+              "endColumn": 20,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/agent.py",
+              "symbol": "broad-exception-caught",
+              "message": "Catching too general exception Exception",
+              "message-id": "W0718"
+            },
+            {
+              "type": "warning",
+              "module": "agent",
+              "obj": "",
+              "line": 4,
+              "column": 0,
+              "endLine": 4,
+              "endColumn": 44,
+              "path": "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/agent.py",
+              "symbol": "unused-import",
+              "message": "Unused Optional imported from typing",
+              "message-id": "W0611"
+            }
+          ],
+          "stderr": ""
+        },
+        "radon_cc": {
+          "command": "radon cc generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate -a -j",
+          "exit_code": 0,
+          "stdout": {
+            "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/tests.py": [
+              {
+                "type": "function",
+                "rank": "A",
+                "col_offset": 0,
+                "endline": 59,
+                "lineno": 47,
+                "name": "test_b3_b7_search_path",
+                "complexity": 4,
+                "closures": []
+              },
+              {
+                "type": "function",
+                "rank": "A",
+                "col_offset": 0,
+                "endline": 85,
+                "lineno": 85,
+                "name": "test_b4_b7_pantry_path",
+                "complexity": 3,
+                "closures": []
+              },
+              {
+                "type": "function",
+                "rank": "A",
+                "col_offset": 0,
+                "endline": 35,
+                "lineno": 35,
+                "name": "test_b1_empty_query",
+                "complexity": 2,
+                "closures": []
+              },
+              {
+                "type": "function",
+                "rank": "A",
+                "col_offset": 0,
+                "endline": 44,
+                "lineno": 39,
+                "name": "test_b1_invalid_query_no_tools",
+                "complexity": 2,
+                "closures": []
+              },
+              {
+                "type": "function",
+                "rank": "A",
+                "col_offset": 0,
+                "endline": 63,
+                "lineno": 63,
+                "name": "test_b6_search_failure",
+                "complexity": 2,
+                "closures": []
+              },
+              {
+                "type": "function",
+                "rank": "A",
+                "col_offset": 0,
+                "endline": 70,
+                "lineno": 70,
+                "name": "test_b6_search_timeout",
+                "complexity": 2,
+                "closures": []
+              },
+              {
+                "type": "function",
+                "rank": "A",
+                "col_offset": 0,
+                "endline": 82,
+                "lineno": 78,
+                "name": "_notion",
+                "complexity": 2,
+                "closures": []
+              },
+              {
+                "type": "function",
+                "rank": "A",
+                "col_offset": 0,
+                "endline": 99,
+                "lineno": 96,
+                "name": "test_b5_empty_pantry",
+                "complexity": 2,
+                "closures": []
+              },
+              {
+                "type": "function",
+                "rank": "A",
+                "col_offset": 0,
+                "endline": 107,
+                "lineno": 103,
+                "name": "test_b5_no_compatible",
+                "complexity": 2,
+                "closures": []
+              },
+              {
+                "type": "function",
+                "rank": "A",
+                "col_offset": 0,
+                "endline": 113,
+                "lineno": 111,
+                "name": "test_b6_pantry_missing_credentials",
+                "complexity": 2,
+                "closures": []
+              },
+              {
+                "type": "function",
+                "rank": "A",
+                "col_offset": 0,
+                "endline": 118,
+                "lineno": 117,
+                "name": "test_b6_model_failure",
+                "complexity": 2,
+                "closures": []
+              },
+              {
+                "type": "function",
+                "rank": "A",
+                "col_offset": 0,
+                "endline": 122,
+                "lineno": 122,
+                "name": "test_tools_are_langchain_tools",
+                "complexity": 2,
+                "closures": []
+              },
+              {
+                "type": "function",
+                "rank": "A",
+                "col_offset": 0,
+                "endline": 128,
+                "lineno": 128,
+                "name": "test_live",
+                "complexity": 2,
+                "closures": []
+              },
+              {
+                "type": "function",
+                "rank": "A",
+                "col_offset": 0,
+                "endline": 24,
+                "lineno": 13,
+                "name": "fake_llm",
+                "complexity": 1,
+                "closures": [
+                  {
+                    "type": "function",
+                    "rank": "A",
+                    "col_offset": 4,
+                    "endline": 23,
+                    "lineno": 15,
+                    "name": "make",
+                    "complexity": 1,
+                    "closures": [
+                      {
+                        "type": "function",
+                        "rank": "A",
+                        "col_offset": 8,
+                        "endline": 21,
+                        "lineno": 17,
+                        "name": "wso",
+                        "complexity": 2,
+                        "closures": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/agent.py": [
+              {
+                "type": "function",
+                "rank": "C",
+                "col_offset": 0,
+                "endline": 76,
+                "lineno": 37,
+                "name": "retrieve_pantry",
+                "complexity": 15,
+                "closures": []
+              },
+              {
+                "type": "function",
+                "rank": "C",
+                "col_offset": 0,
+                "endline": 244,
+                "lineno": 218,
+                "name": "generate_node",
+                "complexity": 13,
+                "closures": []
+              },
+              {
+                "type": "function",
+                "rank": "B",
+                "col_offset": 0,
+                "endline": 102,
+                "lineno": 80,
+                "name": "search_recipes",
+                "complexity": 8,
+                "closures": []
+              },
+              {
+                "type": "function",
+                "rank": "B",
+                "col_offset": 0,
+                "endline": 215,
+                "lineno": 195,
+                "name": "pantry_node",
+                "complexity": 7,
+                "closures": []
+              },
+              {
+                "type": "function",
+                "rank": "A",
+                "col_offset": 0,
+                "endline": 284,
+                "lineno": 276,
+                "name": "agent",
+                "complexity": 5,
+                "closures": []
+              },
+              {
+                "type": "function",
+                "rank": "A",
+                "col_offset": 0,
+                "endline": 33,
+                "lineno": 31,
+                "name": "_rich_text",
+                "complexity": 4,
+                "closures": []
+              },
+              {
+                "type": "function",
+                "rank": "A",
+                "col_offset": 0,
+                "endline": 165,
+                "lineno": 152,
+                "name": "validate_node",
+                "complexity": 4,
+                "closures": []
+              },
+              {
+                "type": "function",
+                "rank": "A",
+                "col_offset": 0,
+                "endline": 184,
+                "lineno": 168,
+                "name": "identify_node",
+                "complexity": 3,
+                "closures": []
+              },
+              {
+                "type": "function",
+                "rank": "A",
+                "col_offset": 0,
+                "endline": 192,
+                "lineno": 188,
+                "name": "search_node",
+                "complexity": 2,
+                "closures": []
+              },
+              {
+                "type": "function",
+                "rank": "A",
+                "col_offset": 0,
+                "endline": 249,
+                "lineno": 248,
+                "name": "_after_validate",
+                "complexity": 2,
+                "closures": []
+              },
+              {
+                "type": "function",
+                "rank": "A",
+                "col_offset": 0,
+                "endline": 253,
+                "lineno": 252,
+                "name": "_after_identify",
+                "complexity": 2,
+                "closures": []
+              },
+              {
+                "type": "function",
+                "rank": "A",
+                "col_offset": 0,
+                "endline": 257,
+                "lineno": 256,
+                "name": "_after_tool",
+                "complexity": 2,
+                "closures": []
+              },
+              {
+                "type": "function",
+                "rank": "A",
+                "col_offset": 0,
+                "endline": 148,
+                "lineno": 147,
+                "name": "_llm",
+                "complexity": 1,
+                "closures": []
+              },
+              {
+                "type": "function",
+                "rank": "A",
+                "col_offset": 0,
+                "endline": 273,
+                "lineno": 260,
+                "name": "build_graph",
+                "complexity": 1,
+                "closures": []
+              },
+              {
+                "type": "class",
+                "rank": "A",
+                "col_offset": 0,
+                "endline": 109,
+                "lineno": 107,
+                "name": "Validation",
+                "complexity": 1,
+                "methods": []
+              },
+              {
+                "type": "class",
+                "rank": "A",
+                "col_offset": 0,
+                "endline": 116,
+                "lineno": 112,
+                "name": "Identification",
+                "complexity": 1,
+                "methods": []
+              },
+              {
+                "type": "class",
+                "rank": "A",
+                "col_offset": 0,
+                "endline": 121,
+                "lineno": 120,
+                "name": "PantryFilter",
+                "complexity": 1,
+                "methods": []
+              },
+              {
+                "type": "class",
+                "rank": "A",
+                "col_offset": 0,
+                "endline": 126,
+                "lineno": 124,
+                "name": "RecipeIngredient",
+                "complexity": 1,
+                "methods": []
+              },
+              {
+                "type": "class",
+                "rank": "A",
+                "col_offset": 0,
+                "endline": 134,
+                "lineno": 129,
+                "name": "Recipe",
+                "complexity": 1,
+                "methods": []
+              },
+              {
+                "type": "class",
+                "rank": "A",
+                "col_offset": 0,
+                "endline": 144,
+                "lineno": 137,
+                "name": "State",
+                "complexity": 1,
+                "methods": []
+              }
+            ]
+          },
+          "stderr": ""
+        },
+        "radon_mi": {
+          "command": "radon mi generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate -j",
+          "exit_code": 0,
+          "stdout": {
+            "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/tests.py": {
+              "mi": 42.27495954514779,
+              "rank": "A"
+            },
+            "generated_agents/by_claude_version/run_2/claude-opus-5-5-low/018_recipe_intermediate/agent.py": {
+              "mi": 31.334047606695417,
+              "rank": "A"
+            }
+          },
+          "stderr": ""
+        },
+        "sonarqube": {
+          "exit_code": 0,
+          "metrics": {
+            "complexity": "80",
+            "reliability_rating": "1.0",
+            "code_smells": "1",
+            "duplicated_lines_density": "0.0",
+            "functions": "30",
+            "security_rating": "1.0",
+            "classes": "6",
+            "sqale_debt_ratio": "0.2",
+            "statements": "210",
+            "comment_lines_density": "3.8",
+            "security_hotspots": "0",
+            "sqale_index": "21",
+            "sqale_rating": "1.0",
+            "bugs": "0",
+            "cognitive_complexity": "69",
+            "duplicated_blocks": "0",
+            "ncloc": "329",
+            "reliability_remediation_effort": "0",
+            "vulnerabilities": "0",
+            "lines": "421"
+          }
+        }
+      }
+    }
+  ]
+}

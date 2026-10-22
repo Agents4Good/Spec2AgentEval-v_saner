@@ -1,0 +1,29 @@
+{
+  "run_id": "8c2481aa548349c5b66b651a7cfc5c29",
+  "query": [
+    "Suggest a quick dinner recipe for tonight."
+  ],
+  "status": "ok",
+  "error": null,
+  "runs_collected": 1,
+  "trajectory": [
+    "validate",
+    "identify",
+    "pantry",
+    "retrieve_pantry",
+    "generate"
+  ],
+  "tool_calls": [
+    {
+      "name": "retrieve_pantry",
+      "input": {},
+      "output": [
+        "corn",
+        "chicken",
+        "milk"
+      ],
+      "start": "2026-10-20T13:51:51.577235+00:00",
+      "end": "2026-10-20T13:51:52.050576+00:00"
+    }
+  ]
+}

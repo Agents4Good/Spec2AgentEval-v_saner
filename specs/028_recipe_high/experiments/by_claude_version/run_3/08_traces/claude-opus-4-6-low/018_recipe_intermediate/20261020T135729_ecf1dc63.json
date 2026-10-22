@@ -1,0 +1,53 @@
+{
+  "run_id": "ecf1dc633933410b93ffb0d560d6dccd",
+  "query": [
+    "I'm vegetarian. I have tomatoes, zucchini and pasta. Suggest a lunch recipe."
+  ],
+  "status": "ok",
+  "error": null,
+  "runs_collected": 1,
+  "trajectory": [
+    "validate_query",
+    "identify_ingredients",
+    "search_recipes_node",
+    "search_recipes",
+    "generate_recipe_node"
+  ],
+  "tool_calls": [
+    {
+      "name": "search_recipes",
+      "input": {
+        "ingredients": "tomatoes, zucchini, pasta"
+      },
+      "output": [
+        {
+          "title": "Creamy Pasta with Zucchini and Tomatoes Recipe - Wyse Guide",
+          "url": "https://www.wyseguide.com/tomato-zucchini-summer-pasta",
+          "content": "1 pound cherry tomatoes, ½ teaspoon kosher salt, 5 cloves garlic, ¼ teaspoon red pepper flakes\n Combine: Pour the tomatoes and zucchini into the pasta in the stock pot. Add the cream and ½ cup of the pasta water. Turn the heat to medium-low and cook the pasta with the sauce until the mixture is hot and bubbling, 3-4 minutes. Turn off the heat. [...] Step 4: Combine everything – Add the cooked tomatoes and browned zucchini to the pot with the pasta. Pour in the heavy cream and some reserved pasta"
+        },
+        {
+          "title": "Tomato Zucchini Summer Pasta | Easy Weeknight Dinner",
+          "url": "https://www.youtube.com/watch?v=J1SyCfzn0qg",
+          "content": "In the same skillet over medium heat, add the prepared tomatoes. Cook until the tomatoes begin to burst and break down, 4-6 minutes. Add the garlic, red pepper flakes, and salt. Cook until the garlic is fragrant, 1 minute.\n\nPour the tomatoes and zucchini into the pasta in the stock pot. Add the cream, red pepper flakes, and 1/2 cup of the pasta water. Turn the heat to medium-low and cook the pasta with the sauce until the mixture is hot and bubbling, 3-4 minutes. Turn off the heat. [...] INGREDI"
+        },
+        {
+          "title": "Pasta with zucchini and tomatoes - The clever meal",
+          "url": "https://theclevermeal.com/pasta-with-tomatoes-and-zucchini",
+          "content": "Add zucchini, chili flakes, salt, and pepper to the pan and cook for 10 minutes. I love this pan! There’s no need to add a ton of olive oil or butter because it’s non-stick perfection without harmful chemicals and easy to clean.\n When the zucchini cubes start to caramelize, add the tomatoes.\n\n Cook until the skins burst, taste, and adjust the seasoning.\n Add pasta and fresh parsley, toss until well combined, and add a bit of pasta water. [...] Add the zucchini, chili flakes, about ¼ tsp of salt,"
+        },
+        {
+          "title": "Pasta with Zucchini and Tomatoes (20 Minutes) - iFoodReal.com",
+          "url": "https://ifoodreal.com/pasta-with-zucchini-and-tomatoes",
+          "content": "By: Olena Osipov\n\nPasta with Zucchini and Tomatoes is a 20 minute vegetarian pasta recipe with zucchini, tomatoes, fresh garlic, basil and parmesan.\n\nPrep: 10 minutes mins\n\nCook: 10 minutes mins\n\nTotal: 20 minutes mins\n\nServings: 4 servings\n\nSaveSaved  Pin  Rate  Print\n\n### Equipment\n\n Ceramic skillet\n\n### Ingredients [...] Return skillet to the stove and swirl 1 tbsp of oil to coat, add tomatoes and cook for 3 minutes, stirring occasionally. Add garlic and cook for 1 minute, stirring a few time"
+        },
+        {
+          "title": "Zucchini Tomato Pasta Recipe | Easy Vegetarian and Vegan Recipes | Italian Tomato Pasta",
+          "url": "https://www.youtube.com/watch?v=BFP1s1ASBuE",
+          "content": "Now reduce the heat to low and add garlic and chili flakes. Cook on low to medium-low heat for about 1 minute or until fragrant. Then add the tomato paste. Mix well. Now add the zucchini. Turn the heat to medium-high and fry the zucchini along with the tomato paste for about 2 minutes, to cook out the raw flavour of the tomato paste.\n\n ✅ 👉 NOTE: If you like your pasta more zesty, you can slightly increase the quantity of tomato paste [...] Mix well and cook on medium heat for another 2 minutes o"
+        }
+      ],
+      "start": "2026-10-20T13:57:24.347693+00:00",
+      "end": "2026-10-20T13:57:26.830649+00:00"
+    }
+  ]
+}

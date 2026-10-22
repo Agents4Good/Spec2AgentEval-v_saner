@@ -1,0 +1,29 @@
+{
+  "run_id": "dc5f04657a714b8ebd5a776a097ea22e",
+  "query": [
+    "I'm vegan. I have bacon and cheese. Create a recipe for me."
+  ],
+  "status": "ok",
+  "error": null,
+  "runs_collected": 1,
+  "trajectory": [
+    "validate_query",
+    "identify_ingredients",
+    "pantry_lookup_node",
+    "retrieve_pantry",
+    "generate_recipe_node"
+  ],
+  "tool_calls": [
+    {
+      "name": "retrieve_pantry",
+      "input": {},
+      "output": [
+        "corn",
+        "chicken",
+        "milk"
+      ],
+      "start": "2026-10-20T13:57:45.131722+00:00",
+      "end": "2026-10-20T13:57:45.553462+00:00"
+    }
+  ]
+}

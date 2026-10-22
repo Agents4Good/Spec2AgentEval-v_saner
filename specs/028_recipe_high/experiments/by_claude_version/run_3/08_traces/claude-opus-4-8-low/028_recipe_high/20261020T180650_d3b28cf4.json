@@ -1,0 +1,71 @@
+{
+  "run_id": "d3b28cf43b294a77a96c8c3b8aacba0b",
+  "query": [
+    "I'd like a quick dinner recipe. I have chicken and rice."
+  ],
+  "status": "ok",
+  "error": null,
+  "runs_collected": 1,
+  "trajectory": [
+    "b1",
+    "b2",
+    "retrieve_pantry",
+    "b3",
+    "b4",
+    "search_recipes",
+    "b7"
+  ],
+  "tool_calls": [
+    {
+      "name": "retrieve_pantry",
+      "input": {},
+      "output": [
+        "corn",
+        "chicken",
+        "milk"
+      ],
+      "start": "2026-10-20T18:06:41.686753+00:00",
+      "end": "2026-10-20T18:06:43.046511+00:00"
+    },
+    {
+      "name": "search_recipes",
+      "input": {
+        "ingredients": [
+          "chicken",
+          "rice",
+          "corn",
+          "milk"
+        ]
+      },
+      "output": [
+        {
+          "title": "One-Pan Street-Corn-Inspired Chicken and Rice",
+          "url": "https://jenneatsgoood.com/one-pan-street-corn-inspired-chicken-and-rice",
+          "content": "Stir in the coconut milk and 1 1/2 cups of the broth, turn the heat to medium-high, and bring to a light boil. Reduce the heat to medium-low, cover, and cook until the rice is tender, 14 to 18 minutes, stirring halfway through to prevent sticking (Note: If needed while the rice cooks, stir in the remaining 1/2 cup broth). [...] 1 1/2 teaspoons chili powder\n 1 1/2 teaspoons kosher salt\n 1 1/2 teaspoons smoked paprika\n 1/2 teaspoon ground cumin\n 1/4 teaspoon cayenne pepper (optional)\n 1 1/2 pounds boneless, skinless chicken thighs\n 1 tablespoon olive oil\n 1 cup jasmine or basmati rice, rinsed\n 5 garlic cloves, peeled and minced (about 5 teaspoons)\n 12 ounces frozen corn (I like to use fire roasted)\n 13.5 -ounce can light coconut milk (1 1/2 cups)\n up to 2 cups low-sodium chicken broth\n juice of 1 lime [...] Spice mix: Using a mix of chili powder, salt, paprika, cumin, and cayenne pepper gets us that smoky heat without using the grille. The cayenne pepper is optional as it adds a bit of spice, however it is balanced out with the creamy coconut milk in the final dish.\n\none-pan street-corn-inspired chicken and rice\n\nPin\n\nPrint\n\n## one-pan street-corn-inspired chicken and rice\n\nRecipe by Jenn Lueke\n\n4.4 from 51 votes\n\nServings\n\n+\n\n–\n\n4\n\nservings\n\nPrep time\n\n15\n\nminutes\n\nCook time\n\n35\n\nminutes"
+        },
+        {
+          "title": "Corn Casserole With Chicken And Rice • The Wicked Noodle",
+          "url": "https://www.thewickednoodle.com/corn-casserole-chicken-rice",
+          "content": "4. Add corn, chicken, ½ of the cheese, fire-roasted tomatoes, tomato sauce, rice and onion mixture to a greased casserole dish; mix well then add salt and pepper to taste. Sprinkle with remaining cheese. Bake, uncovered, for about 20 minutes or until cheese is melted and casserole is heated through. Garnish with cilantro and chopped green onions; serve with sour cream on the side. [...] I've created a super easy Corn Casserole with Chicken and Rice recipe that was inspired by one my mom made often when I was young. You can even assemble the corn casserole the day or night before then just throw it in the oven when you're ready. I love nights like this when dinner is already prepared yet I know it was my own hands that put it all together.\n\nThis the perfect leftover chicken recipe or make it a leftover turkey casserole!\n\n## Chicken Corn Casserole Ingredients [...] 1 cup uncooked brown rice, can use white if preferred\n 1 tablespoon extra-virgin olive oil\n ½ medium sweet onion, chopped\n 3 cloves garlic, minced\n 2 teaspoons chili powder\n 1 teaspoon ancho chili powder\n 2 - 3 cups frozen corn, thawed (fresh corn right off the cob is best in the summertime!)\n 2 cups cooked chicken, shredded or chopped (I like leftover chicken or turkey, or rotisserie chicken)\n 1 - 2 cups shredded Mexican-style four cheese blend"
+        },
+        {
+          "title": "Instagram",
+          "url": "https://www.instagram.com/reel/DRaQ4FckeNh?hl=en",
+          "content": "Dump and stir: In the baking dish, combine uncooked rice, chicken broth, cream of chicken soup, sour cream, garlic powder, onion powder, salt, pepper, chicken, corn, and 1 cup of the cheddar cheese. Stir until well mixed and evenly distributed.  \n  \nTop it off: Sprinkle remaining 1/2 cup cheddar cheese on top. For added crunch, mix the crushed crackers with melted butter and sprinkle over the cheese layer. [...] Dump-and-Bake Cheddar Chicken Corn Rice Bake  \n  \nThis one-dish wonder is a favorite in my house, especially when I need something hearty and low-effort. Just dump everything into a casserole dish, no pre-cooking required and enjoy a warm, cheesy meal that’s perfect for post-holiday downtime or feeding a hungry crew.  \n  \nIngredients:  \n  \n1 cup uncooked long grain white rice  \n  \n2 cups low-sodium chicken broth  \n  \n1 (10.5 oz) can cream of chicken soup  \n  \n1/2 cup sour cream [...] 2 cups cooked chicken, shredded or diced  \n  \n1 (15 oz) can corn, drained (or 1 1/2 cups frozen corn)  \n  \n1 1/2 cups shredded cheddar cheese, divided  \n  \n1/2 tsp garlic powder  \n  \n1/2 tsp onion powder  \n  \n1/2 tsp salt  \n  \n1/4 tsp black pepper  \n  \n1 tbsp melted butter (optional, for topping)  \n  \n1/2 cup crushed Ritz crackers or breadcrumbs (optional)  \n  \nInstructions:  \n  \nPreheat oven to 375°F (190°C). Lightly grease a 9x13-inch baking dish."
+        },
+        {
+          "title": "Street Corn Chicken Rice Bowls",
+          "url": "https://tastesbetterfromscratch.com/street-corn-chicken-rice-bowls",
+          "content": "Assemble: Spoon rice into a bowl then top with chicken. Add a big scoop of street corn and top with avocado, cheese, and cilantro. Serve street"
+        },
+        {
+          "title": "10-Minute Chinese Corn Chicken Rice — saltnpepperhere",
+          "url": "https://www.saltnpepperhere.com/blog/cream-corn-chicken-rice",
+          "content": "Also of note, this recipe is dairy-free and doesn’t contain any cream. The “cream” in the recipe title refers to the canned “cream style” corn used in the sauce. It’s a gluten-free meal as well if you use tamari instead of soy sauce.\n\nThis recipe is the fourth recipe in season 2 of my 30 MINUTE RECIPES series. If you think this looks good, be sure to check out the other recipes in the series of quick and healthy, family meals that can be prepared in 30 minutes or less.\n\nEat well + be well, [...] 2. Pour in cream style corn and bring to a simmer. Add soy sauce and toasted sesame oil. Depending if you like the consistency a little thinner, add a splash of broth or water. Taste and adjust seasonings (i.e. salt, soy sauce, sesame oil) as needed.\n3. Serve with white rice. Add a drizzle more sesame oil if you like. Top with scallions (I bunch and cut them with my kitchen scissors directly over the bowls). Enjoy! [...] Canned Cream-Style Corn - essentially corn niblets in a cornstarch-thickened liquid which makes it a perfect shortcut for this recipe. In spite of its name, “cream-style corn” does not contain any cream or dairy\n Ground chicken - requires no prepping and is how this meal can be made in 10 minutes\n Garlic - I say 1 to 2 cloves but do measure with your heart :)"
+        }
+      ],
+      "start": "2026-10-20T18:06:44.139647+00:00",
+      "end": "2026-10-20T18:06:46.549080+00:00"
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+projectKey=claude-opus-5-5-low_028_recipe_high_1599
+serverUrl=http://localhost:9000
+serverVersion=26.3.0.120487
+dashboardUrl=http://localhost:9000/dashboard?id=claude-opus-5-5-low_028_recipe_high_1599
+ceTaskId=dfc1f637-52bb-4e53-9e6b-2497f7cf2139
+ceTaskUrl=http://localhost:9000/api/ce/task?id=dfc1f637-52bb-4e53-9e6b-2497f7cf2139

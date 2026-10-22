@@ -1,0 +1,1029 @@
+{
+  "run_id": "20261020_143209",
+  "run": 2,
+  "experiment": "by_claude_version",
+  "stage": "evaluation",
+  "model": "claude-opus-5-5-low",
+  "test": "test_deepeval.py",
+  "agent_filter": "028_recipe_high",
+  "bench_dir": "specs",
+  "generated_dir": "generated_agents/by_claude_version/run_2",
+  "total_agents": 1,
+  "results": [
+    {
+      "model": "claude-opus-5-5-low",
+      "agent_folder": "028_recipe_high",
+      "agent_file": "agent.py",
+      "test_file": "test_deepeval.py",
+      "passed": false,
+      "returncode": 1,
+      "stdout": "============================= test session starts ==============================\nplatform linux -- Python 3.10.12, pytest-9.1.1, pluggy-1.7.0 -- /home/gabriellacabral/bench/Spec2AgentEval-v_saner/.venv/bin/python\ncachedir: .pytest_cache\nmetadata: {'Python': '3.10.12', 'Platform': 'Linux-6.8.0-138-generic-x86_64-with-glibc2.35', 'Packages': {'pytest': '9.1.1', 'pluggy': '1.7.0'}, 'Plugins': {'deepeval': '3.3.9', 'anyio': '4.15.1', 'metadata': '3.1.1', 'asyncio': '1.4.0', 'rerunfailures': '12.0', 'pyfakefs': '5.9.3', 'json-report': '1.5.0', 'langsmith': '0.14.2', 'xdist': '3.8.0', 'repeat': '0.9.4'}}\nrootdir: /home/gabriellacabral/bench/Spec2AgentEval-v_saner/generated_agents/by_claude_version/run_2/claude-opus-5-5-low/028_recipe_high\nplugins: deepeval-3.3.9, anyio-4.15.1, metadata-3.1.1, asyncio-1.4.0, rerunfailures-12.0, pyfakefs-5.9.3, json-report-1.5.0, langsmith-0.14.2, xdist-3.8.0, repeat-0.9.4\nasyncio: mode=strict, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function\ncollecting ... collected 24 items\n\ntest_deepeval.py::test_b1_invalid_query_rejected[empty] PASSED           [  4%]\ntest_deepeval.py::test_b1_invalid_query_rejected[whitespace-only] PASSED [  8%]\ntest_deepeval.py::test_b1_invalid_query_rejected[unrelated-geography] PASSED [ 12%]\ntest_deepeval.py::test_b1_invalid_query_rejected[unrelated-code] PASSED  [ 16%]\ntest_deepeval.py::test_b1_invalid_query_rejected[unrelated-sports] PASSED [ 20%]\ntest_deepeval.py::test_b1_invalid_query_rejected[offensive] PASSED       [ 25%]\ntest_deepeval.py::test_b7_valid_query_generates_complete_recipe[simple-ingredients] PASSED [ 29%]\ntest_deepeval.py::test_b7_valid_query_generates_complete_recipe[dessert] PASSED [ 33%]\ntest_deepeval.py::test_b7_valid_query_generates_complete_recipe[cuisine-preference] PASSED [ 37%]\ntest_deepeval.py::test_b7_valid_query_generates_complete_recipe[breakfast] PASSED [ 41%]\ntest_deepeval.py::test_dietary_restrictions_respected[vegan] PASSED      [ 45%]\ntest_deepeval.py::test_dietary_restrictions_respected[lactose-free] PASSED [ 50%]\ntest_deepeval.py::test_dietary_restrictions_respected[gluten-free] PASSED [ 54%]\ntest_deepeval.py::test_dietary_restrictions_respected[vegetarian-peanut-allergy] PASSED [ 58%]\ntest_deepeval.py::test_negated_ingredients_not_used[negation] PASSED     [ 62%]\ntest_deepeval.py::test_negated_ingredients_not_used[absence] PASSED      [ 66%]\ntest_deepeval.py::test_negated_ingredients_not_used[hypothesis] FAILED   [ 70%]\ntest_deepeval.py::test_b5_only_incompatible_query_ingredients PASSED     [ 75%]\ntest_deepeval.py::test_b6_missing_credentials_handled[NOTION_API_KEY] PASSED [ 79%]\ntest_deepeval.py::test_b6_missing_credentials_handled[NOTION_PAGE_ID] PASSED [ 83%]\ntest_deepeval.py::test_b6_missing_credentials_handled[TAVILY_API_KEY] PASSED [ 87%]\ntest_deepeval.py::test_b6_missing_credentials_handled[OPENAI_API_KEY] PASSED [ 91%]\ntest_deepeval.py::test_b6_invalid_notion_page_handled PASSED             [ 95%]\ntest_deepeval.py::test_error_message_has_explanation PASSED              [100%]Running teardown with pytest sessionfinish...\n\n\n=================================== FAILURES ===================================\n________________ test_negated_ingredients_not_used[hypothesis] _________________\n\nquery = \"If I had bacon I'd use it, but let's cook something with pasta and mushrooms.\"\n\n    @pytest.mark.parametrize(\"query\", NEGATION_QUERIES)\n    def test_negated_ingredients_not_used(query):\n        output = run_agent(query)\n        assert not is_error(output), f\"Available ingredients exist; expected a recipe: {output[:300]}\"\n>       assert_test(\n            test_case=LLMTestCase(input=query, actual_output=output),\n            metrics=[negated_ingredients, recipe_completeness],\n        )\n\ntest_deepeval.py:262: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\ntest_case = LLMTestCase(input=\"If I had bacon I'd use it, but let's cook something with pasta and mushrooms.\", actual_output='Titl...one, name=None, tags=None, mcp_servers=None, mcp_tools_called=None, mcp_resources_called=None, mcp_prompts_called=None)\nmetrics = [<deepeval.metrics.g_eval.g_eval.GEval object at 0x7c8bae706350>, <deepeval.metrics.g_eval.g_eval.GEval object at 0x7c8be528caf0>]\ngolden = None, observed_callback = None, run_async = True\n\n    def assert_test(\n        test_case: Optional[\n            Union[LLMTestCase, ConversationalTestCase, MLLMTestCase]\n        ] = None,\n        metrics: Optional[\n            Union[\n                List[BaseMetric],\n                List[BaseConversationalMetric],\n                List[BaseMultimodalMetric],\n            ]\n        ] = None,\n        golden: Optional[Golden] = None,\n        observed_callback: Optional[\n            Union[Callable[[str], Any], Callable[[str], Awaitable[Any]]]\n        ] = None,\n        run_async: bool = True,\n    ):\n        validate_assert_test_inputs(\n            golden=golden,\n            observed_callback=observed_callback,\n            test_case=test_case,\n            metrics=metrics,\n        )\n    \n        if golden and observed_callback:\n            if run_async:\n                loop = get_or_create_event_loop()\n                test_result = loop.run_until_complete(\n                    a_execute_agentic_test_cases(\n                        goldens=[golden],\n                        observed_callback=observed_callback,\n                        ignore_errors=should_ignore_errors(),\n                        verbose_mode=should_verbose_print(),\n                        show_indicator=True,\n                        save_to_disk=get_is_running_deepeval(),\n                        skip_on_missing_params=should_skip_on_missing_params(),\n                        throttle_value=0,\n                        max_concurrent=100,\n                        identifier=get_identifier(),\n                        _use_bar_indicator=True,\n                        _is_assert_test=True,\n                    )\n                )[0]\n            else:\n                test_result = execute_agentic_test_cases(\n                    goldens=[golden],\n                    observed_callback=observed_callback,\n                    ignore_errors=should_ignore_errors(),\n                    verbose_mode=should_verbose_print(),\n                    show_indicator=True,\n                    save_to_disk=get_is_running_deepeval(),\n                    skip_on_missing_params=should_skip_on_missing_params(),\n                    identifier=get_identifier(),\n                    _use_bar_indicator=False,\n                    _is_assert_test=True,\n                )[0]\n    \n        elif test_case and metrics:\n            if run_async:\n                loop = get_or_create_event_loop()\n                test_result = loop.run_until_complete(\n                    a_execute_test_cases(\n                        [test_case],\n                        metrics,\n                        skip_on_missing_params=should_skip_on_missing_params(),\n                        ignore_errors=should_ignore_errors(),\n                        use_cache=should_use_cache(),\n                        verbose_mode=should_verbose_print(),\n                        throttle_value=0,\n                        # this doesn't matter for pytest\n                        max_concurrent=100,\n                        save_to_disk=get_is_running_deepeval(),\n                        show_indicator=True,\n                        identifier=get_identifier(),\n                        _use_bar_indicator=True,\n                        _is_assert_test=True,\n                    )\n                )[0]\n            else:\n                test_result = execute_test_cases(\n                    [test_case],\n                    metrics,\n                    skip_on_missing_params=should_skip_on_missing_params(),\n                    ignore_errors=should_ignore_errors(),\n                    use_cache=should_use_cache(),\n                    verbose_mode=should_verbose_print(),\n                    save_to_disk=get_is_running_deepeval(),\n                    show_indicator=True,\n                    identifier=get_identifier(),\n                    _use_bar_indicator=False,\n                    _is_assert_test=True,\n                )[0]\n    \n        if not test_result.success:\n            failed_metrics_data: List[MetricData] = []\n            # even for conversations, test_result right now is just the\n            # result for the last message\n            for metric_data in test_result.metrics_data:\n                if metric_data.error is not None:\n                    failed_metrics_data.append(metric_data)\n                else:\n                    # This try block is for user defined custom metrics,\n                    # which might not handle the score == undefined case elegantly\n                    try:\n                        if not metric_data.success:\n                            failed_metrics_data.append(metric_data)\n                    except:\n                        failed_metrics_data.append(metric_data)\n    \n            failed_metrics_str = \", \".join(\n                [\n                    f\"{metrics_data.name} (score: {metrics_data.score}, threshold: {metrics_data.threshold}, strict: {metrics_data.strict_mode}, error: {metrics_data.error}, reason: {metrics_data.reason})\"\n                    for metrics_data in failed_metrics_data\n                ]\n            )\n>           raise AssertionError(f\"Metrics: {failed_metrics_str} failed.\")\nE           AssertionError: Metrics: Negated/Hypothetical Ingredients Excluded (invariant) [GEval] (score: 0.7274201003749444, threshold: 0.8, strict: False, error: None, reason: The Actual Output's ingredient list does not include bacon, which was mentioned under negation in the Input, aligning well with the evaluation steps. However, the inclusion of chicken and corn, which were not mentioned in the Input, slightly detracts from the alignment, as the focus was on pasta and mushrooms.) failed.\n\n../../../../../.venv/lib/python3.10/site-packages/deepeval/evaluate/evaluate.py:182: AssertionError\n----------------------------- Captured stdout call -----------------------------\n\n--------------------------------- JSON report ----------------------------------\nreport saved to: .pytest_report.json\n=================== 1 failed, 23 passed in 201.33s (0:03:21) ===================\n",
+      "stderr": "",
+      "error": null,
+      "summary": {
+        "passed": 23,
+        "failed": 1,
+        "total": 24,
+        "collected": 24
+      },
+      "tests": [
+        {
+          "name": "test_b1_invalid_query_rejected[empty]",
+          "qualified_name": "test_deepeval.py::test_b1_invalid_query_rejected[empty]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b1_invalid_query_rejected[whitespace-only]",
+          "qualified_name": "test_deepeval.py::test_b1_invalid_query_rejected[whitespace-only]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b1_invalid_query_rejected[unrelated-geography]",
+          "qualified_name": "test_deepeval.py::test_b1_invalid_query_rejected[unrelated-geography]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b1_invalid_query_rejected[unrelated-code]",
+          "qualified_name": "test_deepeval.py::test_b1_invalid_query_rejected[unrelated-code]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b1_invalid_query_rejected[unrelated-sports]",
+          "qualified_name": "test_deepeval.py::test_b1_invalid_query_rejected[unrelated-sports]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b1_invalid_query_rejected[offensive]",
+          "qualified_name": "test_deepeval.py::test_b1_invalid_query_rejected[offensive]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b7_valid_query_generates_complete_recipe[simple-ingredients]",
+          "qualified_name": "test_deepeval.py::test_b7_valid_query_generates_complete_recipe[simple-ingredients]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b7_valid_query_generates_complete_recipe[dessert]",
+          "qualified_name": "test_deepeval.py::test_b7_valid_query_generates_complete_recipe[dessert]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b7_valid_query_generates_complete_recipe[cuisine-preference]",
+          "qualified_name": "test_deepeval.py::test_b7_valid_query_generates_complete_recipe[cuisine-preference]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b7_valid_query_generates_complete_recipe[breakfast]",
+          "qualified_name": "test_deepeval.py::test_b7_valid_query_generates_complete_recipe[breakfast]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_dietary_restrictions_respected[vegan]",
+          "qualified_name": "test_deepeval.py::test_dietary_restrictions_respected[vegan]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_dietary_restrictions_respected[lactose-free]",
+          "qualified_name": "test_deepeval.py::test_dietary_restrictions_respected[lactose-free]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_dietary_restrictions_respected[gluten-free]",
+          "qualified_name": "test_deepeval.py::test_dietary_restrictions_respected[gluten-free]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_dietary_restrictions_respected[vegetarian-peanut-allergy]",
+          "qualified_name": "test_deepeval.py::test_dietary_restrictions_respected[vegetarian-peanut-allergy]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_negated_ingredients_not_used[negation]",
+          "qualified_name": "test_deepeval.py::test_negated_ingredients_not_used[negation]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_negated_ingredients_not_used[absence]",
+          "qualified_name": "test_deepeval.py::test_negated_ingredients_not_used[absence]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_negated_ingredients_not_used[hypothesis]",
+          "qualified_name": "test_deepeval.py::test_negated_ingredients_not_used[hypothesis]",
+          "status": "failed",
+          "passed": false,
+          "reason": "query = \"If I had bacon I'd use it, but let's cook something with pasta and mushrooms.\"\n\n    @pytest.mark.parametrize(\"query\", NEGATION_QUERIES)\n    def test_negated_ingredients_not_used(query):\n        output = run_agent(query)\n        assert not is_error(output), f\"Available ingredients exist; expected a recipe: {output[:300]}\"\n>       assert_test(\n            test_case=LLMTestCase(input=query, actual_output=output),\n            metrics=[negated_ingredients, recipe_completeness],\n        )\n\ntest_deepeval.py:262: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\ntest_case = LLMTestCase(input=\"If I had bacon I'd use it, but let's cook something with pasta and mushrooms.\", actual_output='Titl...one, name=None, tags=None, mcp_servers=None, mcp_tools_called=None, mcp_resources_called=None, mcp_prompts_called=None)\nmetrics = [<deepeval.metrics.g_eval.g_eval.GEval object at 0x7c8bae706350>, <deepeval.metrics.g_eval.g_eval.GEval object at 0x7c8be528caf0>]\ngolden = None, observed_callback = None, run_async = True\n\n    def assert_test(\n        test_case: Optional[\n            Union[LLMTestCase, ConversationalTestCase, MLLMTestCase]\n        ] = None,\n        metrics: Optional[\n            Union[\n                List[BaseMetric],\n                List[BaseConversationalMetric],\n                List[BaseMultimodalMetric],\n            ]\n        ] = None,\n        golden: Optional[Golden] = None,\n        observed_callback: Optional[\n            Union[Callable[[str], Any], Callable[[str], Awaitable[Any]]]\n        ] = None,\n        run_async: bool = True,\n    ):\n        validate_assert_test_inputs(\n            golden=golden,\n            observed_callback=observed_callback,\n            test_case=test_case,\n            metrics=metrics,\n        )\n    \n        if golden and observed_callback:\n            if run_async:\n                loop = get_or_create_event_loop()\n                test_result = loop.run_until_complete(\n                    a_execute_agentic_test_cases(\n                        goldens=[golden],\n                        observed_callback=observed_callback,\n                        ignore_errors=should_ignore_errors(),\n                        verbose_mode=should_verbose_print(),\n                        show_indicator=True,\n                        save_to_disk=get_is_running_deepeval(),\n                        skip_on_missing_params=should_skip_on_missing_params(),\n                        throttle_value=0,\n                        max_concurrent=100,\n                        identifier=get_identifier(),\n                        _use_bar_indicator=True,\n                        _is_assert_test=True,\n                    )\n                )[0]\n            else:\n                test_result = execute_agentic_test_cases(\n                    goldens=[golden],\n                    observed_callback=observed_callback,\n                    ignore_errors=should_ignore_errors(),\n                    verbose_mode=should_verbose_print(),\n                    show_indicator=True,\n                    save_to_disk=get_is_running_deepeval(),\n                    skip_on_missing_params=should_skip_on_missing_params(),\n                    identifier=get_identifier(),\n                    _use_bar_indicator=False,\n                    _is_assert_test=True,\n                )[0]\n    \n        elif test_case and metrics:\n            if run_async:\n                loop = get_or_create_event_loop()\n                test_result = loop.run_until_complete(\n                    a_execute_test_cases(\n                        [test_case],\n                        metrics,\n                        skip_on_missing_params=should_skip_on_missing_params(),\n                        ignore_errors=should_ignore_errors(),\n                        use_cache=should_use_cache(),\n                        verbose_mode=should_verbose_print(),\n                        throttle_value=0,\n                        # this doesn't matter for pytest\n                        max_concurrent=100,\n                        save_to_disk=get_is_running_deepeval(),\n                        show_indicator=True,\n                        identifier=get_identifier(),\n                        _use_bar_indicator=True,\n                        _is_assert_test=True,\n                    )\n                )[0]\n            else:\n                test_result = execute_test_cases(\n                    [test_case],\n                    metrics,\n                    skip_on_missing_params=should_skip_on_missing_params(),\n                    ignore_errors=should_ignore_errors(),\n                    use_cache=should_use_cache(),\n                    verbose_mode=should_verbose_print(),\n                    save_to_disk=get_is_running_deepeval(),\n                    show_indicator=True,\n                    identifier=get_identifier(),\n                    _use_bar_indicator=False,\n                    _is_assert_test=True,\n                )[0]\n    \n        if not test_result.success:\n            failed_metrics_data: List[MetricData] = []\n            # even for conversations, test_result right now is just the\n            # result for the last message\n            for metric_data in test_result.metrics_data:\n                if metric_data.error is not None:\n                    failed_metrics_data.append(metric_data)\n                else:\n                    # This try block is for user defined custom metrics,\n                    # which might not handle the score == undefined case elegantly\n                    try:\n                        if not metric_data.success:\n                            failed_metrics_data.append(metric_data)\n                    except:\n                        failed_metrics_data.append(metric_data)\n    \n            failed_metrics_str = \", \".join(\n                [\n                    f\"{metrics_data.name} (score: {metrics_data.score}, threshold: {metrics_data.threshold}, strict: {metrics_data.strict_mode}, error: {metrics_data.error}, reason: {metrics_data.reason})\"\n                    for metrics_data in failed_metrics_data\n                ]\n            )\n>           raise AssertionError(f\"Metrics: {failed_metrics_str} failed.\")\nE           AssertionError: Metrics: Negated/Hypothetical Ingredients Excluded (invariant) [GEval] (score: 0.7274201003749444, threshold: 0.8, strict: False, error: None, reason: The Actual Output's ingredient list does not include bacon, which was mentioned under negation in the Input, aligning well with the evaluation steps. However, the inclusion of chicken and corn, which were not mentioned in the Input, slightly detracts from the alignment, as the focus was on pasta and mushrooms.) failed.\n\n../../../../../.venv/lib/python3.10/site-packages/deepeval/evaluate/evaluate.py:182: AssertionError",
+          "duration": null
+        },
+        {
+          "name": "test_b5_only_incompatible_query_ingredients",
+          "qualified_name": "test_deepeval.py::test_b5_only_incompatible_query_ingredients",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b6_missing_credentials_handled[NOTION_API_KEY]",
+          "qualified_name": "test_deepeval.py::test_b6_missing_credentials_handled[NOTION_API_KEY]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b6_missing_credentials_handled[NOTION_PAGE_ID]",
+          "qualified_name": "test_deepeval.py::test_b6_missing_credentials_handled[NOTION_PAGE_ID]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b6_missing_credentials_handled[TAVILY_API_KEY]",
+          "qualified_name": "test_deepeval.py::test_b6_missing_credentials_handled[TAVILY_API_KEY]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b6_missing_credentials_handled[OPENAI_API_KEY]",
+          "qualified_name": "test_deepeval.py::test_b6_missing_credentials_handled[OPENAI_API_KEY]",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_b6_invalid_notion_page_handled",
+          "qualified_name": "test_deepeval.py::test_b6_invalid_notion_page_handled",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        },
+        {
+          "name": "test_error_message_has_explanation",
+          "qualified_name": "test_deepeval.py::test_error_message_has_explanation",
+          "status": "passed",
+          "passed": true,
+          "reason": "",
+          "duration": null
+        }
+      ],
+      "pytest_report": {
+        "created": 1792517527.6868753,
+        "duration": 201.3310649394989,
+        "exitcode": 1,
+        "root": "/home/gabriellacabral/bench/Spec2AgentEval-v_saner/generated_agents/by_claude_version/run_2/claude-opus-5-5-low/028_recipe_high",
+        "environment": {},
+        "summary": {
+          "passed": 23,
+          "failed": 1,
+          "total": 24,
+          "collected": 24
+        },
+        "collectors": [
+          {
+            "nodeid": "",
+            "outcome": "passed",
+            "result": [
+              {
+                "nodeid": "test_deepeval.py",
+                "type": "Module"
+              }
+            ]
+          },
+          {
+            "nodeid": "test_deepeval.py",
+            "outcome": "passed",
+            "result": [
+              {
+                "nodeid": "test_deepeval.py::test_b1_invalid_query_rejected[empty]",
+                "type": "Function",
+                "lineno": 157
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b1_invalid_query_rejected[whitespace-only]",
+                "type": "Function",
+                "lineno": 157
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b1_invalid_query_rejected[unrelated-geography]",
+                "type": "Function",
+                "lineno": 157
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b1_invalid_query_rejected[unrelated-code]",
+                "type": "Function",
+                "lineno": 157
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b1_invalid_query_rejected[unrelated-sports]",
+                "type": "Function",
+                "lineno": 157
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b1_invalid_query_rejected[offensive]",
+                "type": "Function",
+                "lineno": 157
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b7_valid_query_generates_complete_recipe[simple-ingredients]",
+                "type": "Function",
+                "lineno": 193
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b7_valid_query_generates_complete_recipe[dessert]",
+                "type": "Function",
+                "lineno": 193
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b7_valid_query_generates_complete_recipe[cuisine-preference]",
+                "type": "Function",
+                "lineno": 193
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b7_valid_query_generates_complete_recipe[breakfast]",
+                "type": "Function",
+                "lineno": 193
+              },
+              {
+                "nodeid": "test_deepeval.py::test_dietary_restrictions_respected[vegan]",
+                "type": "Function",
+                "lineno": 227
+              },
+              {
+                "nodeid": "test_deepeval.py::test_dietary_restrictions_respected[lactose-free]",
+                "type": "Function",
+                "lineno": 227
+              },
+              {
+                "nodeid": "test_deepeval.py::test_dietary_restrictions_respected[gluten-free]",
+                "type": "Function",
+                "lineno": 227
+              },
+              {
+                "nodeid": "test_deepeval.py::test_dietary_restrictions_respected[vegetarian-peanut-allergy]",
+                "type": "Function",
+                "lineno": 227
+              },
+              {
+                "nodeid": "test_deepeval.py::test_negated_ingredients_not_used[negation]",
+                "type": "Function",
+                "lineno": 257
+              },
+              {
+                "nodeid": "test_deepeval.py::test_negated_ingredients_not_used[absence]",
+                "type": "Function",
+                "lineno": 257
+              },
+              {
+                "nodeid": "test_deepeval.py::test_negated_ingredients_not_used[hypothesis]",
+                "type": "Function",
+                "lineno": 257
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b5_only_incompatible_query_ingredients",
+                "type": "Function",
+                "lineno": 272
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b6_missing_credentials_handled[NOTION_API_KEY]",
+                "type": "Function",
+                "lineno": 289
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b6_missing_credentials_handled[NOTION_PAGE_ID]",
+                "type": "Function",
+                "lineno": 289
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b6_missing_credentials_handled[TAVILY_API_KEY]",
+                "type": "Function",
+                "lineno": 289
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b6_missing_credentials_handled[OPENAI_API_KEY]",
+                "type": "Function",
+                "lineno": 289
+              },
+              {
+                "nodeid": "test_deepeval.py::test_b6_invalid_notion_page_handled",
+                "type": "Function",
+                "lineno": 308
+              },
+              {
+                "nodeid": "test_deepeval.py::test_error_message_has_explanation",
+                "type": "Function",
+                "lineno": 319
+              }
+            ]
+          }
+        ],
+        "tests": [
+          {
+            "nodeid": "test_deepeval.py::test_b1_invalid_query_rejected[empty]",
+            "lineno": 157,
+            "outcome": "passed",
+            "keywords": [
+              "test_b1_invalid_query_rejected[empty]",
+              "parametrize",
+              "pytestmark",
+              "empty",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.00035119799940730445,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 0.0032750739992479794,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.00016073599908850156,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b1_invalid_query_rejected[whitespace-only]",
+            "lineno": 157,
+            "outcome": "passed",
+            "keywords": [
+              "test_b1_invalid_query_rejected[whitespace-only]",
+              "parametrize",
+              "pytestmark",
+              "whitespace-only",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.00019717599934665486,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 0.0019592889984778594,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.00012963800327270292,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b1_invalid_query_rejected[unrelated-geography]",
+            "lineno": 157,
+            "outcome": "passed",
+            "keywords": [
+              "test_b1_invalid_query_rejected[unrelated-geography]",
+              "parametrize",
+              "pytestmark",
+              "unrelated-geography",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.00019294300000183284,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 6.29374764199747,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.00033181399703607894,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b1_invalid_query_rejected[unrelated-code]",
+            "lineno": 157,
+            "outcome": "passed",
+            "keywords": [
+              "test_b1_invalid_query_rejected[unrelated-code]",
+              "parametrize",
+              "pytestmark",
+              "unrelated-code",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0003612690015870612,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 5.590755507000722,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.00022607299979426898,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b1_invalid_query_rejected[unrelated-sports]",
+            "lineno": 157,
+            "outcome": "passed",
+            "keywords": [
+              "test_b1_invalid_query_rejected[unrelated-sports]",
+              "parametrize",
+              "pytestmark",
+              "unrelated-sports",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.00024798099912004545,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 4.943547833998309,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.00028599700090126134,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b1_invalid_query_rejected[offensive]",
+            "lineno": 157,
+            "outcome": "passed",
+            "keywords": [
+              "test_b1_invalid_query_rejected[offensive]",
+              "parametrize",
+              "pytestmark",
+              "offensive",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.00025828599973465316,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 6.34504047000155,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.00036410800021258183,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b7_valid_query_generates_complete_recipe[simple-ingredients]",
+            "lineno": 193,
+            "outcome": "passed",
+            "keywords": [
+              "test_b7_valid_query_generates_complete_recipe[simple-ingredients]",
+              "parametrize",
+              "pytestmark",
+              "simple-ingredients",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.00043535700024222024,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 14.490132361999713,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.000302980999549618,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b7_valid_query_generates_complete_recipe[dessert]",
+            "lineno": 193,
+            "outcome": "passed",
+            "keywords": [
+              "test_b7_valid_query_generates_complete_recipe[dessert]",
+              "parametrize",
+              "pytestmark",
+              "dessert",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.00034099600088666193,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 11.23218874399754,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.00043205499969189987,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b7_valid_query_generates_complete_recipe[cuisine-preference]",
+            "lineno": 193,
+            "outcome": "passed",
+            "keywords": [
+              "test_b7_valid_query_generates_complete_recipe[cuisine-preference]",
+              "parametrize",
+              "pytestmark",
+              "cuisine-preference",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0004586360009852797,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 18.787796094999067,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.00018963000184157863,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b7_valid_query_generates_complete_recipe[breakfast]",
+            "lineno": 193,
+            "outcome": "passed",
+            "keywords": [
+              "test_b7_valid_query_generates_complete_recipe[breakfast]",
+              "parametrize",
+              "pytestmark",
+              "breakfast",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0002165080004488118,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 12.137044851999235,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.00035004300298169255,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_dietary_restrictions_respected[vegan]",
+            "lineno": 227,
+            "outcome": "passed",
+            "keywords": [
+              "test_dietary_restrictions_respected[vegan]",
+              "parametrize",
+              "pytestmark",
+              "vegan",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0003898899994965177,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 11.933196048001264,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.00040433899994241074,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_dietary_restrictions_respected[lactose-free]",
+            "lineno": 227,
+            "outcome": "passed",
+            "keywords": [
+              "test_dietary_restrictions_respected[lactose-free]",
+              "parametrize",
+              "pytestmark",
+              "lactose-free",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0004257850014255382,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 17.844699957000557,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.0003719449996424373,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_dietary_restrictions_respected[gluten-free]",
+            "lineno": 227,
+            "outcome": "passed",
+            "keywords": [
+              "test_dietary_restrictions_respected[gluten-free]",
+              "parametrize",
+              "pytestmark",
+              "gluten-free",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.00045327599946176633,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 15.319221665999066,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.0005823379979119636,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_dietary_restrictions_respected[vegetarian-peanut-allergy]",
+            "lineno": 227,
+            "outcome": "passed",
+            "keywords": [
+              "test_dietary_restrictions_respected[vegetarian-peanut-allergy]",
+              "parametrize",
+              "pytestmark",
+              "vegetarian-peanut-allergy",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0008309919976454694,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 14.534901817998616,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.0004253309998603072,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_negated_ingredients_not_used[negation]",
+            "lineno": 257,
+            "outcome": "passed",
+            "keywords": [
+              "test_negated_ingredients_not_used[negation]",
+              "parametrize",
+              "pytestmark",
+              "negation",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.00044230899948161095,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 13.910985524998978,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.0004655230004573241,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_negated_ingredients_not_used[absence]",
+            "lineno": 257,
+            "outcome": "passed",
+            "keywords": [
+              "test_negated_ingredients_not_used[absence]",
+              "parametrize",
+              "pytestmark",
+              "absence",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0006396140015567653,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 12.11493272900043,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.00029623900263686664,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_negated_ingredients_not_used[hypothesis]",
+            "lineno": 257,
+            "outcome": "failed",
+            "keywords": [
+              "test_negated_ingredients_not_used[hypothesis]",
+              "parametrize",
+              "pytestmark",
+              "hypothesis",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0003334619977977127,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 12.222011582998675,
+              "outcome": "failed",
+              "crash": {
+                "path": "/home/gabriellacabral/bench/Spec2AgentEval-v_saner/.venv/lib/python3.10/site-packages/deepeval/evaluate/evaluate.py",
+                "lineno": 182,
+                "message": "AssertionError: Metrics: Negated/Hypothetical Ingredients Excluded (invariant) [GEval] (score: 0.7274201003749444, threshold: 0.8, strict: False, error: None, reason: The Actual Output's ingredient list does not include bacon, which was mentioned under negation in the Input, aligning well with the evaluation steps. However, the inclusion of chicken and corn, which were not mentioned in the Input, slightly detracts from the alignment, as the focus was on pasta and mushrooms.) failed."
+              },
+              "traceback": [
+                {
+                  "path": "test_deepeval.py",
+                  "lineno": 262,
+                  "message": ""
+                },
+                {
+                  "path": "../../../../../.venv/lib/python3.10/site-packages/deepeval/evaluate/evaluate.py",
+                  "lineno": 182,
+                  "message": "AssertionError"
+                }
+              ],
+              "stdout": "\n",
+              "longrepr": "query = \"If I had bacon I'd use it, but let's cook something with pasta and mushrooms.\"\n\n    @pytest.mark.parametrize(\"query\", NEGATION_QUERIES)\n    def test_negated_ingredients_not_used(query):\n        output = run_agent(query)\n        assert not is_error(output), f\"Available ingredients exist; expected a recipe: {output[:300]}\"\n>       assert_test(\n            test_case=LLMTestCase(input=query, actual_output=output),\n            metrics=[negated_ingredients, recipe_completeness],\n        )\n\ntest_deepeval.py:262: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\ntest_case = LLMTestCase(input=\"If I had bacon I'd use it, but let's cook something with pasta and mushrooms.\", actual_output='Titl...one, name=None, tags=None, mcp_servers=None, mcp_tools_called=None, mcp_resources_called=None, mcp_prompts_called=None)\nmetrics = [<deepeval.metrics.g_eval.g_eval.GEval object at 0x7c8bae706350>, <deepeval.metrics.g_eval.g_eval.GEval object at 0x7c8be528caf0>]\ngolden = None, observed_callback = None, run_async = True\n\n    def assert_test(\n        test_case: Optional[\n            Union[LLMTestCase, ConversationalTestCase, MLLMTestCase]\n        ] = None,\n        metrics: Optional[\n            Union[\n                List[BaseMetric],\n                List[BaseConversationalMetric],\n                List[BaseMultimodalMetric],\n            ]\n        ] = None,\n        golden: Optional[Golden] = None,\n        observed_callback: Optional[\n            Union[Callable[[str], Any], Callable[[str], Awaitable[Any]]]\n        ] = None,\n        run_async: bool = True,\n    ):\n        validate_assert_test_inputs(\n            golden=golden,\n            observed_callback=observed_callback,\n            test_case=test_case,\n            metrics=metrics,\n        )\n    \n        if golden and observed_callback:\n            if run_async:\n                loop = get_or_create_event_loop()\n                test_result = loop.run_until_complete(\n                    a_execute_agentic_test_cases(\n                        goldens=[golden],\n                        observed_callback=observed_callback,\n                        ignore_errors=should_ignore_errors(),\n                        verbose_mode=should_verbose_print(),\n                        show_indicator=True,\n                        save_to_disk=get_is_running_deepeval(),\n                        skip_on_missing_params=should_skip_on_missing_params(),\n                        throttle_value=0,\n                        max_concurrent=100,\n                        identifier=get_identifier(),\n                        _use_bar_indicator=True,\n                        _is_assert_test=True,\n                    )\n                )[0]\n            else:\n                test_result = execute_agentic_test_cases(\n                    goldens=[golden],\n                    observed_callback=observed_callback,\n                    ignore_errors=should_ignore_errors(),\n                    verbose_mode=should_verbose_print(),\n                    show_indicator=True,\n                    save_to_disk=get_is_running_deepeval(),\n                    skip_on_missing_params=should_skip_on_missing_params(),\n                    identifier=get_identifier(),\n                    _use_bar_indicator=False,\n                    _is_assert_test=True,\n                )[0]\n    \n        elif test_case and metrics:\n            if run_async:\n                loop = get_or_create_event_loop()\n                test_result = loop.run_until_complete(\n                    a_execute_test_cases(\n                        [test_case],\n                        metrics,\n                        skip_on_missing_params=should_skip_on_missing_params(),\n                        ignore_errors=should_ignore_errors(),\n                        use_cache=should_use_cache(),\n                        verbose_mode=should_verbose_print(),\n                        throttle_value=0,\n                        # this doesn't matter for pytest\n                        max_concurrent=100,\n                        save_to_disk=get_is_running_deepeval(),\n                        show_indicator=True,\n                        identifier=get_identifier(),\n                        _use_bar_indicator=True,\n                        _is_assert_test=True,\n                    )\n                )[0]\n            else:\n                test_result = execute_test_cases(\n                    [test_case],\n                    metrics,\n                    skip_on_missing_params=should_skip_on_missing_params(),\n                    ignore_errors=should_ignore_errors(),\n                    use_cache=should_use_cache(),\n                    verbose_mode=should_verbose_print(),\n                    save_to_disk=get_is_running_deepeval(),\n                    show_indicator=True,\n                    identifier=get_identifier(),\n                    _use_bar_indicator=False,\n                    _is_assert_test=True,\n                )[0]\n    \n        if not test_result.success:\n            failed_metrics_data: List[MetricData] = []\n            # even for conversations, test_result right now is just the\n            # result for the last message\n            for metric_data in test_result.metrics_data:\n                if metric_data.error is not None:\n                    failed_metrics_data.append(metric_data)\n                else:\n                    # This try block is for user defined custom metrics,\n                    # which might not handle the score == undefined case elegantly\n                    try:\n                        if not metric_data.success:\n                            failed_metrics_data.append(metric_data)\n                    except:\n                        failed_metrics_data.append(metric_data)\n    \n            failed_metrics_str = \", \".join(\n                [\n                    f\"{metrics_data.name} (score: {metrics_data.score}, threshold: {metrics_data.threshold}, strict: {metrics_data.strict_mode}, error: {metrics_data.error}, reason: {metrics_data.reason})\"\n                    for metrics_data in failed_metrics_data\n                ]\n            )\n>           raise AssertionError(f\"Metrics: {failed_metrics_str} failed.\")\nE           AssertionError: Metrics: Negated/Hypothetical Ingredients Excluded (invariant) [GEval] (score: 0.7274201003749444, threshold: 0.8, strict: False, error: None, reason: The Actual Output's ingredient list does not include bacon, which was mentioned under negation in the Input, aligning well with the evaluation steps. However, the inclusion of chicken and corn, which were not mentioned in the Input, slightly detracts from the alignment, as the focus was on pasta and mushrooms.) failed.\n\n../../../../../.venv/lib/python3.10/site-packages/deepeval/evaluate/evaluate.py:182: AssertionError"
+            },
+            "teardown": {
+              "duration": 0.00038059299913584255,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b5_only_incompatible_query_ingredients",
+            "lineno": 272,
+            "outcome": "passed",
+            "keywords": [
+              "test_b5_only_incompatible_query_ingredients",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0002145729995390866,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 2.669596443000046,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.0006048649993317667,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b6_missing_credentials_handled[NOTION_API_KEY]",
+            "lineno": 289,
+            "outcome": "passed",
+            "keywords": [
+              "test_b6_missing_credentials_handled[NOTION_API_KEY]",
+              "parametrize",
+              "pytestmark",
+              "NOTION_API_KEY",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0008903830021154135,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 4.8459592170002,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.0005769140007032547,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b6_missing_credentials_handled[NOTION_PAGE_ID]",
+            "lineno": 289,
+            "outcome": "passed",
+            "keywords": [
+              "test_b6_missing_credentials_handled[NOTION_PAGE_ID]",
+              "parametrize",
+              "pytestmark",
+              "NOTION_PAGE_ID",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0006936139980098233,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 7.005073718999483,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.00047936900227796286,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b6_missing_credentials_handled[TAVILY_API_KEY]",
+            "lineno": 289,
+            "outcome": "passed",
+            "keywords": [
+              "test_b6_missing_credentials_handled[TAVILY_API_KEY]",
+              "parametrize",
+              "pytestmark",
+              "TAVILY_API_KEY",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0005066529993200675,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 6.413877385002706,
+              "outcome": "passed",
+              "stdout": "\n"
+            },
+            "teardown": {
+              "duration": 0.0011128979967907071,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b6_missing_credentials_handled[OPENAI_API_KEY]",
+            "lineno": 289,
+            "outcome": "passed",
+            "keywords": [
+              "test_b6_missing_credentials_handled[OPENAI_API_KEY]",
+              "parametrize",
+              "pytestmark",
+              "OPENAI_API_KEY",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0008278839995909948,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 0.005462241002533119,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.00023845200121286325,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_b6_invalid_notion_page_handled",
+            "lineno": 308,
+            "outcome": "passed",
+            "keywords": [
+              "test_b6_invalid_notion_page_handled",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0001984270020329859,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 1.4209842259988363,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.0004526760021690279,
+              "outcome": "passed"
+            }
+          },
+          {
+            "nodeid": "test_deepeval.py::test_error_message_has_explanation",
+            "lineno": 319,
+            "outcome": "passed",
+            "keywords": [
+              "test_error_message_has_explanation",
+              "test_deepeval.py",
+              "028_recipe_high",
+              ""
+            ],
+            "setup": {
+              "duration": 0.0003071790015383158,
+              "outcome": "passed"
+            },
+            "call": {
+              "duration": 0.766719405000913,
+              "outcome": "passed"
+            },
+            "teardown": {
+              "duration": 0.0005957129978924058,
+              "outcome": "passed"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "run_id": "8d6cee111fa44245b4eadb4113df6fe3",
+  "query": [
+    "I am vegan. I have chicken, tofu and broccoli, suggest a dinner recipe."
+  ],
+  "status": "ok",
+  "error": null,
+  "runs_collected": 1,
+  "trajectory": [
+    "agent",
+    "tools",
+    "retrieve_pantry",
+    "agent"
+  ],
+  "tool_calls": [
+    {
+      "name": "retrieve_pantry",
+      "input": {},
+      "output": [
+        "corn",
+        "chicken",
+        "milk"
+      ],
+      "start": "2026-10-20T18:01:28.787484+00:00",
+      "end": "2026-10-20T18:01:29.711425+00:00"
+    }
+  ]
+}
